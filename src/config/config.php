@@ -188,6 +188,7 @@ return [
             'checker' => PragmaRX\Health\Checkers\FilesystemChecker::class,
             'notify' => true,
         ],
+
     ],
 
 ];
