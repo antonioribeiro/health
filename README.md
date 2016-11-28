@@ -98,8 +98,8 @@ Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 
 - Sort resources in the panel
 - Notification channels
 - Template location
-- Http routes and prefixes
-- Mail server configuration
+- Routes and prefixes
+- Mail server
 
 ## Author
 
