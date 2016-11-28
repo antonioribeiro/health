@@ -12,7 +12,7 @@ This package creates a service status panel for you any Laravel app and has the 
 - Configurable panel design.
 - Cache results and calls to services.
 - View app error messages right in the panel.
-- Http response codes 200 and 500, for error states, to ease services like [Envoyer](https://envoyer.io) to keep track of your app health.
+- Http response codes 200 and 500, on error, for services like [Envoyer](https://envoyer.io) to keep track of your app health.
 
 ## Screenshots 
 
