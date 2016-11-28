@@ -20,6 +20,8 @@ This package creates a service status panel for you any Laravel app and has the 
 
 ### Panel alternate design
 
+If you have lots of services to check, you may change the default panel design to use less space:
+
 ![default panel](docs/images/error-single-2-columns.png)
 
 ### Panel in 4 columns layout
