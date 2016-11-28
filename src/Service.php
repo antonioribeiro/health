@@ -3,6 +3,7 @@
 namespace PragmaRX\Health;
 
 use Mail;
+use Cache;
 use Exception;
 use Illuminate\Support\Str;
 use PragmaRX\Health\Events\RaiseHealthIssue;
@@ -64,23 +65,30 @@ class Service
             return false;
         }
 
-        $this->resources = $this->getResources()->map(function($item, $key) {
-            if (! $item['is_global'])
-            {
-                $item['health'] = $this->checkResource($key);
-            }
+        $resourceChecker = function($allowGlobal) {
+            $this->resources = $this->getResources()->map(function($item, $key) use ($allowGlobal) {
+                if ($item['is_global'] == $allowGlobal)
+                {
+                    $item['health'] = $this->checkResource($key);
+                }
 
-            return $item;
-        });
+                return $item;
+            });
+        };
 
-        $this->resources = $this->getResources()->map(function($item, $key) {
-            if ($item['is_global'])
-            {
-                $item['health'] = $this->checkResource($key);
-            }
+        $checker = function() use ($resourceChecker) {
+            $resourceChecker(false);
 
-            return $item;
-        });
+            $resourceChecker(true);
+
+            return $this->getResources();
+        };
+
+        if (($minutes = config('health.cache')) !== false) {
+            $this->resources = Cache::remember('health-resources', $minutes, $checker);
+        } else {
+            $this->resources = $checker();
+        }
 
         $this->checked = true;
     }

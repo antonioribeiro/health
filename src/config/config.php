@@ -8,6 +8,8 @@ return [
 
     'sort_by' => 'slug',
 
+    'cache' => false, // minutes / false = do not cache / 0 = forever
+
     'notifications' => [
         'enabled' => true,
 
