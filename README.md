@@ -10,30 +10,70 @@ This package creates a service status panel for you any Laravel app and has the 
 - Routes for: panel, json result, string result and resource.
 - Configurable panel design.
 - View app error messages right in the panel.
+- Http response codes 200 and 500.
 
 ## Screenshots 
 
 ### Panel
 
-[default panel](docs/error-multi.png)
+![default panel](docs/images/error-multi.png)
+
+### Panel alternate design
+
+![default panel](docs/images/error-single-2-columns.png)
+
+### Panel in 4 columns layout
+
+![default panel](docs/images/error-single-4-columns.png)
+
+### Error hint 
+
+![default panel](docs/images/error-hint.png)
+
+### Slack Notification
+
+![default panel](docs/images/slack.png)
+
+## Routes
+
+## Requirements
+
+After installing you will have access to the folowing routes:
+
+### /health/panel
+
+The main panel route.
+
+### /health/check
+
+Returns a json with everything the package knows about your services:
+
+![default panel](docs/images/json.png)
+
+### /health/string
+
+Returns a string with status on all your services, useful when using other monitoring services:
+
+```
+hlthFAIL-dbFAIL-filesystemOK-frmwrkOK-httpOK-httpsOK-mailOK
+```
+
+### /health/resource/{name}
+
+Returns a json with information about a particular service:
+
+![default panel](docs/images/json.png)
 
 ## Requirements
 
 - PHP 5.6+
-
-## Compatibility
-
-You don't need Laravel to use it, but it's compatible with
-
 - Laravel 5.2+
 
 ## Installing
 
 Use Composer to install it:
 
-```
-composer require pragmarx/health
-```
+    composer require pragmarx/health
 
 ## Installing on Laravel
 
@@ -41,7 +81,18 @@ Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 
 
     PragmaRX\Health\ServiceProvider::class,
 
-    'Health' => PragmaRX\Health\Vendor\Laravel\Facade::class,
+## Publish config and views
+
+    php artisan vendor:publish
+
+## Config file gives you access to change virtually everything in this package:
+
+- Title and messages
+- Create, enable and disable resource checkers
+- Create, enable and disable notification channels
+- Template location
+- Http routes and prefixes
+- Mail server configuration
 
 ## Author
 
