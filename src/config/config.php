@@ -57,6 +57,17 @@ return [
         'notifier' => 'PragmaRX\Health\Notifications',
     ],
 
+    'alert' => [
+        'success' => [
+            'message' => 'Everything is fine with this resource',
+            'type' => 'success',
+        ],
+
+        'error' => [
+            'type' => 'success',
+        ]
+    ],
+
     'style' => [
         'button_lines' => 'multi', // multi or single
 
@@ -149,42 +160,42 @@ return [
 
         'database' => [
             'abbreviation' => 'db',
-            'columnSize' => '3',
+            'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\DatabaseChecker::class,
             'notify' => true,
         ],
 
         'framework' => [
             'abbreviation' => 'frmwrk',
-            'columnSize' => '3',
+            'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
             'notify' => true,
         ],
 
         'https' => [
             'abbreviation' => 'https',
-            'columnSize' => '3',
+            'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\HttpsChecker::class,
             'notify' => true,
         ],
 
         'http' => [
             'abbreviation' => 'http',
-            'columnSize' => '3',
+            'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\HttpChecker::class,
             'notify' => true,
         ],
 
         'mail' => [
             'abbreviation' => 'mail',
-            'columnSize' => '3',
+            'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\MailChecker::class,
             'notify' => true,
         ],
 
         'filesystem' => [
             'abbreviation' => 'filesystem',
-            'columnSize' => '3',
+            'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\FilesystemChecker::class,
             'notify' => true,
         ],
