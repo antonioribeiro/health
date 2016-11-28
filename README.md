@@ -10,7 +10,7 @@ This package creates a service status panel for you any Laravel app and has the 
 - Routes for: panel, json result, string result and resource.
 - Configurable panel design.
 - View app error messages right in the panel.
-- Http response codes 200 and 500.
+- Http response codes 200 and 500, for error states, to ease services like [Envoyer](https://envoyer.io) to keep track of your app health.
 
 ## Screenshots 
 
