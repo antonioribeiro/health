@@ -30,13 +30,12 @@
     <script>
         $('.btn').bind('click', function () {
             var resource = $(this).data('name');
-            var message = $(this).prop('title');
 
-            if (! message) {
-                sweetAlert(resource, '{{ config('health.alert.success.message') }}' , '{{ config('health.alert.success.type') }}');
-            } else {
-                sweetAlert(resource, message, '{{ config('health.alert.error.type') }}');
-            }
+            var message = $(this).prop('title') ? $(this).prop('title') : '{{ config('health.alert.success.message') }}';
+
+            var type = $(this).prop('title') ? '{{ config('health.alert.error.type') }}' : '{{ config('health.alert.success.type') }}';
+
+            sweetAlert(resource, message, type);
         });
     </script>
 @stop
