@@ -1,11 +1,11 @@
 {
   "name": "pragmarx/health",
 
-  "description": "Laravel Server Health",
+  "description": "Laravel Server Health and Notifier",
 
-  "keywords": ["health", "laravel", "pragmarx"],
+  "keywords": ["health", "laravel", "pragmarx", "notifications", "panel"],
 
-  "license": "MIT",
+  "license": "BSD-3-Clause",
 
   "authors": [
     {
@@ -17,7 +17,7 @@
 
   "require": {
     "php": ">=5.6.0",
-    "laravel/framework": ">=5.0"
+    "laravel/framework": ">=5.2"
   },
 
   "require-dev": {
