@@ -62,7 +62,7 @@ hlthFAIL-dbFAIL-filesystemOK-frmwrkOK-httpOK-httpsOK-mailOK
 
 Returns a json with information about a particular service:
 
-![default panel](docs/images/json.png)
+![default panel](docs/images/json-resource.png)
 
 ## Requirements
 
