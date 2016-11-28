@@ -117,6 +117,10 @@ Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 
 
     php artisan vendor:publish
 
+## Hit The Health Panel
+
+    http://yourdomain.com/health/panel
+    
 ## Configure All The Things
 
 - Panel
@@ -129,6 +133,20 @@ Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 
 - Routes and prefixes
 - Mail server
 - Cache time
+
+## Allowing Slack Notifications
+
+To receive notifications via Slack, you'll have to setup [Incoming Webhooks](https://api.slack.com/incoming-webhooks) and add this method to your User model with your webhook: 
+
+    /**
+     * Route notifications for the Slack channel.
+     *
+     * @return string
+     */
+    public function routeNotificationForSlack()
+    {
+        return config('services.slack.webhook_url');
+    }
 
 ## Author
 
