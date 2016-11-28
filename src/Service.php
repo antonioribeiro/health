@@ -84,7 +84,7 @@ class Service
             return $this->getResources();
         };
 
-        if (($minutes = config('health.cache')) !== false) {
+        if (($minutes = config('health.cache.minutes')) !== false) {
             $this->resources = Cache::remember('health-resources', $minutes, $checker);
         } else {
             $this->resources = $checker();
@@ -124,9 +124,9 @@ class Service
         $resource = $this->getResource($name);
 
         try {
-            $resourceChecker = $this->getResourceCheckerInstance($name);
+            $resourceChecker = $this->getResourceCheckerInstance($name, $resource);
 
-            $resourceChecker->check($this->getResources());
+            $resourceChecker->check($resource, $this->getResources());
         } catch (Exception $exception) {
             $resourceChecker->makeResult(false, 'Unknown error.');
         }
@@ -233,9 +233,12 @@ class Service
      * @param $name
      * @return \Illuminate\Foundation\Application|mixed
      */
-    public function getResourceCheckerInstance($name)
+    public function getResourceCheckerInstance($name, $resource)
     {
-        return app($this->getResource($name)['checker']);
+        return app(
+            $this->getResource($name)['checker'],
+            [$resource, $this->getResources()]
+        );
     }
 
     /**
