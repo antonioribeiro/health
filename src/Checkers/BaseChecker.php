@@ -15,6 +15,28 @@ abstract class BaseChecker implements Contract
     protected $message;
 
     /**
+     * @var
+     */
+    protected $resource;
+
+    /**
+     * @var
+     */
+    protected $resources;
+
+    /**
+     * BaseChecker constructor.
+     * @param $resource
+     * @param $resources
+     */
+    public function __construct($resource, $resources)
+    {
+        $this->resource = $resource;
+
+        $this->resources = $resources;
+    }
+
+    /**
      * @param bool $healthy
      * @param null $message
      * @return array
@@ -61,16 +83,25 @@ abstract class BaseChecker implements Contract
         return $this->message;
     }
 
+    /**
+     * @param $healthy
+     */
     public function setHealthy($healthy)
     {
         $this->healthy = $healthy;
     }
 
+    /**
+     * @param $message
+     */
     public function setMessage($message)
     {
         $this->message = $message;
     }
 
+    /**
+     * @return array
+     */
     public function healthArray()
     {
         return [

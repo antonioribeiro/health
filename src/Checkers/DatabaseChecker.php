@@ -5,13 +5,12 @@ namespace PragmaRX\Health\Checkers;
 class DatabaseChecker extends BaseChecker
 {
     /**
-     * @param $resources
      * @return bool
      */
-    public function check($resources)
+    public function check()
     {
         try {
-            collect(config('health.database.models'))->each(function($model) {
+            collect($this->resource['models'])->each(function($model) {
                 app($model)->first();
             });
 

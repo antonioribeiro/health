@@ -8,7 +8,7 @@ interface Contract
      * @param $resources
      * @return mixed
      */
-    public function check($resources);
+    public function check();
 
     /**
      * @param $resources

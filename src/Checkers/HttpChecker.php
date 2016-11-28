@@ -10,16 +10,14 @@ class HttpChecker extends BaseChecker
     protected $secure = false;
 
     /**
-     * @param $resources
      * @return bool
      */
-    public function check($resources)
+    public function check()
     {
         try {
-            list($healthy, $message) = $this->checkWebPage(
-                config('health.urls.http'.($this->secure ? 's' : '')),
-                $this->secure
-            );
+            $url = $this->setScheme($this->resource['url'], $this->secure);
+
+            list($healthy, $message) = $this->checkWebPage($url, $this->secure);
 
             return $this->makeResult($healthy, $message);
         } catch (\Exception $exception) {
@@ -52,5 +50,10 @@ class HttpChecker extends BaseChecker
         curl_close($ch);
 
         return [(bool) $response, $error];
+    }
+
+    private function setScheme($url, $secure)
+    {
+        return preg_replace('|^(?:http(s)?://)?(.+)$|', 'http'.($secure ? 's' : '').'\\1://\\2', $url);
     }
 }
