@@ -19,7 +19,7 @@ abstract class BaseChecker implements Contract
      * @param null $message
      * @return array
      */
-    protected function makeResult($healthy = true, $message = null)
+    public function makeResult($healthy = true, $message = null)
     {
         $this->setHealthy($healthy);
 
