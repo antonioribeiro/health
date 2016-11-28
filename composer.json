@@ -1,0 +1,33 @@
+{
+  "name": "pragmarx/health",
+
+  "description": "Laravel Server Health",
+
+  "keywords": ["health", "laravel", "pragmarx"],
+
+  "license": "MIT",
+
+  "authors": [
+    {
+      "name": "Antonio Carlos Ribeiro",
+      "email": "acr@antoniocarlosribeiro.com",
+      "role": "Creator & Designer"
+    }
+  ],
+
+  "require": {
+    "php": ">=5.6.0",
+    "laravel/framework": ">=5.0"
+  },
+
+  "require-dev": {
+  },
+
+  "autoload": {
+    "psr-4": {
+      "PragmaRX\\Health\\": "src/"
+    }
+  },
+
+  "minimum-stability": "dev"
+}
