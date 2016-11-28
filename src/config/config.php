@@ -28,8 +28,6 @@ return [
             'address' => 'healthchecker@mydomain.com',
 
             'icon_emoji' => ':anger:',
-
-            'icon_url' => ':anger:',
         ],
 
         'users' => [
@@ -60,9 +58,9 @@ return [
     ],
 
     'style' => [
-        'button_lines' => 'single', // multi or single
+        'button_lines' => 'multi', // multi or single
 
-        'multiplier' => 0.33,
+        'multiplier' => 1,
     ],
 
     'views' => [
@@ -190,204 +188,6 @@ return [
             'checker' => PragmaRX\Health\Checkers\FilesystemChecker::class,
             'notify' => true,
         ],
-
-        // ----------------------------------------
-
-//        'forge' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'envoyer' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'redis' => [
-//            'abbreviation' => 'db',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'queue' => [
-//            'abbreviation' => 'frmwrk',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'mongo' => [
-//            'abbreviation' => 'https',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'mysql' => [
-//            'abbreviation' => 'http',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'postgresql' => [
-//            'abbreviation' => 'mail',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        's3' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'sqs' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'slack' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'twilio' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'github' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'digital_ocean' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'jobs' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'loggly' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'zabbix' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'cassandra' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'heroku' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'dropbox' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'google_cloud_storage' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'bugsnag' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'papertrail' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'mailchimp' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'mailgun' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'newrelic' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'elastic_search' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'memory' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
-//
-//        'disk' => [
-//            'abbreviation' => 'filesystem',
-//            'columnSize' => '3',
-//            'checker' => PragmaRX\Health\Checkers\FrameworkChecker::class,
-//            'notify' => true,
-//        ],
     ],
 
 ];
