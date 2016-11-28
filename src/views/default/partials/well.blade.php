@@ -1,5 +1,5 @@
 <div class="col-md-{{ isset($columnSize) ? $columnSize : 12 }}">
-    <div class="btn btn-block btn-{{ $itemHealth ? 'success' : 'danger' }} {{ config('health.style.button_lines') }}" title="{{ $itemMessage }}">
+    <div class="btn btn-block btn-{{ $itemHealth ? 'success' : 'danger' }} {{ config('health.style.button_lines') }}" title="{{ $itemMessage }}" data-name="{{ $itemName }}">
         @if (config('health.style.button_lines', 'multi') == 'multi')
             <h2>
                 {{ $itemName }}

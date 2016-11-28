@@ -25,3 +25,18 @@
         </div>
     </div>
 @stop
+
+@section('scripts')
+    <script>
+        $('.btn').bind('click', function () {
+            var resource = $(this).data('name');
+            var message = $(this).prop('title');
+
+            if (! message) {
+                sweetAlert(resource, '{{ config('health.alert.success.message') }}' , '{{ config('health.alert.success.type') }}');
+            } else {
+                sweetAlert(resource, message, '{{ config('health.alert.error.type') }}');
+            }
+        });
+    </script>
+@stop
