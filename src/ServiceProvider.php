@@ -78,13 +78,13 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     public function register()
     {
-        $this->registerService();
+        $this->mergeConfig();
 
         $this->configureViews();
 
-        $this->mergeConfig();
-
         $this->configurePaths();
+
+        $this->registerService();
 
         $this->registerRoutes();
 
