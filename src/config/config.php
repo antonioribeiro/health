@@ -4,11 +4,11 @@ return [
 
     'title' => 'Laravel Health Check Panel',
 
-    'unhealthy_message' => 'At least one resource failed the health check.',
-
     'sort_by' => 'slug',
 
-    'cache' => false, // minutes / false = do not cache / 0 = forever
+    'cache' => [
+        'minutes' => false, // false = disabled
+    ],
 
     'notifications' => [
         'enabled' => true,
@@ -66,14 +66,14 @@ return [
         ],
 
         'error' => [
-            'type' => 'success',
+            'type' => 'error',
         ]
     ],
 
     'style' => [
         'button_lines' => 'multi', // multi or single
 
-        'multiplier' => 1,
+        'multiplier' => 0.7,
     ],
 
     'views' => [
@@ -82,24 +82,12 @@ return [
         'partials' => [
             'well' => 'pragmarx/health::default.partials.well',
         ],
-
-        'email' => 'pragmarx/health::default.email',
     ],
 
     'string' => [
         'glue' => '-',
         'ok' => 'OK',
         'fail' => 'FAIL',
-    ],
-
-    'error-messages' => [
-        'tempfile' => 'Unable to create temp file: %s.'
-    ],
-
-    'database' => [
-        'models' => [
-            App\User::class,
-        ],
     ],
 
     'actions' => [
@@ -123,36 +111,7 @@ return [
     ],
 
     'urls' => [
-        'http' => config('app.url'),
-        'https' => config('app.url'),
         'panel' => '/health/panel',
-    ],
-
-    'mail' => [
-        'config' => [
-            'driver' => 'log',
-
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-
-            'port' => env('MAIL_PORT', 587),
-
-            'from' => [
-                'address' => 'health@example.com',
-                'name' => 'Health Checker',
-            ],
-
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-
-            'username' => env('MAIL_USERNAME'),
-
-            'password' => env('MAIL_PASSWORD'),
-
-            'sendmail' => '/usr/sbin/sendmail -bs',
-        ],
-
-        'to' => 'you-know-who@sink.sendgrid.net',
-
-        'subject' => 'Health Test mail',
     ],
 
 	'resources' => [
@@ -162,6 +121,7 @@ return [
             'checker' => PragmaRX\Health\Checkers\HealthChecker::class,
             'is_global' => true,
             'notify' => false,
+            'error_message' => 'At least one resource failed the health check.',
         ],
 
         'database' => [
@@ -169,6 +129,19 @@ return [
             'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\DatabaseChecker::class,
             'notify' => true,
+            'models' => [
+                App\User::class,
+            ],
+        ],
+
+        'cache' => [
+            'abbreviation' => 'csh',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\CacheChecker::class,
+            'notify' => true,
+            'error_message' => 'Cache is not returning cached values.',
+            'key' => 'health-cache-test',
+            'minutes' => 1,
         ],
 
         'framework' => [
@@ -183,6 +156,7 @@ return [
             'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\HttpsChecker::class,
             'notify' => true,
+            'url' => config('app.url'),
         ],
 
         'http' => [
@@ -190,22 +164,57 @@ return [
             'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\HttpChecker::class,
             'notify' => true,
+            'url' => config('app.url'),
         ],
 
         'mail' => [
-            'abbreviation' => 'mail',
+            'abbreviation' => 'ml',
             'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\MailChecker::class,
             'notify' => true,
+            'view' => 'pragmarx/health::default.email',
+            'config' => [
+                'driver' => 'log',
+
+                'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+
+                'port' => env('MAIL_PORT', 587),
+
+                'from' => [
+                    'address' => 'health@example.com',
+                    'name' => 'Health Checker',
+                ],
+
+                'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+
+                'username' => env('MAIL_USERNAME'),
+
+                'password' => env('MAIL_PASSWORD'),
+
+                'sendmail' => '/usr/sbin/sendmail -bs',
+            ],
+            'to' => 'you-know-who@sink.sendgrid.net',
+            'subject' => 'Health Test mail',
         ],
 
         'filesystem' => [
-            'abbreviation' => 'filesystem',
+            'abbreviation' => 'flstm',
             'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\FilesystemChecker::class,
             'notify' => true,
+            'error-message' => 'Unable to create temp file: %s.',
         ],
 
+        'cloud_storage' => [
+            'abbreviation' => 'cld',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\CloudStorageChecker::class,
+            'notify' => true,
+            'driver' => 'local',
+            'file' => 'testfile-'. Illuminate\Support\Str::random(32) . '.txt',
+            'contents' => Illuminate\Support\Str::random(1024),
+            'error_message' => 'Cloud storage is not retrieving files correctly.'
+        ],
     ],
 
 ];
