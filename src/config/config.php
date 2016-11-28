@@ -90,6 +90,10 @@ return [
         'fail' => 'FAIL',
     ],
 
+    'error-messages' => [
+        'tempfile' => 'Unable to create temp file: %s.'
+    ],
+
     'database' => [
         'models' => [
             App\User::class,

@@ -1,4 +1,5 @@
-# Laravel Health Panel And Notifier
+# Health
+## A Laravel Health Panel And Notifier
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/pragmarx/health.svg?style=flat-square)](https://packagist.org/packages/pragmarx/health) [![License](https://img.shields.io/badge/license-BSD_3_Clause-brightgreen.svg?style=flat-square)](LICENSE) [![Downloads](https://img.shields.io/packagist/dt/pragmarx/health.svg?style=flat-square)](https://packagist.org/packages/pragmarx/health)
 
@@ -40,7 +41,15 @@ Click the resource button and you'll get an alert showing the error message:
 
 ### Slack Notification
 
+Here's an example of notification sent via Slack:
+
 ![default panel](docs/images/slack.png)
+
+## Artisan Console Command
+
+Use the Artisan command `health:panel` to view the status of your services in console:
+
+![default panel](docs/images/console-panel.png)
 
 ## Routes
 
