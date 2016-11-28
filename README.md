@@ -14,6 +14,20 @@ This package creates a service status panel for you any Laravel app and has the 
 - View app error messages right in the panel.
 - Http response codes 200 and 500, on error, for services like [Envoyer](https://envoyer.io) to keep track of your app health.
 
+## Built-in Checkers 
+
+Heath has pre-configured resource checkers for the following services:
+
+- Database
+- Cache
+- Framework (dummy checker)
+- Http & Https
+- Mail
+- Filesystem
+- Cloud Storage
+
+But you can add anything else you need!
+
 ## Screenshots 
 
 ### Panel
