@@ -99,7 +99,7 @@ Returns a json with information about a particular service:
 ## Requirements
 
 - PHP 5.6+
-- Laravel 5.2+
+- Laravel 5.3+
 
 ## Installing
 
