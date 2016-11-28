@@ -16,10 +16,9 @@ class MailChecker extends BaseChecker
     /**
      * Check resource.
      *
-     * @param $resources
      * @return bool
      */
-    public function check($resources)
+    public function check()
     {
         return $this->checkMail();
     }
@@ -32,7 +31,7 @@ class MailChecker extends BaseChecker
     {
         $this->mailConfiguration = config('mail');
 
-        config(['mail' => config('health.mail.config')]);
+        config(['mail' => $this->resource['config']]);
     }
 
     /**
@@ -71,18 +70,20 @@ class MailChecker extends BaseChecker
      */
     private function sendMail()
     {
-        Mail::send(config('health.views.email'), [], function ($message) {
-            $message->returnPath(config('health.mail.config.from.address'));
+        Mail::send($this->resource['view'], [], function ($message) {
+            $fromAddress = array_get($this->resource, 'config.from.address');
 
-            $message->cc(config('health.mail.config.from.address'));
+            $message->returnPath($fromAddress);
 
-            $message->bcc(config('health.mail.config.from.address'));
+            $message->cc($fromAddress);
 
-            $message->replyTo(config('health.mail.config.from.address'));
+            $message->bcc($fromAddress);
 
-            $message->to(config('health.mail.to'));
+            $message->replyTo($fromAddress);
 
-            $message->subject(config('health.mail.subject'));
+            $message->to($this->resource['to']);
+
+            $message->subject($this->resource['subject']);
         });
     }
 }

@@ -5,16 +5,15 @@ namespace PragmaRX\Health\Checkers;
 class FilesystemChecker extends BaseChecker
 {
     /**
-     * @param $resources
      * @return bool
      */
-    public function check($resources)
+    public function check()
     {
         try {
             $file = $this->temporaryFile('health-check-', 'just testing', storage_path());
 
             if (! file_exists($file)) {
-                return $this->makeResult(false, sprintf(config('health.error-messages.tempfile'), $file));
+                return $this->makeResult(false, sprintf($this->resource['error-message'], $file));
             }
 
             unlink($file);

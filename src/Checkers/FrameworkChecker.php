@@ -5,10 +5,9 @@ namespace PragmaRX\Health\Checkers;
 class FrameworkChecker extends BaseChecker
 {
     /**
-     * @param $resources
      * @return bool
      */
-    public function check($resources)
+    public function check()
     {
         return $this->makeHealthyResult();
     }

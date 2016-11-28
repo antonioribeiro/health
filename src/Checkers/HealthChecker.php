@@ -5,12 +5,11 @@ namespace PragmaRX\Health\Checkers;
 class HealthChecker extends BaseChecker
 {
     /**
-     * @param $resources
      * @return bool
      */
-    public function check($resources)
+    public function check()
     {
-        $healthy = $resources->reduce(function($carry, $item) {
+        $healthy = $this->resources->reduce(function($carry, $item) {
             return isset($item['is_global']) && $item['is_global']
                     ? $carry
                     : $carry && $item['health']['healthy']
@@ -19,7 +18,7 @@ class HealthChecker extends BaseChecker
 
         return $this->makeResult(
             $healthy,
-            $healthy ? '' : config('health.unhealthy_message')
+            $healthy ? '' : $this->resource['error_message']
         );
     }
 }
