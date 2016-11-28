@@ -13,6 +13,10 @@ class FilesystemChecker extends BaseChecker
         try {
             $file = $this->temporaryFile('health-check-', 'just testing', storage_path());
 
+            if (! file_exists($file)) {
+                return $this->makeResult(false, sprintf(config('health.error-messages.tempfile'), $file));
+            }
+
             unlink($file);
 
             return $this->makeHealthyResult();
@@ -36,7 +40,9 @@ class FilesystemChecker extends BaseChecker
         file_put_contents($file, $content);
 
         register_shutdown_function(function() use($file) {
-            unlink($file);
+            if (file_exists($file)) {
+                unlink($file);
+            }
         });
 
         return $file;
