@@ -3,12 +3,23 @@
 namespace PragmaRX\Health;
 
 use Event;
-use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use Artisan;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Listeners\NotifyHealthIssue;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
+    /**
+     * @var
+     */
+    private $service;
+
+    /**
+     * @var
+     */
+    private $commands;
+
     /**
      * Configure package paths.
      *
@@ -34,6 +45,22 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
+     * @return \Illuminate\Foundation\Application|mixed
+     */
+    private function instantiateCommands()
+    {
+        return $this->commands = app(Commands::class, [$this->service]);
+    }
+
+    /**
+     * @return \Illuminate\Foundation\Application|mixed
+     */
+    private function instantiateService()
+    {
+        return $this->service = app(Service::class);
+    }
+
+    /**
      * Merge configuration.
      *
      */
@@ -51,6 +78,8 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     public function register()
     {
+        $this->registerService();
+
         $this->configureViews();
 
         $this->mergeConfig();
@@ -60,6 +89,20 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->registerRoutes();
 
         $this->registerEventListeners();
+
+        $this->registerConsoleCommands();
+    }
+
+    /**
+     *
+     */
+    private function registerConsoleCommands()
+    {
+        $commands = $this->commands;
+
+        Artisan::command('health:panel', function () use ($commands) {
+            $commands->panel($this);
+        })->describe('Show all resources and their current health states.');
     }
 
     /**
@@ -95,5 +138,15 @@ class ServiceProvider extends IlluminateServiceProvider
             'as' => 'pragmarx.health.resource',
             'uses' => config('health.actions.resource')
         ]);
+    }
+
+    /**
+     *
+     */
+    private function registerService()
+    {
+        $this->app->singleton('pragmarx.health', $this->instantiateService());
+
+        $this->app->singleton('pragmarx.health.commands', $this->instantiateCommands());
     }
 }
