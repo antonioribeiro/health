@@ -4,10 +4,11 @@
 [![Latest Stable Version](https://img.shields.io/packagist/v/pragmarx/health.svg?style=flat-square)](https://packagist.org/packages/pragmarx/health) [![License](https://img.shields.io/badge/license-BSD_3_Clause-brightgreen.svg?style=flat-square)](LICENSE) [![Downloads](https://img.shields.io/packagist/dt/pragmarx/health.svg?style=flat-square)](https://packagist.org/packages/pragmarx/health)
 
 This package checks if the application resources are running as they should and creates a service status panel. It has the following main points:
- 
+
+- Twitter Bootstrap Status Panel 
+- Resilient resource checker: if the framework is working and at least one notification channel, you should receive notification messages. 
 - Highly extensible and configurable: you can create new checkers and notifiers very easily, and you can virtually change everything on it.
 - Built-in notification system: get notifications via mail, slack, telegram or anything else you need.
-- Resilient: if the framework is working and at least one notification channel, you should receive notification messages. 
 - Routes for: panel, json result, string result and resource.
 - Configurable panel design.
 - Cache results and calls to services.
