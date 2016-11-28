@@ -2,7 +2,20 @@
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/pragmarx/health.svg?style=flat-square)](https://packagist.org/packages/pragmarx/health) [![License](https://img.shields.io/badge/license-BSD_3_Clause-brightgreen.svg?style=flat-square)](LICENSE) [![Downloads](https://img.shields.io/packagist/dt/pragmarx/health.svg?style=flat-square)](https://packagist.org/packages/pragmarx/health)
 
-The purpose of this package is...
+This package creates a service status panel for you any Laravel app and has the follwing main points:
+ 
+- Highly extendable and configurable: you can create new checkers and notifiers very easily, and you can virtually change everything on it.
+- Resilient: if the framework is working and at least one notification channel, you should receive notification messages. 
+- Built in notification system: get notifications via mail, slack, telegram or anything else you need.
+- Routes for: panel, json result, string result and resource.
+- Configurable panel design.
+- View app error messages right in the panel.
+
+## Screenshots 
+
+### Panel
+
+[default panel](docs/error-multi.png)
 
 ## Requirements
 
