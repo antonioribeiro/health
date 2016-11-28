@@ -5,11 +5,12 @@
 
 This package creates a service status panel for you any Laravel app and has the follwing main points:
  
-- Highly extendable and configurable: you can create new checkers and notifiers very easily, and you can virtually change everything on it.
+- Highly extensible and configurable: you can create new checkers and notifiers very easily, and you can virtually change everything on it.
 - Built-in notification system: get notifications via mail, slack, telegram or anything else you need.
 - Resilient: if the framework is working and at least one notification channel, you should receive notification messages. 
 - Routes for: panel, json result, string result and resource.
 - Configurable panel design.
+- Cache results and calls to services.
 - View app error messages right in the panel.
 - Http response codes 200 and 500, for error states, to ease services like [Envoyer](https://envoyer.io) to keep track of your app health.
 
@@ -113,6 +114,7 @@ Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 
 - Template location
 - Routes and prefixes
 - Mail server
+- Cache time
 
 ## Author
 
