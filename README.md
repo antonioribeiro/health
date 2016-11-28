@@ -5,8 +5,8 @@
 This package creates a service status panel for you any Laravel app and has the follwing main points:
  
 - Highly extendable and configurable: you can create new checkers and notifiers very easily, and you can virtually change everything on it.
+- Built-in notification system: get notifications via mail, slack, telegram or anything else you need.
 - Resilient: if the framework is working and at least one notification channel, you should receive notification messages. 
-- Built in notification system: get notifications via mail, slack, telegram or anything else you need.
 - Routes for: panel, json result, string result and resource.
 - Configurable panel design.
 - View app error messages right in the panel.
@@ -28,7 +28,9 @@ If you have lots of services to check, you may change the default panel design t
 
 ![default panel](docs/images/error-single-4-columns.png)
 
-### Error hint 
+### Error Messages 
+
+Mouse over a failing resource and get instant access to the error message:
 
 ![default panel](docs/images/error-hint.png)
 
@@ -87,11 +89,14 @@ Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 
 
     php artisan vendor:publish
 
-## Config file gives you access to change virtually everything in this package:
+## Configure All The Things
 
+- Panel
 - Title and messages
-- Create, enable and disable resource checkers
-- Create, enable and disable notification channels
+- Resource checkers
+- Slack icon
+- Sort resources in the panel
+- Notification channels
 - Template location
 - Http routes and prefixes
 - Mail server configuration
