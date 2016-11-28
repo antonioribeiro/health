@@ -34,6 +34,10 @@ Mouse over a failing resource and get instant access to the error message:
 
 ![default panel](docs/images/error-hint.png)
 
+Click the resource button and you'll get an alert showing the error message:
+
+![default panel](docs/images/error-alert.png)
+
 ### Slack Notification
 
 ![default panel](docs/images/slack.png)
