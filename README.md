@@ -76,8 +76,6 @@ Use the command `health:check` to checl all your resources and send notification
 
 ## Routes
 
-## Requirements
-
 After installing you will have access to the folowing routes:
 
 ### /health/panel
@@ -163,6 +161,12 @@ When Health result is cached, you can flush the chage to make it process all res
 
     http://yourdomain.com/health/panel?flush=true
 
+## Events
+
+If you prefer to build you own notifications systems, you can disable it and listen for the following event  
+
+    PragmaRX\Health\Events\RaiseHealthIssue::class
+    
 ## Author
 
 [Antonio Carlos Ribeiro](http://twitter.com/iantonioribeiro)
