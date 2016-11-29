@@ -2,7 +2,6 @@
 
 namespace PragmaRX\Health\Notifications;
 
-use Request;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
@@ -69,7 +68,7 @@ class HealthStatus extends Notification
         return call_user_func_array(
             [
                 $this->getSenderInstance($name),
-                'send'
+                'send',
             ],
             $parameters
         );

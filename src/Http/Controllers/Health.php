@@ -65,7 +65,7 @@ class Health extends Controller
         $this->healthService->setAction('panel');
 
         return view(config('health.views.panel'), [
-            'health' => $this->healthService->panel()
+            'health' => $this->healthService->panel(),
         ]);
     }
 }
