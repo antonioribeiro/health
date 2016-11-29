@@ -18,7 +18,6 @@ class RaiseHealthIssue implements ShouldQueue
 
     /**
      * Create a new event instance.
-     *
      */
     public function __construct($failure, $channel)
     {

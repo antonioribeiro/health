@@ -3,7 +3,6 @@
 namespace PragmaRX\Health;
 
 use Illuminate\Console\Command;
-use Mail;
 use PragmaRX\Health\Service as HealthService;
 
 class Commands

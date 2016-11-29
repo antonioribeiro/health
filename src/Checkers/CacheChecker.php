@@ -41,7 +41,7 @@ class CacheChecker extends BaseChecker
 
     private function getChecker()
     {
-        return function() {
+        return function () {
             return 'DUMMY DATA';
         };
     }

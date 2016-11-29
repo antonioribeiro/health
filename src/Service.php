@@ -2,7 +2,6 @@
 
 namespace PragmaRX\Health;
 
-use Mail;
 use Cache;
 use Exception;
 use Illuminate\Support\Str;
@@ -63,8 +62,7 @@ class Service
                $resource['notify'] &&
                ! isset($this->notified[$name]) &&
                config('health.notifications.enabled') &&
-               config('health.notifications.notify_on.'.$this->currentAction)
-        ;
+               config('health.notifications.notify_on.'.$this->currentAction);
     }
 
     /**
@@ -80,7 +78,7 @@ class Service
 
         $resourceChecker = $this->makeResourceChecker();
 
-        $checker = function() use ($resourceChecker) {
+        $checker = function () use ($resourceChecker) {
             $resourceChecker(false);
 
             $resourceChecker(true);
@@ -93,9 +91,7 @@ class Service
         $this->checked = true;
     }
 
-    /**
-     *
-     */
+
     private function flushCache()
     {
         if ($this->cacheFlushed) {
@@ -138,7 +134,7 @@ class Service
     {
         $this->checkResources();
 
-        return $this->getResources()->reduce(function($carry, $item) {
+        return $this->getResources()->reduce(function ($carry, $item) {
             return $carry && $item['health'];
         }, true);
     }
@@ -194,8 +190,7 @@ class Service
                 }
 
                 return $item;
-            })
-            ;
+            });
         };
 
         return $resourceChecker;
@@ -207,10 +202,11 @@ class Service
      */
     private function notify($resource)
     {
-        return collect(config('health.notifications.channels'))->filter(function($value, $channel) use ($resource) {
+        return collect(config('health.notifications.channels'))->filter(function ($value, $channel) use ($resource) {
             try {
                 event(new RaiseHealthIssue($resource, $channel));
-            } catch (\Exception $exception) {}
+            } catch (\Exception $exception) {
+            }
         });
     }
 
@@ -240,9 +236,9 @@ class Service
     {
         $this->health();
 
-        return collect($this->getResources())->reduce(function($current, $item) {
-            return $current .
-                ($current ? config('health.string.glue') : '') .
+        return collect($this->getResources())->reduce(function ($current, $item) {
+            return $current.
+                ($current ? config('health.string.glue') : '').
                 $this->makeString($item['abbreviation'], $this->checkResource($item['slug']));
         });
     }
@@ -264,12 +260,10 @@ class Service
         return $this->resources;
     }
 
-    /**
-     *
-     */
+
     private function loadResources()
     {
-        $this->resources = collect(config('health.resources'))->map(function($item, $key) {
+        $this->resources = collect(config('health.resources'))->map(function ($item, $key) {
             $item['slug'] = $key;
 
             $item['name'] = Str::studly($key);
@@ -305,12 +299,11 @@ class Service
      */
     private function makeString($string, $checkSystem)
     {
-        return $string .
+        return $string.
                 ($checkSystem
                     ? config('health.string.ok')
                     : config('health.string.fail')
-                )
-        ;
+                );
     }
 
     /**
@@ -327,8 +320,7 @@ class Service
      */
     public function find($name)
     {
-        foreach ($this->getResources() as $resource)
-        {
+        foreach ($this->getResources() as $resource) {
             if ($resource['slug'] == $name) {
                 return $resource;
             }

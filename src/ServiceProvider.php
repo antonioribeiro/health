@@ -22,26 +22,24 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Configure package paths.
-     *
      */
     private function configurePaths()
     {
         $this->publishes([
-            __DIR__ . '/config/config.php' => config_path('health.php')
+            __DIR__.'/config/config.php' => config_path('health.php'),
         ]);
 
         $this->publishes([
-            __DIR__ . '/views/' => resource_path('views/vendor/pragmarx/health/')
+            __DIR__.'/views/' => resource_path('views/vendor/pragmarx/health/'),
         ]);
     }
 
     /**
      * Configure package folder views.
-     *
      */
     private function configureViews()
     {
-        $this->loadViewsFrom(realpath(__DIR__ . '/views'), 'pragmarx/health');
+        $this->loadViewsFrom(realpath(__DIR__.'/views'), 'pragmarx/health');
     }
 
     /**
@@ -62,12 +60,11 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Merge configuration.
-     *
      */
     private function mergeConfig()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/config/config.php', 'health'
+            __DIR__.'/config/config.php', 'health'
         );
     }
 
@@ -93,9 +90,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->registerConsoleCommands();
     }
 
-    /**
-     *
-     */
+
     private function registerConsoleCommands()
     {
         $commands = $this->commands;
@@ -105,9 +100,7 @@ class ServiceProvider extends IlluminateServiceProvider
         })->describe('Show all resources and their current health states.');
     }
 
-    /**
-     *
-     */
+
     private function registerEventListeners()
     {
         Event::listen(RaiseHealthIssue::class, NotifyHealthIssue::class);
@@ -115,34 +108,31 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register routes.
-     *
      */
     private function registerRoutes()
     {
         $this->app->router->get(config('health.routes.prefix').config('health.routes.suffixes.panel'), [
             'as' => 'pragmarx.health.panel',
-            'uses' => config('health.actions.panel')
+            'uses' => config('health.actions.panel'),
         ]);
 
         $this->app->router->get(config('health.routes.prefix').config('health.routes.suffixes.check'), [
             'as' => 'pragmarx.health.check',
-            'uses' => config('health.actions.check')
+            'uses' => config('health.actions.check'),
         ]);
 
         $this->app->router->get(config('health.routes.prefix').config('health.routes.suffixes.string'), [
             'as' => 'pragmarx.health.string',
-            'uses' => config('health.actions.string')
+            'uses' => config('health.actions.string'),
         ]);
 
         $this->app->router->get(config('health.routes.prefix').config('health.routes.suffixes.resource').'/{name}', [
             'as' => 'pragmarx.health.resource',
-            'uses' => config('health.actions.resource')
+            'uses' => config('health.actions.resource'),
         ]);
     }
 
-    /**
-     *
-     */
+
     private function registerService()
     {
         $this->app->singleton('pragmarx.health', $this->instantiateService());
