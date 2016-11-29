@@ -95,9 +95,7 @@ class Service
         return $this->getResources();
     }
 
-    /**
-     *
-     */
+
     private function flushCache()
     {
         if ($this->cacheFlushed) {
@@ -270,10 +268,8 @@ class Service
         return $this->resources;
     }
 
-
     /**
      * Load application resources.
-     *
      */
     private function loadResources()
     {
