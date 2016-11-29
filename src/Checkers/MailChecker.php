@@ -25,7 +25,6 @@ class MailChecker extends BaseChecker
 
     /**
      * Configure mail for testing.
-     *
      */
     private function configureMail()
     {
@@ -36,7 +35,6 @@ class MailChecker extends BaseChecker
 
     /**
      * Send a test e-mail.
-     *
      */
     private function checkMail()
     {
@@ -57,7 +55,6 @@ class MailChecker extends BaseChecker
 
     /**
      * Restore mail configuration.
-     *
      */
     private function restoreMailConfiguration()
     {
@@ -66,7 +63,6 @@ class MailChecker extends BaseChecker
 
     /**
      * Send a test e-mail message.
-     *
      */
     private function sendMail()
     {
