@@ -23,7 +23,6 @@ class Slack extends BaseChannel
             ->attachment(function ($attachment) use ($item) {
                 $attachment->title($this->getActionTitle(), $this->getActionLink())
                             ->content($item['health']['message']);
-            })
-        ;
+            });
     }
 }

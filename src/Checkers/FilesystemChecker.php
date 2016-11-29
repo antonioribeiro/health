@@ -38,7 +38,7 @@ class FilesystemChecker extends BaseChecker
 
         file_put_contents($file, $content);
 
-        register_shutdown_function(function() use($file) {
+        register_shutdown_function(function () use ($file) {
             if (file_exists($file)) {
                 unlink($file);
             }

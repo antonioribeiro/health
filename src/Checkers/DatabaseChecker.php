@@ -10,7 +10,7 @@ class DatabaseChecker extends BaseChecker
     public function check()
     {
         try {
-            collect($this->resource['models'])->each(function($model) {
+            collect($this->resource['models'])->each(function ($model) {
                 app($model)->first();
             });
 

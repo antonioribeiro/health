@@ -68,7 +68,7 @@ return [
 
         'error' => [
             'type' => 'error',
-        ]
+        ],
     ],
 
     'style' => [
@@ -115,7 +115,7 @@ return [
         'panel' => '/health/panel',
     ],
 
-	'resources' => [
+    'resources' => [
         'health' => [
             'abbreviation' => 'hlth',
             'columnSize' => '12',
@@ -212,9 +212,9 @@ return [
             'checker' => PragmaRX\Health\Checkers\CloudStorageChecker::class,
             'notify' => true,
             'driver' => 'local',
-            'file' => 'testfile-'. Illuminate\Support\Str::random(32) . '.txt',
+            'file' => 'testfile-'.Illuminate\Support\Str::random(32).'.txt',
             'contents' => Illuminate\Support\Str::random(1024),
-            'error_message' => 'Cloud storage is not retrieving files correctly.'
+            'error_message' => 'Cloud storage is not retrieving files correctly.',
         ],
 
 //        'XXXXXXXX' => [
