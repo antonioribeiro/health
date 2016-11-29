@@ -4,6 +4,7 @@ namespace PragmaRX\Health;
 
 use Event;
 use Artisan;
+use Illuminate\Console\Scheduling\Schedule;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Listeners\NotifyHealthIssue;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
@@ -13,7 +14,7 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * @var
      */
-    private $service;
+    private $healthService;
 
     /**
      * @var
@@ -47,7 +48,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function instantiateCommands()
     {
-        return $this->commands = app(Commands::class, [$this->service]);
+        return $this->commands = app(Commands::class, [$this->healthService]);
     }
 
     /**
@@ -55,7 +56,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function instantiateService()
     {
-        return $this->service = app(Service::class);
+        return $this->healthService = app(Service::class);
     }
 
     /**
@@ -85,12 +86,17 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->registerRoutes();
 
+        $this->registerTasks();
+
         $this->registerEventListeners();
 
         $this->registerConsoleCommands();
     }
 
-
+    /**
+     * Register console commands.
+     *
+     */
     private function registerConsoleCommands()
     {
         $commands = $this->commands;
@@ -98,9 +104,17 @@ class ServiceProvider extends IlluminateServiceProvider
         Artisan::command('health:panel', function () use ($commands) {
             $commands->panel($this);
         })->describe('Show all resources and their current health states.');
+
+        Artisan::command('health:check', function () use ($commands) {
+            $commands->check($this);
+        })->describe('Check resources health and send error notifications.');
     }
 
 
+    /**
+     * Register event listeners.
+     *
+     */
     private function registerEventListeners()
     {
         Event::listen(RaiseHealthIssue::class, NotifyHealthIssue::class);
@@ -132,11 +146,31 @@ class ServiceProvider extends IlluminateServiceProvider
         ]);
     }
 
-
+    /**
+     * Register service.
+     *
+     */
     private function registerService()
     {
         $this->app->singleton('pragmarx.health', $this->instantiateService());
 
         $this->app->singleton('pragmarx.health.commands', $this->instantiateCommands());
+    }
+
+    /**
+     * Register scheduled tasks.
+     *
+     */
+    private function registerTasks()
+    {
+        if (config('health.scheduler.enabled') &&
+            $frequency = config('health.scheduler.frequency') &&
+            config('health.notifications.enabled')
+        )
+        {
+            $scheduler = app(Schedule::class);
+
+            $scheduler->call($this->healthService->getSilentChecker())->{$frequency}();
+        }
     }
 }

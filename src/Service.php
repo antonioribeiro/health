@@ -28,7 +28,7 @@ class Service
     /**
      * @var
      */
-    private $currentAction;
+    private $currentAction = 'check';
 
     /**
      * @var Request
@@ -42,6 +42,8 @@ class Service
 
     /**
      * Service constructor.
+     *
+     * @param Request $request
      */
     public function __construct(Request $request)
     {
@@ -73,7 +75,7 @@ class Service
     public function checkResources()
     {
         if ($this->checked) {
-            return false;
+            return $this->getResources();
         }
 
         $resourceChecker = $this->makeResourceChecker();
@@ -89,9 +91,13 @@ class Service
         $this->resources = $this->getCachedResources($checker);
 
         $this->checked = true;
+
+        return $this->getResources();
     }
 
-
+    /**
+     *
+     */
     private function flushCache()
     {
         if ($this->cacheFlushed) {
@@ -162,6 +168,10 @@ class Service
 
             $resourceChecker->check($resource, $this->getResources());
         } catch (Exception $exception) {
+            if (! isset($resourceChecker)) {
+                return [];
+            }
+
             $resourceChecker->makeResult(false, 'Unknown error.');
         }
 
@@ -261,6 +271,10 @@ class Service
     }
 
 
+    /**
+     * Load application resources.
+     *
+     */
     private function loadResources()
     {
         $this->resources = collect(config('health.resources'))->map(function ($item, $key) {
@@ -275,7 +289,9 @@ class Service
 
         if ($sortBy = config('health.sort_by')) {
             $this->resources = $this->resources->sortBy(function ($item, $key) use ($sortBy) {
-                return $item['is_global'] ? 0 : $item[$sortBy];
+                return $item['is_global']
+                        ? 0
+                        : $item[$sortBy];
             });
         }
     }
@@ -325,5 +341,19 @@ class Service
                 return $resource;
             }
         }
+    }
+
+    /**
+     * Get a silent checker and notifier closure.
+     *
+     * @return \Closure
+     */
+    public function getSilentChecker()
+    {
+        return function () {
+            $this->flushCache();
+
+            return $this->checkResources();
+        };
     }
 }
