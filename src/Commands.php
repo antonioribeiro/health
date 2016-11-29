@@ -51,4 +51,24 @@ class Commands
 
         $command->table($columns, $rows);
     }
+
+    public function check(Command $command)
+    {
+        $checker = $this->healthService->getSilentChecker();
+
+        $errors = $checker()->where('is_global', false)->reduce(function($carry, $item) {
+            return $carry + ($item['health']['healthy'] ? 0 : 1);
+        }, 0);
+
+        if ($errors) {
+            $command->error(
+                "Application needs attention, $errors ".
+                str_plural('resouce', $errors)." ".
+                ($errors > 1 ? 'are' : 'is').
+                " currently failing."
+            );
+        }
+
+        $command->info('Check completed with no errors.');
+    }
 }

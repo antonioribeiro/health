@@ -12,6 +12,7 @@ This package checks if the application resources are running as they should and 
 - Routes for: panel, json result, string result and resource.
 - Configurable panel design.
 - Cache results and calls to services.
+- Schedule checks to automatically receive notifications when a service fails.
 - View app error messages right in the panel.
 - Http response codes 200 and 500, on error, for services like [Envoyer](https://envoyer.io) to keep track of your app health.
 
@@ -61,9 +62,15 @@ Here's an example of notification sent via Slack:
 
 ![default panel](docs/images/slack.png)
 
-## Artisan Console Command
+## Artisan Console Commands
 
-Use the Artisan command `health:panel` to view the status of your services in console:
+### health:panel
+
+Use the command `health:panel` to view the status of your services in console.
+
+### health:check
+
+Use the command `health:check` to checl all your resources and send notifications on failures.
 
 ![default panel](docs/images/console-panel.png)
 
@@ -133,7 +140,8 @@ Add the Service Provider and Facade alias to your `app/config/app.php` (Laravel 
 - Template location
 - Routes and prefixes
 - Mail server
-- Cache time
+- Cache
+- Scheduler
 
 ## Allowing Slack Notifications
 

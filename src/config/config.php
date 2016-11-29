@@ -33,6 +33,12 @@ return [
             'icon_emoji' => ':anger:',
         ],
 
+        'scheduler' => [
+            'enabled' => true,
+
+            'frequency' => 'everyMinute', // most methods on -- https://laravel.com/docs/5.3/scheduling#defining-schedules
+        ],
+
         'users' => [
             'model' => App\User::class,
 
