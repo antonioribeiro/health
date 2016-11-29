@@ -7,7 +7,7 @@ return [
     'sort_by' => 'slug',
 
     'cache' => [
-        'minutes' => 10, // false = disabled
+        'minutes' => 1, // false = disabled
         'key' => 'health-resources',
     ],
 
@@ -216,17 +216,6 @@ return [
             'contents' => Illuminate\Support\Str::random(1024),
             'error_message' => 'Cloud storage is not retrieving files correctly.',
         ],
-
-//        'XXXXXXXX' => [
-//            'abbreviation' => 'cld',
-//            'columnSize' => '6',
-//            'checker' => PragmaRX\Health\Checkers\CloudStorageChecker::class,
-//            'notify' => true,
-//            'driver' => 'local',
-//            'file' => 'testfile-'. Illuminate\Support\Str::random(32) . '.txt',
-//            'contents' => Illuminate\Support\Str::random(1024),
-//            'error_message' => 'Cloud storage is not retrieving files correctly.'
-//        ],
     ],
 
 ];
