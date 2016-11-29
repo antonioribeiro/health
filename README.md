@@ -149,6 +149,12 @@ To receive notifications via Slack, you'll have to setup [Incoming Webhooks](htt
         return config('services.slack.webhook_url');
     }
 
+## Cache
+
+When Health result is cached, you can flush the chage to make it process all resources again by adding `?flush=true` to the url: 
+
+    http://yourdomain.com/health/panel?flush=true
+
 ## Author
 
 [Antonio Carlos Ribeiro](http://twitter.com/iantonioribeiro)

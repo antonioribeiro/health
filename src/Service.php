@@ -6,6 +6,7 @@ use Mail;
 use Cache;
 use Exception;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 
 class Service
@@ -31,10 +32,22 @@ class Service
     private $currentAction;
 
     /**
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * @var
+     */
+    private $cacheFlushed;
+
+    /**
      * Service constructor.
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
+        $this->request = $request;
+
         $this->loadResources();
     }
 
@@ -65,16 +78,7 @@ class Service
             return false;
         }
 
-        $resourceChecker = function($allowGlobal) {
-            $this->resources = $this->getResources()->map(function($item, $key) use ($allowGlobal) {
-                if ($item['is_global'] == $allowGlobal)
-                {
-                    $item['health'] = $this->checkResource($key);
-                }
-
-                return $item;
-            });
-        };
+        $resourceChecker = $this->makeResourceChecker();
 
         $checker = function() use ($resourceChecker) {
             $resourceChecker(false);
@@ -84,13 +88,47 @@ class Service
             return $this->getResources();
         };
 
-        if (($minutes = config('health.cache.minutes')) !== false) {
-            $this->resources = Cache::remember('health-resources', $minutes, $checker);
-        } else {
-            $this->resources = $checker();
-        }
+        $this->resources = $this->getCachedResources($checker);
 
         $this->checked = true;
+    }
+
+    /**
+     *
+     */
+    private function flushCache()
+    {
+        if ($this->cacheFlushed) {
+            return;
+        }
+
+        if ($this->getCacheMinutes() !== false && $this->request->get('flush')) {
+            Cache::forget(config('health.cache.key'));
+
+            $this->cacheFlushed = true;
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getCacheMinutes()
+    {
+        return config('health.cache.minutes');
+    }
+
+    /**
+     * @param $checker
+     */
+    private function getCachedResources($checker)
+    {
+        $this->flushCache();
+
+        if (($minutes = $this->getCacheMinutes()) !== false) {
+            return Cache::remember(config('health.cache.key'), $minutes, $checker);
+        }
+
+        return $checker();
     }
 
     /**
@@ -142,6 +180,25 @@ class Service
         }
 
         return $health;
+    }
+
+    /**
+     * @return \Closure
+     */
+    private function makeResourceChecker()
+    {
+        $resourceChecker = function ($allowGlobal) {
+            $this->resources = $this->getResources()->map(function ($item, $key) use ($allowGlobal) {
+                if ($item['is_global'] == $allowGlobal) {
+                    $item['health'] = $this->checkResource($key);
+                }
+
+                return $item;
+            })
+            ;
+        };
+
+        return $resourceChecker;
     }
 
     /**
