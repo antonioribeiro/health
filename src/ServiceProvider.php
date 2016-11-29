@@ -95,7 +95,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register console commands.
-     *
      */
     private function registerConsoleCommands()
     {
@@ -110,10 +109,8 @@ class ServiceProvider extends IlluminateServiceProvider
         })->describe('Check resources health and send error notifications.');
     }
 
-
     /**
      * Register event listeners.
-     *
      */
     private function registerEventListeners()
     {
@@ -148,7 +145,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register service.
-     *
      */
     private function registerService()
     {
@@ -159,15 +155,13 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register scheduled tasks.
-     *
      */
     private function registerTasks()
     {
         if (config('health.scheduler.enabled') &&
             $frequency = config('health.scheduler.frequency') &&
             config('health.notifications.enabled')
-        )
-        {
+        ) {
             $scheduler = app(Schedule::class);
 
             $scheduler->call($this->healthService->getSilentChecker())->{$frequency}();
