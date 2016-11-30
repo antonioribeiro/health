@@ -5,13 +5,13 @@ namespace PragmaRX\Health;
 use Event;
 use Artisan;
 use Illuminate\Routing\Router;
+use PragmaRX\Health\Support\Cache;
+use PragmaRX\Health\Support\ResourceLoader;
 use Illuminate\Console\Scheduling\Schedule;
 use PragmaRX\Health\Events\RaiseHealthIssue;
+use PragmaRX\Health\Support\ResourceChecker;
 use PragmaRX\Health\Listeners\NotifyHealthIssue;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-use PragmaRX\Health\Support\Cache;
-use PragmaRX\Health\Support\ResourceChecker;
-use PragmaRX\Health\Support\ResourceLoader;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -23,22 +23,29 @@ class ServiceProvider extends IlluminateServiceProvider
     protected $app;
 
     /**
+     * The health service.
+     *
      * @var
      */
     private $healthService;
 
     /**
+     * All artisan commands.
+     *
      * @var
      */
     private $commands;
 
     /**
+     * The router.
+     *
      * @var
      */
     private $router;
 
     /**
      * Configure package paths.
+     *
      */
     private function configurePaths()
     {
@@ -53,10 +60,25 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Configure package folder views.
+     *
      */
     private function configureViews()
     {
         $this->loadViewsFrom(realpath(__DIR__.'/views'), 'pragmarx/health');
+    }
+
+    /**
+     * Get the cache closure for instantiation.
+     *
+     * @return \Closure
+     */
+    private function getCacheClosure()
+    {
+        $cacheClosure = function () {
+            return new Cache();
+        };
+
+        return $cacheClosure;
     }
 
     /**
@@ -70,6 +92,24 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
+     * Get the resource checker closure for instantiation.
+     *
+     * @param $resourceLoader
+     * @param $cache
+     * @return \Closure
+     */
+    private function getResourceCheckerClosure($resourceLoader, $cache)
+    {
+        $resourceCheckerInstance = function () use ($resourceLoader, $cache) {
+            return new ResourceChecker($resourceLoader, $cache);
+        };
+
+        return $resourceCheckerInstance;
+    }
+
+    /**
+     * Get the current router.
+     *
      * @return mixed
      */
     private function getRouter()
@@ -86,6 +126,8 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
+     * Instantiate commands.
+     *
      * @return \Illuminate\Foundation\Application|mixed
      */
     private function instantiateCommands()
@@ -107,6 +149,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Merge configuration.
+     *
      */
     private function mergeConfig()
     {
@@ -141,6 +184,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register console commands.
+     *
      */
     private function registerConsoleCommands()
     {
@@ -157,6 +201,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register event listeners.
+     *
      */
     private function registerEventListeners()
     {
@@ -165,6 +210,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register routes.
+     *
      */
     private function registerRoutes()
     {
@@ -191,22 +237,38 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register service.
+     *
      */
     private function registerServices()
     {
         $resourceLoader = new ResourceLoader();
 
-        $this->app->singleton('pragmarx.health.cache', $cache = new Cache());
+        $cacheClosure = $this->getCacheClosure();
 
-        $this->app->singleton('pragmarx.health.resource.checker', $resourceChecker = new ResourceChecker($resourceLoader, $cache));
+        $cache = $cacheClosure();
 
-        $this->app->singleton('pragmarx.health', $this->instantiateService($resourceChecker, $cache));
+        $resourceCheckerClosure = $this->getResourceCheckerClosure($resourceLoader, $cache);
+
+        $resourceChecker = $resourceCheckerClosure();
+
+        $heathServiceClosure = function() use ($resourceChecker, $cache) {
+            return $this->instantiateService($resourceChecker, $cache);
+        };
+
+        $this->heathService = $heathServiceClosure();
+
+        $this->app->singleton('pragmarx.health.cache', $cacheClosure);
+
+        $this->app->singleton('pragmarx.health.resource.checker', $resourceCheckerClosure);
+
+        $this->app->singleton('pragmarx.health', $heathServiceClosure);
 
         $this->app->singleton('pragmarx.health.commands', $this->instantiateCommands());
     }
 
     /**
      * Register scheduled tasks.
+     *
      */
     private function registerTasks()
     {

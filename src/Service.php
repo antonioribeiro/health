@@ -116,7 +116,7 @@ class Service
      */
     private function getResource($name)
     {
-        return $this->resourceChecker->getResources($name);
+        return $this->resourceChecker->getResource($name);
     }
 
     /**
