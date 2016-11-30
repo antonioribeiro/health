@@ -42,7 +42,6 @@ class Service
 
     /**
      * Service constructor.
-     *
      */
     public function __construct()
     {
@@ -91,7 +90,6 @@ class Service
 
         return $this->getResources();
     }
-
 
     private function flushCache()
     {
