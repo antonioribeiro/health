@@ -19,6 +19,6 @@ class Mail extends BaseChannel
                 config('health.notifications.from.address'),
                 config('health.notifications.from.name')
             )
-            ->action($this->getActionTitle(), $this->getActionLink($item));
+            ->action($this->getActionTitle(), $this->getActionLink());
     }
 }

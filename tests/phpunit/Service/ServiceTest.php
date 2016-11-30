@@ -1,5 +1,7 @@
 <?php
 
+use PragmaRX\Health\tests\phpunit\Service;
+
 use Illuminate\Support\Collection;
 use PragmaRX\Health\ServiceProvider;
 
