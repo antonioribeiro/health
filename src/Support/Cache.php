@@ -16,7 +16,6 @@ class Cache
 
     /**
      * Flush cache.
-     *
      */
     public function flush()
     {

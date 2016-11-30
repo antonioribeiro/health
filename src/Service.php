@@ -34,7 +34,6 @@ class Service
 
     /**
      * Check Resources.
-     *
      */
     public function checkResources()
     {
@@ -130,7 +129,6 @@ class Service
 
     /**
      * Load all resources.
-     *
      */
     public function loadResources()
     {
