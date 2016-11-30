@@ -43,13 +43,26 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private $router;
 
+    /**
+     * Cache closure.
+     *
+     * @var
+     */
     private $cacheClosure;
 
+    /**
+     * Resource checker closure.
+     *
+     * @var
+     */
     private $resourceCheckerClosure;
 
-    private $heathServiceClosure;
-
-    private $heathService;
+    /**
+     * Health service closure.
+     *
+     * @var
+     */
+    private $healthServiceClosure;
 
     /**
      * Configure package paths.
@@ -248,11 +261,14 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->app->singleton('pragmarx.health.resource.checker', $this->resourceCheckerClosure);
 
-        $this->app->singleton('pragmarx.health', $this->heathServiceClosure);
+        $this->app->singleton('pragmarx.health', $this->healthServiceClosure);
 
         $this->app->singleton('pragmarx.health.commands', $this->instantiateCommands());
     }
 
+    /**
+     *
+     */
     public function createServiceClosures()
     {
         $resourceLoader = new ResourceLoader();
@@ -265,11 +281,11 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $resourceChecker = ($this->resourceCheckerClosure)();
 
-        $this->heathServiceClosure = function () use ($resourceChecker, $cache) {
+        $this->healthServiceClosure = function () use ($resourceChecker, $cache) {
             return $this->instantiateService($resourceChecker, $cache);
         };
 
-        $this->heathService = ($this->heathServiceClosure)();
+        $this->healthService = ($this->healthServiceClosure)();
     }
 
     /**
