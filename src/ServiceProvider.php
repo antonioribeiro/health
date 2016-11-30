@@ -5,6 +5,7 @@ namespace PragmaRX\Health;
 use Event;
 use Artisan;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Routing\Router;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Listeners\NotifyHealthIssue;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
@@ -20,6 +21,11 @@ class ServiceProvider extends IlluminateServiceProvider
      * @var
      */
     private $commands;
+
+    /**
+     * @var
+     */
+    private $router;
 
     /**
      * Configure package paths.
@@ -44,11 +50,29 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
+     * Get the health service.
+     *
      * @return mixed
      */
     public function getHealthService()
     {
         return $this->healthService;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getRouter()
+    {
+        if (! $this->router) {
+            $this->router = $this->app->router;
+
+            if (! $this->router instanceof Router) {
+                $this->router = app()->router;
+            }
+        }
+
+        return $this->router;
     }
 
     /**
@@ -130,22 +154,22 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function registerRoutes()
     {
-        $this->app->router->get(config('health.routes.prefix').config('health.routes.suffixes.panel'), [
+        $this->getRouter()->get(config('health.routes.prefix').config('health.routes.suffixes.panel'), [
             'as' => 'pragmarx.health.panel',
             'uses' => config('health.actions.panel'),
         ]);
 
-        $this->app->router->get(config('health.routes.prefix').config('health.routes.suffixes.check'), [
+        $this->getRouter()->get(config('health.routes.prefix').config('health.routes.suffixes.check'), [
             'as' => 'pragmarx.health.check',
             'uses' => config('health.actions.check'),
         ]);
 
-        $this->app->router->get(config('health.routes.prefix').config('health.routes.suffixes.string'), [
+        $this->getRouter()->get(config('health.routes.prefix').config('health.routes.suffixes.string'), [
             'as' => 'pragmarx.health.string',
             'uses' => config('health.actions.string'),
         ]);
 
-        $this->app->router->get(config('health.routes.prefix').config('health.routes.suffixes.resource').'/{name}', [
+        $this->getRouter()->get(config('health.routes.prefix').config('health.routes.suffixes.resource').'/{name}', [
             'as' => 'pragmarx.health.resource',
             'uses' => config('health.actions.resource'),
         ]);
@@ -167,7 +191,7 @@ class ServiceProvider extends IlluminateServiceProvider
     private function registerTasks()
     {
         if (config('health.scheduler.enabled') &&
-            $frequency = config('health.scheduler.frequency') &&
+            ($frequency = config('health.scheduler.frequency')) &&
             config('health.notifications.enabled')
         ) {
             $scheduler = app(Schedule::class);

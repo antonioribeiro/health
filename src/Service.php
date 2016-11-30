@@ -43,12 +43,9 @@ class Service
     /**
      * Service constructor.
      *
-     * @param Request $request
      */
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->request = $request;
-
         $this->loadResources();
     }
 
@@ -102,7 +99,7 @@ class Service
             return;
         }
 
-        if ($this->getCacheMinutes() !== false && $this->request->get('flush')) {
+        if ($this->getCacheMinutes() !== false && $this->getCurrentRequest()->get('flush')) {
             Cache::forget(config('health.cache.key'));
 
             $this->cacheFlushed = true;
@@ -131,6 +128,11 @@ class Service
         return $checker();
     }
 
+    private function getCurrentRequest()
+    {
+        return app(Request::class);
+    }
+
     /**
      * @return mixed
      */
@@ -155,7 +157,7 @@ class Service
 
     /**
      * @param $name
-     * @return bool
+     * @return array
      */
     private function checkResource($name)
     {
@@ -214,6 +216,7 @@ class Service
             try {
                 event(new RaiseHealthIssue($resource, $channel));
             } catch (\Exception $exception) {
+                // Notifications are broken, ignore it
             }
         });
     }
@@ -284,7 +287,7 @@ class Service
         });
 
         if ($sortBy = config('health.sort_by')) {
-            $this->resources = $this->resources->sortBy(function ($item, $key) use ($sortBy) {
+            $this->resources = $this->resources->sortBy(function ($item) use ($sortBy) {
                 return $item['is_global']
                         ? 0
                         : $item[$sortBy];
