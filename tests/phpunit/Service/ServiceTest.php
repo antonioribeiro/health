@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Collection;
-use Mockery as m;
 use PragmaRX\Health\ServiceProvider;
 
 class ServiceTest extends PHPUnit_Framework_TestCase
