@@ -7,17 +7,28 @@ class ServiceTest extends PHPUnit_Framework_TestCase
 {
     private $service;
 
+    private function getConfig()
+    {
+        $config = require __DIR__.'/config.php';
+
+        return $config;
+    }
+
     public function setUp()
     {
-        $app = require __DIR__.'/../../../vendor/laravel/laravel/bootstrap/app.php';
+        $this->app = require __DIR__.'/../../../vendor/laravel/laravel/bootstrap/app.php';
 
-        $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+        $kernel = $this->app->make(Illuminate\Contracts\Http\Kernel::class);
 
         $kernel->handle(
             $request = Illuminate\Http\Request::capture()
         );
 
-        $this->serviceProvider = $app->register(ServiceProvider::class);
+        $this->config = $this->app->make('config');
+
+        $this->config->set('health', $this->getConfig());
+
+        $this->serviceProvider = $this->app->register(ServiceProvider::class);
 
         $this->service = $this->serviceProvider->getHealthService();
 
