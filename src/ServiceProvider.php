@@ -45,7 +45,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Configure package paths.
-     *
      */
     private function configurePaths()
     {
@@ -60,7 +59,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Configure package folder views.
-     *
      */
     private function configureViews()
     {
@@ -149,7 +147,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Merge configuration.
-     *
      */
     private function mergeConfig()
     {
@@ -184,7 +181,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register console commands.
-     *
      */
     private function registerConsoleCommands()
     {
@@ -201,7 +197,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register event listeners.
-     *
      */
     private function registerEventListeners()
     {
@@ -210,7 +205,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register routes.
-     *
      */
     private function registerRoutes()
     {
@@ -237,7 +231,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register service.
-     *
      */
     private function registerServices()
     {
@@ -251,7 +244,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $resourceChecker = $resourceCheckerClosure();
 
-        $heathServiceClosure = function() use ($resourceChecker, $cache) {
+        $heathServiceClosure = function () use ($resourceChecker, $cache) {
             return $this->instantiateService($resourceChecker, $cache);
         };
 
@@ -268,7 +261,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
     /**
      * Register scheduled tasks.
-     *
      */
     private function registerTasks()
     {
