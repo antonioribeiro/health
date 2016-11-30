@@ -21,6 +21,7 @@
   },
 
   "require-dev": {
+    "laravel/laravel": "^5.3"
   },
 
   "autoload": {
