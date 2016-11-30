@@ -4,11 +4,14 @@ namespace PragmaRX\Health;
 
 use Event;
 use Artisan;
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Routing\Router;
+use Illuminate\Console\Scheduling\Schedule;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Listeners\NotifyHealthIssue;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use PragmaRX\Health\Support\Cache;
+use PragmaRX\Health\Support\ResourceChecker;
+use PragmaRX\Health\Support\ResourceLoader;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -91,11 +94,15 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
-     * @return \Illuminate\Foundation\Application|mixed
+     * Instantiate the main service.
+     *
+     * @param $resourceChecker
+     * @param $cache
+     * @return Service
      */
-    private function instantiateService()
+    private function instantiateService($resourceChecker, $cache)
     {
-        return $this->healthService = app(Service::class);
+        return $this->healthService = new Service($resourceChecker, $cache);
     }
 
     /**
@@ -121,7 +128,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->configurePaths();
 
-        $this->registerService();
+        $this->registerServices();
 
         $this->registerRoutes();
 
@@ -185,9 +192,15 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * Register service.
      */
-    private function registerService()
+    private function registerServices()
     {
-        $this->app->singleton('pragmarx.health', $this->instantiateService());
+        $resourceLoader = new ResourceLoader();
+
+        $this->app->singleton('pragmarx.health.cache', $cache = new Cache());
+
+        $this->app->singleton('pragmarx.health.resource.checker', $resourceChecker = new ResourceChecker($resourceLoader, $cache));
+
+        $this->app->singleton('pragmarx.health', $this->instantiateService($resourceChecker, $cache));
 
         $this->app->singleton('pragmarx.health.commands', $this->instantiateCommands());
     }
