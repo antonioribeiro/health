@@ -128,7 +128,7 @@ return [
             'checker' => PragmaRX\Health\Checkers\HealthChecker::class,
             'is_global' => true,
             'notify' => false,
-            'error_message' => 'At least one resource failed the health check.',
+            'error_message' => 'This is a test only error message.',
         ],
 
         'database' => [
@@ -163,7 +163,7 @@ return [
             'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\HttpsChecker::class,
             'notify' => true,
-            'url' => config('app.url'),
+            'url' => '',
         ],
 
         'http' => [
@@ -171,7 +171,7 @@ return [
             'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\HttpChecker::class,
             'notify' => true,
-            'url' => config('app.url'),
+            'url' => '',
         ],
 
         'mail' => [
