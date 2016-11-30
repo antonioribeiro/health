@@ -31,11 +31,6 @@ class Service
     private $currentAction = 'check';
 
     /**
-     * @var Request
-     */
-    private $request;
-
-    /**
      * @var
      */
     private $cacheFlushed;
