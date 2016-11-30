@@ -266,9 +266,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->app->singleton('pragmarx.health.commands', $this->instantiateCommands());
     }
 
-    /**
-     *
-     */
+
     public function createServiceClosures()
     {
         $resourceLoader = new ResourceLoader();
