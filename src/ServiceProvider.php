@@ -44,6 +44,14 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
+     * @return mixed
+     */
+    public function getHealthService()
+    {
+        return $this->healthService;
+    }
+
+    /**
      * @return \Illuminate\Foundation\Application|mixed
      */
     private function instantiateCommands()
