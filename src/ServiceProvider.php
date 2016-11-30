@@ -13,6 +13,13 @@ use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 class ServiceProvider extends IlluminateServiceProvider
 {
     /**
+     * The application instance.
+     *
+     * @var \Illuminate\Foundation\Application
+     */
+    protected $app;
+
+    /**
      * @var
      */
     private $healthService;
@@ -50,7 +57,7 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
-     * Get the health service.
+     * Return the health service.
      *
      * @return mixed
      */
