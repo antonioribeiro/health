@@ -87,6 +87,34 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
+     * Create health service.
+     */
+    private function createHealthService()
+    {
+        $resourceChecker = ($this->resourceCheckerClosure)();
+
+        $cache = ($this->cacheClosure)();
+
+        $this->healthServiceClosure = function () use ($resourceChecker, $cache) {
+            return $this->instantiateService($resourceChecker, $cache);
+        };
+
+        $this->healthService = ($this->healthServiceClosure)();
+    }
+
+    /**
+     * Create resource checker.
+     */
+    private function createResourceChecker()
+    {
+        $resourceLoader = new ResourceLoader();
+
+        $this->cacheClosure = $this->getCacheClosure();
+
+        $this->resourceCheckerClosure = $this->getResourceCheckerClosure($resourceLoader, ($this->cacheClosure)());
+    }
+
+    /**
      * Get the cache closure for instantiation.
      *
      * @return \Closure
@@ -255,7 +283,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function registerServices()
     {
-        $this->createServiceClosures();
+        $this->createServices();
 
         $this->app->singleton('pragmarx.health.cache', $this->cacheClosure);
 
@@ -267,25 +295,13 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
-     *
+     * Create services.
      */
-    public function createServiceClosures()
+    public function createServices()
     {
-        $resourceLoader = new ResourceLoader();
+        $this->createResourceChecker();
 
-        $this->cacheClosure = $this->getCacheClosure();
-
-        $cache = ($this->cacheClosure)();
-
-        $this->resourceCheckerClosure = $this->getResourceCheckerClosure($resourceLoader, ($this->cacheClosure)());
-
-        $resourceChecker = ($this->resourceCheckerClosure)();
-
-        $this->healthServiceClosure = function () use ($resourceChecker, $cache) {
-            return $this->instantiateService($resourceChecker, $cache);
-        };
-
-        $this->healthService = ($this->healthServiceClosure)();
+        $this->createHealthService();
     }
 
     /**
