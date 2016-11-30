@@ -2,128 +2,43 @@
 
 namespace PragmaRX\Health;
 
-use Cache;
-use Exception;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use PragmaRX\Health\Events\RaiseHealthIssue;
+use PragmaRX\Health\Support\Cache;
+use PragmaRX\Health\Support\ResourceChecker;
 
 class Service
 {
     /**
-     * @var
+     * @var ResourceChecker
      */
-    private $resources;
+    private $resourceChecker;
 
     /**
-     * @var
+     * @var Cache
      */
-    private $notified = [];
-
-    /**
-     * @var
-     */
-    private $checked;
-
-    /**
-     * @var
-     */
-    private $currentAction = 'check';
-
-    /**
-     * @var
-     */
-    private $cacheFlushed;
+    private $cache;
 
     /**
      * Service constructor.
+     *
+     * @param ResourceChecker $resourceChecker
+     * @param Cache $cache
      */
-    public function __construct()
+    public function __construct(ResourceChecker $resourceChecker, Cache $cache)
     {
+        $this->resourceChecker = $resourceChecker;
+
+        $this->cache = $cache;
+
         $this->loadResources();
     }
 
     /**
-     * @param $name
-     * @param $health
-     * @param $resource
-     * @return bool
-     */
-    private function canNotify($name, $health, $resource)
-    {
-        return ! $health['healthy'] &&
-               $resource['notify'] &&
-               ! isset($this->notified[$name]) &&
-               config('health.notifications.enabled') &&
-               config('health.notifications.notify_on.'.$this->currentAction);
-    }
-
-    /**
-     * Check all resources.
+     * Check Resources.
      *
-     * @return array
      */
     public function checkResources()
     {
-        if ($this->checked) {
-            return $this->getResources();
-        }
-
-        $resourceChecker = $this->makeResourceChecker();
-
-        $checker = function () use ($resourceChecker) {
-            $resourceChecker(false);
-
-            $resourceChecker(true);
-
-            return $this->getResources();
-        };
-
-        $this->resources = $this->getCachedResources($checker);
-
-        $this->checked = true;
-
-        return $this->getResources();
-    }
-
-    private function flushCache()
-    {
-        if ($this->cacheFlushed) {
-            return;
-        }
-
-        if ($this->getCacheMinutes() !== false && $this->getCurrentRequest()->get('flush')) {
-            Cache::forget(config('health.cache.key'));
-
-            $this->cacheFlushed = true;
-        }
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getCacheMinutes()
-    {
-        return config('health.cache.minutes');
-    }
-
-    /**
-     * @param $checker
-     */
-    private function getCachedResources($checker)
-    {
-        $this->flushCache();
-
-        if (($minutes = $this->getCacheMinutes()) !== false) {
-            return Cache::remember(config('health.cache.key'), $minutes, $checker);
-        }
-
-        return $checker();
-    }
-
-    private function getCurrentRequest()
-    {
-        return app(Request::class);
+        return $this->resourceChecker->checkResources();
     }
 
     /**
@@ -149,72 +64,19 @@ class Service
     }
 
     /**
+     * Check one resource.
+     *
      * @param $name
      * @return array
      */
-    private function checkResource($name)
+    public function checkResource($name)
     {
-        $resource = $this->getResource($name);
-
-        try {
-            $resourceChecker = $this->getResourceCheckerInstance($name, $resource);
-
-            $resourceChecker->check($resource, $this->getResources());
-        } catch (Exception $exception) {
-            if (! isset($resourceChecker)) {
-                return [];
-            }
-
-            $resourceChecker->makeResult(false, 'Unknown error.');
-        }
-
-        $health = $resourceChecker->healthArray();
-
-        if ($this->canNotify($name, $health, $resource)) {
-            $resource['health'] = $health;
-
-            $this->notify($resource);
-
-            $this->notified[$name] = true;
-        }
-
-        return $health;
+        return $this->resourceChecker->checkResource($name);
     }
 
     /**
-     * @return \Closure
-     */
-    private function makeResourceChecker()
-    {
-        $resourceChecker = function ($allowGlobal) {
-            $this->resources = $this->getResources()->map(function ($item, $key) use ($allowGlobal) {
-                if ($item['is_global'] == $allowGlobal) {
-                    $item['health'] = $this->checkResource($key);
-                }
-
-                return $item;
-            });
-        };
-
-        return $resourceChecker;
-    }
-
-    /**
-     * @param $resource
-     * @return static
-     */
-    private function notify($resource)
-    {
-        return collect(config('health.notifications.channels'))->filter(function ($value, $channel) use ($resource) {
-            try {
-                event(new RaiseHealthIssue($resource, $channel));
-            } catch (\Exception $exception) {
-                // Notifications are broken, ignore it
-            }
-        });
-    }
-
-    /**
+     * Check and get a resource.
+     *
      * @param $name
      * @return mixed
      */
@@ -222,7 +84,7 @@ class Service
     {
         $this->checkResources();
 
-        return $this->getResources()[$name];
+        return $this->getResource($name);
     }
 
     /**
@@ -230,7 +92,7 @@ class Service
      */
     public function setAction($action)
     {
-        $this->currentAction = $action;
+        $this->resourceChecker->setCurrentAction($action);
     }
 
     /**
@@ -248,12 +110,14 @@ class Service
     }
 
     /**
+     * Get one resource.
+     *
      * @param $name
      * @return mixed
      */
     private function getResource($name)
     {
-        return $this->getResources()[$name];
+        return $this->resourceChecker->getResources($name);
     }
 
     /**
@@ -261,46 +125,21 @@ class Service
      */
     private function getResources()
     {
-        return $this->resources;
+        return $this->resourceChecker->getResources();
     }
 
     /**
-     * Load application resources.
+     * Load all resources.
+     *
      */
-    private function loadResources()
+    public function loadResources()
     {
-        $this->resources = collect(config('health.resources'))->map(function ($item, $key) {
-            $item['slug'] = $key;
-
-            $item['name'] = Str::studly($key);
-
-            $item['is_global'] = (isset($item['is_global']) && $item['is_global']);
-
-            return $item;
-        });
-
-        if ($sortBy = config('health.sort_by')) {
-            $this->resources = $this->resources->sortBy(function ($item) use ($sortBy) {
-                return $item['is_global']
-                        ? 0
-                        : $item[$sortBy];
-            });
-        }
+        $this->resourceChecker->loadResources();
     }
 
     /**
-     * @param $name
-     * @return \Illuminate\Foundation\Application|mixed
-     */
-    public function getResourceCheckerInstance($name, $resource)
-    {
-        return app(
-            $this->getResource($name)['checker'],
-            [$resource, $this->getResources()]
-        );
-    }
-
-    /**
+     * Make a string result of all resources.
+     *
      * @param $string
      * @param $checkSystem
      * @return string
@@ -315,24 +154,13 @@ class Service
     }
 
     /**
+     * Get results for panel.
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function panel()
     {
         return $this->health();
-    }
-
-    /**
-     * @param $name
-     * @return mixed
-     */
-    public function find($name)
-    {
-        foreach ($this->getResources() as $resource) {
-            if ($resource['slug'] == $name) {
-                return $resource;
-            }
-        }
     }
 
     /**
@@ -343,7 +171,7 @@ class Service
     public function getSilentChecker()
     {
         return function () {
-            $this->flushCache();
+            $this->cache->flush();
 
             return $this->checkResources();
         };
