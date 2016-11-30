@@ -103,7 +103,7 @@ class ResourceChecker
             $resourceChecker = $this->getResourceCheckerInstance($name, $resource);
 
             $resourceChecker->check($resource, $this->getResources());
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             if (! isset($resourceChecker)) {
                 return [];
             }
