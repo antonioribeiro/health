@@ -242,7 +242,6 @@ class ResourceChecker
 
     /**
      * Load all resources.
-     *
      */
     public function loadResources()
     {
