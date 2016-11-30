@@ -43,6 +43,14 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private $router;
 
+    private $cacheClosure;
+
+    private $resourceCheckerClosure;
+
+    private $heathServiceClosure;
+
+    private $heathService;
+
     /**
      * Configure package paths.
      */
@@ -234,29 +242,34 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function registerServices()
     {
+        $this->createServiceClosures();
+
+        $this->app->singleton('pragmarx.health.cache', $this->cacheClosure);
+
+        $this->app->singleton('pragmarx.health.resource.checker', $this->resourceCheckerClosure);
+
+        $this->app->singleton('pragmarx.health', $this->heathServiceClosure);
+
+        $this->app->singleton('pragmarx.health.commands', $this->instantiateCommands());
+    }
+
+    public function createServiceClosures()
+    {
         $resourceLoader = new ResourceLoader();
 
-        $cacheClosure = $this->getCacheClosure();
+        $this->cacheClosure = $this->getCacheClosure();
 
-        $cache = $cacheClosure();
+        $cache = ($this->cacheClosure)();
 
-        $resourceCheckerClosure = $this->getResourceCheckerClosure($resourceLoader, $cache);
+        $this->resourceCheckerClosure = $this->getResourceCheckerClosure($resourceLoader, ($this->cacheClosure)());
 
-        $resourceChecker = $resourceCheckerClosure();
+        $resourceChecker = ($this->resourceCheckerClosure)();
 
-        $heathServiceClosure = function () use ($resourceChecker, $cache) {
+        $this->heathServiceClosure = function () use ($resourceChecker, $cache) {
             return $this->instantiateService($resourceChecker, $cache);
         };
 
-        $this->heathService = $heathServiceClosure();
-
-        $this->app->singleton('pragmarx.health.cache', $cacheClosure);
-
-        $this->app->singleton('pragmarx.health.resource.checker', $resourceCheckerClosure);
-
-        $this->app->singleton('pragmarx.health', $heathServiceClosure);
-
-        $this->app->singleton('pragmarx.health.commands', $this->instantiateCommands());
+        $this->heathService = ($this->heathServiceClosure)();
     }
 
     /**
