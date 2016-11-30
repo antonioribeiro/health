@@ -254,7 +254,7 @@ class ResourceChecker
      * @param $name
      * @return mixed
      */
-    private function getResource($name)
+    public function getResource($name)
     {
         return $this->getResources()[$name];
     }
