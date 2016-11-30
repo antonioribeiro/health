@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\tests\phpunit\Service;
 
+use PHPUnit_Framework_TestCase;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\ServiceProvider;
 
@@ -20,10 +21,10 @@ class ServiceTest extends PHPUnit_Framework_TestCase
     {
         $this->app = require __DIR__.'/../../../vendor/laravel/laravel/bootstrap/app.php';
 
-        $kernel = $this->app->make(Illuminate\Contracts\Http\Kernel::class);
+        $kernel = $this->app->make(\Illuminate\Contracts\Http\Kernel::class);
 
         $kernel->handle(
-            $request = Illuminate\Http\Request::capture()
+            $request = \Illuminate\Http\Request::capture()
         );
 
         $this->config = $this->app->make('config');
