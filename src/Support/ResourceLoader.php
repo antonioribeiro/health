@@ -8,7 +8,6 @@ class ResourceLoader
 {
     /**
      * Load application resources.
-     *
      */
     public function loadResources()
     {
