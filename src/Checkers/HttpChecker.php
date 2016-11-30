@@ -54,6 +54,6 @@ class HttpChecker extends BaseChecker
 
     private function setScheme($url, $secure)
     {
-        return preg_replace('|^(?:http(s)?://)?(.+)$|', 'http'.($secure ? 's' : '').'\\1://\\2', $url);
+        return preg_replace('|^((https?:)?\/\/)?(.*)|', 'http'.($secure ? 's' : '').'://\\3', $url);
     }
 }
