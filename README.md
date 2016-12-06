@@ -70,7 +70,7 @@ Use the command `health:panel` to view the status of your services in console.
 
 ### health:check
 
-Use the command `health:check` to checl all your resources and send notifications on failures.
+Use the command `health:check` to check all your resources and send notifications on failures.
 
 ![default panel](docs/images/console-panel.png)
 
