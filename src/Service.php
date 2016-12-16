@@ -48,7 +48,7 @@ class Service
         $this->checkResources();
 
         return $this->getResources()->reduce(function ($carry, $item) {
-            return $carry && $item['health'];
+            return $carry && $item['health']['healthy'];
         }, true);
     }
 
