@@ -30,11 +30,22 @@ class Health extends Controller
     {
         $this->healthService->setAction('check');
 
-        $health = $this->healthService->health();
+        return response(
+            $this->healthService->health(),
+            $this->getReponseCode()
+        );
+    }
 
-        $code = $this->healthService->isHealthy() ? 200 : 500;
+    /**
+     * @return int
+     */
+    private function getReponseCode()
+    {
+        $code = $this->healthService->isHealthy()
+            ? 200
+            : 500;
 
-        return response($health, $code);
+        return $code;
     }
 
     /**
@@ -54,7 +65,10 @@ class Health extends Controller
     {
         $this->healthService->setAction('string');
 
-        return $this->healthService->string();
+        return response(
+            $this->healthService->string(),
+            $this->getReponseCode()
+        );
     }
 
     /**
@@ -64,8 +78,10 @@ class Health extends Controller
     {
         $this->healthService->setAction('panel');
 
-        return view(config('health.views.panel'), [
+        $view = view(config('health.views.panel'), [
             'health' => $this->healthService->panel(),
         ]);
+
+        return response($view, $this->getReponseCode());
     }
 }
