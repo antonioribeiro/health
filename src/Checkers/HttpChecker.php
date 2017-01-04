@@ -42,6 +42,9 @@ class HttpChecker extends BaseChecker
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl ? 1 : 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $ssl ? 2 : 0);
 
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 2000);
+        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 2000);
+
         // Get the response
         $response = curl_exec($ch);
         $error = curl_error($ch);

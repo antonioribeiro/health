@@ -222,6 +222,18 @@ return [
             'contents' => Illuminate\Support\Str::random(1024),
             'error_message' => 'Cloud storage is not retrieving files correctly.',
         ],
+
+        'queue' => [
+            'abbreviation' => 'queue',
+            'name' => 'health-queue',
+            'cache_instance' => 'cache',
+            'test_job' => PragmaRX\Health\Support\Jobs\TestJob::class,
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\QueueChecker::class,
+            'notify' => true,
+            'connection' => '', // empty for default
+            'error_message' => 'Queue system is not working properly.',
+        ],
     ],
 
 ];
