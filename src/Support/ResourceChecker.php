@@ -104,21 +104,10 @@ class ResourceChecker
     {
         $resource = $this->getResource($name);
 
-        try {
-            $resourceChecker = $this->getResourceCheckerInstance($name, $resource);
+        list($resourceChecker, $result) = $this->tryToCheckResource($name, $resource);
 
-            $resourceChecker->check($resource, $this->getResources());
-        } catch (\Exception $exception) {
-            if (! isset($resourceChecker)) {
-                return [
-                    'healthy' => false,
-                    'message' => $exception->getMessage()
-                                    ? $exception->getMessage()
-                                    : static::UNKNOWN_ERROR,
-                ];
-            }
-
-            $resourceChecker->makeResult(false, static::UNKNOWN_ERROR);
+        if ($result) {
+            return $result;
         }
 
         $health = $resourceChecker->healthArray();
@@ -187,6 +176,22 @@ class ResourceChecker
             ! isset($this->notified[$name]) &&
             config('health.notifications.enabled') &&
             config('health.notifications.notify_on.'.$this->currentAction);
+    }
+
+    private function makeResult($exception)
+    {
+        $message = $exception->getMessage()
+                    ? $exception->getMessage()
+                    : static::UNKNOWN_ERROR;
+
+        if (! isset($resourceChecker)) {
+            return [
+                'healthy' => false,
+                'message' => $message
+            ];
+        }
+
+        $resourceChecker->makeResult(false, $message);
     }
 
     /**
@@ -267,5 +272,33 @@ class ResourceChecker
     public function getResource($name)
     {
         return $this->getResources()[$name];
+    }
+
+    /**
+     * @param $name
+     * @param $resource
+     * @return array
+     */
+    private function tryToCheckResource($name, $resource): array
+    {
+        try {
+            try {
+                $resourceChecker = $this->getResourceCheckerInstance($name, $resource);
+
+                $resourceChecker->check($resource, $this->getResources());
+
+                return [$resourceChecker, null];
+            }
+            catch (\Exception $exception) {
+                $result = $this->makeResult($exception);
+
+                return [$resourceChecker, $result];
+            }
+        }
+        catch (\Throwable $error) {
+            $result = $this->makeResult($error);
+
+            return [$resourceChecker, $result];
+        }
     }
 }
