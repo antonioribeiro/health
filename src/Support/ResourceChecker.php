@@ -7,7 +7,7 @@ use PragmaRX\Health\Events\RaiseHealthIssue;
 class ResourceChecker
 {
     /**
-     * Unknown error
+     * Unknown error.
      */
     const UNKNOWN_ERROR = 'Unknown error.';
 
