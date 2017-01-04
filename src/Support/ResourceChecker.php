@@ -7,6 +7,11 @@ use PragmaRX\Health\Events\RaiseHealthIssue;
 class ResourceChecker
 {
     /**
+     * Unknown error
+     */
+    const UNKNOWN_ERROR = 'Unknown error.';
+
+    /**
      * The current action.
      *
      * @var
@@ -105,10 +110,15 @@ class ResourceChecker
             $resourceChecker->check($resource, $this->getResources());
         } catch (\Exception $exception) {
             if (! isset($resourceChecker)) {
-                return [];
+                return [
+                    'healthy' => false,
+                    'message' => $exception->getMessage()
+                                    ? $exception->getMessage()
+                                    : static::UNKNOWN_ERROR,
+                ];
             }
 
-            $resourceChecker->makeResult(false, 'Unknown error.');
+            $resourceChecker->makeResult(false, static::UNKNOWN_ERROR);
         }
 
         $health = $resourceChecker->healthArray();
