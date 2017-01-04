@@ -20,13 +20,14 @@ This package checks if the application resources are running as they should and 
 
 Heath has pre-configured resource checkers for the following services:
 
-- Database
 - Cache
+- Cloud Storage
+- Database
+- Filesystem
 - Framework (dummy checker)
 - Http & Https
 - Mail
-- Filesystem
-- Cloud Storage
+- Queue
 
 But you can add anything else you need!
 
