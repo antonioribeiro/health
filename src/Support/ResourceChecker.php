@@ -187,7 +187,7 @@ class ResourceChecker
         if (! isset($resourceChecker)) {
             return [
                 'healthy' => false,
-                'message' => $message
+                'message' => $message,
             ];
         }
 
@@ -288,14 +288,12 @@ class ResourceChecker
                 $resourceChecker->check($resource, $this->getResources());
 
                 return [$resourceChecker, null];
-            }
-            catch (\Exception $exception) {
+            } catch (\Exception $exception) {
                 $result = $this->makeResult($exception);
 
                 return [$resourceChecker, $result];
             }
-        }
-        catch (\Throwable $error) {
+        } catch (\Throwable $error) {
             $result = $this->makeResult($error);
 
             return [$resourceChecker, $result];
