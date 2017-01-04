@@ -5,7 +5,6 @@ namespace PragmaRX\Health\Checkers;
 use Queue;
 use Illuminate\Queue\Worker;
 use Illuminate\Queue\WorkerOptions;
-use PragmaRX\Health\Support\Jobs\TestJob;
 
 class QueueChecker extends BaseChecker
 {
