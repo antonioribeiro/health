@@ -178,7 +178,7 @@ class ResourceChecker
             config('health.notifications.notify_on.'.$this->currentAction);
     }
 
-    private function makeResult($exception)
+    private function makeResult($exception, $resourceChecker)
     {
         $message = $exception->getMessage()
                     ? $exception->getMessage()
@@ -186,12 +186,17 @@ class ResourceChecker
 
         if (! isset($resourceChecker)) {
             return [
-                'healthy' => false,
-                'message' => $message
+                null,
+                [
+                    'healthy' => false,
+                    'message' => $message
+                ]
             ];
         }
 
         $resourceChecker->makeResult(false, $message);
+
+        return [$resourceChecker, null];
     }
 
     /**
@@ -290,9 +295,7 @@ class ResourceChecker
                 return [$resourceChecker, null];
             }
             catch (\Exception $exception) {
-                $result = $this->makeResult($exception);
-
-                return [$resourceChecker, $result];
+                return $this->makeResult($exception, $resourceChecker);
             }
         }
         catch (\Throwable $error) {
