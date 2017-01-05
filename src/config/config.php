@@ -234,6 +234,17 @@ return [
             'connection' => '', // empty for default
             'error_message' => 'Queue system is not working properly.',
         ],
+
+        'redis' => [
+            'abbreviation' => 'rds',
+            'key' => 'health:redis:key',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\RedisChecker::class,
+            'notify' => true,
+            'connection' => '', // empty for default
+            'error_message' => 'Got a wrong value back from Redis.',
+        ],
+
     ],
 
 ];
