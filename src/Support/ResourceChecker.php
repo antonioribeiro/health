@@ -189,8 +189,8 @@ class ResourceChecker
                 null,
                 [
                     'healthy' => false,
-                    'message' => $message
-                ]
+                    'message' => $message,
+                ],
             ];
         }
 
@@ -293,8 +293,7 @@ class ResourceChecker
                 $resourceChecker->check($resource, $this->getResources());
 
                 return [$resourceChecker, null];
-            }
-            catch (\Exception $exception) {
+            } catch (\Exception $exception) {
                 return $this->makeResult($exception, $resourceChecker);
             }
         } catch (\Throwable $error) {
