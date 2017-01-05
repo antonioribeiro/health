@@ -103,8 +103,12 @@ class Service
 
         return collect($this->getResources())->reduce(function ($current, $item) {
             return $current.
-                ($current ? config('health.string.glue') : '').
-                $this->makeString($item['abbreviation'], $this->checkResource($item['slug']));
+                ($current ? config('health.string.glue') : '')
+                .
+                $this->makeString(
+                    $item['abbreviation'],
+                    $this->checkResource($item['slug'])['healthy']
+                );
         });
     }
 
