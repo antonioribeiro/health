@@ -186,11 +186,16 @@ class ResourceChecker
 
         if (! isset($resourceChecker)) {
             return [
+<<<<<<< HEAD
                 null,
                 [
                     'healthy' => false,
                     'message' => $message
                 ]
+=======
+                'healthy' => false,
+                'message' => $message,
+>>>>>>> c5040bd208089a06e820da489d870690e0319d68
             ];
         }
 
@@ -297,11 +302,8 @@ class ResourceChecker
             catch (\Exception $exception) {
                 return $this->makeResult($exception, $resourceChecker);
             }
-        }
-        catch (\Throwable $error) {
-            $result = $this->makeResult($error);
-
-            return [$resourceChecker, $result];
+        } catch (\Throwable $error) {
+            return [$resourceChecker, $this->makeResult($error)];
         }
     }
 }
