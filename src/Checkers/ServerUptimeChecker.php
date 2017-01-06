@@ -35,8 +35,7 @@ class ServerUptimeChecker extends BaseChecker
 
         return (! is_array($system_string) || ! $system_string)
             ? ''
-            : $system_string[0]
-        ;
+            : $system_string[0];
     }
 
     /**
@@ -89,23 +88,20 @@ class ServerUptimeChecker extends BaseChecker
         preg_match($this->resource['regex'], $system_string, $matches, PREG_OFFSET_CAPTURE);
 
         $matches = collect($matches)->filter(function ($item, $key) {
-            return !is_numeric($key);
+            return ! is_numeric($key);
         })->map(function ($item, $key) {
             $return = $item[0];
 
             if (starts_with($key, 'load')) {
                 $return = floatval($return);
-            }
-            elseif (is_numeric($return)) {
+            } elseif (is_numeric($return)) {
                 $return = (int) $return;
-            }
-            elseif (empty($return)) {
+            } elseif (empty($return)) {
                 $return = null;
             }
 
             return $return;
-        })
-        ;
+        });
 
         $matches['uptime_string'] = $system_string;
 
