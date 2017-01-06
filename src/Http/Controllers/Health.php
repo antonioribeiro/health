@@ -82,6 +82,6 @@ class Health extends Controller
             'health' => $this->healthService->panel(),
         ]);
 
-        return response($view, $this->getReponseCode());
+        return response((string) $view, $this->getReponseCode());
     }
 }
