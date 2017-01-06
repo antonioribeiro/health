@@ -39,7 +39,7 @@ class ServerUptimeChecker extends BaseChecker
             throw new Exception((string) $error);
         }
 
-        return (! is_array($system_string) || ! empty($system_string))
+        return (! is_array($system_string) || empty($system_string))
             ? ''
             : $system_string[0];
     }
