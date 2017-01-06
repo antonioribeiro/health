@@ -25,6 +25,12 @@ class ServerUptimeChecker extends BaseChecker
         return $this->makeResult(! $rebooted, $this->makeMessage($current, $saved));
     }
 
+    /**
+     * Get current uptime.
+     *
+     * @return static
+     * @throws Exception
+     */
     protected function getCurrentUptime()
     {
         $error = exec($this->resource['command'], $system_string, $output);
@@ -34,8 +40,6 @@ class ServerUptimeChecker extends BaseChecker
         }
 
         $system_string = ! is_array($system_string) || ! $system_string ? '' : $system_string[0];
-
-        $system_string = '0:54  up 0 days, 0:01, 1 users, load averages: 1.43 1.66 1.64';
 
         preg_match($this->resource['regex'], $system_string, $matches, PREG_OFFSET_CAPTURE);
 
@@ -61,6 +65,8 @@ class ServerUptimeChecker extends BaseChecker
     }
 
     /**
+     * Get cache filename.
+     *
      * @return string
      */
     protected function getFileName(): string
@@ -68,6 +74,11 @@ class ServerUptimeChecker extends BaseChecker
         return storage_path($this->resource['save_to']);
     }
 
+    /**
+     * Load cache.
+     *
+     * @return \Illuminate\Support\Collection|void
+     */
     public function load()
     {
         if (! file_exists($file = $this->getFileName())) {
@@ -77,11 +88,22 @@ class ServerUptimeChecker extends BaseChecker
         return collect(json_decode(file_get_contents($file)));
     }
 
+    /**
+     * Save to cache file.
+     *
+     * @param $current
+     */
     public function save($current)
     {
         json_encode(file_put_contents($this->getFileName(), $current), true);
     }
 
+    /**
+     * Convert uptime to seconds.
+     *
+     * @param $date
+     * @return int
+     */
     protected function uptimeInSeconds($date)
     {
         return (isset($date['up_days']) ? $date['up_days'] * 24 * 60 : 0) +
@@ -89,6 +111,13 @@ class ServerUptimeChecker extends BaseChecker
                 ($date['up_minutes'] ? $date['up_minutes'] : 0);
     }
 
+    /**
+     * Make uptime message.
+     *
+     * @param $current
+     * @param $saved
+     * @return string
+     */
     protected function makeMessage($current, $saved)
     {
         $current = $this->toUptimeString($current);
@@ -98,6 +127,12 @@ class ServerUptimeChecker extends BaseChecker
         return sprintf($this->resource['error_message'], $current, $saved);
     }
 
+    /**
+     * Convert uptime to human readable string.
+     *
+     * @param $uptime
+     * @return string
+     */
     public function toUptimeString($uptime)
     {
         return (string) CarbonInterval::days(isset($uptime['up_days']) ? $uptime['up_days'] : 0)
