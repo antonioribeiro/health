@@ -39,9 +39,9 @@ class UptimeChecker extends BaseChecker
 
         preg_match($this->resource['regex'], $system_string, $matches, PREG_OFFSET_CAPTURE);
 
-        $matches = collect($matches)->filter(function($item, $key) {
+        $matches = collect($matches)->filter(function ($item, $key) {
             return ! is_numeric($key);
-        })->map(function($item, $key) {
+        })->map(function ($item, $key) {
             $return = $item[0];
 
             if (starts_with($key, 'load')) {
@@ -71,7 +71,7 @@ class UptimeChecker extends BaseChecker
     public function load()
     {
         if (! file_exists($file = $this->getFileName())) {
-            return null;
+            return;
         }
 
         return collect(json_decode(file_get_contents($file)));
@@ -87,7 +87,6 @@ class UptimeChecker extends BaseChecker
         return (isset($date['up_days']) ? $date['up_days'] * 24 * 60 : 0) +
                 (isset($date['up_hours']) ? $date['up_hours'] * 60 : 0) +
                 ($date['up_minutes'] ? $date['up_minutes'] : 0);
-        ;
     }
 
     protected function makeMessage($current, $saved)
