@@ -105,7 +105,7 @@ class ServerUptimeChecker extends BaseChecker
             }
 
             return $return;
-        });
+        })->toArray();
     }
 
     /**
