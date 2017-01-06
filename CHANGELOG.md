@@ -2,6 +2,12 @@
 
 ## Changelog
 
+### 0.2.0
+
+2017-01-05
+
+- Added Server Uptime checker 
+
 ### 0.1.6
 
 2017-01-05
