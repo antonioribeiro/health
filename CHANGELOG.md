@@ -3,6 +3,7 @@
 ## 0.1.7 - 2017-01-06
 ### Added
 - Server Uptime checker 
+- Server Load checker 
 
 ## 0.1.6 - 2017-01-05
 ### Added
