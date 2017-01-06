@@ -2,6 +2,8 @@
 
 namespace PragmaRX\Health\Support;
 
+use Throable;
+use Exception;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 
 class ResourceChecker
@@ -293,10 +295,10 @@ class ResourceChecker
                 $resourceChecker->check($resource, $this->getResources());
 
                 return [$resourceChecker, null];
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 return $this->makeResult($exception, $resourceChecker);
             }
-        } catch (\Throwable $error) {
+        } catch (Throwable $error) {
             return $this->makeResult(
                 $error,
                 isset($resourceChecker) ? $resourceChecker : null
