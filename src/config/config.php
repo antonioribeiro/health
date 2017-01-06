@@ -249,7 +249,7 @@ return [
             'abbreviation' => 'uptm',
             'columnSize' => '6',
             'regex' => '~(?<time_hour>\d{1,2}):(?<time_minute>\d{2})(?::(?<time_second>\d{2}))?\s+up\s+(?:(?<up_days>\d+)\s+days?,\s+)?\b(?:(?<up_hours>\d+):)?(?<up_minutes>\d+)(?:\s+(?:minute|minutes|min)?)?,\s+(?<users>\d+).+?(?<load1>\d+.\d+),?\s+(?<load2>\d+.\d+),?\s+(?<load3>\d+.\d+)~',
-            'checker' => PragmaRX\Health\Checkers\UptimeChecker::class,
+            'checker' => PragmaRX\Health\Checkers\ServerUptimeChecker::class,
             'command' => 'uptime 2>&1',
             'max_load' => 2.5,
             'save_to' => 'app/uptime-cache.json',
