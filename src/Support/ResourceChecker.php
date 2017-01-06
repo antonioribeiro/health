@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Support;
 
-use Throwable;
 use Exception;
+use Throwable;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 
 class ResourceChecker
