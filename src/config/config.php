@@ -248,14 +248,29 @@ return [
         'serverUptime' => [
             'abbreviation' => 'uptm',
             'columnSize' => '6',
-            'regex' => '~(?<time_hour>\d{1,2}):(?<time_minute>\d{2})(?::(?<time_second>\d{2}))?\s+up\s+(?:(?<up_days>\d+)\s+days?,\s+)?\b(?:(?<up_hours>\d+):)?(?<up_minutes>\d+)(?:\s+(?:minute|minutes|min)?)?,\s+(?<users>\d+).+?(?<load1>\d+.\d+),?\s+(?<load2>\d+.\d+),?\s+(?<load3>\d+.\d+)~',
+            'regex' => $uptimeRegex = '~(?<time_hour>\d{1,2}):(?<time_minute>\d{2})(?::(?<time_second>\d{2}))?\s+up\s+(?:(?<up_days>\d+)\s+days?,\s+)?\b(?:(?<up_hours>\d+):)?(?<up_minutes>\d+)(?:\s+(?:minute|minutes|min)?)?,\s+(?<users>\d+).+?(?<load_1>\d+.\d+),?\s+(?<load_5>\d+.\d+),?\s+(?<load_15>\d+.\d+)~',
             'checker' => PragmaRX\Health\Checkers\ServerUptimeChecker::class,
             'command' => 'uptime 2>&1',
-            'max_load' => 2.5,
             'save_to' => 'app/uptime-cache.json',
             'notify' => true,
             'action_message' => 'Your server was rebooted (Uptime Checker)',
             'error_message' => 'Looks like your server was recently rebooted, current uptime is now "%s" and it was "%s" before restart.',
+        ],
+
+        'serverLoad' => [
+            'abbreviation' => 'load',
+            'columnSize' => '6',
+            'regex' => $uptimeRegex,
+            'checker' => PragmaRX\Health\Checkers\ServerLoadChecker::class,
+            'command' => 'uptime 2>&1',
+            'max_load' => [
+                'load_1' => 2,
+                'load_5' => 1.5,
+                'load_15' => 1,
+            ],
+            'notify' => true,
+            'action_message' => 'Too much load! (Server Load Checker)',
+            'error_message' => 'Your server might be overloaded, current server load values are "%s, %s and %s", which are above the threshold values: "%s, %s and %s".',
         ],
 
     ],
