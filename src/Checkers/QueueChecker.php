@@ -42,9 +42,9 @@ class QueueChecker extends BaseChecker
     protected function gatherWorkerOptions()
     {
         return new WorkerOptions(
-            false, false,
-            false, false,
-            false, false
+            0, 0,
+            0, 0,
+            0, false
         );
     }
 }
