@@ -23,7 +23,7 @@ return [
 
         'action-title' => 'View App Health',
 
-        'action-message' => "The '%s' service is in trouble and needs attention%s",
+        'action_message' => "The '%s' service is in trouble and needs attention%s",
 
         'from' => [
             'name' => 'Laravel Health Checker',
