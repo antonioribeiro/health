@@ -245,6 +245,19 @@ return [
             'error_message' => 'Got a wrong value back from Redis.',
         ],
 
+        'serverUptime' => [
+            'abbreviation' => 'uptm',
+            'columnSize' => '6',
+            'regex' => '~(?<time_hour>\d{1,2}):(?<time_minute>\d{2})(?::(?<time_second>\d{2}))?\s+up\s+(?:(?<up_days>\d+)\s+days?,\s+)?\b(?:(?<up_hours>\d+):)?(?<up_minutes>\d+)(?:\s+(?:minute|minutes|min)?)?,\s+(?<users>\d+).+?(?<load1>\d+.\d+),?\s+(?<load2>\d+.\d+),?\s+(?<load3>\d+.\d+)~',
+            'checker' => PragmaRX\Health\Checkers\UptimeChecker::class,
+            'command' => 'uptime 2>&1',
+            'max_load' => 2.5,
+            'save_to' => 'app/uptime-cache.json',
+            'notify' => true,
+            'action_message' => 'Your server was rebooted (Uptime Checker)',
+            'error_message' => 'Looks like your server was recently rebooted, current uptime is now "%s" and it was "%s" before restart.',
+        ],
+
     ],
 
 ];
