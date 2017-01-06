@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Support;
 
-use Throable;
+use Throwable;
 use Exception;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 
