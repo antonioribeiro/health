@@ -25,6 +25,9 @@
   },
 
   "autoload": {
+    "files": [
+      "src/Support/compatibility.php"
+    ],
     "psr-4": {
       "PragmaRX\\Health\\": "src/",
       "PragmaRX\\Health\\tests\\phpunit\\": "tests/phpunit/"
