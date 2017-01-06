@@ -25,6 +25,12 @@ class ServerUptimeChecker extends BaseChecker
         return $this->makeResult(! $rebooted, $this->makeMessage($current, $saved));
     }
 
+    /**
+     * Execute command to get an uptime string.
+     *
+     * @return mixed|string
+     * @throws Exception
+     */
     private function executeUptimeCommand()
     {
         $error = exec($this->resource['command'], $system_string, $output);
