@@ -118,7 +118,7 @@ class ServerUptimeChecker extends BaseChecker
      * @param $saved
      * @return string
      */
-    protected function makeMessage($current, $saved)
+    protected function makeMessage($current, $saved = null)
     {
         $current = $this->toUptimeString($current);
 
