@@ -29,6 +29,7 @@ Heath has pre-configured resource checkers for the following services:
 - Mail
 - Queue
 - Redis
+- Server Uptime
 
 But you can add anything else you need!
 
