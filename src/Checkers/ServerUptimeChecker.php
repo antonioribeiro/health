@@ -90,17 +90,15 @@ class ServerUptimeChecker extends BaseChecker
     protected function normalizeMatches($matches)
     {
         return collect($matches)->filter(function ($item, $key) {
-            return !is_numeric($key);
+            return ! is_numeric($key);
         })->map(function ($item, $key) {
             $return = $item[0];
 
             if (starts_with($key, 'load')) {
                 $return = floatval($return);
-            }
-            elseif (is_numeric($return)) {
+            } elseif (is_numeric($return)) {
                 $return = (int) $return;
-            }
-            elseif (empty($return)) {
+            } elseif (empty($return)) {
                 $return = null;
             }
 
