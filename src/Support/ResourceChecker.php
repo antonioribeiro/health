@@ -297,7 +297,10 @@ class ResourceChecker
                 return $this->makeResult($exception, $resourceChecker);
             }
         } catch (\Throwable $error) {
-            return [$resourceChecker, $this->makeResult($error)];
+            return $this->makeResult(
+                $error,
+                isset($resourceChecker) ? $resourceChecker : null
+            );
         }
     }
 }
