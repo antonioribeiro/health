@@ -22,8 +22,12 @@ abstract class BaseChannel implements Contract
     {
         $domain = Request::server('SERVER_NAME');
 
+        $message = isset($item['action_message'])
+                    ? $item['action_message']
+                    : config('health.notifications.action_message');
+
         return sprintf(
-            config('health.notifications.action_message'),
+            $message,
             studly_case($item['name']),
             $domain ? " in {$domain}." : '.'
         );
