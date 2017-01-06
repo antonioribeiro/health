@@ -4,7 +4,7 @@ namespace PragmaRX\Health\Checkers;
 
 use Redis;
 
-class RedisChecker extends BaseChecker
+class UptimeChecker extends BaseChecker
 {
     /**
      * Check resource.
@@ -22,4 +22,6 @@ class RedisChecker extends BaseChecker
             $number !== $result ? $this->resource['key'] : ''
         );
     }
+
+
 }
