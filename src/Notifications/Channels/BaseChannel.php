@@ -6,6 +6,17 @@ use Request;
 
 abstract class BaseChannel implements Contract
 {
+    private function getActionMessage($item)
+    {
+        return isset($item['action_message'])
+                ? $item['action_message']
+                : (
+                        config('health.notifications.action_message')
+                        ?:
+                        config('health.notifications.action-message') /// TODO: deprecate
+                    );
+    }
+
     /**
      * @return mixed
      */
@@ -22,12 +33,8 @@ abstract class BaseChannel implements Contract
     {
         $domain = Request::server('SERVER_NAME');
 
-        $message = isset($item['action_message'])
-                    ? $item['action_message']
-                    : config('health.notifications.action_message');
-
         return sprintf(
-            $message,
+            $this->getActionMessage($item),
             studly_case($item['name']),
             $domain ? " in {$domain}." : '.'
         );
