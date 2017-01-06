@@ -5,7 +5,7 @@ namespace PragmaRX\Health\Checkers;
 use Carbon\CarbonInterval;
 use PragmaRX\Support\Exceptions\Exception;
 
-class UptimeChecker extends BaseChecker
+class ServerUptimeChecker extends BaseChecker
 {
     /**
      * Check resource.
