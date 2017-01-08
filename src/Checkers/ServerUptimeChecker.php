@@ -14,15 +14,13 @@ class ServerUptimeChecker extends BaseChecker
      */
     public function check()
     {
-        $saved = $this->load();
-
         $current = $this->getCurrentUptime();
 
-        $this->save($current);
+        $this->persist($current);
 
-        $rebooted = ($cs = $this->uptimeInSeconds($current)) < ($ss = $this->uptimeInSeconds($saved));
+        $rebooted = ($cs = $this->uptimeInSeconds($current)) < ($ss = $this->uptimeInSeconds($this->database));
 
-        return $this->makeResult(! $rebooted, $this->makeMessage($current, $saved));
+        return $this->makeResult(! $rebooted, $this->makeMessage($current, $this->database));
     }
 
     /**
@@ -55,30 +53,6 @@ class ServerUptimeChecker extends BaseChecker
         return $this->parseUptimeString(
             $this->executeUptimeCommand()
         );
-    }
-
-    /**
-     * Get cache filename.
-     *
-     * @return string
-     */
-    protected function getFileName(): string
-    {
-        return storage_path($this->resource['save_to']);
-    }
-
-    /**
-     * Load cache.
-     *
-     * @return \Illuminate\Support\Collection|void
-     */
-    public function load()
-    {
-        if (! file_exists($file = $this->getFileName())) {
-            return;
-        }
-
-        return collect(json_decode(file_get_contents($file)));
     }
 
     /**
@@ -123,16 +97,6 @@ class ServerUptimeChecker extends BaseChecker
         $matches['uptime_string'] = $system_string;
 
         return $matches;
-    }
-
-    /**
-     * Save to cache file.
-     *
-     * @param $current
-     */
-    public function save($current)
-    {
-        json_encode(file_put_contents($this->getFileName(), $current), true);
     }
 
     /**
