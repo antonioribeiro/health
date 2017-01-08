@@ -2,6 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use Illuminate\Support\Collection;
+
 abstract class BaseChecker implements Contract
 {
     /**
@@ -25,7 +27,13 @@ abstract class BaseChecker implements Contract
     protected $resources;
 
     /**
+     * @var Collection|void
+     */
+    protected $database;
+
+    /**
      * BaseChecker constructor.
+     *
      * @param $resource
      * @param $resources
      */
@@ -34,6 +42,20 @@ abstract class BaseChecker implements Contract
         $this->resource = $resource;
 
         $this->resources = $resources;
+
+        $this->database = $this->load();
+    }
+
+    /**
+     * Create base directory for files.
+     *
+     * @param $fileName
+     */
+    private function makeDir($fileName)
+    {
+        $dir = dirname($fileName);
+
+        mkdir($dir, 0775, true);
     }
 
     /**
@@ -109,5 +131,49 @@ abstract class BaseChecker implements Contract
 
             'message' => $this->message,
         ];
+    }
+
+    /**
+     * Load cache.
+     *
+     * @return \Illuminate\Support\Collection|void
+     */
+    public function load()
+    {
+        if (! file_exists($file = $this->getFileName())) {
+            return collect();
+        }
+
+        return collect(json_decode(file_get_contents($file), true));
+    }
+
+    /**
+     * Persist to database cache file.
+     *
+     * @param $data
+     */
+    public function persist($data = null)
+    {
+        if (is_null($data)) {
+            $data = $this->database->toArray();
+        }
+
+        if (! is_array($data)) {
+            $data = $data->toArray();
+        }
+
+        $this->makeDir($this->getFileName());
+
+        file_put_contents($this->getFileName(), json_encode($data));
+    }
+
+    /**
+     * Get cache filename.
+     *
+     * @return string
+     */
+    protected function getFileName(): string
+    {
+        return storage_path($this->resource['save_to']);
     }
 }
