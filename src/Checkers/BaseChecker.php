@@ -55,7 +55,9 @@ abstract class BaseChecker implements Contract
     {
         $dir = dirname($fileName);
 
-        mkdir($dir, 0775, true);
+        if (! file_exists($dir)) {
+            mkdir($dir, 0775, true);
+        }
     }
 
     /**
