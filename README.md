@@ -31,6 +31,7 @@ Heath has pre-configured resource checkers for the following services:
 - Redis
 - Server Uptime
 - Server Load
+- Broadcasting
 
 But you can add anything else you need!
 
@@ -170,7 +171,61 @@ When Health result is cached, you can flush the chage to make it process all res
 If you prefer to build you own notifications systems, you can disable it and listen for the following event  
 
     PragmaRX\Health\Events\RaiseHealthIssue::class
+
+## Broadcasting Checker
+
+Broadcasting checker is done via ping and pong system. The broadcast checker will ping your service, and it must pong back. Basically what you need to do is to call back a url with some data:
+
+### Redis + Socket.io
+
+    var request = require('request');
+    var server = require('http').Server();
+    var io = require('socket.io')(server);
+    var Redis = require('ioredis');
+    var redis = new Redis();
     
+    redis.subscribe('pragmarx-health-broadcasting-channel');
+    
+    redis.on('message', function (channel, message) {
+        message = JSON.parse(message);
+    
+        if (message.event == 'PragmaRX\\Health\\Events\\HealthPing') {
+            request.get(message.data.callbackUrl + '?data=' + JSON.stringify(message.data));
+        }
+    });
+    
+    server.listen(3000);
+
+### Pusher
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>Pusher Test</title>
+            <script src="https://js.pusher.com/3.2/pusher.min.js"></script>
+            <script>
+                var pusher = new Pusher('YOUR-PUSHER-KEY', {
+                    encrypted: true
+                });
+    
+                var channel = pusher.subscribe('pragmarx-health-broadcasting-channel');
+    
+                channel.bind('PragmaRX\\Health\\Events\\HealthPing', function(data) {
+                    var request = (new XMLHttpRequest());
+    
+                    request.open("GET", data.callbackUrl + '?data=' + JSON.stringify(data));
+    
+                    request.send();
+                });
+            </script>
+        </head>
+    
+        <body>
+            Pusher waiting for events...
+        </body>
+    </html>
+
+
 ## Author
 
 [Antonio Carlos Ribeiro](http://twitter.com/iantonioribeiro)
