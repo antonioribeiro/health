@@ -264,9 +264,6 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->registerConsoleCommands();
     }
 
-    /**
-     *
-     */
     private function registerResourcesRoutes()
     {
         collect(config('health.resources'))->each(function ($item) {
