@@ -286,7 +286,7 @@ class ResourceChecker
      * @param $resource
      * @return array
      */
-    private function tryToCheckResource($name, $resource): array
+    private function tryToCheckResource($name, $resource)
     {
         try {
             try {

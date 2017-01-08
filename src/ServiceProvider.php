@@ -173,6 +173,42 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
+     * Get the list of routes.
+     *
+     * @return array
+     */
+    private function getRoutes()
+    {
+        $prefix = config('health.routes.prefix');
+
+        return [
+            [
+                'uri' => $prefix.config('health.routes.suffixes.panel'),
+                'name' => 'pragmarx.health.panel',
+                'action' => config('health.actions.panel'),
+            ],
+
+            [
+                'uri' => $prefix.config('health.routes.suffixes.check'),
+                'name' => 'pragmarx.health.check',
+                'action' => config('health.actions.check'),
+            ],
+
+            [
+                'uri' => $prefix.config('health.routes.suffixes.string'),
+                'name' => 'pragmarx.health.string',
+                'action' => config('health.actions.string'),
+            ],
+
+            [
+                'uri' => $prefix.config('health.routes.suffixes.resource').'/{name}',
+                'name' => 'pragmarx.health.resource',
+                'action' => config('health.actions.resource'),
+            ],
+        ];
+    }
+
+    /**
      * Instantiate commands.
      *
      * @return \Illuminate\Foundation\Application|mixed
@@ -228,6 +264,9 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->registerConsoleCommands();
     }
 
+    /**
+     *
+     */
     private function registerResourcesRoutes()
     {
         collect(config('health.resources'))->each(function ($item) {
@@ -271,25 +310,12 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function registerRoutes()
     {
-        $this->getRouter()->get(config('health.routes.prefix').config('health.routes.suffixes.panel'), [
-            'as' => 'pragmarx.health.panel',
-            'uses' => config('health.actions.panel'),
-        ]);
-
-        $this->getRouter()->get(config('health.routes.prefix').config('health.routes.suffixes.check'), [
-            'as' => 'pragmarx.health.check',
-            'uses' => config('health.actions.check'),
-        ]);
-
-        $this->getRouter()->get(config('health.routes.prefix').config('health.routes.suffixes.string'), [
-            'as' => 'pragmarx.health.string',
-            'uses' => config('health.actions.string'),
-        ]);
-
-        $this->getRouter()->get(config('health.routes.prefix').config('health.routes.suffixes.resource').'/{name}', [
-            'as' => 'pragmarx.health.resource',
-            'uses' => config('health.actions.resource'),
-        ]);
+        collect($this->getRoutes())->each(function ($route) {
+            $this->getRouter()->get($route['uri'], [
+                'as' => $route['name'],
+                'uses' => $route['action'],
+            ]);
+        });
 
         $this->registerResourcesRoutes();
     }
