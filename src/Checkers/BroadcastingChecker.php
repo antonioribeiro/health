@@ -25,7 +25,6 @@ class BroadcastingChecker extends BaseChecker
 
     /**
      * Dispatch event.
-     *
      */
     private function dispatchEvent()
     {
@@ -103,17 +102,17 @@ class BroadcastingChecker extends BaseChecker
         $timedout = false;
 
         $this->database = $this->database->filter(function ($item) use (&$timedout) {
-           if (! $item['ponged_at']) {
-               if (Carbon::now()->diffInSeconds($this->parseDate($item['pinged_at'])) > $this->resource['timeout']) {
-                   $timedout = true;
+            if (! $item['ponged_at']) {
+                if (Carbon::now()->diffInSeconds($this->parseDate($item['pinged_at'])) > $this->resource['timeout']) {
+                    $timedout = true;
 
-                   return false;
-               }
+                    return false;
+                }
 
-               return true;
-           }
+                return true;
+            }
 
-           return false;
+            return false;
         });
 
         return $timedout;
