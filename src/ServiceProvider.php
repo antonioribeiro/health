@@ -228,6 +228,20 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->registerConsoleCommands();
     }
 
+    private function registerResourcesRoutes()
+    {
+        collect(config('health.resources'))->each(function ($item) {
+            if (isset($item['routes'])) {
+                collect($item['routes'])->each(function ($route, $key) {
+                    $this->getRouter()->get($route['uri'], [
+                        'as' => $key,
+                        'uses' => "{$route['controller']}@{$route['action']}",
+                    ]);
+                });
+            }
+        });
+    }
+
     /**
      * Register console commands.
      */
@@ -276,6 +290,8 @@ class ServiceProvider extends IlluminateServiceProvider
             'as' => 'pragmarx.health.resource',
             'uses' => config('health.actions.resource'),
         ]);
+
+        $this->registerResourcesRoutes();
     }
 
     /**
