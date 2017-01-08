@@ -174,8 +174,12 @@ abstract class BaseChecker implements Contract
      *
      * @return string
      */
-    protected function getFileName(): string
+    protected function getFileName()
     {
+        if (! isset($this->resource['save_to'])) {
+            return null;
+        }
+
         return storage_path($this->resource['save_to']);
     }
 }
