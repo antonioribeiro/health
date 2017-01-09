@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\Support;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class ResourceLoader
@@ -11,7 +12,17 @@ class ResourceLoader
      */
     public function loadResources()
     {
-        $resources = collect(config('health.resources'))->map(function ($item, $key) {
+        return $this->sortResources($this->makeResourcesCollection());
+    }
+
+    /**
+     * Create a resources collection.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    protected function makeResourcesCollection()
+    {
+        return collect(config('health.resources'))->map(function ($item, $key) {
             $item['slug'] = $key;
 
             $item['name'] = Str::studly($key);
@@ -20,13 +31,22 @@ class ResourceLoader
 
             return $item;
         });
+    }
 
+    /**
+     * @param $resources
+     * @return mixed
+     */
+    protected function sortResources($resources)
+    {
         if ($sortBy = config('health.sort_by')) {
             $resources = $resources->sortBy(function ($item) use ($sortBy) {
                 return $item['is_global']
                     ? 0
-                    : $item[$sortBy];
+                    : $item[ $sortBy ];
             });
+
+            return $resources;
         }
 
         return $resources;
