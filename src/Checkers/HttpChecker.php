@@ -2,12 +2,28 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use GuzzleHttp\Client as Guzzle;
+use GuzzleHttp\Exception\RequestException;
+
 class HttpChecker extends BaseChecker
 {
     /**
      * @var bool
      */
     protected $secure = false;
+
+    /**
+     * @var
+     */
+    protected $guzzle;
+
+    /**
+     * Boot the checker.
+     */
+    public function boot()
+    {
+        $this->guzzle = new Guzzle();
+    }
 
     /**
      * @return bool
@@ -26,35 +42,43 @@ class HttpChecker extends BaseChecker
     }
 
     /**
+     *  Check web pages.
+     *
      * @param $url
      * @param bool $ssl
      * @return mixed
      */
     private function checkWebPage($url, $ssl = false)
     {
-        // Initialize session and set URL.
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
+        try {
+            $response = $this->guzzle->request('GET', $url, $this->getConnectionOptions($ssl));
+        } catch (RequestException $e) {
+            return [false, $e->getMessage()];
+        }
 
-        // Set so curl_exec returns the result instead of outputting it.
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl ? 1 : 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $ssl ? 2 : 0);
-
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 2000);
-        curl_setopt($ch, CURLOPT_TIMEOUT_MS, 2000);
-
-        // Get the response
-        $response = curl_exec($ch);
-        $error = curl_error($ch);
-
-        // close the channel
-        curl_close($ch);
-
-        return [(bool) $response, $error];
+        return [$response->getStatusCode() == 200, ''];
     }
 
+    /**
+     * Get http connection options.
+     *
+     * @param $ssl
+     * @return array
+     */
+    private function getConnectionOptions($ssl)
+    {
+        return [
+            'connect_timeout' => 2000,
+            'timeout' => 2000,
+            'verify' => $ssl,
+        ];
+    }
+
+    /**
+     * @param $url
+     * @param $secure
+     * @return mixed
+     */
     private function setScheme($url, $secure)
     {
         return preg_replace('|^((https?:)?\/\/)?(.*)|', 'http'.($secure ? 's' : '').'://\\3', $url);
