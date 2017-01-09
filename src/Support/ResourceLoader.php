@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Support;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class ResourceLoader
 {
@@ -43,7 +43,7 @@ class ResourceLoader
             $resources = $resources->sortBy(function ($item) use ($sortBy) {
                 return $item['is_global']
                     ? 0
-                    : $item[ $sortBy ];
+                    : $item[$sortBy];
             });
 
             return $resources;
