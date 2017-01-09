@@ -5,7 +5,6 @@ namespace PragmaRX\Health\Checkers;
 interface Contract
 {
     /**
-     * @param $resources
      * @return mixed
      */
     public function check();
