@@ -173,17 +173,18 @@ class ResourceChecker
      */
     private function canNotify($name, $health, $resource)
     {
-        $isHealthy = ! $health['healthy'];
-
-        $notificationsEnabled = $resource['notify'] && config('health.notifications.enabled');
-
-        $wasNotNotifiedYet = ! isset($this->notified[$name]);
-
-        $enabledForCurrentAction = config('health.notifications.notify_on.'.$this->currentAction);
-
-        return $isHealthy && $notificationsEnabled && $wasNotNotifiedYet && $enabledForCurrentAction;
+        return (! $health['healthy'])
+                && $this->notificationIsEnabled($resource)
+                && ! isset($this->notified[$name]);
     }
 
+    /**
+     * Make the result array.
+     *
+     * @param $exception
+     * @param $resourceChecker
+     * @return array
+     */
     private function makeResult($exception, $resourceChecker)
     {
         $message = $exception->getMessage()
@@ -203,6 +204,20 @@ class ResourceChecker
         $resourceChecker->makeResult(false, $message);
 
         return [$resourceChecker, null];
+    }
+
+    /**
+     * Is notification enabled for this resource?
+     *
+     * @param $resource
+     * @return bool
+     */
+    private function notificationIsEnabled($resource)
+    {
+        return $resource['notify']
+                && config('health.notifications.enabled')
+                && config('health.notifications.notify_on.' . $this->currentAction)
+        ;
     }
 
     /**
