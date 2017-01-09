@@ -18,14 +18,6 @@ class HttpChecker extends BaseChecker
     protected $guzzle;
 
     /**
-     * Boot the checker.
-     */
-    public function boot()
-    {
-        $this->guzzle = new Guzzle();
-    }
-
-    /**
      * @return bool
      */
     public function check()
@@ -51,7 +43,7 @@ class HttpChecker extends BaseChecker
     private function checkWebPage($url, $ssl = false)
     {
         try {
-            $response = $this->guzzle->request('GET', $url, $this->getConnectionOptions($ssl));
+            $response = (new Guzzle())->request('GET', $url, $this->getConnectionOptions($ssl));
         } catch (RequestException $e) {
             return [false, $e->getMessage()];
         }
