@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.8 - 2017-01-08
+## 0.1.8 - 2017-01-09
 ### Added
 - Broadcasting checker for Redis and Pusher
 
