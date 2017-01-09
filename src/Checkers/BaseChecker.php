@@ -44,6 +44,10 @@ abstract class BaseChecker implements Contract
         $this->resources = $resources;
 
         $this->database = $this->load();
+
+        if (method_exists($this, 'boot')) {
+            $this->boot();
+        }
     }
 
     /**
