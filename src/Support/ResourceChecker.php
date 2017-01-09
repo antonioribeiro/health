@@ -216,8 +216,7 @@ class ResourceChecker
     {
         return $resource['notify']
                 && config('health.notifications.enabled')
-                && config('health.notifications.notify_on.' . $this->currentAction)
-        ;
+                && config('health.notifications.notify_on.'.$this->currentAction);
     }
 
     /**
