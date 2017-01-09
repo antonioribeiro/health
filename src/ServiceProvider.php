@@ -272,10 +272,7 @@ class ServiceProvider extends IlluminateServiceProvider
         collect(config('health.resources'))->each(function ($item) {
             if (isset($item['routes'])) {
                 collect($item['routes'])->each(function ($route, $key) {
-                    $this->getRouter()->get($route['uri'], [
-                        'as' => $key,
-                        'uses' => "{$route['controller']}@{$route['action']}",
-                    ]);
+                    $this->registerRoute($route, $key);
                 });
             }
         });
@@ -305,16 +302,25 @@ class ServiceProvider extends IlluminateServiceProvider
         Event::listen(RaiseHealthIssue::class, NotifyHealthIssue::class);
     }
 
+    private function registerRoute($route, $name = null)
+    {
+        $action = isset($route['controller'])
+                    ? "{$route['controller']}@{$route['action']}"
+                    : $route['action'];
+
+        $this->getRouter()->get($route['uri'], [
+            'as' => $name ?: $route['name'],
+            'uses' => $action,
+        ]);
+    }
+
     /**
      * Register routes.
      */
     private function registerRoutes()
     {
         collect($this->getRoutes())->each(function ($route) {
-            $this->getRouter()->get($route['uri'], [
-                'as' => $route['name'],
-                'uses' => $route['action'],
-            ]);
+            $this->registerRoute($route);
         });
 
         $this->registerResourcesRoutes();
