@@ -3,7 +3,7 @@
 namespace
 {
     if (! interface_exists('Throwable')) {
-        interface compatibility
+        interface Throwable
         {
             public function getMessage();
 
