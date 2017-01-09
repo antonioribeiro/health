@@ -42,11 +42,7 @@ class HttpChecker extends BaseChecker
      */
     private function checkWebPage($url, $ssl = false)
     {
-        try {
-            $response = (new Guzzle())->request('GET', $url, $this->getConnectionOptions($ssl));
-        } catch (RequestException $e) {
-            return [false, $e->getMessage()];
-        }
+        $response = (new Guzzle())->request('GET', $url, $this->getConnectionOptions($ssl));
 
         return [$response->getStatusCode() == 200, ''];
     }
