@@ -100,23 +100,49 @@ return [
     ],
 
     'actions' => [
-        'panel' => 'PragmaRX\Health\Http\Controllers\Health@panel',
-        'check' => 'PragmaRX\Health\Http\Controllers\Health@check',
-        'string' => 'PragmaRX\Health\Http\Controllers\Health@string',
-        'resource' => 'PragmaRX\Health\Http\Controllers\Health@resource',
+        'panel' => $action_panel = 'PragmaRX\Health\Http\Controllers\Health@panel',
+        'check' => $action_check = 'PragmaRX\Health\Http\Controllers\Health@check',
+        'string' => $action_string = 'PragmaRX\Health\Http\Controllers\Health@string',
+        'resource' => $action_resource = 'PragmaRX\Health\Http\Controllers\Health@resource',
     ],
 
     'routes' => [
-        'prefix' => '/health',
+        'prefix' => $route_prefix = '/health',
 
         'suffixes' => [
-            'panel' => '/panel',
-            'check' => '/check',
-            'string' => '/string',
-            'resource' => '/resource',
+            'panel' => $route_suffix_panel = '/panel',
+            'check' => $route_suffix_check = '/check',
+            'string' => $route_suffix_string = '/string',
+            'resource' => $route_suffix_resource = '/resource',
         ],
 
         'notification' => 'pragmarx.health.panel',
+
+        'list' => [
+            [
+                'uri' => $route_prefix.$route_suffix_panel,
+                'name' => 'pragmarx.health.panel',
+                'action' => $action_panel,
+            ],
+
+            [
+                'uri' => $route_prefix.$route_suffix_check,
+                'name' => 'pragmarx.health.check',
+                'action' => $action_check,
+            ],
+
+            [
+                'uri' => $route_prefix.$route_suffix_string,
+                'name' => 'pragmarx.health.string',
+                'action' => $action_string,
+            ],
+
+            [
+                'uri' => "{$route_prefix}.{$route_suffix_resource}/{name}",
+                'name' => 'pragmarx.health.resource',
+                'action' => $action_resource,
+            ],
+        ]
     ],
 
     'urls' => [

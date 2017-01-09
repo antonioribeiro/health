@@ -179,33 +179,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function getRoutes()
     {
-        $prefix = config('health.routes.prefix');
-
-        return [
-            [
-                'uri' => $prefix.config('health.routes.suffixes.panel'),
-                'name' => 'pragmarx.health.panel',
-                'action' => config('health.actions.panel'),
-            ],
-
-            [
-                'uri' => $prefix.config('health.routes.suffixes.check'),
-                'name' => 'pragmarx.health.check',
-                'action' => config('health.actions.check'),
-            ],
-
-            [
-                'uri' => $prefix.config('health.routes.suffixes.string'),
-                'name' => 'pragmarx.health.string',
-                'action' => config('health.actions.string'),
-            ],
-
-            [
-                'uri' => $prefix.config('health.routes.suffixes.resource').'/{name}',
-                'name' => 'pragmarx.health.resource',
-                'action' => config('health.actions.resource'),
-            ],
-        ];
+        return config('health.routes.list');
     }
 
     /**
@@ -316,7 +290,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function registerRoutes()
     {
-        collect($this->getRoutes())->each(function ($route) {
+        collect($routes = $this->getRoutes())->each(function ($route) {
             $this->registerRoute($route);
         });
 
