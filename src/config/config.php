@@ -142,7 +142,7 @@ return [
                 'name' => 'pragmarx.health.resource',
                 'action' => $action_resource,
             ],
-        ]
+        ],
     ],
 
     'urls' => [
