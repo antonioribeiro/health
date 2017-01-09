@@ -3,7 +3,6 @@
 namespace PragmaRX\Health\Checkers;
 
 use GuzzleHttp\Client as Guzzle;
-use GuzzleHttp\Exception\RequestException;
 
 class HttpChecker extends BaseChecker
 {
