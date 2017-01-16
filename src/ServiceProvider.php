@@ -91,15 +91,15 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function createHealthService()
     {
-        $resourceChecker = ($this->resourceCheckerClosure)();
+        $resourceChecker = call_user_func($this->resourceCheckerClosure);
 
-        $cache = ($this->cacheClosure)();
+        $cache = call_user_func($this->cacheClosure);
 
         $this->healthServiceClosure = function () use ($resourceChecker, $cache) {
             return $this->instantiateService($resourceChecker, $cache);
         };
 
-        $this->healthService = ($this->healthServiceClosure)();
+        $this->healthService = call_user_func($this->healthServiceClosure);
     }
 
     /**
@@ -111,7 +111,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->cacheClosure = $this->getCacheClosure();
 
-        $this->resourceCheckerClosure = $this->getResourceCheckerClosure($resourceLoader, ($this->cacheClosure)());
+        $this->resourceCheckerClosure = $this->getResourceCheckerClosure($resourceLoader, call_user_func($this->cacheClosure));
     }
 
     /**
