@@ -26,7 +26,8 @@
 
   "autoload": {
     "files": [
-      "src/Support/Throwable.php"
+      "src/Support/Throwable.php",
+      "src/Support/helpers.php"
     ],
     "psr-4": {
       "PragmaRX\\Health\\": "src/",

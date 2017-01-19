@@ -244,7 +244,7 @@ class ResourceChecker
      */
     public function getResourceCheckerInstance($name, $resource)
     {
-        return app(
+        return instantiate(
             $this->getResource($name)['checker'],
             [$resource, $this->getResources()]
         );
