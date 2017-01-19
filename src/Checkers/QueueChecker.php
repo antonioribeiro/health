@@ -15,9 +15,9 @@ class QueueChecker extends BaseChecker
      */
     public function check()
     {
-        Queue::pushOn($this->resource['name'], app($this->resource['test_job']));
+        Queue::pushOn($this->resource['name'], instantiate($this->resource['test_job']));
 
-        $worker = app(Worker::class);
+        $worker = instantiate(Worker::class);
 
         $connection = $this->resource['connection'] ?: app('config')['queue.default'];
 
@@ -25,7 +25,7 @@ class QueueChecker extends BaseChecker
             "queue.connections.{$connection}.queue", 'default'
         );
 
-        $worker->setCache(app($this->resource['cache_instance'])->driver());
+        $worker->setCache(instantiate($this->resource['cache_instance'])->driver());
 
         $worker->runNextJob(
             $connection, $queue, $this->gatherWorkerOptions()

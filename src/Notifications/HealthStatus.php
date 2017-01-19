@@ -38,7 +38,7 @@ class HealthStatus extends Notification
     {
         $name = substr($name, 2);
 
-        return app(config('health.notifications.channels.'.strtolower($name).'.sender'));
+        return instantiate(config('health.notifications.channels.'.strtolower($name).'.sender'));
     }
 
     /**

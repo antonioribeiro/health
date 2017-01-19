@@ -189,7 +189,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function instantiateCommands()
     {
-        return $this->commands = app(Commands::class, [$this->healthService]);
+        return $this->commands = instantiate(Commands::class, [$this->healthService]);
     }
 
     /**
@@ -332,7 +332,7 @@ class ServiceProvider extends IlluminateServiceProvider
             ($frequency = config('health.scheduler.frequency')) &&
             config('health.notifications.enabled')
         ) {
-            $scheduler = app(Schedule::class);
+            $scheduler = instantiate(Schedule::class);
 
             $scheduler->call($this->healthService->getSilentChecker())->{$frequency}();
         }
