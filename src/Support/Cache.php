@@ -47,7 +47,7 @@ class Cache
      */
     private function getCurrentRequest()
     {
-        return app(Request::class);
+        return instantiate(Request::class);
     }
 
     /**

@@ -11,7 +11,7 @@ class DatabaseChecker extends BaseChecker
     {
         try {
             collect($this->resource['models'])->each(function ($model) {
-                app($model)->first();
+                instantiate($model)->first();
             });
 
             return $this->makeHealthyResult();

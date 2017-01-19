@@ -14,7 +14,7 @@ class NotifyHealthIssue
     private function getNotifiableUsers()
     {
         return collect(config('health.notifications.users.emails'))->map(function ($item) {
-            $model = app(config('health.notifications.users.model'));
+            $model = instantiate(config('health.notifications.users.model'));
 
             $model->email = $item;
 
