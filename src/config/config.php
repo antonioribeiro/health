@@ -82,7 +82,7 @@ return [
     'style' => [
         'button_lines' => 'multi', // multi or single
 
-        'multiplier' => 0.7,
+        'multiplier' => 0.5,
     ],
 
     'views' => [
@@ -200,6 +200,20 @@ return [
             'checker' => PragmaRX\Health\Checkers\HttpChecker::class,
             'notify' => true,
             'url' => config('app.url'),
+        ],
+
+        'laravelServices' => [
+            'abbreviation' => 'lvs',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\HttpsChecker::class,
+            'notify' => true,
+            'connection_timeout' => 2,
+            'roundtrip_timeout' => 1,
+            'timeout_message' => '[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s.',
+            'url' => [
+                'https://forge.laravel.com',
+                'https://envoyer.io',
+            ],
         ],
 
         'mail' => [

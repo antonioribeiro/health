@@ -3,6 +3,7 @@
 namespace PragmaRX\Health\Checkers;
 
 use GuzzleHttp\Client as Guzzle;
+use GuzzleHttp\TransferStats;
 
 class HttpChecker extends BaseChecker
 {
@@ -17,16 +18,35 @@ class HttpChecker extends BaseChecker
     protected $guzzle;
 
     /**
+     * @var
+     */
+    private $totalTime;
+
+    /**
+     * @var
+     */
+    private $url;
+
+    /**
+     * HTTP Checker.
+     *
      * @return bool
      */
     public function check()
     {
         try {
-            $url = $this->setScheme($this->resource['url'], $this->secure);
+            $health = [];
 
-            list($healthy, $message) = $this->checkWebPage($url, $this->secure);
+            foreach ((array) $this->resource['url'] as $url) {
+                list($healthy, $message) = $this->checkWebPage(
+                    $this->makeUrlWithScheme($url, $this->secure),
+                    $this->secure
+                );
 
-            return $this->makeResult($healthy, $message);
+                $health[] = $this->makeResult($healthy, $message);
+            }
+
+            return $healthy;
         } catch (\Exception $exception) {
             return $this->makeResultFromException($exception);
         }
@@ -41,9 +61,30 @@ class HttpChecker extends BaseChecker
      */
     private function checkWebPage($url, $ssl = false)
     {
-        $response = (new Guzzle())->request('GET', $url, $this->getConnectionOptions($ssl));
+        $success = $this->requestSuccessful($url, $ssl);
 
-        return [$response->getStatusCode() == 200, ''];
+        return [
+            $success,
+            $success ? '' : $this->getErrorMessage($url)
+        ];
+    }
+
+    /**
+     * Send an http request and fetch the response.
+     *
+     * @param $url
+     * @param $ssl
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     */
+    private function fetchResponse($url, $ssl)
+    {
+        $this->url = $url;
+
+        return (new Guzzle())->request(
+            'GET',
+            $this->url,
+            $this->getConnectionOptions($ssl)
+        );
     }
 
     /**
@@ -55,19 +96,96 @@ class HttpChecker extends BaseChecker
     private function getConnectionOptions($ssl)
     {
         return [
-            'connect_timeout' => 2000,
-            'timeout' => 2000,
+            'connect_timeout' => $this->getConnectionTimeout(),
+            'timeout' => $this->getConnectionTimeout(),
             'verify' => $ssl,
+            'on_stats' => $this->onStatsCallback()
         ];
     }
 
     /**
+     * Get the error message.
+     *
+     * @return string
+     */
+    private function getErrorMessage()
+    {
+        $message = array_get($this->resource, 'timeout_message') ?:
+                    '[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s seconds.';
+
+        return sprintf(
+            $message,
+            $this->url,
+            $this->totalTime,
+            $this->getRoundtripTimeout()
+        );
+    }
+
+    /**
+     * The the connection timeout.
+     *
+     * @return int
+     */
+    private function getConnectionTimeout()
+    {
+        return array_get($this->resource, 'connection_timeout') ?: 30;
+    }
+
+    /**
+     * The the roundtrip timeout.
+     *
+     * @return int
+     */
+    private function getRoundtripTimeout()
+    {
+        return array_get($this->resource, 'roundtrip_timeout') ?: 30;
+    }
+
+    /**
+     * Make a url with a proper scheme.
+     *
      * @param $url
      * @param $secure
      * @return mixed
      */
-    private function setScheme($url, $secure)
+    private function makeUrlWithScheme($url, $secure)
     {
         return preg_replace('|^((https?:)?\/\/)?(.*)|', 'http'.($secure ? 's' : '').'://\\3', $url);
+    }
+
+    /**
+     * Guzzle OnStats callback.
+     *
+     * @return \Closure
+     */
+    private function onStatsCallback()
+    {
+        return function (TransferStats $stats) {
+            $this->totalTime = $stats->getTransferTime();
+        };
+    }
+
+    /**
+     * Send a request and get the result.
+     *
+     * @param $url
+     * @param $ssl
+     * @return bool
+     * @internal param $response
+     */
+    private function requestSuccessful($url, $ssl)
+    {
+        return $this->fetchResponse($url, $ssl)->getStatusCode() == 200 &&
+                ! $this->requestTimedout();
+    }
+
+    /**
+     * Check if the request timed out.
+     *
+     * @return bool
+     */
+    private function requestTimedout()
+    {
+        return $this->totalTime > $this->getRoundtripTimeout();
     }
 }
