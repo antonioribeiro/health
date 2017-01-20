@@ -42,8 +42,8 @@ class ResourceLoader
         if ($sortBy = config('health.sort_by')) {
             $resources = $resources->sortBy(function ($item) use ($sortBy) {
                 return $item['is_global']
-                    ? 0
-                    : $item[$sortBy];
+                    ? 0 . $item[$sortBy]
+                    : 1 . $item[$sortBy];
             });
 
             return $resources;
