@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use GuzzleHttp\Client as Guzzle;
 use GuzzleHttp\TransferStats;
+use GuzzleHttp\Client as Guzzle;
 
 class HttpChecker extends BaseChecker
 {
@@ -65,7 +65,7 @@ class HttpChecker extends BaseChecker
 
         return [
             $success,
-            $success ? '' : $this->getErrorMessage($url)
+            $success ? '' : $this->getErrorMessage($url),
         ];
     }
 
@@ -99,7 +99,7 @@ class HttpChecker extends BaseChecker
             'connect_timeout' => $this->getConnectionTimeout(),
             'timeout' => $this->getConnectionTimeout(),
             'verify' => $ssl,
-            'on_stats' => $this->onStatsCallback()
+            'on_stats' => $this->onStatsCallback(),
         ];
     }
 
