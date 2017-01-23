@@ -86,11 +86,9 @@ return [
     ],
 
     'views' => [
-        'panel' => 'pragmarx/health::default.panel',
+        'template' => $template = 'material',
 
-        'partials' => [
-            'well' => 'pragmarx/health::default.partials.well',
-        ],
+        'panel' => "pragmarx/health::{$template}.panel",
     ],
 
     'string' => [
@@ -100,10 +98,10 @@ return [
     ],
 
     'actions' => [
-        'panel' => $action_panel = 'PragmaRX\Health\Http\Controllers\Health@panel',
-        'check' => $action_check = 'PragmaRX\Health\Http\Controllers\Health@check',
-        'string' => $action_string = 'PragmaRX\Health\Http\Controllers\Health@string',
-        'resource' => $action_resource = 'PragmaRX\Health\Http\Controllers\Health@resource',
+        'panel' => $action_panel = ($namespace = 'PragmaRX\Health\Http\Controllers') . '\Health@panel',
+        'check' => $action_check = $namespace . '\Health@check',
+        'string' => $action_string = $namespace . '\Health@string',
+        'resource' => $action_resource = $namespace . '\Health@resource',
     ],
 
     'routes' => [

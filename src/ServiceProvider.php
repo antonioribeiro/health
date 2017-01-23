@@ -84,6 +84,8 @@ class ServiceProvider extends IlluminateServiceProvider
     private function configureViews()
     {
         $this->loadViewsFrom(realpath(__DIR__.'/views'), 'pragmarx/health');
+
+        define('TEMPLATE', config('health.views.template'));
     }
 
     /**

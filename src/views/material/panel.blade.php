@@ -3,8 +3,12 @@
 @section('html.body')
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <h1>{{ config('health.title') }}</h1>
+            <div class="col-md-10 col-md-offset-1">
+                <div class="btn btn-block btn-info title">
+                    <h2>
+                        {{ config('health.title') }}
+                    </h2>
+                </div>
             </div>
 
             <div class="col-md-12">
