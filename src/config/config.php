@@ -98,10 +98,10 @@ return [
     ],
 
     'actions' => [
-        'panel' => $action_panel = ($namespace = 'PragmaRX\Health\Http\Controllers') . '\Health@panel',
-        'check' => $action_check = $namespace . '\Health@check',
-        'string' => $action_string = $namespace . '\Health@string',
-        'resource' => $action_resource = $namespace . '\Health@resource',
+        'panel' => $action_panel = ($namespace = 'PragmaRX\Health\Http\Controllers').'\Health@panel',
+        'check' => $action_check = $namespace.'\Health@check',
+        'string' => $action_string = $namespace.'\Health@string',
+        'resource' => $action_resource = $namespace.'\Health@resource',
     ],
 
     'routes' => [
