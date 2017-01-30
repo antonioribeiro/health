@@ -2,8 +2,6 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Storage;
-
 class DirectoryAndFilePresenceChecker extends BaseChecker
 {
     const FILE_EXISTS = 0;
@@ -22,7 +20,7 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
             return $this->makeHealthyResult();
         }
 
-        return $this->makeResult(false, $this->resource['error_message']. ' - ' . implode(' ', $messages));
+        return $this->makeResult(false, $this->resource['error_message'].' - '.implode(' ', $messages));
     }
 
     /**
@@ -93,4 +91,3 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
         return [$messages, $result];
     }
 }
-
