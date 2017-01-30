@@ -7,7 +7,7 @@ return [
     'sort_by' => 'slug',
 
     'cache' => [
-        'minutes' => 1, // false = disabled
+        'minutes' => config('app.debug') ? false : true, // false = disabled
         'key' => 'health-resources',
     ],
 
