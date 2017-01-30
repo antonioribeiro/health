@@ -10,7 +10,7 @@ if (! function_exists('instantiate')) {
      */
     function instantiate($abstract, $parameters = [])
     {
-        if ($parameters) {
+        if (is_array($parameters) && count($parameters)) {
             $reflection = new ReflectionClass($abstract);
 
             return $reflection->newInstanceArgs((array) $parameters);
