@@ -52,31 +52,31 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
     {
         return [
             static::FILE_EXISTS => [
-                function($file) {
+                function ($file) {
                     return $this->fileExists($file);
-                }
+                },
             ],
 
             static::FILE_DOES_NOT_EXISTS => [
-                function($file) {
+                function ($file) {
                     return $this->fileDoesNotExists($file);
-                }
+                },
             ],
 
             static::DIRECTORY_EXISTS => [
-                function($file) {
+                function ($file) {
                     return $this->fileExists($file);
                 },
-                function($file) {
+                function ($file) {
                     return $this->isDirectory($file);
                 },
             ],
 
             static::DIRECTORY_DOES_NOT_EXISTS => [
-                function($file) {
+                function ($file) {
                     return $this->fileDoesNotExists($file);
                 },
-                function($file) {
+                function ($file) {
                     return $this->isDirectory($file);
                 },
             ],
