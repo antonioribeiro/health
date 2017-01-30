@@ -93,3 +93,4 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
         return [$messages, $result];
     }
 }
+
