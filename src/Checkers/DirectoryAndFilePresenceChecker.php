@@ -31,63 +31,82 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
         $messages = [];
 
         $result = collect($this->resource['files'])->map(function ($checkType, $file) use (&$messages) {
-            if ($checkType == static::FILE_EXISTS) {
-                if (file_exists($file)) {
-                    return true;
+            $isGood = true;
+
+            foreach ($this->getCheckers()[$checkType] as $checker) {
+                if (is_string($message = $checker($file))) {
+                    $messages[] = $message;
+                    $isGood = false;
                 }
-
-                $messages[] = sprintf('File "%s" does not exists.', $file);
-
-                return false;
             }
 
-            if ($checkType == static::FILE_DOES_NOT_EXISTS) {
-                if (! file_exists($file)) {
-                    return true;
-                }
-
-                $messages[] = sprintf('File "%s" exists.', $file);
-
-                return false;
-            }
-
-            if ($checkType == static::DIRECTORY_EXISTS) {
-                if (file_exists($file) && is_dir($file)) {
-                    return true;
-                }
-
-                if (! file_exists($file)) {
-                    $messages[] = sprintf('Directory "%s" does not exists.', $file);
-                }
-
-                if (! is_dir($file)) {
-                    $messages[] = sprintf('"%s" is not a directory.', $file);
-                }
-
-                return false;
-            }
-
-            if ($checkType == static::DIRECTORY_DOES_NOT_EXISTS) {
-                if (! file_exists($file) && is_dir($file)) {
-                    return true;
-                }
-
-                if (! file_exists($file)) {
-                    $messages[] = sprintf('Directory "%s" exists.', $file);
-                }
-
-                if (! is_dir($file)) {
-                    $messages[] = sprintf('"%s" is not a directory.', $file);
-                }
-
-                return false;
-            }
-
-            return true;
+            return $isGood;
         })->filter(function ($value) {
             return $value === false;
         });
 
         return [$messages, $result];
+    }
+
+    public function getCheckers()
+    {
+        return [
+            static::FILE_EXISTS => [
+                function($file) {
+                    return $this->fileExists($file);
+                }
+            ],
+
+            static::FILE_DOES_NOT_EXISTS => [
+                function($file) {
+                    return $this->fileDoesNotExists($file);
+                }
+            ],
+
+            static::DIRECTORY_EXISTS => [
+                function($file) {
+                    return $this->fileExists($file);
+                },
+                function($file) {
+                    return $this->isDirectory($file);
+                },
+            ],
+
+            static::DIRECTORY_DOES_NOT_EXISTS => [
+                function($file) {
+                    return $this->fileDoesNotExists($file);
+                },
+                function($file) {
+                    return $this->isDirectory($file);
+                },
+            ],
+        ];
+    }
+
+    public function fileExists($file)
+    {
+        if (file_exists($file)) {
+            return true;
+        }
+
+        return sprintf('File "%s" does not exists.', $file);
+    }
+
+    public function fileDoesNotExists($file)
+    {
+        if (! file_exists($file)) {
+            return true;
+        }
+
+        return sprintf('File "%s" exists.', $file);
+    }
+
+    public function isDirectory($file)
+    {
+        if (is_dir($file)) {
+            return true;
+        }
+
+        return sprintf('"%s" is not a directory.', $file);
     }
 }

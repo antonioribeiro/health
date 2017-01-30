@@ -46,7 +46,7 @@ class HttpChecker extends BaseChecker
                 $health[] = $this->makeResult($healthy, $message);
             }
 
-            return $healthy;
+            return $health;
         } catch (\Exception $exception) {
             return $this->makeResultFromException($exception);
         }
@@ -65,7 +65,7 @@ class HttpChecker extends BaseChecker
 
         return [
             $success,
-            $success ? '' : $this->getErrorMessage($url),
+            $success ? '' : $this->getErrorMessage(),
         ];
     }
 
