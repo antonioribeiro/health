@@ -335,6 +335,17 @@ return [
             'error_message' => 'The broadcasting service did not respond in time, it may be in trouble.',
         ],
 
+        'rebootRequired' => [
+            'abbreviation' => 'rbtrqrd',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\DirectoryAndFilePresenceChecker::class,
+            'files' => [
+                '/var/run/reboot-required' => PragmaRX\Health\Checkers\DirectoryAndFilePresenceChecker::FILE_EXISTS
+            ],
+            'notify' => true,
+            'error_message' => 'A reboot is required in this server (Uptime Checker)',
+        ],
+
     ],
 
 ];
