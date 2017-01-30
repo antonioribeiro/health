@@ -340,7 +340,7 @@ return [
             'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\DirectoryAndFilePresenceChecker::class,
             'files' => [
-                '/var/run/reboot-required' => PragmaRX\Health\Checkers\DirectoryAndFilePresenceChecker::FILE_DOES_NOT_EXISTS
+                '/var/run/reboot-required' => PragmaRX\Health\Checkers\DirectoryAndFilePresenceChecker::FILE_DOES_NOT_EXISTS,
             ],
             'notify' => true,
             'error_message' => 'A reboot is required in this server (Uptime Checker)',
