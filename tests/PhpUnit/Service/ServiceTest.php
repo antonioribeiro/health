@@ -17,19 +17,23 @@ class ServiceTest extends TestCase
         return $config;
     }
 
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        $app['config']->set('health', $this->getConfig());
+    }
+
     public function setUp()
     {
         parent::setUp();
 
-//        $this->app = require __DIR__.'/../../../vendor/laravel/laravel/bootstrap/app.php';
-//        $kernel = $this->app->make(\Illuminate\Contracts\Http\Kernel::class);
-//        $kernel->handle(
-//            $request = \Illuminate\Http\Request::capture()
-//        );
-//        $this->config = $this->app->make('config');
-//        $this->config->set('health', $this->getConfig());
-//        $this->serviceProvider = $this->app->register(ServiceProvider::class);
         $this->service = app('pragmarx.health');
+
         $this->resources = $this->service->checkResources();
     }
 
