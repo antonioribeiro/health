@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\Support;
 
+use Exception;
 use Illuminate\Http\Request;
 use Cache as IlluminateCache;
 
@@ -23,10 +24,14 @@ class Cache
             return;
         }
 
-        if ($this->getMinutes() !== false && $this->getCurrentRequest()->get('flush')) {
-            IlluminateCache::forget(config('health.cache.key'));
+        try {
+            if ($this->getMinutes() !== false && $this->getCurrentRequest()->get('flush')) {
+                IlluminateCache::forget(config('health.cache.key'));
 
-            $this->cacheFlushed = true;
+                $this->cacheFlushed = true;
+            }
+        } catch (Exception $exception) {
+            // cache service may be down
         }
     }
 
@@ -59,8 +64,12 @@ class Cache
     {
         $this->flush();
 
-        if (($minutes = $this->getMinutes()) !== false) {
-            return IlluminateCache::remember(config('health.cache.key'), $minutes, $checker);
+        try {
+            if (($minutes = $this->getMinutes()) !== false) {
+                return IlluminateCache::remember(config('health.cache.key'), $minutes, $checker);
+            }
+        } catch (Exception $exception) {
+            // cache service may be down
         }
 
         return $checker();
