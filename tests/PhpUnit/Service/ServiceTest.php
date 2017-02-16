@@ -8,7 +8,15 @@ use PragmaRX\Health\Tests\PhpUnit\TestCase;
 
 class ServiceTest extends TestCase
 {
+    /**
+     * @var \PragmaRX\Health\Service $service
+     */
     private $service;
+
+    /**
+     * @var \Illuminate\Support\Collection $resources
+     */
+    private $resources;
 
     private function getConfig()
     {
