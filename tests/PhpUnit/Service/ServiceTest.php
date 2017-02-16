@@ -1,40 +1,34 @@
 <?php
 
-namespace PragmaRX\Health\tests\phpunit\Service;
+namespace PragmaRX\Health\Tests\PhpUnit\Service;
 
-use PHPUnit_Framework_TestCase;
 use Illuminate\Support\Collection;
-use PragmaRX\Health\ServiceProvider;
+use PragmaRX\Health\Facade as Health;
+use PragmaRX\Health\Tests\PhpUnit\TestCase;
 
-class ServiceTest extends PHPUnit_Framework_TestCase
+class ServiceTest extends TestCase
 {
     private $service;
 
     private function getConfig()
     {
         $config = require __DIR__.'/config.php';
-
         return $config;
     }
 
     public function setUp()
     {
-        $this->app = require __DIR__.'/../../../vendor/laravel/laravel/bootstrap/app.php';
+        parent::setUp();
 
-        $kernel = $this->app->make(\Illuminate\Contracts\Http\Kernel::class);
-
-        $kernel->handle(
-            $request = \Illuminate\Http\Request::capture()
-        );
-
-        $this->config = $this->app->make('config');
-
-        $this->config->set('health', $this->getConfig());
-
-        $this->serviceProvider = $this->app->register(ServiceProvider::class);
-
-        $this->service = $this->serviceProvider->getHealthService();
-
+//        $this->app = require __DIR__.'/../../../vendor/laravel/laravel/bootstrap/app.php';
+//        $kernel = $this->app->make(\Illuminate\Contracts\Http\Kernel::class);
+//        $kernel->handle(
+//            $request = \Illuminate\Http\Request::capture()
+//        );
+//        $this->config = $this->app->make('config');
+//        $this->config->set('health', $this->getConfig());
+//        $this->serviceProvider = $this->app->register(ServiceProvider::class);
+        $this->service = app('pragmarx.health');
         $this->resources = $this->service->checkResources();
     }
 
@@ -78,7 +72,6 @@ class ServiceTest extends PHPUnit_Framework_TestCase
                     ? 1
                     : 0);
         }, 0);
-
         $this->assertEquals(9, $healthCount);
     }
 }
