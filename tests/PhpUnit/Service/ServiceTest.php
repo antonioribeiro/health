@@ -13,6 +13,7 @@ class ServiceTest extends TestCase
     private function getConfig()
     {
         $config = require __DIR__.'/config.php';
+
         return $config;
     }
 
