@@ -9,12 +9,12 @@ use PragmaRX\Health\Tests\PhpUnit\TestCase;
 class ServiceTest extends TestCase
 {
     /**
-     * @var \PragmaRX\Health\Service $service
+     * @var \PragmaRX\Health\Service
      */
     private $service;
 
     /**
-     * @var \Illuminate\Support\Collection $resources
+     * @var \Illuminate\Support\Collection
      */
     private $resources;
 
