@@ -21,7 +21,9 @@
   },
 
   "require-dev": {
-    "laravel/laravel": "^5.3"
+    "laravel/laravel": "^5.3",
+    "orchestra/testbench": "~3.0",
+    "phpunit/phpunit": "~6.0"
   },
 
   "autoload": {
@@ -31,7 +33,8 @@
     ],
     "psr-4": {
       "PragmaRX\\Health\\": "src/",
-      "PragmaRX\\Health\\tests\\phpunit\\": "tests/phpunit/"
+      "PragmaRX\\Health\\tests\\phpunit\\": "tests/phpunit/",
+      "PragmaRX\\Health\\Tests\\PhpUnit\\": "tests/PhpUnit/"
     }
   },
 
