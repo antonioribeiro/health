@@ -20,19 +20,25 @@ class Cache
      */
     public function flush()
     {
-        if ($this->cacheFlushed) {
-            return;
-        }
-
-        try {
-            if ($this->getMinutes() !== false && $this->getCurrentRequest()->get('flush')) {
-                IlluminateCache::forget(config('health.cache.key'));
-
-                $this->cacheFlushed = true;
+        if (! $this->cacheFlushed) {
+            try {
+                if ($this->needsToFlush()) {
+                    $this->forceFlush();
+                }
+            } catch (Exception $exception) {
+                // cache service may be down
             }
-        } catch (Exception $exception) {
-            // cache service may be down
         }
+    }
+
+    /**
+     * Force cache flush.
+     */
+    protected function forceFlush()
+    {
+        IlluminateCache::forget(config('health.cache.key'));
+
+        $this->cacheFlushed = true;
     }
 
     /**
@@ -73,5 +79,13 @@ class Cache
         }
 
         return $checker();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function needsToFlush()
+    {
+        return $this->getMinutes() !== false && $this->getCurrentRequest()->get('flush');
     }
 }
