@@ -4,12 +4,29 @@ namespace PragmaRX\Health\Checkers;
 
 class DirectoryAndFilePresenceChecker extends BaseChecker
 {
+    /**
+     * File exists constant.
+     */
     const FILE_EXISTS = 0;
+
+    /**
+     * File does not exists constant.
+     */
     const FILE_DOES_NOT_EXISTS = 1;
+
+    /**
+     * Directory exists constant.
+     */
     const DIRECTORY_EXISTS = 2;
+
+    /**
+     * Directory does not exists constant.
+     */
     const DIRECTORY_DOES_NOT_EXISTS = 3;
 
     /**
+     * Checker.
+     *
      * @return bool
      */
     public function check()
@@ -24,6 +41,8 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
     }
 
     /**
+     * Check file or dir presence.
+     *
      * @return static
      */
     private function checkPresence()
@@ -48,41 +67,72 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
         return [$messages, $result];
     }
 
+    /**
+     * Build file exists checker.
+     *
+     * @return \Closure
+     */
+    public function buildFileExistsChecker()
+    {
+        return function ($file) {
+            return $this->fileExists($file);
+        };
+    }
+
+    /**
+     * Build file does not exists checker.
+     *
+     * @return \Closure
+     */
+    public function buildFileDoesNotExistsChecker()
+    {
+        return function ($file) {
+            return $this->fileDoesNotExists($file);
+        };
+    }
+
+    /**
+     * Build is directory checker.
+     *
+     * @return \Closure
+     */
+    public function buildIsDirectoryChecker()
+    {
+        return function ($file) {
+                    return $this->isDirectory($file);
+        };
+    }
+
+    /**
+     * Get checkers.
+     *
+     * @return array
+     */
     public function getCheckers()
     {
         return [
-            static::FILE_EXISTS => [
-                function ($file) {
-                    return $this->fileExists($file);
-                },
-            ],
+            static::FILE_EXISTS => [ $this->buildFileExistsChecker() ],
 
-            static::FILE_DOES_NOT_EXISTS => [
-                function ($file) {
-                    return $this->fileDoesNotExists($file);
-                },
-            ],
+            static::FILE_DOES_NOT_EXISTS => [ $this->buildFileDoesNotExistsChecker() ],
 
             static::DIRECTORY_EXISTS => [
-                function ($file) {
-                    return $this->fileExists($file);
-                },
-                function ($file) {
-                    return $this->isDirectory($file);
-                },
+                $this->buildFileExistsChecker(),
+                $this->buildIsDirectoryChecker()
             ],
 
             static::DIRECTORY_DOES_NOT_EXISTS => [
-                function ($file) {
-                    return $this->fileDoesNotExists($file);
-                },
-                function ($file) {
-                    return $this->isDirectory($file);
-                },
+                $this->buildFileDoesNotExistsChecker(),
+                $this->buildIsDirectoryChecker(),
             ],
         ];
     }
 
+    /**
+     * Check if a file exists.
+     *
+     * @param $file
+     * @return bool|string
+     */
     public function fileExists($file)
     {
         if (file_exists($file)) {
@@ -92,6 +142,12 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
         return sprintf('File "%s" does not exists.', $file);
     }
 
+    /**
+     * Check if a file does not exists.
+     *
+     * @param $file
+     * @return bool|string
+     */
     public function fileDoesNotExists($file)
     {
         if (! file_exists($file)) {
@@ -101,6 +157,12 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
         return sprintf('File "%s" exists.', $file);
     }
 
+    /**
+     * Check if a path is a directory.
+     *
+     * @param $file
+     * @return bool|string
+     */
     public function isDirectory($file)
     {
         if (is_dir($file)) {
