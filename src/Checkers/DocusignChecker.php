@@ -14,7 +14,7 @@ class DocusignChecker extends BaseChecker
      */
     public function check()
     {
-        if (! $this->login()) {
+        if (!$this->login()) {
             throw new Exception("Unable to authenticate to the DocuSign Api");
         }
 
