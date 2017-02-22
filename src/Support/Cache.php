@@ -20,11 +20,9 @@ class Cache
      */
     public function flush()
     {
-        if (!$this->cacheFlushed) {
+        if ($this->needsToFlush()) {
             try {
-                if ($this->needsToFlush()) {
-                    $this->forceFlush();
-                }
+                $this->forceFlush();
             } catch (Exception $exception) {
                 // cache service may be down
             }
@@ -86,6 +84,8 @@ class Cache
      */
     protected function needsToFlush()
     {
-        return $this->getMinutes() !== false && $this->getCurrentRequest()->get('flush');
+        return !$this->cacheFlushed &&
+                $this->getMinutes() !== false &&
+                $this->getCurrentRequest()->get('flush');
     }
 }
