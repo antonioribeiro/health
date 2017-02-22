@@ -346,6 +346,20 @@ return [
             'error_message' => 'A reboot is required in this server (Uptime Checker)',
         ],
 
+        'docusign' => [
+            'abbreviation' => 'dcsgn',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\DocusignChecker::class,
+            'email' => env('DOCUSIGN_USERNAME'),
+            'password' => env('DOCUSIGN_PASSWORD'),
+            'integrator_key' => env('DOCUSIGN_INTEGRATOR_KEY'),
+            'debug' => env('DOCUSIGN_DEBUG'),
+            'debug_file' => storage_path('logs/docusign.log'),
+            'notify' => true,
+            'api_host' => env('DOCUSIGN_HOST'),
+            'error_message' => 'A reboot is required in this server (Uptime Checker)',
+        ],
+
     ],
 
 ];
