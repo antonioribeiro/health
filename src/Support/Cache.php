@@ -20,7 +20,7 @@ class Cache
      */
     public function flush()
     {
-        if (! $this->cacheFlushed) {
+        if (!$this->cacheFlushed) {
             try {
                 if ($this->needsToFlush()) {
                     $this->forceFlush();
