@@ -54,8 +54,7 @@ class ProcessChecker extends BaseChecker
     {
         return $this->processPidFileIsLocked()
                 ? 1
-                : 0
-        ;
+                : 0;
     }
 
     private function countRunningProcesses()
@@ -89,7 +88,7 @@ class ProcessChecker extends BaseChecker
     private function checkPidFileLockState($file)
     {
         try {
-            $filePointer = fopen($file, "r+");
+            $filePointer = fopen($file, 'r+');
         } catch (\Exception $exception) {
             return;
         }
