@@ -16,7 +16,7 @@ class ResourceLoader
     private function getEnabledResources($resources)
     {
         if (is_array($keys = config($configKey = 'health.resources_enabled'))) {
-            return collect($resources)->reject(function($value, $key) use ($keys) {
+            return collect($resources)->reject(function ($value, $key) use ($keys) {
                 return ! in_array($key, $keys);
             });
         }
@@ -43,7 +43,7 @@ class ResourceLoader
 
     private function loadArray()
     {
-        return collect(config('health.resources'))->mapWithKeys(function($value, $key) {
+        return collect(config('health.resources'))->mapWithKeys(function ($value, $key) {
             return [studly_case($key) => $value];
         });
     }
@@ -52,9 +52,9 @@ class ResourceLoader
     {
         $local = $this->yaml->loadYamlFromDir(config('health.resources_location.path'));
 
-        return $this->yaml->loadYamlFromDir(package_resources_dir())->reject(function($item, $key) use ($local) {
+        return $this->yaml->loadYamlFromDir(package_resources_dir())->reject(function ($item, $key) use ($local) {
             return $local->keys()->has($key);
-        })->merge($local)->mapWithKeys(function($value, $key) {
+        })->merge($local)->mapWithKeys(function ($value, $key) {
             return [$this->removeExtension($key) => $value];
         });
     }
@@ -134,7 +134,7 @@ class ResourceLoader
     private function sanitizeResources($resources)
     {
         return $resources->map(function ($resource) {
-            return collect($resource)->mapWithKeys(function($value, $key) {
+            return collect($resource)->mapWithKeys(function ($value, $key) {
                 return [$this->sanitizeKey($key) => $value];
             });
         });
