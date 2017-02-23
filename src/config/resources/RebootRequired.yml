@@ -1,0 +1,7 @@
+abbreviation: rbtrqrd
+checker: PragmaRX\Health\Checkers\DirectoryAndFilePresenceChecker
+files:
+    /var/run/reboot-required: 1
+notify: true
+error_message: 'A reboot is required in this server (Uptime Checker)'
+column_size: 4

@@ -1,0 +1,6 @@
+abbreviation: hlth
+checker: PragmaRX\Health\Checkers\HealthChecker
+is_global: true
+notify: false
+error_message: 'At least one resource failed the health check.'
+column_size: 12

@@ -12,6 +12,7 @@ use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Support\ResourceChecker;
 use PragmaRX\Health\Listeners\NotifyHealthIssue;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use PragmaRX\Health\Support\Yaml;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -107,7 +108,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function createResourceChecker()
     {
-        $resourceLoader = new ResourceLoader();
+        $resourceLoader = new ResourceLoader(new Yaml());
 
         $this->cacheClosure = $this->getCacheClosure();
 
@@ -263,6 +264,14 @@ class ServiceProvider extends IlluminateServiceProvider
         Artisan::command('health:check', function () use ($commands) {
             $commands->check($this);
         })->describe('Check resources health and send error notifications.');
+
+        Artisan::command('health:export', function () use ($commands) {
+            $commands->exportResources($this);
+        })->describe('Export resources to .yml files');
+
+        Artisan::command('health:publish', function () use ($commands) {
+            $commands->publish($this);
+        })->describe('Publish all .yml resouces files to config directory.');
     }
 
     /**

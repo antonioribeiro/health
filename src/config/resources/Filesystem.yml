@@ -1,0 +1,5 @@
+abbreviation: flstm
+checker: PragmaRX\Health\Checkers\FilesystemChecker
+notify: true
+error-message: 'Unable to create temp file: %s.'
+column_size: 4

@@ -1,0 +1,11 @@
+abbreviation: dcsgn
+checker: PragmaRX\Health\Checkers\DocusignChecker
+email: {{ docusign.email }}
+password: {{ docusign.password }}
+integrator_key: {{ docusign.integrator_key }}
+debug: {{ docusign.debug }}
+debug_file: storage/logs/docusign.log
+notify: true
+api_host: {{ docusign.host }}
+error_message: 'A reboot is required in this server (Uptime Checker)'
+column_size: 4
