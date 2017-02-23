@@ -19,7 +19,7 @@ class ProcessChecker extends BaseChecker
     {
         $message = $this->checkMinMax($this->getProcessesRunningCount());
 
-        if (!empty($message)) {
+        if (! empty($message)) {
             return $this->makeResult(false, $message);
         }
 
