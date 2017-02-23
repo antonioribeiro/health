@@ -84,7 +84,7 @@ class Cache
      */
     protected function needsToFlush()
     {
-        return !$this->cacheFlushed &&
+        return ! $this->cacheFlushed &&
                 $this->getMinutes() !== false &&
                 $this->getCurrentRequest()->get('flush');
     }
