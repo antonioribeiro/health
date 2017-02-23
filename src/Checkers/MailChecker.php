@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Mail;
+use Illuminate\Support\Facades\Mail;
 
 class MailChecker extends BaseChecker
 {
