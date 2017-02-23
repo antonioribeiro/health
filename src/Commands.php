@@ -3,8 +3,8 @@
 namespace PragmaRX\Health;
 
 use Illuminate\Console\Command;
-use PragmaRX\Health\Service as HealthService;
 use PragmaRX\Health\Support\Yaml;
+use PragmaRX\Health\Service as HealthService;
 
 class Commands
 {
@@ -77,14 +77,14 @@ class Commands
     {
         $yaml = new Yaml();
 
-        collect(config('health.resources'))->each(function($resource, $key) use ($command, $yaml) {
+        collect(config('health.resources'))->each(function ($resource, $key) use ($command, $yaml) {
             $path = config('health.resources_location.path');
 
             $resource['column_size'] = (int) $resource['columnSize'];
 
             unset($resource['columnSize']);
 
-            if (!file_exists($path)) {
+            if (! file_exists($path)) {
                 mkdir($path, 0660, true);
             }
 
@@ -101,7 +101,7 @@ class Commands
         $yaml = new Yaml();
 
         $yaml->loadYamlFromDir(package_resources_dir(), false)->each(function ($value, $key) use ($command) {
-            if (!file_exists($path = config('health.resources_location.path'))) {
+            if (! file_exists($path = config('health.resources_location.path'))) {
                 mkdir($path, 0660, true);
             }
 
