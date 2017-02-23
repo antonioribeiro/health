@@ -389,7 +389,6 @@ return [
             'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\ProcessChecker::class,
             'command' => 'pgrep %s',
-            // 'method' => PragmaRX\Health\Checkers\ProcessChecker::METHOD_PROCESS_COUNT,
             'method' => PragmaRX\Health\Checkers\ProcessChecker::METHOD_PROCESS_COUNT,
             'process_name' => 'php-fpm',
             'pid_file' => '/tmp/php7.1-fpm.pid',
