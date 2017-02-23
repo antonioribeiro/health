@@ -346,7 +346,7 @@ return [
             'error_message' => 'A reboot is required in this server (Uptime Checker)',
         ],
 
-        'docusign' => [
+        'docu_sign' => [
             'abbreviation' => 'dcsgn',
             'columnSize' => '6',
             'checker' => PragmaRX\Health\Checkers\DocusignChecker::class,
@@ -358,6 +358,175 @@ return [
             'notify' => true,
             'api_host' => env('DOCUSIGN_HOST'),
             'error_message' => 'A reboot is required in this server (Uptime Checker)',
+        ],
+
+        'supervisor' => [
+            'abbreviation' => 'sprvsr',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\ProcessChecker::class,
+            'command' => 'ps aux | grep python | grep supervisord',
+            'method' => PragmaRX\Health\Checkers\ProcessChecker::METHOD_PROCESS_COUNT,
+            'process_name' => 'supervisor',
+            'pid_file' => '',
+            'instances' => [
+                'minimum' => [
+                    'count' => 1,
+                    'message' => 'Process "%s" has not enough instances running: it has %s, when should have at least %s',
+                ],
+                'maximum' => [
+                    'count' => 3,
+                    'message' => 'Process "%s" exceeded the maximum number of running instances: it has %s, when should have at most %s',
+                ],
+            ],
+            'notify' => true,
+            'pid_file_missing_error_message' => 'Process ID file is missing: %s.',
+            'pid_file_missing_not_locked' => 'Process ID file is not being used by any process: %s.',
+            'error_message' => 'Supervisor is not running',
+        ],
+
+        'php' => [
+            'abbreviation' => 'php',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\ProcessChecker::class,
+            'command' => 'pgrep %s',
+            // 'method' => PragmaRX\Health\Checkers\ProcessChecker::METHOD_PROCESS_COUNT,
+            'method' => PragmaRX\Health\Checkers\ProcessChecker::METHOD_PROCESS_COUNT,
+            'process_name' => 'php-fpm',
+            'pid_file' => '/tmp/php7.1-fpm.pid',
+            'instances' => [
+                'minimum' => [
+                    'count' => 2,
+                    'message' => 'Process "%s" has not enough instances running: it has %s, when should have at least %s',
+                ],
+                'maximum' => [
+                    'count' => 20,
+                    'message' => 'Process "%s" exceeded the maximum number of running instances: it has %s, when should have at most %s',
+                ],
+            ],
+            'notify' => true,
+            'pid_file_missing_error_message' => 'Process ID file is missing: %s.',
+            'pid_file_missing_not_locked' => 'Process ID file is not being used by any process: %s.',
+            'error_message' => 'Supervisor is not running',
+        ],
+
+        'my_sql' => [
+            'abbreviation' => 'msql',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\ProcessChecker::class,
+            'command' => 'pgrep %s',
+            'method' => PragmaRX\Health\Checkers\ProcessChecker::METHOD_PROCESS_COUNT,
+            'process_name' => 'mysqld',
+            'pid_file' => '',
+            'instances' => [
+                'minimum' => [
+                    'count' => 1,
+                    'message' => 'Process "%s" has not enough instances running: it has %s, when should have at least %s',
+                ],
+                'maximum' => [
+                    'count' => 20,
+                    'message' => 'Process "%s" exceeded the maximum number of running instances: it has %s, when should have at most %s',
+                ],
+            ],
+            'notify' => true,
+            'pid_file_missing_error_message' => 'Process ID file is missing: %s.',
+            'pid_file_missing_not_locked' => 'Process ID file is not being used by any process: %s.',
+            'error_message' => 'Supervisor is not running',
+        ],
+
+        'redis_server' => [
+            'abbreviation' => 'rdssrvr',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\ProcessChecker::class,
+            'command' => 'pgrep %s',
+            'method' => PragmaRX\Health\Checkers\ProcessChecker::METHOD_PROCESS_COUNT,
+            'process_name' => 'redis-server',
+            'pid_file' => '',
+            'instances' => [
+                'minimum' => [
+                    'count' => 1,
+                    'message' => 'Process "%s" has not enough instances running: it has %s, when should have at least %s',
+                ],
+                'maximum' => [
+                    'count' => 20,
+                    'message' => 'Process "%s" exceeded the maximum number of running instances: it has %s, when should have at most %s',
+                ],
+            ],
+            'notify' => true,
+            'pid_file_missing_error_message' => 'Process ID file is missing: %s.',
+            'pid_file_missing_not_locked' => 'Process ID file is not being used by any process: %s.',
+            'error_message' => 'Supervisor is not running',
+        ],
+
+        'queue_workers' => [
+            'abbreviation' => 'qwrkrs',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\ProcessChecker::class,
+            'command' => 'ps aux | grep php | grep queue:work',
+            'method' => PragmaRX\Health\Checkers\ProcessChecker::METHOD_PROCESS_COUNT,
+            'process_name' => 'php',
+            'pid_file' => '',
+            'instances' => [
+                'minimum' => [
+                    'count' => 1,
+                    'message' => 'Process "%s" has not enough instances running: it has %s, when should have at least %s',
+                ],
+                'maximum' => [
+                    'count' => 3,
+                    'message' => 'Process "%s" exceeded the maximum number of running instances: it has %s, when should have at most %s',
+                ],
+            ],
+            'notify' => true,
+            'pid_file_missing_error_message' => 'Process ID file is missing: %s.',
+            'pid_file_missing_not_locked' => 'Process ID file is not being used by any process: %s.',
+            'error_message' => 'Supervisor is not running',
+        ],
+
+        'newrelic_deamon' => [
+            'abbreviation' => 'nwrlcdmn',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\ProcessChecker::class,
+            'command' => 'pgrep %s',
+            'method' => PragmaRX\Health\Checkers\ProcessChecker::METHOD_PROCESS_COUNT,
+            'process_name' => 'newrelic-daemon',
+            'pid_file' => '',
+            'instances' => [
+                'minimum' => [
+                    'count' => 1,
+                    'message' => 'Process "%s" has not enough instances running: it has %s, when should have at least %s',
+                ],
+                'maximum' => [
+                    'count' => 1,
+                    'message' => 'Process "%s" exceeded the maximum number of running instances: it has %s, when should have at most %s',
+                ],
+            ],
+            'notify' => true,
+            'pid_file_missing_error_message' => 'Process ID file is missing: %s.',
+            'pid_file_missing_not_locked' => 'Process ID file is not being used by any process: %s.',
+            'error_message' => 'Supervisor is not running',
+        ],
+
+        'sshd' => [
+            'abbreviation' => 'sshd',
+            'columnSize' => '6',
+            'checker' => PragmaRX\Health\Checkers\ProcessChecker::class,
+            'command' => 'pgrep %s',
+            'method' => PragmaRX\Health\Checkers\ProcessChecker::METHOD_PROCESS_COUNT,
+            'process_name' => 'sshd',
+            'pid_file' => '',
+            'instances' => [
+                'minimum' => [
+                    'count' => 1,
+                    'message' => 'Process "%s" has not enough instances running: it has %s, when should have at least %s',
+                ],
+                'maximum' => [
+                    'count' => 15,
+                    'message' => 'Process "%s" exceeded the maximum number of running instances: it has %s, when should have at most %s',
+                ],
+            ],
+            'notify' => true,
+            'pid_file_missing_error_message' => 'Process ID file is missing: %s.',
+            'pid_file_missing_not_locked' => 'Process ID file is not being used by any process: %s.',
+            'error_message' => 'Supervisor is not running',
         ],
 
     ],
