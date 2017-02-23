@@ -1,0 +1,7 @@
+abbreviation: csh
+checker: PragmaRX\Health\Checkers\CacheChecker
+notify: true
+error_message: 'Cache is not returning cached values.'
+key: health-cache-test
+minutes: 1
+column_size: 4

@@ -1,0 +1,6 @@
+abbreviation: db
+checker: PragmaRX\Health\Checkers\DatabaseChecker
+notify: true
+models:
+    - Clearitie\Models\User
+column_size: 4

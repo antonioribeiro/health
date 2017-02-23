@@ -1,0 +1,17 @@
+abbreviation: sshd
+checker: PragmaRX\Health\Checkers\ProcessChecker
+command: 'pgrep %s'
+method: process_count
+process_name: sshd
+pid_file: ''
+instances:
+    minimum:
+        count: 1
+        message: 'Process "%s" has not enough instances running: it has %s, when should have at least %s'
+    maximum:
+        count: 15
+        message: 'Process "%s" exceeded the maximum number of running instances: it has %s, when should have at most %s'
+notify: true
+pid_file_missing_error_message: 'Process ID file is missing: %s.'
+pid_file_missing_not_locked: 'Process ID file is not being used by any process: %s.'
+column_size: 4

@@ -4,6 +4,7 @@ namespace PragmaRX\Health;
 
 use Illuminate\Console\Command;
 use PragmaRX\Health\Service as HealthService;
+use PragmaRX\Health\Support\Yaml;
 
 class Commands
 {
@@ -70,5 +71,47 @@ class Commands
         }
 
         $command->info('Check completed with no errors.');
+    }
+
+    public function exportResources(Command $command)
+    {
+        $yaml = new Yaml();
+
+        collect(config('health.resources'))->each(function($resource, $key) use ($command, $yaml) {
+            $path = config('health.resources_location.path');
+
+            $resource['column_size'] = (int) $resource['columnSize'];
+
+            unset($resource['columnSize']);
+
+            if (!file_exists($path)) {
+                mkdir($path, 0660, true);
+            }
+
+            $dump = $yaml->dump($resource, 5);
+
+            file_put_contents($file = $path.DIRECTORY_SEPARATOR.studly_case($key).'.yml', $dump);
+
+            $command->info('Exported '.$file);
+        });
+    }
+
+    public function publish(Command $command)
+    {
+        $yaml = new Yaml();
+
+        $yaml->loadYamlFromDir(package_resources_dir(), false)->each(function ($value, $key) use ($command) {
+            if (!file_exists($path = config('health.resources_location.path'))) {
+                mkdir($path, 0660, true);
+            }
+
+            if (file_exists($file = $path.DIRECTORY_SEPARATOR.$key)) {
+                return $command->warn('Skipped: '.$file);
+            }
+
+            file_put_contents($file, $value);
+
+            $command->info('Saved: '.$file);
+        });
     }
 }

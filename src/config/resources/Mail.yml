@@ -1,0 +1,18 @@
+abbreviation: ml
+checker: PragmaRX\Health\Checkers\MailChecker
+notify: true
+view: 'pragmarx/health::default.email'
+config:
+    driver: log
+    host: mailtrap.io
+    port: '2525'
+    from:
+        address: health@example.com
+        name: 'Health Checker'
+    encryption: null
+    username: {{ mail.username }}
+    password: {{ mail.password }}
+    sendmail: '/usr/sbin/sendmail -bs'
+to: you-know-who@sink.sendgrid.net
+subject: 'Health Test mail'
+column_size: 4

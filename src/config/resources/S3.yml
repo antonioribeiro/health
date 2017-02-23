@@ -1,0 +1,8 @@
+abbreviation: s3
+checker: PragmaRX\Health\Checkers\CloudStorageChecker
+notify: true
+driver: s3
+file: pragmarx-health-s3-testfile.txt
+contents: {{ str_random(32) }}
+error_message: 'Amazon S3 connection is failing.'
+column_size: 4

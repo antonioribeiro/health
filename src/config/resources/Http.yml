@@ -1,0 +1,5 @@
+abbreviation: http
+checker: PragmaRX\Health\Checkers\HttpChecker
+notify: true
+url: {{ app.url }}
+column_size: 4

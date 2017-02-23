@@ -16,7 +16,7 @@
                                 'itemName' => $item['name'],
                                 'itemHealth' => $item['health']['healthy'],
                                 'itemMessage' => $item['health']['message'],
-                                'columnSize' => $item['columnSize']
+                                'columnSize' => $item['columnSize'] ?: $item['column_size']
                             ]
                         )
                     @endforeach
