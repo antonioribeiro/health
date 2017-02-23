@@ -88,25 +88,17 @@ class ProcessChecker extends BaseChecker
     private function checkPidFileLockState($file)
     {
         try {
-            $filePointer = fopen($file, 'r+');
-        } catch (\Exception $exception) {
-            return;
-        }
-
-        try {
-            $locked = flock($filePointer, LOCK_EX);
+            $locked = flock($filePointer = fopen($file, 'r+'), LOCK_EX);
 
             flock($filePointer, LOCK_UN);
+
+            fclose($filePointer);
+
+            if (! $locked) {
+                throw new Exception(sprintf($this->resource['pid_file_missing_not_locked'], $file));
+            }
         } catch (\Exception $exception) {
         }
-
-        fclose($filePointer);
-
-        if ($locked) {
-            return;
-        }
-
-        throw new Exception(sprintf($this->resource['pid_file_missing_not_locked'], $file));
     }
 
     /**
