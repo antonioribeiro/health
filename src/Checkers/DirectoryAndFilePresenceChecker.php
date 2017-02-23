@@ -99,7 +99,7 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
     public function buildIsDirectoryChecker()
     {
         return function ($file) {
-                    return $this->isDirectory($file);
+            return $this->isDirectory($file);
         };
     }
 
@@ -111,13 +111,13 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
     public function getCheckers()
     {
         return [
-            static::FILE_EXISTS => [ $this->buildFileExistsChecker() ],
+            static::FILE_EXISTS => [$this->buildFileExistsChecker()],
 
-            static::FILE_DOES_NOT_EXISTS => [ $this->buildFileDoesNotExistsChecker() ],
+            static::FILE_DOES_NOT_EXISTS => [$this->buildFileDoesNotExistsChecker()],
 
             static::DIRECTORY_EXISTS => [
                 $this->buildFileExistsChecker(),
-                $this->buildIsDirectoryChecker()
+                $this->buildIsDirectoryChecker(),
             ],
 
             static::DIRECTORY_DOES_NOT_EXISTS => [
