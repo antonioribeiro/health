@@ -19,7 +19,7 @@ class ProcessChecker extends BaseChecker
     {
         $message = $this->checkMinMax($this->getProcessesRunningCount());
 
-        if ($message) {
+        if (!empty($message)) {
             return $this->makeResult(false, $message);
         }
 
@@ -98,6 +98,7 @@ class ProcessChecker extends BaseChecker
                 throw new Exception(sprintf($this->resource['pid_file_missing_not_locked'], $file));
             }
         } catch (\Exception $exception) {
+            // Nice, file is locked!
         }
     }
 
