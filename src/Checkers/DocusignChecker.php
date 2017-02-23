@@ -14,8 +14,8 @@ class DocusignChecker extends BaseChecker
      */
     public function check()
     {
-        if (!$this->login()) {
-            throw new Exception("Unable to authenticate to the DocuSign Api");
+        if (! $this->login()) {
+            throw new Exception('Unable to authenticate to the DocuSign Api');
         }
 
         return $this->makeHealthyResult();
@@ -54,14 +54,13 @@ class DocusignChecker extends BaseChecker
             ->setDebugFile($this->resource['debug_file'])
             ->setHost($this->resource['api_host'])
             ->addDefaultHeader(
-                "X-DocuSign-Authentication",
+                'X-DocuSign-Authentication',
                 json_encode([
                                 'Username'      => $this->resource['email'],
                                 'Password'      => $this->resource['password'],
-                                'IntegratorKey' => $this->resource['integrator_key']
+                                'IntegratorKey' => $this->resource['integrator_key'],
                             ])
-            )
-        ;
+            );
     }
 
     /**
