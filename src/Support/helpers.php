@@ -53,37 +53,23 @@ if (! function_exists('package_resources_dir')) {
 
 if (! function_exists('is_absolute_path')) {
     /**
-     * Check if string is absulute path.
+     * Check if string is absolute path.
      *
+     * @param $path
      * @return string
      */
     function is_absolute_path($path)
     {
-        if (! is_string($path)) {
-            $mess = sprintf('String expected but was given %s', gettype($path));
-            throw new \InvalidArgumentException($mess);
-        }
-
-        if (! ctype_print($path)) {
-            $mess = 'Path can NOT have non-printable characters or be empty';
-            throw new \DomainException($mess);
-        }
-
-        // Optional wrapper(s).
-        $regExp = '%^(?<wrappers>(?:[[:print:]]{2,}://)*)';
-
-        // Optional root prefix.
-        $regExp .= '(?<root>(?:[[:alpha:]]:/|/)?)';
-
-        // Actual path.
-        $regExp .= '(?<path>(?:[[:print:]]*))$%';
+                    // Optional wrapper(s).
+        $regExp = '%^(?<wrappers>(?:[[:print:]]{2,}://)*)' .
+                    // Optional root prefix.
+                    '(?<root>(?:[[:alpha:]]:/|/)?)' .
+                    // Actual path.
+                    '(?<path>(?:[[:print:]]*))$%';
 
         $parts = [];
 
-        if (! preg_match($regExp, $path, $parts)) {
-            $mess = sprintf('Path is NOT valid, was given %s', $path);
-            throw new \DomainException($mess);
-        }
+        preg_match($regExp, $path, $parts);
 
         if ('' !== $parts['root']) {
             return true;
