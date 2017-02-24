@@ -3,7 +3,7 @@
 namespace PragmaRX\Health\Checkers;
 
 use Carbon\CarbonInterval;
-use PragmaRX\Support\Exceptions\Exception;
+use DomainException;
 
 class ServerUptimeChecker extends BaseChecker
 {
@@ -34,7 +34,7 @@ class ServerUptimeChecker extends BaseChecker
         $error = exec($this->resource['command'], $system_string, $output);
 
         if ($output !== 0) {
-            throw new Exception((string) $error);
+            throw new DomainException((string) $error);
         }
 
         return (! is_array($system_string) || empty($system_string))
