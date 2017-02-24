@@ -8,7 +8,35 @@ use PragmaRX\Health\Tests\PhpUnit\TestCase;
 
 class ServiceTest extends TestCase
 {
-    const RESOURCES_AVAILABLE = 27;
+    const ALL_RESOURCES = [
+        'health',
+        'broadcasting',
+        'cache',
+        'database',
+        'docusign',
+        'filesystem',
+        'framework',
+        'http',
+        'https',
+        'laravelservices',
+        'localstorage',
+        'mail',
+        'mysql',
+        'newrelicdeamon',
+        'nginxserver',
+        'php',
+        'postgresqlserver',
+        'queue',
+        'queueworkers',
+        'rebootrequired',
+        'redis',
+        'redisserver',
+        's3',
+        'serverload',
+        'serveruptime',
+        'sshd',
+        'supervisor',
+    ];
 
     const RESOURCES_FAILING = [
         'Health',
@@ -71,41 +99,13 @@ class ServiceTest extends TestCase
 
     public function testResourcesHasTheCorrectCount()
     {
-        $this->assertCount(static::RESOURCES_AVAILABLE, $this->resources->toArray());
+        $this->assertCount(count(static::ALL_RESOURCES), $this->resources->toArray());
     }
 
     public function testResourcesItemsMatchConfig()
     {
         $this->assertEquals(
-            [
-                'health',
-                'broadcasting',
-                'cache',
-                'database',
-                'docusign',
-                'filesystem',
-                'framework',
-                'http',
-                'https',
-                'laravelservices',
-                'localstorage',
-                'mail',
-                'mysql',
-                'newrelicdeamon',
-                'nginxserver',
-                'php',
-                'postgresqlserver',
-                'queue',
-                'queueworkers',
-                'rebootrequired',
-                'redis',
-                'redisserver',
-                's3',
-                'serverload',
-                'serveruptime',
-                'sshd',
-                'supervisor',
-            ],
+            static::ALL_RESOURCES,
             $this->resources->keys()->map(function ($value) {
                 return strtolower($value);
             })->toArray()
@@ -120,7 +120,7 @@ class ServiceTest extends TestCase
                     : 0);
         }, 0);
 
-        $this->assertEquals(static::RESOURCES_AVAILABLE, $healthCount);
+        $this->assertEquals(count(static::ALL_RESOURCES), $healthCount);
 
         $this->assertEquals(
             0,
