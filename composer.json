@@ -1,9 +1,9 @@
 {
   "name": "pragmarx/health",
 
-  "description": "Laravel Server Health and Notifier",
+  "description": "Laravel Server & App Health Monitor and Notifier",
 
-  "keywords": ["health", "laravel", "pragmarx", "notifications", "panel"],
+  "keywords": ["health", "laravel", "pragmarx", "notifications", "panel", "monitor", "server", "app"],
 
   "license": "BSD-3-Clause",
 
@@ -24,7 +24,8 @@
     "laravel/laravel": "^5.3",
     "orchestra/testbench": "~3.0",
     "phpunit/phpunit": "~6.0",
-    "guzzlehttp/guzzle": "~6.0"
+    "guzzlehttp/guzzle": "~6.0",
+    "symfony/yaml": "~3.2"
   },
 
   "autoload": {
