@@ -91,7 +91,7 @@ return [
     'style' => [
         'button_lines' => 'multi', // multi or single
 
-        'multiplier' => 0.5,
+        'multiplier' => 0.4,
     ],
 
     'views' => [
