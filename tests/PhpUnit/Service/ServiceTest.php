@@ -106,7 +106,9 @@ class ServiceTest extends TestCase
                 'sshd',
                 'supervisor',
             ],
-            $this->resources->keys()->map(function($value) { return strtolower($value); })->toArray()
+            $this->resources->keys()->map(function ($value) {
+                return strtolower($value);
+            })->toArray()
         );
     }
 
@@ -123,7 +125,7 @@ class ServiceTest extends TestCase
         $this->assertEquals(
             0,
             $this->resources
-                ->reject(function($item) {
+                ->reject(function ($item) {
                     return $item['health']['healthy'];
                 })
                 ->keys()
