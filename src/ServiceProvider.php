@@ -5,6 +5,7 @@ namespace PragmaRX\Health;
 use Event;
 use Artisan;
 use Illuminate\Routing\Router;
+use PragmaRX\Health\Support\Yaml;
 use PragmaRX\Health\Support\Cache;
 use Illuminate\Console\Scheduling\Schedule;
 use PragmaRX\Health\Support\ResourceLoader;
@@ -12,7 +13,6 @@ use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Support\ResourceChecker;
 use PragmaRX\Health\Listeners\NotifyHealthIssue;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-use PragmaRX\Health\Support\Yaml;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
