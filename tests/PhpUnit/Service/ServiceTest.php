@@ -8,6 +8,20 @@ use PragmaRX\Health\Tests\PhpUnit\TestCase;
 
 class ServiceTest extends TestCase
 {
+    const RESOURCES_AVAILABLE = 27;
+
+    const RESOURCES_FAILING = [
+        'Health',
+        'Broadcasting',
+        'Database',
+        'DocuSign',
+        'Http',
+        'Https',
+        'NewrelicDeamon',
+        'Redis',
+        'S3',
+    ];
+
     /**
      * @var \PragmaRX\Health\Service
      */
@@ -33,7 +47,7 @@ class ServiceTest extends TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('health', $this->getConfig());
+        $app['config']->set('health.resources_location.path', package_resources_dir());
     }
 
     public function setUp()
@@ -52,12 +66,12 @@ class ServiceTest extends TestCase
 
     public function testConfigWasLoadedProperly()
     {
-        $this->assertEquals($this->resources['health']['error_message'], 'This is a test only error message.');
+        $this->assertEquals($this->resources['Health']['error_message'], 'At least one resource failed the health check.');
     }
 
     public function testResourcesHasTheCorrectCount()
     {
-        $this->assertCount(9, $this->resources->toArray());
+        $this->assertCount(static::RESOURCES_AVAILABLE, $this->resources->toArray());
     }
 
     public function testResourcesItemsMatchConfig()
@@ -65,16 +79,34 @@ class ServiceTest extends TestCase
         $this->assertEquals(
             [
                 'health',
+                'broadcasting',
                 'cache',
-                'cloud_storage',
                 'database',
+                'docusign',
                 'filesystem',
                 'framework',
                 'http',
                 'https',
+                'laravelservices',
+                'localstorage',
                 'mail',
+                'mysql',
+                'newrelicdeamon',
+                'nginxserver',
+                'php',
+                'postgresqlserver',
+                'queue',
+                'queueworkers',
+                'rebootrequired',
+                'redis',
+                'redisserver',
+                's3',
+                'serverload',
+                'serveruptime',
+                'sshd',
+                'supervisor',
             ],
-            $this->resources->keys()->toArray()
+            $this->resources->keys()->map(function($value) { return strtolower($value); })->toArray()
         );
     }
 
@@ -85,6 +117,17 @@ class ServiceTest extends TestCase
                     ? 1
                     : 0);
         }, 0);
-        $this->assertEquals(9, $healthCount);
+
+        $this->assertEquals(static::RESOURCES_AVAILABLE, $healthCount);
+
+        $this->assertEquals(
+            0,
+            $this->resources
+                ->reject(function($item) {
+                    return $item['health']['healthy'];
+                })
+                ->keys()
+                ->diff(static::RESOURCES_FAILING)->count()
+        );
     }
 }

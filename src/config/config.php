@@ -1,18 +1,16 @@
 <?php
 
-use PragmaRX\Health\Support\Constants;
-
 return [
 
-    'title' => 'Laravel Health Check Panel',
+    'title' => 'CLEARiTIE Health Check Panel',
 
     'resources_location' => [
         'path' => config_path('health/resources'),
 
-        'type' => Constants::RESOURCES_TYPE_BOTH,
+        'type' => PragmaRX\Health\Support\Constants::RESOURCES_TYPE_BOTH,
     ],
 
-    'resources_enabled' => Constants::RESOURCES_ENABLED_ALL, // use an array to select some
+    'resources_enabled' => PragmaRX\Health\Support\Constants::RESOURCES_ENABLED_ALL, // use an array to select some
 
     'sort_by' => 'slug',
 
@@ -39,7 +37,7 @@ return [
         'action_message' => "The '%s' service is in trouble and needs attention%s",
 
         'from' => [
-            'name' => 'Laravel Health Checker',
+            'name' => 'CLEARiTIE Health Checker',
 
             'address' => 'healthchecker@mydomain.com',
 

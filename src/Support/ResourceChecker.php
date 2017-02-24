@@ -257,6 +257,10 @@ class ResourceChecker
      */
     public function getResources()
     {
+        if (is_null($this->resources)) {
+            $this->loadResources();
+        }
+
         return $this->resources;
     }
 
@@ -285,7 +289,9 @@ class ResourceChecker
      */
     public function loadResources()
     {
-        $this->resources = $this->resourceLoader->loadResources();
+        if (is_null($this->resources)) {
+            $this->resources = $this->resourceLoader->loadResources();
+        }
     }
 
     /**

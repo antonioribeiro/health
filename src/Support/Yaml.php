@@ -6,6 +6,13 @@ use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
 class Yaml
 {
+    /**
+     * Load yaml files from directory.
+     *
+     * @param $directory
+     * @param bool $parseYaml
+     * @return static
+     */
     public function loadYamlFromDir($directory, $parseYaml = true)
     {
         return collect(scandir($directory) ?: [])->reject(function ($item) {
@@ -15,11 +22,23 @@ class Yaml
         });
     }
 
+    /**
+     * Parse a yaml file.
+     *
+     * @param $contents
+     * @return mixed
+     */
     private function parseFile($contents)
     {
         return SymfonyYaml::parse($this->replaceContents($contents));
     }
 
+    /**
+     * Replace contents.
+     *
+     * @param $contents
+     * @return mixed
+     */
     private function replaceContents($contents)
     {
         preg_match_all('/{{(.*)}}/', $contents, $matches);
@@ -33,6 +52,12 @@ class Yaml
         return $contents;
     }
 
+    /**
+     * Resolve variable.
+     *
+     * @param $key
+     * @return string
+     */
     private function resolveVariable($key)
     {
         $key = trim($key);
@@ -44,6 +69,12 @@ class Yaml
         return config($key) ?: 'null';
     }
 
+    /**
+     * Execute function.
+     *
+     * @param $string
+     * @return mixed
+     */
     private function executeFunction($string)
     {
         preg_match_all('/(.*)\((.*)\)/', $string, $matches);
@@ -55,6 +86,14 @@ class Yaml
         }
     }
 
+    /**
+     * Load yaml file.
+     *
+     * @param $directory
+     * @param $file
+     * @param bool $parseYaml
+     * @return mixed|string
+     */
     private function loadFile($directory, $file, $parseYaml = true)
     {
         $file = file_get_contents($directory.DIRECTORY_SEPARATOR.$file);
@@ -66,6 +105,15 @@ class Yaml
         return $file;
     }
 
+    /**
+     * Dump array to yaml.
+     *
+     * @param $input
+     * @param int $inline
+     * @param int $indent
+     * @param int $flags
+     * @return string
+     */
     public function dump($input, $inline = 5, $indent = 4, $flags = 0)
     {
         return SymfonyYaml::dump($input, $inline, $indent, $flags);

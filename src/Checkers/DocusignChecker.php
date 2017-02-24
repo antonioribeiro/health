@@ -51,12 +51,12 @@ class DocusignChecker extends BaseChecker
     {
         return (new Configuration)
             ->setDebug($this->resource['debug'])
-            ->setDebugFile($this->resource['debug_file'])
+            ->setDebugFile($this->makeFileName($this->resource['debug_file']))
             ->setHost($this->resource['api_host'])
             ->addDefaultHeader(
                 'X-DocuSign-Authentication',
                 json_encode([
-                                'Username'      => $this->resource['email'],
+                                'Username'      => $this->resource['username'],
                                 'Password'      => $this->resource['password'],
                                 'IntegratorKey' => $this->resource['integrator_key'],
                             ])
@@ -90,5 +90,14 @@ class DocusignChecker extends BaseChecker
                 $this->getConfig()
             )
         );
+    }
+
+    private function makeFileName($file)
+    {
+        if (is_absolute_path($file)) {
+            return $file;
+        }
+
+        return base_path($file);
     }
 }
