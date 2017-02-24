@@ -68,6 +68,6 @@ class Yaml
 
     public function dump($input, $inline = 5, $indent = 4, $flags = 0)
     {
-        return SymfonyYaml::dumpdump($input, $inline, $indent, $flags);
+        return SymfonyYaml::dump($input, $inline, $indent, $flags);
     }
 }
