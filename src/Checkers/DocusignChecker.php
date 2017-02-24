@@ -6,6 +6,7 @@ use DocuSign\eSign\ApiClient;
 use DocuSign\eSign\Configuration;
 use DocuSign\eSign\Api\AuthenticationApi;
 use DocuSign\eSign\Api\AuthenticationApi\LoginOptions;
+use DomainException;
 
 class DocusignChecker extends BaseChecker
 {
@@ -14,11 +15,20 @@ class DocusignChecker extends BaseChecker
      */
     public function check()
     {
+        if ($this->docusignIsNotInstalled()) {
+            return $this->makeResult(false, $this->resource['not_installed_message']);
+        }
+
         if (! $this->login()) {
-            throw new Exception('Unable to authenticate to the DocuSign Api');
+            throw new DomainException('Unable to authenticate to the DocuSign Api');
         }
 
         return $this->makeHealthyResult();
+    }
+
+    private function docusignIsNotInstalled()
+    {
+        return class_exists(ApiClient::class);
     }
 
     private function getAccountIdFromLogin($login)

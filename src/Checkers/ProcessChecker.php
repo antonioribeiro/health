@@ -3,6 +3,7 @@
 namespace PragmaRX\Health\Checkers;
 
 use Clearitie\Exceptions\Exception;
+use DomainException;
 
 class ProcessChecker extends BaseChecker
 {
@@ -78,7 +79,7 @@ class ProcessChecker extends BaseChecker
             return 1;
         }
 
-        throw new Exception(sprintf($this->resource['pid_file_missing_error_message'], $file));
+        throw new DomainException(sprintf($this->resource['pid_file_missing_error_message'], $file));
     }
 
     /**
@@ -95,7 +96,7 @@ class ProcessChecker extends BaseChecker
             fclose($filePointer);
 
             if (! $locked) {
-                throw new Exception(sprintf($this->resource['pid_file_missing_not_locked'], $file));
+                throw new DomainException(sprintf($this->resource['pid_file_missing_not_locked'], $file));
             }
         } catch (\Exception $exception) {
             // Nice, file is locked!
