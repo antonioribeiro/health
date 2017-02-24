@@ -43,10 +43,10 @@ if (! function_exists('package_resources_dir')) {
      */
     function package_resources_dir()
     {
-        return package_dir() .
-            DIRECTORY_SEPARATOR .
-            'config' .
-            DIRECTORY_SEPARATOR .
+        return package_dir().
+            DIRECTORY_SEPARATOR.
+            'config'.
+            DIRECTORY_SEPARATOR.
             'resources';
     }
 }
@@ -59,12 +59,12 @@ if (! function_exists('is_absolute_path')) {
      */
     function is_absolute_path($path)
     {
-        if (!is_string($path)) {
+        if (! is_string($path)) {
             $mess = sprintf('String expected but was given %s', gettype($path));
             throw new \InvalidArgumentException($mess);
         }
 
-        if (!ctype_print($path)) {
+        if (! ctype_print($path)) {
             $mess = 'Path can NOT have non-printable characters or be empty';
             throw new \DomainException($mess);
         }
@@ -80,7 +80,7 @@ if (! function_exists('is_absolute_path')) {
 
         $parts = [];
 
-        if (!preg_match($regExp, $path, $parts)) {
+        if (! preg_match($regExp, $path, $parts)) {
             $mess = sprintf('Path is NOT valid, was given %s', $path);
             throw new \DomainException($mess);
         }
