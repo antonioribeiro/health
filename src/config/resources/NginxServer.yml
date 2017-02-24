@@ -1,3 +1,4 @@
+name: NginxServer
 abbreviation: ngnxsrvr
 checker: PragmaRX\Health\Checkers\ProcessChecker
 command: 'pgrep %s'

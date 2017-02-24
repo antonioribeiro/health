@@ -1,3 +1,4 @@
+name: LocalStorage
 abbreviation: lclstrg
 checker: PragmaRX\Health\Checkers\CloudStorageChecker
 notify: true

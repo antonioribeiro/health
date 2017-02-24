@@ -1,3 +1,4 @@
+name: Framework
 abbreviation: frmwrk
 checker: PragmaRX\Health\Checkers\FrameworkChecker
 notify: true

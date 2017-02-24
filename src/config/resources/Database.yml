@@ -1,3 +1,4 @@
+name: Database
 abbreviation: db
 checker: PragmaRX\Health\Checkers\DatabaseChecker
 notify: true

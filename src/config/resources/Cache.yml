@@ -1,3 +1,4 @@
+name: Cache
 abbreviation: csh
 checker: PragmaRX\Health\Checkers\CacheChecker
 notify: true

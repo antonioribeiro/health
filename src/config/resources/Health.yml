@@ -1,3 +1,4 @@
+name: Health
 abbreviation: hlth
 checker: PragmaRX\Health\Checkers\HealthChecker
 is_global: true

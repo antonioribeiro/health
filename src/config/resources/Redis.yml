@@ -1,3 +1,4 @@
+name: Redis
 abbreviation: rds
 key: 'health:redis:key'
 checker: PragmaRX\Health\Checkers\RedisChecker

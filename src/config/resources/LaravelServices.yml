@@ -1,3 +1,4 @@
+name: LaravelServices
 abbreviation: lvs
 checker: PragmaRX\Health\Checkers\HttpsChecker
 notify: true
@@ -8,3 +9,4 @@ url:
     - 'https://forge.laravel.com'
     - 'https://envoyer.io'
 column_size: 4
+
