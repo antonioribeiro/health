@@ -2,7 +2,7 @@
 
 return [
 
-    'title' => 'CLEARiTIE Health Check Panel',
+    'title' => 'Laravel Health Check Panel',
 
     'resources_location' => [
         'path' => config_path('health/resources'),
@@ -37,7 +37,7 @@ return [
         'action_message' => "The '%s' service is in trouble and needs attention%s",
 
         'from' => [
-            'name' => 'CLEARiTIE Health Checker',
+            'name' => 'Laravel Health Checker',
 
             'address' => 'healthchecker@mydomain.com',
 
@@ -132,24 +132,28 @@ return [
                 'uri' => $route_prefix.$route_suffix_panel,
                 'name' => 'pragmarx.health.panel',
                 'action' => $action_panel,
+                'middleware' => [],
             ],
 
             [
                 'uri' => $route_prefix.$route_suffix_check,
                 'name' => 'pragmarx.health.check',
                 'action' => $action_check,
+                'middleware' => [],
             ],
 
             [
                 'uri' => $route_prefix.$route_suffix_string,
                 'name' => 'pragmarx.health.string',
                 'action' => $action_string,
+                'middleware' => [],
             ],
 
             [
                 'uri' => "{$route_prefix}.{$route_suffix_resource}/{name}",
                 'name' => 'pragmarx.health.resource',
                 'action' => $action_resource,
+                'middleware' => [],
             ],
         ],
     ],

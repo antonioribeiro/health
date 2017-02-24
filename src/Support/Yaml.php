@@ -15,6 +15,10 @@ class Yaml
      */
     public function loadYamlFromDir($directory, $parseYaml = true)
     {
+        if (!file_exists($directory)) {
+            return collect([]);
+        }
+
         return collect(scandir($directory) ?: [])->reject(function ($item) {
             return is_dir($item) || ! ends_with($item, '.yml');
         })->mapWithKeys(function ($file) use ($directory, $parseYaml) {
