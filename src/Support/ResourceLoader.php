@@ -6,13 +6,30 @@ use Illuminate\Support\Str;
 
 class ResourceLoader
 {
+    /**
+     * Yaml service.
+     *
+     * @var Yaml
+     */
     protected $yaml;
 
+    /**
+     * ResourceLoader constructor.
+     *
+     * @param Yaml $yaml
+     */
     public function __construct(Yaml $yaml)
     {
         $this->yaml = $yaml;
     }
 
+    /**
+     * Get enabled resources.
+     *
+     * @param $resources
+     * @return \Illuminate\Support\Collection|static
+     * @throws \Exception
+     */
     private function getEnabledResources($resources)
     {
         if (is_array($keys = config($configKey = 'health.resources_enabled'))) {
@@ -28,6 +45,11 @@ class ResourceLoader
         throw new \Exception("Invalid value for config('$configKey'')");
     }
 
+    /**
+     * Load all resources.
+     *
+     * @return mixed
+     */
     private function load()
     {
         $resources = [];
@@ -41,6 +63,11 @@ class ResourceLoader
         );
     }
 
+    /**
+     * Load resources in array.
+     *
+     * @return static
+     */
     private function loadArray()
     {
         return collect(config('health.resources'))->mapWithKeys(function ($value, $key) {
@@ -48,6 +75,11 @@ class ResourceLoader
         });
     }
 
+    /**
+     * Load resources in files.
+     *
+     * @return mixed
+     */
     private function loadFiles()
     {
         $local = $this->yaml->loadYamlFromDir(config('health.resources_location.path'));
@@ -60,6 +92,8 @@ class ResourceLoader
     }
 
     /**
+     * Load Resources.
+     *
      * Load application resources.
      */
     public function loadResources()
@@ -68,6 +102,8 @@ class ResourceLoader
     }
 
     /**
+     * Load resources from array.
+     *
      * @param $type
      * @param $resources
      * @return array
@@ -84,6 +120,8 @@ class ResourceLoader
     }
 
     /**
+     * Load resources from files.
+     *
      * @param $type
      * @param $resources
      * @return array
@@ -117,11 +155,23 @@ class ResourceLoader
         });
     }
 
+    /**
+     * Remove extension from file name.
+     *
+     * @param $key
+     * @return mixed
+     */
     private function removeExtension($key)
     {
         return preg_replace('/\.[^.]+$/', '', $key);
     }
 
+    /**
+     * Sanitize resource key.
+     *
+     * @param $key
+     * @return string
+     */
     private function sanitizeKey($key)
     {
         if ($key == 'column_size') {
@@ -131,6 +181,12 @@ class ResourceLoader
         return $key;
     }
 
+    /**
+     * Sanitize resources.
+     *
+     * @param $resources
+     * @return mixed
+     */
     private function sanitizeResources($resources)
     {
         return $resources->map(function ($resource) {
@@ -141,6 +197,8 @@ class ResourceLoader
     }
 
     /**
+     * Sort resources.
+     *
      * @param $resources
      * @return mixed
      */

@@ -28,8 +28,6 @@ class Service
         $this->resourceChecker = $resourceChecker;
 
         $this->cache = $cache;
-
-        $this->loadResources();
     }
 
     /**

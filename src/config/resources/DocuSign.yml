@@ -1,6 +1,6 @@
 abbreviation: dcsgn
 checker: PragmaRX\Health\Checkers\DocusignChecker
-email: {{ docusign.email }}
+username: {{ docusign.username }}
 password: {{ docusign.password }}
 integrator_key: {{ docusign.integrator_key }}
 debug: {{ docusign.debug }}
