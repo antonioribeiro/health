@@ -1,5 +1,5 @@
 # Health
-## A Laravel Health Panel And Notifier
+## Laravel Server & App Health Monitor and Notifier
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/pragmarx/health.svg?style=flat-square)](https://packagist.org/packages/pragmarx/health) [![License](https://img.shields.io/badge/license-BSD_3_Clause-brightgreen.svg?style=flat-square)](LICENSE) [![Downloads](https://img.shields.io/packagist/dt/pragmarx/health.svg?style=flat-square)](https://packagist.org/packages/pragmarx/health) [![Code Quality](https://img.shields.io/scrutinizer/g/antonioribeiro/health.svg?style=flat-square)](https://scrutinizer-ci.com/g/antonioribeiro/health/?branch=master) [![Build](https://img.shields.io/scrutinizer/build/g/antonioribeiro/health.svg?style=flat-square)](https://scrutinizer-ci.com/g/antonioribeiro/health/?branch=master) [![StyleCI](https://styleci.io/repos/74829244/shield)](https://styleci.io/repos/74829244)
 
@@ -20,19 +20,34 @@ This package checks if the application resources are running as they should and 
 
 Heath has pre-configured resource checkers for the following services:
 
-- Cache
-- Cloud Storage
-- Database
-- Filesystem
-- Framework (dummy checker)
-- Http & Https
-- Mail
-- Queue
-- Redis
-- Server Uptime
-- Server Load
-- Broadcasting
-
+- Broadcasting    
+- Cache           
+- Database        
+- DocuSign        
+- Filesystem      
+- Framework       
+- Health          
+- Http            
+- Https           
+- LaravelServices 
+- LocalStorage    
+- Mail            
+- MySql           
+- NewrelicDeamon  
+- NginxServer     
+- Php             
+- PostgreSqlServer
+- Queue           
+- QueueWorkers    
+- RebootRequired  
+- Redis           
+- RedisServer     
+- S3              
+- ServerLoad      
+- ServerUptime    
+- Sshd            
+- Supervisor      
+ 
 But you can add anything else you need!
 
 ## Screenshots 
