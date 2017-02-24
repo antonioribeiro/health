@@ -1,3 +1,4 @@
+name: RebootRequired
 abbreviation: rbtrqrd
 checker: PragmaRX\Health\Checkers\DirectoryAndFilePresenceChecker
 files:

@@ -1,3 +1,4 @@
+name: S3
 abbreviation: s3
 checker: PragmaRX\Health\Checkers\CloudStorageChecker
 notify: true

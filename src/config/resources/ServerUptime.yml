@@ -1,3 +1,4 @@
+name: ServerUptime
 abbreviation: uptm
 regex: '~(?<time_hour>\d{1,2}):(?<time_minute>\d{2})(?::(?<time_second>\d{2}))?\s+up\s+(?:(?<up_days>\d+)\s+days?,\s+)?\b(?:(?<up_hours>\d+):)?(?<up_minutes>\d+)(?:\s+(?:minute|minutes|min)?)?,\s+(?<users>\d+).+?(?<load_1>\d+.\d+),?\s+(?<load_5>\d+.\d+),?\s+(?<load_15>\d+.\d+)~'
 checker: PragmaRX\Health\Checkers\ServerUptimeChecker

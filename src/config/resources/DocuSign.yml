@@ -1,3 +1,4 @@
+name: DocuSign
 abbreviation: dcsgn
 checker: PragmaRX\Health\Checkers\DocusignChecker
 username: {{ docusign.username }}

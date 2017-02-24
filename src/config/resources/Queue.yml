@@ -1,3 +1,4 @@
+name: Queue
 abbreviation: queue
 name: health-queue
 cache_instance: cache

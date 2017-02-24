@@ -1,3 +1,4 @@
+name: Mail
 abbreviation: ml
 checker: PragmaRX\Health\Checkers\MailChecker
 notify: true

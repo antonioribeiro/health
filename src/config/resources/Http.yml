@@ -1,3 +1,4 @@
+name: Http
 abbreviation: http
 checker: PragmaRX\Health\Checkers\HttpChecker
 notify: true

@@ -1,3 +1,4 @@
+name: Filesystem
 abbreviation: flstm
 checker: PragmaRX\Health\Checkers\FilesystemChecker
 notify: true

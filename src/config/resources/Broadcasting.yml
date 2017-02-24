@@ -1,3 +1,4 @@
+name: Broadcasting
 abbreviation: brdc
 channel: pragmarx-health-broadcasting-channel
 checker: PragmaRX\Health\Checkers\BroadcastingChecker

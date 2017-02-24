@@ -1,3 +1,4 @@
+name: Sshd
 abbreviation: sshd
 checker: PragmaRX\Health\Checkers\ProcessChecker
 command: 'pgrep %s'
