@@ -8,4 +8,5 @@ debug_file: storage/logs/docusign.log
 notify: true
 api_host: {{ docusign.host }}
 error_message: 'A reboot is required in this server (Uptime Checker)'
+not_installed_message: 'Docusign is not installed.'
 column_size: 4
