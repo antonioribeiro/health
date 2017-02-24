@@ -23,7 +23,7 @@
   "require-dev": {
     "laravel/laravel": "^5.3",
     "orchestra/testbench": "~3.0",
-    "phpunit/phpunit": "~6.0",
+    "phpunit/phpunit": "~5.7",
     "guzzlehttp/guzzle": "~6.0",
     "symfony/yaml": "~3.2"
   },
@@ -38,7 +38,5 @@
       "PragmaRX\\Health\\tests\\phpunit\\": "tests/phpunit/",
       "PragmaRX\\Health\\Tests\\PhpUnit\\": "tests/PhpUnit/"
     }
-  },
-
-  "minimum-stability": "dev"
+  }
 }
