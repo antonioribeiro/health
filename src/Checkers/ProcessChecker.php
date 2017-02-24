@@ -2,7 +2,6 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Clearitie\Exceptions\Exception;
 use DomainException;
 
 class ProcessChecker extends BaseChecker
