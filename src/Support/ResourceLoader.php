@@ -121,8 +121,7 @@ class ResourceLoader
         if ($can) {
             $resources = $what == Constants::ARRAY_RESOURCE
                         ? array_merge($resources, $this->loadArray()->toArray())
-                        : array_merge($resources, $this->loadFiles()->toArray())
-            ;
+                        : array_merge($resources, $this->loadFiles()->toArray());
         }
 
         return $resources;
