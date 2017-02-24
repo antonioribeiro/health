@@ -288,10 +288,14 @@ class ServiceProvider extends IlluminateServiceProvider
                     ? "{$route['controller']}@{$route['action']}"
                     : $route['action'];
 
-        $this->getRouter()->get($route['uri'], [
+        $router = $this->getRouter()->get($route['uri'], [
             'as' => $name ?: $route['name'],
             'uses' => $action,
         ]);
+
+        if (isset($route['middleware'])) {
+            $router->middleware($route['middleware']);
+        }
     }
 
     /**
