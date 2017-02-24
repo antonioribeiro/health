@@ -1,0 +1,15 @@
+abbreviation: brdc
+channel: pragmarx-health-broadcasting-channel
+checker: PragmaRX\Health\Checkers\BroadcastingChecker
+route_name: pragmarx.health.broadcasting.callback
+secret: {{ str_random(32) }}
+timeout: 30
+routes:
+    pragmarx.health.broadcasting.callback:
+        uri: '/health/broadcasting/callback/{secret}'
+        controller: PragmaRX\Health\Http\Controllers\Broadcasting
+        action: callback
+save_to: {{ storage_path('app') }}/broadcasting.json
+notify: true
+error_message: 'The broadcasting service did not respond in time, it may be in trouble.'
+column_size: 4
