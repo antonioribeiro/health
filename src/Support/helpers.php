@@ -60,10 +60,10 @@ if (! function_exists('is_absolute_path')) {
      */
     function is_absolute_path($path)
     {
-                    // Optional wrapper(s).
-        $regExp = '%^(?<wrappers>(?:[[:print:]]{2,}://)*)' .
+        // Optional wrapper(s).
+        $regExp = '%^(?<wrappers>(?:[[:print:]]{2,}://)*)'.
                     // Optional root prefix.
-                    '(?<root>(?:[[:alpha:]]:/|/)?)' .
+                    '(?<root>(?:[[:alpha:]]:/|/)?)'.
                     // Actual path.
                     '(?<path>(?:[[:print:]]*))$%';
 
