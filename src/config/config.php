@@ -132,7 +132,7 @@ return [
                 'uri' => $route_prefix.$route_suffix_panel,
                 'name' => 'pragmarx.health.panel',
                 'action' => $action_panel,
-                'middleware' => [],
+                'middleware' => [/*'auth.basic'*/],
             ],
 
             [
