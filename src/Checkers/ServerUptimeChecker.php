@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Carbon\CarbonInterval;
 use DomainException;
+use Carbon\CarbonInterval;
 
 class ServerUptimeChecker extends BaseChecker
 {
