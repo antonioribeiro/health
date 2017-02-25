@@ -6,7 +6,7 @@ use PragmaRX\Health\Commands;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Facade as Health;
 use PragmaRX\Health\Tests\PhpUnit\TestCase;
-use \PragmaRX\Health\Http\Controllers\Health as HealthController;
+use PragmaRX\Health\Http\Controllers\Health as HealthController;
 
 class ServiceTest extends TestCase
 {
