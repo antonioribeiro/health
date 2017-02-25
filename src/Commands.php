@@ -36,7 +36,7 @@ class Commands
         return $message;
     }
 
-    public function panel(Command $command)
+    public function panel(Command $command = null)
     {
         $columns = ['Resource', 'State', 'Message'];
 
@@ -50,10 +50,10 @@ class Commands
             ];
         })->toArray();
 
-        $command->table($columns, $rows);
+        $this->table($command, $columns, $rows);
     }
 
-    public function check(Command $command)
+    public function check(Command $command = null)
     {
         $checker = $this->healthService->getSilentChecker();
 
@@ -62,7 +62,8 @@ class Commands
         }, 0);
 
         if ($errors) {
-            $command->error(
+            $this->error(
+                $command,
                 "Application needs attention, $errors ".
                 str_plural('resouce', $errors).' '.
                 ($errors > 1 ? 'are' : 'is').
@@ -70,10 +71,10 @@ class Commands
             );
         }
 
-        $command->info('Check completed with no errors.');
+        $this->info($command, 'Check completed with no errors.');
     }
 
-    public function exportResources(Command $command)
+    public function export(Command $command = null)
     {
         $yaml = new Yaml();
 
@@ -92,11 +93,11 @@ class Commands
 
             file_put_contents($file = $path.DIRECTORY_SEPARATOR.studly_case($key).'.yml', $dump);
 
-            $command->info('Exported '.$file);
+            $this->info($command, 'Exported '.$file);
         });
     }
 
-    public function publish(Command $command)
+    public function publish(Command $command = null)
     {
         $yaml = new Yaml();
 
@@ -106,12 +107,65 @@ class Commands
             }
 
             if (file_exists($file = $path.DIRECTORY_SEPARATOR.$key)) {
-                return $command->warn('Skipped: '.$file);
+                return $this->warn($command, 'Skipped: '.$file);
             }
 
             file_put_contents($file, $value);
 
-            $command->info('Saved: '.$file);
+            $this->info($command, 'Saved: '.$file);
         });
+    }
+
+    /**
+     * Format input to textual table.
+     *
+     * @param Command|null $command
+     * @param $columns
+     * @param  \Illuminate\Contracts\Support\Arrayable|array $rows
+     */
+    private function table($command, $columns, $rows)
+    {
+        if ($command) {
+            $command->table($columns, $rows);
+        }
+    }
+
+    /**
+     * Write a string as information output.
+     *
+     * @param Command|null $command
+     * @param $string
+     */
+    private function info($command, $string)
+    {
+        if ($command) {
+            $command->info($string);
+        }
+    }
+
+    /**
+     * Write a string as information output.
+     *
+     * @param Command|null $command
+     * @param $string
+     */
+    private function error($command, $string)
+    {
+        if ($command) {
+            $command->error($string);
+        }
+    }
+
+    /**
+     * Write a string as information output.
+     *
+     * @param Command|null $command
+     * @param $string
+     */
+    private function warn($command, $string)
+    {
+        if ($command) {
+            $command->warn($string);
+        }
     }
 }

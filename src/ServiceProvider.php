@@ -266,7 +266,7 @@ class ServiceProvider extends IlluminateServiceProvider
         })->describe('Check resources health and send error notifications.');
 
         Artisan::command('health:export', function () use ($commands) {
-            $commands->exportResources($this);
+            $commands->export($this);
         })->describe('Export "array" resources to .yml files');
 
         Artisan::command('health:publish', function () use ($commands) {
@@ -349,5 +349,20 @@ class ServiceProvider extends IlluminateServiceProvider
 
             $scheduler->call($this->healthService->getSilentChecker())->{$frequency}();
         }
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [
+            'pragmarx.health.cache',
+            'pragmarx.health.resource.checker',
+            'pragmarx.health',
+            'pragmarx.health.commands',
+        ];
     }
 }
