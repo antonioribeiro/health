@@ -24,7 +24,7 @@ if (! function_exists('instantiate')) {
 
 if (! function_exists('package_dir')) {
     /**
-     * Get package root dir.
+     * Get the package root directory.
      *
      * @return string
      */
@@ -38,7 +38,8 @@ if (! function_exists('package_dir')) {
 
 if (! function_exists('package_resources_dir')) {
     /**
-     * Instantiate a class.
+     * Get package resources directory.
+     *
      * @return string
      */
     function package_resources_dir()
