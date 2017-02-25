@@ -24,6 +24,13 @@ class ServiceProvider extends IlluminateServiceProvider
     protected $app;
 
     /**
+     * Resource loader instance.
+     *
+     * @var
+     */
+    protected $resourceLoader;
+
+    /**
      * The health service.
      *
      * @var
@@ -108,11 +115,11 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function createResourceChecker()
     {
-        $resourceLoader = new ResourceLoader(new Yaml());
+        $this->resourceLoader = new ResourceLoader(new Yaml());
 
         $this->cacheClosure = $this->getCacheClosure();
 
-        $this->resourceCheckerClosure = $this->getResourceCheckerClosure($resourceLoader, call_user_func($this->cacheClosure));
+        $this->resourceCheckerClosure = $this->getResourceCheckerClosure($this->resourceLoader, call_user_func($this->cacheClosure));
     }
 
     /**
@@ -239,9 +246,12 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->registerConsoleCommands();
     }
 
+    /**
+     *
+     */
     private function registerResourcesRoutes()
     {
-        collect(config('health.resources'))->each(function ($item) {
+        collect($this->resourceLoader->getResources())->each(function ($item) {
             if (isset($item['routes'])) {
                 collect($item['routes'])->each(function ($route, $key) {
                     $this->registerRoute($route, $key);
@@ -282,6 +292,10 @@ class ServiceProvider extends IlluminateServiceProvider
         Event::listen(RaiseHealthIssue::class, NotifyHealthIssue::class);
     }
 
+    /**
+     * @param $route
+     * @param null $name
+     */
     private function registerRoute($route, $name = null)
     {
         $action = isset($route['controller'])

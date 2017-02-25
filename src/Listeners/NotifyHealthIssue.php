@@ -30,9 +30,15 @@ class NotifyHealthIssue
      */
     public function handle(RaiseHealthIssue $event)
     {
-        Notification::send(
-            $this->getNotifiableUsers(),
-            new HealthStatus($event->failure, $event->channel)
-        );
+        try {
+            Notification::send(
+                $this->getNotifiableUsers(),
+                new HealthStatus($event->failure, $event->channel)
+            );
+        } catch (\Exception $exception) {
+            // do nothing
+        } catch (\ErrorException $exception) {
+            // do nothing
+        }
     }
 }

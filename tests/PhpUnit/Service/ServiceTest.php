@@ -5,6 +5,8 @@ namespace PragmaRX\Health\Tests\PhpUnit\Service;
 use PragmaRX\Health\Commands;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Facade as Health;
+use PragmaRX\Health\Support\ResourceLoader;
+use PragmaRX\Health\Support\Yaml;
 use PragmaRX\Health\Tests\PhpUnit\TestCase;
 use PragmaRX\Health\Http\Controllers\Health as HealthController;
 
@@ -68,6 +70,15 @@ class ServiceTest extends TestCase
      */
     private $resources;
 
+    private function getResources($force = false)
+    {
+        if ($force || ! $this->resources) {
+            $this->resources = $this->service->checkResources($force);
+        }
+
+        return $this->resources;
+    }
+
     /**
      * Define environment setup.
      *
@@ -86,16 +97,68 @@ class ServiceTest extends TestCase
         parent::setUp();
 
         $this->service = app('pragmarx.health');
-
-        $this->resources = $this->service->checkResources();
     }
 
     public function testResourcesWhereChecked()
     {
-        $this->checkedResources($this->resources);
+        $this->assertCheckedResources($this->getResources());
     }
 
-    public function checkedResources($resources)
+    public function test_cache_flush()
+    {
+        $this->assertCheckedResources(
+            $this->getResources(true)
+        );
+    }
+
+    public function test_load_array()
+    {
+        $this->app['config']->set('health.resources_location.type', \PragmaRX\Health\Support\Constants::RESOURCES_TYPE_ARRAY);
+
+        $this->assertCheckedResources(
+            $this->getResources(true)
+        );
+    }
+
+    public function test_load_files()
+    {
+        $this->app['config']->set('health.resources_location.type', \PragmaRX\Health\Support\Constants::RESOURCES_TYPE_FILES);
+
+        $this->assertCheckedResources(
+            $this->getResources(true)
+        );
+    }
+
+    public function test_unsorted()
+    {
+        $this->app['config']->set('health.sort_by', null);
+
+        $this->assertCheckedResources(
+            $this->getResources(true)
+        );
+    }
+
+    public function test_invalid_enabled_resources()
+    {
+        $this->expectException(\DomainException::class);
+
+        $this->app['config']->set('health.resources_enabled', 'invalid');
+
+        (new ResourceLoader(new Yaml()))->load();
+
+        $this->getResources(true);
+    }
+
+    public function test_invalid_load_one_resource()
+    {
+        $this->app['config']->set('health.resources_enabled', ['Database']);
+
+        $resource = (new ResourceLoader(new Yaml()))->load();
+
+        $this->assertTrue($resource->first()['name'] == 'Database');
+    }
+
+    public function assertCheckedResources($resources)
     {
         $healthCount = $resources->reduce(function ($carry, $item) {
             return $carry + (isset($item['health']['healthy'])
@@ -115,27 +178,29 @@ class ServiceTest extends TestCase
 
     public function testInstantiation()
     {
-        $this->assertInstanceOf(Collection::class, $this->resources);
+        $this->assertInstanceOf(Collection::class, $this->getResources());
     }
 
     public function testConfigWasLoadedProperly()
     {
+        $resources = $this->getResources();
+
         $this->assertEquals(
-            $this->resources['Health']['error_message'],
+            $resources['Health']['error_message'],
             'At least one resource failed the health check.'
         );
     }
 
     public function testResourcesHasTheCorrectCount()
     {
-        $this->assertCount(count(static::ALL_RESOURCES), $this->resources->toArray());
+        $this->assertCount(count(static::ALL_RESOURCES), $this->getResources()->toArray());
     }
 
     public function testResourcesItemsMatchConfig()
     {
         $this->assertEquals(
             static::ALL_RESOURCES,
-            $this->resources->keys()->map(function ($value) {
+            $this->getResources()->keys()->map(function ($value) {
                 return strtolower($value);
             })->toArray()
         );
@@ -159,9 +224,9 @@ class ServiceTest extends TestCase
     {
         $controller = new HealthController($this->service);
 
-        $this->checkedResources(collect(json_decode($controller->check()->getContent(), true)));
+        $this->assertCheckedResources(collect(json_decode($controller->check()->getContent(), true)));
 
-        foreach ($this->resources as $key => $resource) {
+        foreach ($this->getResources() as $key => $resource) {
             $this->assertEquals($controller->resource($key)['name'], $key);
         }
 

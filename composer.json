@@ -25,7 +25,9 @@
     "orchestra/testbench": "~3.0",
     "phpunit/phpunit": "~5.7",
     "guzzlehttp/guzzle": "~6.0",
-    "symfony/yaml": "~3.2"
+    "symfony/yaml": "~3.2",
+    "docusign/esign-client": "^2.0",
+    "predis/predis": "^1.0"
   },
 
   "autoload": {
