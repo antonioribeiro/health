@@ -246,9 +246,6 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->registerConsoleCommands();
     }
 
-    /**
-     *
-     */
     private function registerResourcesRoutes()
     {
         collect($this->resourceLoader->getResources())->each(function ($item) {

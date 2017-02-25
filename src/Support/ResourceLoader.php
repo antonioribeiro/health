@@ -110,7 +110,7 @@ class ResourceLoader
      */
     public function load()
     {
-        if (!empty($this->resources)) {
+        if (! empty($this->resources)) {
             return $this->resources;
         }
 
