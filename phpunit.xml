@@ -23,10 +23,10 @@
             <exclude></exclude>
         </whitelist>
     </filter>
-    <!--<logging>-->
-        <!--&lt;!&ndash;<log type="coverage-html" target="/tmp/coverage-clover.xml" lowUpperBound="35" highLowerBound="70"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<log type="coverage-clover" target="/tmp/coverage-clover.xml" lowUpperBound="35" highLowerBound="70"/>&ndash;&gt;-->
-    <!--</logging>-->
+    <logging>
+        <log type="coverage-html" target="./coverage/" lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="./coverage/coverage-clover.xml" lowUpperBound="35" highLowerBound="70"/>
+    </logging>
     <php>
         <!--
         <env name="REDIS_HOST" value="127.0.0.1" />
