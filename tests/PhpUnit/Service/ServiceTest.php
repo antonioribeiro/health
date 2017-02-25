@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\Tests\PhpUnit\Service;
 
+use PragmaRX\Health\Commands;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Facade as Health;
 use PragmaRX\Health\Tests\PhpUnit\TestCase;
@@ -74,7 +75,9 @@ class ServiceTest extends TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('health.resources_location.path', package_resources_dir());
+        $this->app = $app;
+
+        $this->app['config']->set('health.resources_location.path', package_resources_dir());
     }
 
     public function setUp()
@@ -130,5 +133,19 @@ class ServiceTest extends TestCase
                 return strtolower($value);
             })->toArray()
         );
+    }
+
+    public function test_artisan_commands()
+    {
+        $commands = [
+            'panel',
+            'check',
+            'export',
+            'publish'
+        ];
+
+        foreach ($commands as $command) {
+            (new Commands($this->service))->$command();
+        }
     }
 }
