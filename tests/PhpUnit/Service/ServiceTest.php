@@ -10,7 +10,7 @@ use \PragmaRX\Health\Http\Controllers\Health as HealthController;
 
 class ServiceTest extends TestCase
 {
-    const RESOURCES_HEALTHY_EVERYWHERE = 13;
+    const RESOURCES_HEALTHY_EVERYWHERE = 8;
 
     const ALL_RESOURCES = [
         'health',
