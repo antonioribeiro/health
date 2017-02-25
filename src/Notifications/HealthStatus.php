@@ -58,10 +58,6 @@ class HealthStatus extends Notification
      */
     public function __call($name, $parameters)
     {
-        if (! starts_with($name, 'to')) {
-            return call_user_func([$this, $name], $parameters);
-        }
-
         $parameters[] = $this->item;
 
         return call_user_func_array(

@@ -33,9 +33,13 @@ class Service
     /**
      * Check Resources.
      */
-    public function checkResources()
+    public function checkResources($flushCache = false)
     {
-        return $this->resourceChecker->checkResources();
+        if ($flushCache) {
+            $this->cache->flush(true);
+        }
+
+        return $this->resourceChecker->checkResources($flushCache);
     }
 
     /**

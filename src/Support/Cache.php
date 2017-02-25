@@ -18,9 +18,9 @@ class Cache
     /**
      * Flush cache.
      */
-    public function flush()
+    public function flush($force = false)
     {
-        if ($this->needsToFlush()) {
+        if ($force || $this->needsToFlush()) {
             try {
                 $this->forceFlush();
             } catch (Exception $exception) {

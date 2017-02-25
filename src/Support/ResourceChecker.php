@@ -73,9 +73,9 @@ class ResourceChecker
      *
      * @return array
      */
-    public function checkResources()
+    public function checkResources($force = true)
     {
-        if ($this->checked) {
+        if ($this->checked && ! $force) {
             return $this->getResources();
         }
 

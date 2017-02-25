@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\Support;
 
+use DomainException;
 use Illuminate\Support\Str;
 
 class ResourceLoader
@@ -12,6 +13,11 @@ class ResourceLoader
      * @var Yaml
      */
     protected $yaml;
+
+    /**
+     * @var array
+     */
+    private $resources = [];
 
     /**
      * ResourceLoader constructor.
@@ -56,7 +62,19 @@ class ResourceLoader
             return collect($resources);
         }
 
-        throw new \Exception("Invalid value for config('$configKey'')");
+        throw new DomainException("Invalid value for config('$configKey'')");
+    }
+
+    /**
+     * Resources getter.
+     *
+     * @return array
+     */
+    public function getResources()
+    {
+        $this->load();
+
+        return $this->resources;
     }
 
     /**
@@ -90,18 +108,20 @@ class ResourceLoader
      *
      * @return mixed
      */
-    private function load()
+    public function load()
     {
-        $resources = [];
+        if (!empty($this->resources)) {
+            return $this->resources;
+        }
 
         $type = config('health.resources_location.type');
 
-        return $this->sanitizeResources(
+        return $this->resources = $this->sanitizeResources(
             $this->getEnabledResources(
                 $this->loadResourcesFrom(
                     Constants::FILES_RESOURCE,
                     $type,
-                    $this->loadResourcesFrom(Constants::ARRAY_RESOURCE, $type, $resources)
+                    $this->loadResourcesFrom(Constants::ARRAY_RESOURCE, $type, $this->resources)
                 )
             )
         );
@@ -163,11 +183,9 @@ class ResourceLoader
      */
     private function loadResourcesForType($what, $resources)
     {
-        $resources = $what == Constants::ARRAY_RESOURCE
+        return $what == Constants::ARRAY_RESOURCE
             ? array_merge($resources, $this->loadArray()->toArray())
             : array_merge($resources, $this->loadFiles()->toArray());
-
-        return $resources;
     }
 
     /**
