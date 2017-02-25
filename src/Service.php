@@ -39,6 +39,17 @@ class Service
     }
 
     /**
+     * Check one resource.
+     *
+     * @param $name
+     * @return array
+    */
+    public function checkResource($name)
+    {
+        return $this->resourceChecker->checkResource($name);
+    }
+
+    /**
      * Get services health.
      *
      * @return mixed
@@ -61,6 +72,17 @@ class Service
     }
 
     /**
+     * Get one resource.
+     *
+     * @param $name
+     * @return mixed
+    */
+    private function getResource($name)
+    {
+        return $this->resourceChecker->getResource($name);
+    }
+
+    /**
      * Get a silent checker and notifier closure.
      *
      * @return \Closure
@@ -72,5 +94,86 @@ class Service
 
             return $this->checkResources();
         };
+    }
+
+    /**
+     * Check if server is healthy.
+     *
+     * @return mixed
+     */
+    public function isHealthy()
+    {
+        $this->checkResources();
+
+        return $this->getResources()->reduce(function ($carry, $item) {
+            return $carry && $item['health']['healthy'];
+        }, true);
+    }
+
+    /**
+     * Make a string result of all resources.
+     *
+     * @param $string
+     * @param $checkSystem
+     * @return string
+     */
+    private function makeString($string, $checkSystem)
+    {
+        return $string.
+                ($checkSystem
+                    ? config('health.string.ok')
+                    : config('health.string.fail')
+                );
+    }
+
+    /**
+     * Get results for panel.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function panel()
+    {
+        return $this->health();
+    }
+
+    /**
+    * Check and get a resource.
+    *		       *
+    * @param $name
+    * @return mixed
+    */
+    public function resource($name)
+    {
+        $this->checkResources();
+
+        return $this->getResource($name);
+    }
+
+    /**
+     * Set the action.
+     *
+     * @param $action
+    */
+    public function setAction($action)
+    {
+       $this->resourceChecker->setCurrentAction($action);
+    }
+
+    /**
+    * @return mixed
+    */
+    public function string()
+    {
+        $this->health();
+
+        return collect($this->getResources())->reduce(function ($current, $item) {
+            return $current.
+                ($current ? config('health.string.glue') : '')
+                .
+                $this->makeString(
+                    $item['abbreviation'],
+                    $this->checkResource($item['slug'])['healthy']
+                );
+        });
     }
 }
