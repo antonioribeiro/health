@@ -141,7 +141,7 @@ class ServiceTest extends TestCase
             'panel',
             'check',
             'export',
-            'publish'
+            'publish',
         ];
 
         foreach ($commands as $command) {
