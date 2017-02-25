@@ -24,6 +24,20 @@ class ResourceLoader
     }
 
     /**
+     * @param $what
+     * @param $type
+     * @return bool
+     */
+    private function canLoadResources($what, $type)
+    {
+        $can = $type == Constants::RESOURCES_TYPE_BOTH ||
+            ($what == Constants::ARRAY_RESOURCE && $type == Constants::RESOURCES_TYPE_ARRAY) ||
+            ($what == Constants::FILES_RESOURCE && $type == Constants::RESOURCES_TYPE_FILES);
+
+        return $can;
+    }
+
+    /**
      * Get enabled resources.
      *
      * @param $resources
@@ -106,25 +120,32 @@ class ResourceLoader
     }
 
     /**
+     * @param $what
+     * @param $resources
+     * @return array
+     */
+    private function loadResourcesForType($what, $resources)
+    {
+        $resources = $what == Constants::ARRAY_RESOURCE
+            ? array_merge($resources, $this->loadArray()->toArray())
+            : array_merge($resources, $this->loadFiles()->toArray());
+
+        return $resources;
+    }
+
+    /**
      * Load resources from array.
      *
+     * @param $what
      * @param $type
      * @param $resources
      * @return array
      */
     private function loadResourcesFrom($what, $type, $resources)
     {
-        $can = $type == Constants::RESOURCES_TYPE_BOTH ||
-                ($what == Constants::ARRAY_RESOURCE && $type == Constants::RESOURCES_TYPE_ARRAY) ||
-                ($what == Constants::FILES_RESOURCE && $type == Constants::RESOURCES_TYPE_FILES);
-
-        if ($can) {
-            $resources = $what == Constants::ARRAY_RESOURCE
-                        ? array_merge($resources, $this->loadArray()->toArray())
-                        : array_merge($resources, $this->loadFiles()->toArray());
-        }
-
-        return $resources;
+        return $this->canLoadResources($what, $type)
+                ? $this->loadResourcesForType($what, $resources)
+                : $resources;
     }
 
     /**
