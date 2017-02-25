@@ -60,13 +60,6 @@ class ServiceTest extends TestCase
      */
     private $resources;
 
-    private function getConfig()
-    {
-        $config = require __DIR__.'/config.php';
-
-        return $config;
-    }
-
     /**
      * Define environment setup.
      *
@@ -122,14 +115,13 @@ class ServiceTest extends TestCase
 
         $this->assertEquals(count(static::ALL_RESOURCES), $healthCount);
 
-        $this->assertEquals(
-            0,
-            $this->resources
-                ->reject(function ($item) {
-                    return $item['health']['healthy'];
-                })
-                ->keys()
-                ->diff(static::RESOURCES_FAILING)->count()
-        );
+        $failing = $this->resources
+            ->reject(function ($item) {
+                return $item['health']['healthy'];
+            })
+            ->keys()
+            ->diff(static::RESOURCES_FAILING);
+
+        $this->assertEquals(0, $failing->count());
     }
 }
