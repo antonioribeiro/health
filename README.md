@@ -5,13 +5,13 @@
 
 This package checks if the application resources are running as they should and creates a service status panel. It has the following main points:
 
-- Twitter Bootstrap Status Panel 
-- Resilient resource checker: if the framework is working and at least one notification channel, you should receive notification messages. 
 - Highly extensible and configurable: you can create new checkers and notifiers very easily, and you can virtually change everything on it.
+- Easy configuration: uses YAML as configuration files
+- Resilient resource checker: if the framework is working and at least one notification channel, you should receive notification messages. 
 - Built-in notification system: get notifications via mail, slack, telegram or anything else you need.
 - Routes for: panel, json result, string result and resource.
 - Configurable panel design.
-- Cache results and calls to services.
+- Cache.
 - Schedule checks to automatically receive notifications when a service fails.
 - View app error messages right in the panel.
 - Http response codes 200 and 500, on error, for services like [Envoyer](https://envoyer.io) to keep track of your app health.
@@ -49,6 +49,42 @@ Heath has pre-configured resource checkers for the following services:
 - Supervisor      
  
 But you can add anything else you need!
+
+## Easy Configuration 
+
+Creating new resources monitors is easy, just create a new YAML file in app's config/health folder and it's done. Here's some examples:
+
+### Amazon S3
+
+    name: S3
+    abbreviation: s3
+    checker: PragmaRX\Health\Checkers\CloudStorageChecker
+    notify: true
+    driver: s3
+    file: pragmarx-health-s3-testfile.txt
+    contents: {{ str_random(32) }}
+    error_message: 'Amazon S3 connection is failing.'
+    column_size: 4
+
+### Nginx
+
+    name: NginxServer
+    abbreviation: ngnxsrvr
+    checker: PragmaRX\Health\Checkers\ProcessChecker
+    command: 'pgrep %s'
+    method: process_count
+    process_name: nginx
+    instances:
+        minimum:
+            count: 4
+            message: 'Process "%s" has not enough instances running: it has %s, when should have at least %s'
+        maximum:
+            count: 8
+            message: 'Process "%s" exceeded the maximum number of running instances: it has %s, when should have at most %s'
+    notify: true
+    pid_file_missing_error_message: 'Process ID file is missing: %s.'
+    pid_file_missing_not_locked: 'Process ID file is not being used by any process: %s.'
+    column_size: 4
 
 ## Screenshots 
 
