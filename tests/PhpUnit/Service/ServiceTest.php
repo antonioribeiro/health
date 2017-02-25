@@ -128,5 +128,4 @@ class ServiceTest extends TestCase
             })->toArray()
         );
     }
-
 }
