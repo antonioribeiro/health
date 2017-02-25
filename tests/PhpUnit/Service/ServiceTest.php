@@ -6,6 +6,7 @@ use PragmaRX\Health\Commands;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Facade as Health;
 use PragmaRX\Health\Tests\PhpUnit\TestCase;
+use \PragmaRX\Health\Http\Controllers\Health as HealthController;
 
 class ServiceTest extends TestCase
 {
@@ -91,7 +92,12 @@ class ServiceTest extends TestCase
 
     public function testResourcesWhereChecked()
     {
-        $healthCount = $this->resources->reduce(function ($carry, $item) {
+        $this->checkedResources($this->resources);
+    }
+
+    public function checkedResources($resources)
+    {
+        $healthCount = $resources->reduce(function ($carry, $item) {
             return $carry + (isset($item['health']['healthy'])
                     ? 1
                     : 0);
@@ -99,7 +105,7 @@ class ServiceTest extends TestCase
 
         $this->assertEquals(count(static::ALL_RESOURCES), $healthCount);
 
-        $failing = $this->resources
+        $failing = $resources
             ->filter(function ($item) {
                 return $item['health']['healthy'];
             });
@@ -147,5 +153,24 @@ class ServiceTest extends TestCase
         foreach ($commands as $command) {
             (new Commands($this->service))->$command();
         }
+    }
+
+    public function test_controller()
+    {
+        $controller = new HealthController($this->service);
+
+        $this->checkedResources(collect(json_decode($controller->check()->getContent(), true)));
+
+        foreach ($this->resources as $key => $resource) {
+            $this->assertEquals($controller->resource($key)['name'], $key);
+        }
+
+        $string = $controller->string()->getContent();
+
+        $this->assertTrue(strpos($string, config('health.string.ok').'-') !== false);
+
+        $this->assertTrue(strpos($string, config('health.string.fail').'-') !== false);
+
+        $this->assertTrue(strpos($controller->panel()->getContent(), '<title>'.config('health.title').'</title>') !== false);
     }
 }
