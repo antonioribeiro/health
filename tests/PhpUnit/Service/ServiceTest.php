@@ -122,6 +122,6 @@ class ServiceTest extends TestCase
             ->keys()
             ->diff(static::RESOURCES_FAILING);
 
-        $this->assertEquals(0, $failing->count());
+        $this->assertEquals([], $failing->toArray());
     }
 }
