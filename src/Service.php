@@ -43,7 +43,7 @@ class Service
      *
      * @param $name
      * @return array
-    */
+     */
     public function checkResource($name)
     {
         return $this->resourceChecker->checkResource($name);
@@ -76,7 +76,7 @@ class Service
      *
      * @param $name
      * @return mixed
-    */
+     */
     private function getResource($name)
     {
         return $this->resourceChecker->getResource($name);
@@ -137,11 +137,11 @@ class Service
     }
 
     /**
-    * Check and get a resource.
-    *		       *
-    * @param $name
-    * @return mixed
-    */
+     * Check and get a resource.
+     *		       *.
+     * @param $name
+     * @return mixed
+     */
     public function resource($name)
     {
         $this->checkResources();
@@ -153,15 +153,15 @@ class Service
      * Set the action.
      *
      * @param $action
-    */
+     */
     public function setAction($action)
     {
-       $this->resourceChecker->setCurrentAction($action);
+        $this->resourceChecker->setCurrentAction($action);
     }
 
     /**
-    * @return mixed
-    */
+     * @return mixed
+     */
     public function string()
     {
         $this->health();
