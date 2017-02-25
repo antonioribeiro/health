@@ -24,17 +24,17 @@ class ResourceLoader
     }
 
     /**
+     * Can load resources?
+     *
      * @param $what
      * @param $type
      * @return bool
      */
     private function canLoadResources($what, $type)
     {
-        $can = $type == Constants::RESOURCES_TYPE_BOTH ||
-            ($what == Constants::ARRAY_RESOURCE && $type == Constants::RESOURCES_TYPE_ARRAY) ||
-            ($what == Constants::FILES_RESOURCE && $type == Constants::RESOURCES_TYPE_FILES);
-
-        return $can;
+        return $this->loadAnyType($type) ||
+               $this->isArrayLoader($what, $type) ||
+               $this->isFileLoader($what, $type);
     }
 
     /**
@@ -60,6 +60,32 @@ class ResourceLoader
     }
 
     /**
+     * Is it an array loader?
+     *
+     * @param $what
+     * @param $type
+     * @return bool
+     */
+    private function isArrayLoader($what, $type)
+    {
+        return $what == Constants::ARRAY_RESOURCE &&
+                $type == Constants::RESOURCES_TYPE_ARRAY;
+    }
+
+    /**
+     * Is it a file loader?
+     *
+     * @param $what
+     * @param $type
+     * @return bool
+     */
+    private function isFileLoader($what, $type)
+    {
+        return $what == Constants::FILES_RESOURCE &&
+                $type == Constants::RESOURCES_TYPE_FILES;
+    }
+
+    /**
      * Load all resources.
      *
      * @return mixed
@@ -79,6 +105,17 @@ class ResourceLoader
                 )
             )
         );
+    }
+
+    /**
+     * Load arrays and files?
+     *
+     * @param $what
+     * @return string
+     */
+    private function loadAnyType($what)
+    {
+        return $what == Constants::RESOURCES_TYPE_BOTH;
     }
 
     /**
