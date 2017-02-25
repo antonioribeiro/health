@@ -3,10 +3,10 @@
 namespace PragmaRX\Health\Tests\PhpUnit\Service;
 
 use PragmaRX\Health\Commands;
+use PragmaRX\Health\Support\Yaml;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Facade as Health;
 use PragmaRX\Health\Support\ResourceLoader;
-use PragmaRX\Health\Support\Yaml;
 use PragmaRX\Health\Tests\PhpUnit\TestCase;
 use PragmaRX\Health\Http\Controllers\Health as HealthController;
 
