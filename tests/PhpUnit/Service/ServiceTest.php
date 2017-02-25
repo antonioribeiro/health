@@ -111,7 +111,10 @@ class ServiceTest extends TestCase
 
     public function testConfigWasLoadedProperly()
     {
-        $this->assertEquals($this->resources['Health']['error_message'], 'At least one resource failed the health check.');
+        $this->assertEquals(
+            $this->resources['Health']['error_message'],
+            'At least one resource failed the health check.'
+        );
     }
 
     public function testResourcesHasTheCorrectCount()
