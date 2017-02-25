@@ -8,7 +8,7 @@ use PragmaRX\Health\Tests\PhpUnit\TestCase;
 
 class ServiceTest extends TestCase
 {
-    const RESOURCES_HEALTHY_EVERYWHERE = 14;
+    const RESOURCES_HEALTHY_EVERYWHERE = 13;
 
     const ALL_RESOURCES = [
         'health',
