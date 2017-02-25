@@ -8,6 +8,8 @@ use PragmaRX\Health\Tests\PhpUnit\TestCase;
 
 class ServiceTest extends TestCase
 {
+    const RESOURCES_HEALTHY_EVERYWHERE = 14;
+
     const ALL_RESOURCES = [
         'health',
         'broadcasting',
@@ -48,6 +50,10 @@ class ServiceTest extends TestCase
         'NewrelicDeamon',
         'Redis',
         'S3',
+        'NginxServer',
+        'Php',
+        'PostgreSqlServer',
+        'ServerLoad',
     ];
 
     /**
@@ -80,6 +86,24 @@ class ServiceTest extends TestCase
         $this->resources = $this->service->checkResources();
     }
 
+    public function testResourcesWhereChecked()
+    {
+        $healthCount = $this->resources->reduce(function ($carry, $item) {
+            return $carry + (isset($item['health']['healthy'])
+                    ? 1
+                    : 0);
+        }, 0);
+
+        $this->assertEquals(count(static::ALL_RESOURCES), $healthCount);
+
+        $failing = $this->resources
+            ->filter(function ($item) {
+                return $item['health']['healthy'];
+            });
+
+        $this->assertGreaterThanOrEqual(static::RESOURCES_HEALTHY_EVERYWHERE, $failing->count());
+    }
+
     public function testInstantiation()
     {
         $this->assertInstanceOf(Collection::class, $this->resources);
@@ -105,23 +129,4 @@ class ServiceTest extends TestCase
         );
     }
 
-    public function testResourcesWhereChecked()
-    {
-        $healthCount = $this->resources->reduce(function ($carry, $item) {
-            return $carry + (isset($item['health']['healthy'])
-                    ? 1
-                    : 0);
-        }, 0);
-
-        $this->assertEquals(count(static::ALL_RESOURCES), $healthCount);
-
-        $failing = $this->resources
-            ->reject(function ($item) {
-                return $item['health']['healthy'];
-            })
-            ->keys()
-            ->diff(static::RESOURCES_FAILING);
-
-        $this->assertEquals([], $failing->toArray());
-    }
 }
