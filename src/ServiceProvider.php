@@ -267,7 +267,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
         Artisan::command('health:export', function () use ($commands) {
             $commands->exportResources($this);
-        })->describe('Export resources to .yml files');
+        })->describe('Export "array" resources to .yml files');
 
         Artisan::command('health:publish', function () use ($commands) {
             $commands->publish($this);
