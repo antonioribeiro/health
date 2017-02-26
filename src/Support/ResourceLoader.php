@@ -121,7 +121,10 @@ class ResourceLoader
                 $this->loadResourcesFrom(
                     Constants::FILES_RESOURCE,
                     $type,
-                    $this->loadResourcesFrom(Constants::ARRAY_RESOURCE, $type, $this->resources)
+                    $this->loadResourcesFrom(
+                        Constants::ARRAY_RESOURCE,
+                        $type, $this->resources
+                    )
                 )
             )
         );
@@ -157,11 +160,11 @@ class ResourceLoader
      */
     private function loadFiles()
     {
-        $local = $this->yaml->loadYamlFromDir(config('health.resources_location.path'));
+        if (($files = $this->yaml->loadYamlFromDir(config('health.resources_location.path')))->count() == 0) {
+            $files = $this->yaml->loadYamlFromDir(package_resources_dir());
+        }
 
-        return $this->yaml->loadYamlFromDir(package_resources_dir())->reject(function ($item, $key) use ($local) {
-            return $local->keys()->has($key);
-        })->merge($local)->mapWithKeys(function ($value, $key) {
+        return $files->mapWithKeys(function ($value, $key) {
             return [$this->removeExtension($key) => $value];
         });
     }
