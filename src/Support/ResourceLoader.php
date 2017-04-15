@@ -15,9 +15,9 @@ class ResourceLoader
     protected $yaml;
 
     /**
-     * @var array
+     * @var \Illuminate\Support\Collection
      */
-    private $resources = [];
+    private $resources;
 
     /**
      * ResourceLoader constructor.
@@ -38,7 +38,7 @@ class ResourceLoader
      */
     private function canLoadResources($what, $type)
     {
-        return $this->loadAnyType($type) ||
+        return $this->shouldLoadAnyType($type) ||
                $this->isArrayLoader($what, $type) ||
                $this->isFileLoader($what, $type);
     }
@@ -47,7 +47,7 @@ class ResourceLoader
      * Get enabled resources.
      *
      * @param $resources
-     * @return \Illuminate\Support\Collection|static
+     * @return \Illuminate\Support\Collection
      * @throws \Exception
      */
     private function getEnabledResources($resources)
@@ -68,7 +68,7 @@ class ResourceLoader
     /**
      * Resources getter.
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public function getResources()
     {
@@ -106,7 +106,7 @@ class ResourceLoader
     /**
      * Load all resources.
      *
-     * @return mixed
+     * @return \Illuminate\Support\Collection
      */
     public function load()
     {
@@ -134,9 +134,9 @@ class ResourceLoader
      * Load arrays and files?
      *
      * @param $what
-     * @return string
+     * @return boolean
      */
-    private function loadAnyType($what)
+    private function shouldLoadAnyType($what)
     {
         return $what == Constants::RESOURCES_TYPE_BOTH;
     }
@@ -144,7 +144,7 @@ class ResourceLoader
     /**
      * Load resources in array.
      *
-     * @return static
+     * @return \Illuminate\Support\Collection
      */
     private function loadArray()
     {
@@ -156,7 +156,7 @@ class ResourceLoader
     /**
      * Load resources in files.
      *
-     * @return mixed
+     * @return \Illuminate\Support\Collection
      */
     private function loadFiles()
     {
@@ -168,7 +168,7 @@ class ResourceLoader
     /**
      * Load Resources.
      *
-     * Load application resources.
+     * @return \Illuminate\Support\Collection
      */
     public function loadResources()
     {
@@ -176,7 +176,7 @@ class ResourceLoader
     }
 
     /**
-     * @return static
+     * @return \Illuminate\Support\Collection
      */
     private function loadResourcesFiles()
     {
@@ -190,6 +190,8 @@ class ResourceLoader
     }
 
     /**
+     * Load resources for a particular type.
+     *
      * @param $what
      * @param $resources
      * @return array
@@ -238,7 +240,7 @@ class ResourceLoader
      * Remove extension from file name.
      *
      * @param $key
-     * @return mixed
+     * @return string
      */
     private function removeExtension($key)
     {
@@ -264,7 +266,7 @@ class ResourceLoader
      * Sanitize resources.
      *
      * @param $resources
-     * @return mixed
+     * @return \Illuminate\Support\Collection
      */
     private function sanitizeResources($resources)
     {
@@ -279,7 +281,7 @@ class ResourceLoader
      * Sort resources.
      *
      * @param $resources
-     * @return mixed
+     * @return \Illuminate\Support\Collection
      */
     protected function sortResources($resources)
     {
