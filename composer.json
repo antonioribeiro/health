@@ -31,7 +31,8 @@
   },
 
   "suggest": {
-    "guzzlehttp/guzzle": "~6.0"
+    "guzzlehttp/guzzle": "~6.0",
+    "docusign/esign-client": "^2.0"
   },
 
   "autoload": {
