@@ -103,7 +103,7 @@ class Commands
 
         $yaml->loadYamlFromDir(package_resources_dir(), false)->each(function ($value, $key) use ($command) {
             if (! file_exists($path = config('health.resources_location.path'))) {
-                mkdir($path, 0660, true);
+                mkdir($path, 0755, true);
             }
 
             if (file_exists($file = $path.DIRECTORY_SEPARATOR.$key)) {
