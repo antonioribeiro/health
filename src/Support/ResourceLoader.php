@@ -134,7 +134,7 @@ class ResourceLoader
      * Load arrays and files?
      *
      * @param $what
-     * @return boolean
+     * @return bool
      */
     private function shouldLoadAnyType($what)
     {
