@@ -199,8 +199,8 @@ class ResourceLoader
     private function loadResourcesForType($what, $resources)
     {
         return $what == Constants::ARRAY_RESOURCE
-            ? array_merge($resources, $this->loadArray()->toArray())
-            : array_merge($resources, $this->loadFiles()->toArray());
+            ? array_merge($resources ?: [], $this->loadArray()->toArray())
+            : array_merge($resources ?: [], $this->loadFiles()->toArray());
     }
 
     /**
