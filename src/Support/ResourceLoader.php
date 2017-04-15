@@ -160,7 +160,7 @@ class ResourceLoader
      */
     private function loadFiles()
     {
-        if (($files = $this->yaml->loadYamlFromDir(config('health.resources_location.path')))->count() == 0) {
+        if ($files = $this->yaml->loadYamlFromDir(config('health.resources_location.path'))->count() == 0) {
             $files = $this->yaml->loadYamlFromDir(package_resources_dir());
         }
 
