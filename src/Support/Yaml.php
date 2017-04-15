@@ -37,6 +37,11 @@ class Yaml
         return SymfonyYaml::parse($this->replaceContents($contents));
     }
 
+    private function removeQuotes($string)
+    {
+        return trim(trim($string, "'"), '"');
+    }
+
     /**
      * Replace contents.
      *
@@ -86,7 +91,7 @@ class Yaml
         if (count($matches) && count($matches[0])) {
             $function = $matches[1][0];
 
-            return $function($matches[2][0]);
+            return $function($this->removeQuotes($matches[2][0]));
         }
     }
 
