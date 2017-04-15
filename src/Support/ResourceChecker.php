@@ -71,7 +71,7 @@ class ResourceChecker
     /**
      * Check all resources.
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     public function checkResources($force = true)
     {
