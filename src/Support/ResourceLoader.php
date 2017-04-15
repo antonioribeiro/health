@@ -160,9 +160,11 @@ class ResourceLoader
      */
     private function loadFiles()
     {
-        if ($files = $this->yaml->loadYamlFromDir(config('health.resources_location.path'))->count() == 0) {
-            $files = $this->yaml->loadYamlFromDir(package_resources_dir());
-        }
+        $files = $this->yaml->loadYamlFromDir(config('health.resources_location.path'));
+
+        $files = $files->count() == 0
+                    ? $this->yaml->loadYamlFromDir(package_resources_dir())
+                    : $files;
 
         return $files->mapWithKeys(function ($value, $key) {
             return [$this->removeExtension($key) => $value];
