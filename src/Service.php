@@ -32,6 +32,8 @@ class Service
 
     /**
      * Check Resources.
+     *
+     * @return \Illuminate\Support\Collection
      */
     public function checkResources($flushCache = false)
     {
