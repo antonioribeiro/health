@@ -30,6 +30,10 @@
     "predis/predis": "^1.0"
   },
 
+  "suggest": {
+    "guzzlehttp/guzzle": "~6.0"
+  },
+
   "autoload": {
     "files": [
       "src/Support/Throwable.php",
