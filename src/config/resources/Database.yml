@@ -3,5 +3,5 @@ abbreviation: db
 checker: PragmaRX\Health\Checkers\DatabaseChecker
 notify: true
 models:
-    - Clearitie\Models\User
+    - {{ config('auth.providers.users.model') }}
 column_size: 4
