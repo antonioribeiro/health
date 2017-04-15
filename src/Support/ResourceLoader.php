@@ -160,13 +160,7 @@ class ResourceLoader
      */
     private function loadFiles()
     {
-        $files = $this->yaml->loadYamlFromDir(config('health.resources_location.path'));
-
-        $files = $files->count() == 0
-                    ? $this->yaml->loadYamlFromDir(package_resources_dir())
-                    : $files;
-
-        return $files->mapWithKeys(function ($value, $key) {
+        return $this->loadResourcesFiles()->mapWithKeys(function ($value, $key) {
             return [$this->removeExtension($key) => $value];
         });
     }
@@ -179,6 +173,20 @@ class ResourceLoader
     public function loadResources()
     {
         return $this->sortResources($this->makeResourcesCollection());
+    }
+
+    /**
+     * @return static
+     */
+    private function loadResourcesFiles()
+    {
+        $files = $this->yaml->loadYamlFromDir(config('health.resources_location.path'));
+
+        $files = $files->count() == 0
+            ? $this->yaml->loadYamlFromDir(package_resources_dir())
+            : $files;
+
+        return $files;
     }
 
     /**
