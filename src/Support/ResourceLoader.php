@@ -176,6 +176,8 @@ class ResourceLoader
     }
 
     /**
+     * Load resource files.
+     *
      * @return \Illuminate\Support\Collection
      */
     private function loadResourcesFiles()
@@ -194,13 +196,15 @@ class ResourceLoader
      *
      * @param $what
      * @param $resources
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
     private function loadResourcesForType($what, $resources)
     {
-        return $what == Constants::ARRAY_RESOURCE
-            ? array_merge($resources ?: [], $this->loadArray()->toArray())
-            : array_merge($resources ?: [], $this->loadFiles()->toArray());
+        return collect(
+            $what == Constants::ARRAY_RESOURCE
+            ? array_merge((array) $resources, (array) $this->loadArray()->toArray())
+            : array_merge((array) $resources, (array) $this->loadFiles()->toArray())
+        );
     }
 
     /**
