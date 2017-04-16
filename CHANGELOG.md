@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.2 - 2017-04-16
+### Fixed
+- Yaml functions parser when using strings as parameters
+
+## 0.3.0 - 2017-02-25
+### Changed
+- Now we can use Yaml files to configure resources
+
 ## 0.1.8 - 2017-01-09
 ### Added
 - Broadcasting checker for Redis and Pusher
