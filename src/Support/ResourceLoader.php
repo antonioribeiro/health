@@ -202,8 +202,8 @@ class ResourceLoader
     {
         return collect(
             $what == Constants::ARRAY_RESOURCE
-            ? array_merge((array) $resources, (array) $this->loadArray()->toArray())
-            : array_merge((array) $resources, (array) $this->loadFiles()->toArray())
+            ? collect($resources)->merge($this->loadArray())
+            : collect($resources)->merge($this->loadFiles())
         );
     }
 
