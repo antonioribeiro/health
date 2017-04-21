@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3 - 2017-04-20
+### Fixed
+- Docusign checker
+
 ## 0.3.2 - 2017-04-16
 ### Fixed
 - Yaml functions parser when using strings as parameters
