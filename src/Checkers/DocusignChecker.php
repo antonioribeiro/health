@@ -28,7 +28,7 @@ class DocusignChecker extends BaseChecker
 
     private function docusignIsNotInstalled()
     {
-        return class_exists(ApiClient::class);
+        return ! class_exists(ApiClient::class);
     }
 
     private function getAccountIdFromLogin($login)
