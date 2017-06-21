@@ -48,5 +48,12 @@
       "PragmaRX\\Health\\tests\\phpunit\\": "tests/phpunit/",
       "PragmaRX\\Health\\Tests\\PhpUnit\\": "tests/PhpUnit/"
     }
-  }
+  },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "PragmaRX\\Health\\ServiceProvider"
+            ]
+        }
+    }
 }
