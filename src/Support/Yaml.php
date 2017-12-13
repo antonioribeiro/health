@@ -53,7 +53,7 @@ class Yaml
         preg_match_all('/{{(.*)}}/', $contents, $matches);
 
         foreach ($matches[0] as $key => $match) {
-            if (count($match)) {
+            if (! empty($match)) {
                 $contents = str_replace($matches[0][$key], $this->resolveVariable($matches[1][$key]), $contents);
             }
         }
