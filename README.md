@@ -277,6 +277,12 @@ Broadcasting checker is done via ping and pong system. The broadcast checker wil
     </html>
 
 
+## Testing
+
+``` bash
+$ composer test
+```
+
 ## Author
 
 [Antonio Carlos Ribeiro](http://twitter.com/iantonioribeiro)
