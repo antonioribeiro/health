@@ -106,7 +106,7 @@ class Commands
                 mkdir($path, 0755, true);
             }
 
-            if (file_exists($file = $path.DIRECTORY_SEPARATOR.$key)) {
+            if (file_exists($file = $path.DIRECTORY_SEPARATOR.$key.'.yaml')) {
                 $this->warn($command, 'Skipped: '.$file);
 
                 return;
