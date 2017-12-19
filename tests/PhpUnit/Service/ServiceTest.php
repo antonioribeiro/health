@@ -222,7 +222,7 @@ class ServiceTest extends TestCase
             (new Commands($this->service))->$command();
         }
 
-        $this->assertFalse(!true);
+        $this->assertFalse(! true);
     }
 
     public function testController()
