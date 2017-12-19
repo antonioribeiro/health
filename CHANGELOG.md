@@ -2,6 +2,7 @@
 
 ## 0.4.0 - 2017-12-18
 ### Changed
+- User will need change config files and surround expressions ({{ <expression> }}) with "" (breaking change)  
 - Upgraded to Laravel 5.5 & PHP 7.0+
 - Added support for PHP 7.2
 

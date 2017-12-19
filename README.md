@@ -177,7 +177,7 @@ Add the Service Provider to your `app/config/app.php` (Laravel 4.x) or `config/a
 
 ## Publish config and views
 
-    php artisan vendor:publish
+    php artisan vendor:publish --provider="PragmaRX\Health\ServiceProvider"
 
 ## Hit The Health Panel
 
