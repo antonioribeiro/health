@@ -3,7 +3,7 @@
 namespace PragmaRX\Health;
 
 use Illuminate\Console\Command;
-use PragmaRX\Health\Support\Yaml;
+use PragmaRX\Yaml\Package\Yaml;
 use PragmaRX\Health\Service as HealthService;
 
 class Commands
@@ -101,16 +101,18 @@ class Commands
     {
         $yaml = new Yaml();
 
-        $yaml->loadYamlFromDir(package_resources_dir(), false)->each(function ($value, $key) use ($command) {
-            if (! file_exists($path = config('health.resources_location.path'))) {
+        $yaml->loadFromDirectory(package_resources_dir(), false)->each(function ($value, $key) use ($command, $yaml) {
+            if (!file_exists($path = config('health.resources_location.path'))) {
                 mkdir($path, 0755, true);
             }
 
             if (file_exists($file = $path.DIRECTORY_SEPARATOR.$key)) {
-                return $this->warn($command, 'Skipped: '.$file);
+                $this->warn($command, 'Skipped: '.$file);
+
+                return;
             }
 
-            file_put_contents($file, $value);
+            file_put_contents($file, $yaml->dump($value));
 
             $this->info($command, 'Saved: '.$file);
         });

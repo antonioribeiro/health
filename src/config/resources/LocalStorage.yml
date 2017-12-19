@@ -4,6 +4,6 @@ checker: PragmaRX\Health\Checkers\CloudStorageChecker
 notify: true
 driver: local
 file: pragmarx-health-storage-testfile.txt
-contents: {{ str_random(32) }}
+contents: "{{ str_random(32) }}"
 error_message: 'Cloud storage is not retrieving files correctly.'
 column_size: 4

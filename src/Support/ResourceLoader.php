@@ -4,6 +4,7 @@ namespace PragmaRX\Health\Support;
 
 use DomainException;
 use Illuminate\Support\Str;
+use PragmaRX\Yaml\Package\Yaml;
 
 class ResourceLoader
 {
@@ -182,10 +183,10 @@ class ResourceLoader
      */
     private function loadResourcesFiles()
     {
-        $files = $this->yaml->loadYamlFromDir(config('health.resources_location.path'));
+        $files = $this->yaml->loadFromDirectory(config('health.resources_location.path'));
 
         $files = $files->count() == 0
-            ? $this->yaml->loadYamlFromDir(package_resources_dir())
+            ? $this->yaml->loadFromDirectory(package_resources_dir())
             : $files;
 
         return $files;
