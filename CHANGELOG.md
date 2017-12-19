@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0 - 2017-12-18
+### Changed
+- Upgraded to Laravel 5.5 & PHP 7.0+
+- Added support for PHP 7.2
+
 ## 0.3.3 - 2017-04-20
 ### Fixed
 - Docusign checker
