@@ -11,9 +11,9 @@ config:
         address: health@example.com
         name: 'Health Checker'
     encryption: null
-    username: {{ mail.username }}
-    password: {{ mail.password }}
-    sendmail: '/usr/sbin/sendmail -bs'
+    username: "{{ mail.username }}"
+    password: "{{ mail.password }}"
+    sendmail: "/usr/sbin/sendmail -bs"
 to: you-know-who@sink.sendgrid.net
 subject: 'Health Test mail'
 column_size: 4

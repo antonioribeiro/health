@@ -3,7 +3,7 @@
 namespace PragmaRX\Health\Tests\PhpUnit\Service;
 
 use PragmaRX\Health\Commands;
-use PragmaRX\Health\Support\Yaml;
+use PragmaRX\Yaml\Package\Yaml;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Support\ResourceLoader;
 use PragmaRX\Health\Tests\PhpUnit\TestCase;
@@ -107,14 +107,14 @@ class ServiceTest extends TestCase
         $this->assertCheckedResources($this->getResources());
     }
 
-    public function test_cache_flush()
+    public function testCacheFlush()
     {
         $this->assertCheckedResources(
             $this->getResources(true)
         );
     }
 
-    public function test_load_array()
+    public function testLoadArray()
     {
         $this->app['config']->set('health.resources_location.type', \PragmaRX\Health\Support\Constants::RESOURCES_TYPE_ARRAY);
 
@@ -123,7 +123,7 @@ class ServiceTest extends TestCase
         );
     }
 
-    public function test_load_files()
+    public function testLoadFiles()
     {
         $this->app['config']->set('health.resources_location.type', \PragmaRX\Health\Support\Constants::RESOURCES_TYPE_FILES);
 
@@ -132,7 +132,7 @@ class ServiceTest extends TestCase
         );
     }
 
-    public function test_unsorted()
+    public function testUnsorted()
     {
         $this->app['config']->set('health.sort_by', null);
 
@@ -141,7 +141,7 @@ class ServiceTest extends TestCase
         );
     }
 
-    public function test_invalid_enabled_resources()
+    public function testInvalidEnabledResources()
     {
         $this->expectException(\DomainException::class);
 
@@ -152,7 +152,7 @@ class ServiceTest extends TestCase
         $this->getResources(true);
     }
 
-    public function test_invalid_load_one_resource()
+    public function testInvalidLoadOneResource()
     {
         $this->app['config']->set('health.resources_enabled', ['Database']);
 
@@ -202,14 +202,14 @@ class ServiceTest extends TestCase
     public function testResourcesItemsMatchConfig()
     {
         $this->assertEquals(
-            static::ALL_RESOURCES,
+            collect(static::ALL_RESOURCES)->sort()->values()->toArray(),
             $this->getResources()->keys()->map(function ($value) {
                 return strtolower($value);
-            })->toArray()
+            })->sort()->values()->toArray()
         );
     }
 
-    public function test_artisan_commands()
+    public function testArtisanCommands()
     {
         $commands = [
             'panel',
@@ -221,9 +221,11 @@ class ServiceTest extends TestCase
         foreach ($commands as $command) {
             (new Commands($this->service))->$command();
         }
+
+        $this->assertFalse(!true);
     }
 
-    public function test_controller()
+    public function testController()
     {
         $controller = new HealthController($this->service);
 

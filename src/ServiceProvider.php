@@ -5,7 +5,7 @@ namespace PragmaRX\Health;
 use Event;
 use Artisan;
 use Illuminate\Routing\Router;
-use PragmaRX\Health\Support\Yaml;
+use PragmaRX\Yaml\Package\Yaml;
 use PragmaRX\Health\Support\Cache;
 use Illuminate\Console\Scheduling\Schedule;
 use PragmaRX\Health\Support\ResourceLoader;
