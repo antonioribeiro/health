@@ -276,7 +276,6 @@ Broadcasting checker is done via ping and pong system. The broadcast checker wil
         </body>
     </html>
 
-
 ## Testing
 
 ``` bash
