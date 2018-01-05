@@ -171,7 +171,7 @@ Use Composer to install it:
 
 ## Installing on Laravel
 
-Add the Service Provider to your `app/config/app.php` (Laravel 4.x) or `config/app.php` (Laravel 5.x):
+Add the Service Provider to your `config/app.php`:
 
     PragmaRX\Health\ServiceProvider::class,
 
