@@ -2,5 +2,5 @@ name: Https
 abbreviation: https
 checker: PragmaRX\Health\Checkers\HttpsChecker
 notify: true
-url: "{{ app.url }}"
+url: '{{ config("app.url") }}'
 column_size: 4
