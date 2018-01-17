@@ -4,6 +4,7 @@ namespace PragmaRX\Health\Checkers;
 
 use GuzzleHttp\TransferStats;
 use GuzzleHttp\Client as Guzzle;
+use Illuminate\Support\Collection;
 
 class HttpChecker extends BaseChecker
 {
@@ -37,7 +38,7 @@ class HttpChecker extends BaseChecker
         try {
             $health = [];
 
-            foreach ((array) $this->resource['url'] as $url) {
+            foreach ($this->getResourceUrlArray() as $url) {
                 list($healthy, $message) = $this->checkWebPage(
                     $this->makeUrlWithScheme($url, $this->secure),
                     $this->secure
@@ -50,6 +51,15 @@ class HttpChecker extends BaseChecker
         } catch (\Exception $exception) {
             return $this->makeResultFromException($exception);
         }
+    }
+
+    private function getResourceUrlArray()
+    {
+        if (is_a($this->resource['url'], Collection::class)) {
+            return $this->resource['url']->toArray();
+        }
+
+        return (array) $this->resource['url'];
     }
 
     /**
