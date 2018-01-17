@@ -53,6 +53,11 @@ class HttpChecker extends BaseChecker
         }
     }
 
+    /**
+     *  Get array of resource urls.
+     *
+     * @return array
+     */
     private function getResourceUrlArray()
     {
         if (is_a($this->resource['url'], Collection::class)) {
