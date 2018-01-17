@@ -1,6 +1,5 @@
 name: Queue
 abbreviation: queue
-name: health-queue
 cache_instance: cache
 test_job: PragmaRX\Health\Support\Jobs\TestJob
 checker: PragmaRX\Health\Checkers\QueueChecker
