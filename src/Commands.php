@@ -61,17 +61,23 @@ class Commands
             return $carry + ($item['health']['healthy'] ? 0 : 1);
         }, 0);
 
+        $exitCode = 0;
+
         if ($errors) {
             $this->error(
                 $command,
-                "Application needs attention, $errors ".
-                str_plural('resouce', $errors).' '.
-                ($errors > 1 ? 'are' : 'is').
+                "Application needs attention, $errors " .
+                str_plural('resouce', $errors) . ' ' .
+                ($errors > 1 ? 'are' : 'is') .
                 ' currently failing.'
             );
+
+            $exitCode = 255;
+        } else {
+            $this->info($command, 'Check completed with no errors.');
         }
 
-        $this->info($command, 'Check completed with no errors.');
+        exit($exitCode);
     }
 
     public function export(Command $command = null)
