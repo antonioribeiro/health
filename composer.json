@@ -17,7 +17,7 @@
 
     "require": {
         "php": ">=7.0",
-        "laravel/framework": "5.5.*",
+        "laravel/framework": "5.5.*|5.6.*|5.7.*",
         "pragmarx/yaml": "^0.1"
     },
 
