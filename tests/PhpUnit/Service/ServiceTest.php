@@ -145,7 +145,7 @@ class ServiceTest extends TestCase
     {
         $this->expectException(\DomainException::class);
 
-        $this->app['config']->set('health.resources_enabled', 'invalid');
+        $this->app['config']->set('health.resources.enabled', 'invalid');
 
         (new ResourceLoader(new Yaml()))->load();
 
@@ -154,7 +154,7 @@ class ServiceTest extends TestCase
 
     public function testInvalidLoadOneResource()
     {
-        $this->app['config']->set('health.resources_enabled', ['Database']);
+        $this->app['config']->set('health.resources.enabled', ['Database']);
 
         $resource = (new ResourceLoader(new Yaml()))->load();
 

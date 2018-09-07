@@ -31,20 +31,6 @@ class ResourceLoader
     }
 
     /**
-     * Can load resources?
-     *
-     * @param $what
-     * @param $type
-     * @return bool
-     */
-    private function canLoadResources($what, $type)
-    {
-        return $this->shouldLoadAnyType($type) ||
-               $this->isArrayLoader($what, $type) ||
-               $this->isFileLoader($what, $type);
-    }
-
-    /**
      * Get enabled resources.
      *
      * @param $resources
@@ -53,14 +39,16 @@ class ResourceLoader
      */
     private function getEnabledResources($resources)
     {
-        if (is_array($keys = config($configKey = 'health.resources_enabled'))) {
-            return collect($resources)->reject(function ($value, $key) use ($keys) {
-                return ! in_array($key, $keys);
-            });
-        }
+        if (is_array($filters = config($configKey = 'health.resources.enabled'))) {
+            return collect($resources)->filter(function ($resource, $name) use ($filters) {
+                foreach ($filters as $filter) {
+                    if (preg_match("|^$filter$|", $name)) {
+                        return true;
+                    }
+                };
 
-        if ($keys == Constants::RESOURCES_ENABLED_ALL) {
-            return collect($resources);
+                return false;
+            });
         }
 
         throw new DomainException("Invalid value for config('$configKey'')");
@@ -79,32 +67,6 @@ class ResourceLoader
     }
 
     /**
-     * Is it an array loader?
-     *
-     * @param $what
-     * @param $type
-     * @return bool
-     */
-    private function isArrayLoader($what, $type)
-    {
-        return $what == Constants::ARRAY_RESOURCE &&
-                $type == Constants::RESOURCES_TYPE_ARRAY;
-    }
-
-    /**
-     * Is it a file loader?
-     *
-     * @param $what
-     * @param $type
-     * @return bool
-     */
-    private function isFileLoader($what, $type)
-    {
-        return $what == Constants::FILES_RESOURCE &&
-                $type == Constants::RESOURCES_TYPE_FILES;
-    }
-
-    /**
      * Load all resources.
      *
      * @return \Illuminate\Support\Collection
@@ -115,43 +77,11 @@ class ResourceLoader
             return $this->resources;
         }
 
-        $type = config('health.resources_location.type');
-
         return $this->resources = $this->sanitizeResources(
             $this->getEnabledResources(
-                $this->loadResourcesFrom(
-                    Constants::FILES_RESOURCE,
-                    $type,
-                    $this->loadResourcesFrom(
-                        Constants::ARRAY_RESOURCE,
-                        $type, $this->resources
-                    )
-                )
+                $this->loadResourceFiles()
             )
         );
-    }
-
-    /**
-     * Load arrays and files?
-     *
-     * @param $what
-     * @return bool
-     */
-    private function shouldLoadAnyType($what)
-    {
-        return $what == Constants::RESOURCES_TYPE_BOTH;
-    }
-
-    /**
-     * Load resources in array.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    private function loadArray()
-    {
-        return collect(config('health.resources'))->mapWithKeys(function ($value, $key) {
-            return [studly_case($key) => $value];
-        });
     }
 
     /**
@@ -159,7 +89,7 @@ class ResourceLoader
      *
      * @return \Illuminate\Support\Collection
      */
-    private function loadFiles()
+    private function loadResourceFiles()
     {
         return $this->loadResourcesFiles()->mapWithKeys(function ($value, $key) {
             return [$this->removeExtension($key) => $value];
@@ -183,44 +113,13 @@ class ResourceLoader
      */
     private function loadResourcesFiles()
     {
-        $files = $this->yaml->loadFromDirectory(config('health.resources_location.path'));
+        $files = $this->yaml->loadFromDirectory(config('health.resources.path'));
 
         $files = $files->count() == 0
             ? $this->yaml->loadFromDirectory(package_resources_dir())
             : $files;
 
         return $files;
-    }
-
-    /**
-     * Load resources for a particular type.
-     *
-     * @param $what
-     * @param $resources
-     * @return \Illuminate\Support\Collection
-     */
-    private function loadResourcesForType($what, $resources)
-    {
-        return collect(
-            $what == Constants::ARRAY_RESOURCE
-            ? collect($resources)->merge($this->loadArray())
-            : collect($resources)->merge($this->loadFiles())
-        );
-    }
-
-    /**
-     * Load resources from array.
-     *
-     * @param $what
-     * @param $type
-     * @param $resources
-     * @return array
-     */
-    private function loadResourcesFrom($what, $type, $resources)
-    {
-        return $this->canLoadResources($what, $type)
-                ? $this->loadResourcesForType($what, $resources)
-                : $resources;
     }
 
     /**
@@ -233,7 +132,7 @@ class ResourceLoader
         return collect($this->load())->map(function ($item, $key) {
             $item['slug'] = $key;
 
-            $item['name'] = Str::studly($key);
+            $item['name'] = $item['name'] ?? Str::studly($key);
 
             $item['is_global'] = (isset($item['is_global']) && $item['is_global']);
 
