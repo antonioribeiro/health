@@ -4,13 +4,11 @@ return [
 
     'title' => 'Laravel Health Check Panel',
 
-    'resources_location' => [
+    'resources' => [
         'path' => config_path('health/resources'),
 
-        'type' => PragmaRX\Health\Support\Constants::RESOURCES_TYPE_BOTH,
+        'enabled' => PragmaRX\Health\Support\Constants::RESOURCES_ENABLED_ALL,
     ],
-
-    'resources_enabled' => PragmaRX\Health\Support\Constants::RESOURCES_ENABLED_ALL, // use an array to select some
 
     'sort_by' => 'slug',
 

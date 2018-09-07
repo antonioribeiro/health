@@ -78,7 +78,8 @@ class ServiceProvider extends IlluminateServiceProvider
     private function configurePaths()
     {
         $this->publishes([
-            __DIR__.'/config/config.php' => config_path('health.php'),
+            __DIR__.'/config/configx.php' => config_path('health/config.php'),
+            __DIR__.'/config/resources/' => config_path('health/resources/'),
         ]);
 
         $this->publishes([
@@ -218,7 +219,11 @@ class ServiceProvider extends IlluminateServiceProvider
     private function mergeConfig()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/config/config.php', 'health'
+            config_path('/health/config.php'), 'health'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/config/health.php', 'health'
         );
     }
 
