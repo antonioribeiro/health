@@ -45,7 +45,7 @@ class ResourceLoader
                     if (preg_match("|^$filter$|", $name)) {
                         return true;
                     }
-                };
+                }
 
                 return false;
             });
