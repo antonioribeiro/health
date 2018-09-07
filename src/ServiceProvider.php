@@ -78,7 +78,7 @@ class ServiceProvider extends IlluminateServiceProvider
     private function configurePaths()
     {
         $this->publishes([
-            __DIR__.'/config/configx.php' => config_path('health/config.php'),
+            __DIR__.'/config/health.php' => config_path('health/config.php'),
             __DIR__.'/config/resources/' => config_path('health/resources/'),
         ]);
 
