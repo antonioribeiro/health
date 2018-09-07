@@ -26,7 +26,6 @@
         "laravel/laravel": "^5.3",
         "orchestra/testbench": "~3.5",
         "guzzlehttp/guzzle": "~6.0",
-        "symfony/yaml": "~3.2",
         "docusign/esign-client": "^2.0",
         "predis/predis": "^1.0"
     },
