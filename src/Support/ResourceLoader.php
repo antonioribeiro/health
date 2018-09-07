@@ -5,6 +5,7 @@ namespace PragmaRX\Health\Support;
 use DomainException;
 use Illuminate\Support\Str;
 use PragmaRX\Yaml\Package\Yaml;
+use PragmaRX\Yaml\Package\Support\Resolver;
 
 class ResourceLoader
 {
@@ -91,8 +92,23 @@ class ResourceLoader
      */
     private function loadResourceFiles()
     {
-        return $this->loadResourcesFiles()->mapWithKeys(function ($value, $key) {
-            return [$this->removeExtension($key) => $value];
+        return $this->replaceExecutableCode($this->loadResourcesFiles())
+            ->mapWithKeys(function ($value, $key) {
+                return [$this->removeExtension($key) => $value];
+            });
+    }
+
+    /**
+     * Replace executable code.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function replaceExecutableCode($files)
+    {
+        return $files->map(function ($item) {
+            return collect($item)->map(function ($value) {
+                return (new Resolver)->recursivelyFindAndReplaceExecutableCode($value);
+            })->all();
         });
     }
 
