@@ -66,9 +66,9 @@ class Commands
         if ($errors) {
             $this->error(
                 $command,
-                "Application needs attention, $errors " .
-                str_plural('resouce', $errors) . ' ' .
-                ($errors > 1 ? 'are' : 'is') .
+                "Application needs attention, $errors ".
+                str_plural('resouce', $errors).' '.
+                ($errors > 1 ? 'are' : 'is').
                 ' currently failing.'
             );
 
