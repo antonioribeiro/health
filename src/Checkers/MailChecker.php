@@ -30,7 +30,7 @@ class MailChecker extends BaseChecker
     {
         $this->mailConfiguration = config('mail');
 
-        config(['mail' => $this->resource['config']]);
+        config(['mail' => $this->resource['config']->toArray()]);
     }
 
     /**
