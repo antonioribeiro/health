@@ -79,7 +79,7 @@ class Commands
         $yaml = new Yaml();
 
         collect(config('health.resources'))->each(function ($resource, $key) use ($command, $yaml) {
-            $path = config('health.resources_location.path');
+            $path = config('health.resources.path');
 
             $resource['column_size'] = (int) $resource['columnSize'];
 
@@ -102,7 +102,7 @@ class Commands
         $yaml = new Yaml();
 
         $yaml->loadFromDirectory(package_resources_dir(), false)->each(function ($value, $key) use ($command, $yaml) {
-            if (! file_exists($path = config('health.resources_location.path'))) {
+            if (! file_exists($path = config('health.resources.path'))) {
                 mkdir($path, 0755, true);
             }
 
