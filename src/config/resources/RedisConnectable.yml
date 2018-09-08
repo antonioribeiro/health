@@ -1,0 +1,11 @@
+name: Redis Connectable
+abbreviation: redisconn
+checker: PragmaRX\Health\Checkers\PortCheck
+ports:
+  server1:
+    hostname: localhost
+    port: 6379
+    timeout: 2
+notify: true
+column_size: 4
+error_message: "Could not connect to %s on port %s"

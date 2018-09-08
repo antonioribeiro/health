@@ -125,3 +125,25 @@ if (! function_exists('human_to_bytes')) {
         return $num;
     }
 }
+
+if (! function_exists('ip_address_from_hostname'))
+{
+    function ip_address_from_hostname($host)
+    {
+        if (
+        filter_var(
+            $host,
+            FILTER_VALIDATE_IP,
+            FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+        )
+        ) {
+            return $host;
+        }
+
+        if (filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+            return gethostbyname($host);
+        }
+
+        return false;
+    }
+}
