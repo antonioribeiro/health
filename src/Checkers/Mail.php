@@ -4,7 +4,7 @@ namespace PragmaRX\Health\Checkers;
 
 use Illuminate\Support\Facades\Mail as IlluminateMail;
 
-class Mail extends  Base
+class Mail extends Base
 {
     /**
      * Store mail configuration.

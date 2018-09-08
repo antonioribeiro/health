@@ -4,7 +4,7 @@ namespace PragmaRX\Health\Checkers;
 
 use Cache as IlluminateCache;
 
-class Cache extends  Base
+class Cache extends Base
 {
     /**
      * @return bool

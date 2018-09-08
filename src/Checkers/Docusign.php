@@ -8,7 +8,7 @@ use DocuSign\eSign\Configuration;
 use DocuSign\eSign\Api\AuthenticationApi;
 use DocuSign\eSign\Api\AuthenticationApi\LoginOptions;
 
-class Docusign extends  Base
+class Docusign extends Base
 {
     /**
      * @return bool

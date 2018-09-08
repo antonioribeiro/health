@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-class Filesystem extends  Base
+class Filesystem extends Base
 {
     /**
      * @return bool
