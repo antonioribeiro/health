@@ -1,0 +1,6 @@
+name: Packages Security Checker
+abbreviation: debug
+checker: PragmaRX\Health\Checkers\SecurityChecker
+notify: true
+column_size: 4
+error_message: 'Application is in debug mode'
