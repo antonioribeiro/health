@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-class Expression extends  Base
+class Expression extends Base
 {
     /**
      * Check resource.
@@ -21,11 +21,11 @@ class Expression extends  Base
         $expressionResult = $this->executeExpression($this->resource['expression_value']);
 
         if ($this->resource['should_return'] === true) {
-            return !!$expressionResult;
+            return (bool) $expressionResult;
         }
 
         if ($this->resource['should_return'] === false) {
-            return !$expressionResult;
+            return ! $expressionResult;
         }
 
         return preg_match("|{$this->resource['should_return']}|", $expressionResult);

@@ -5,7 +5,7 @@ namespace PragmaRX\Health\Checkers;
 use DomainException;
 use Carbon\CarbonInterval;
 
-class ServerUptime extends  Base
+class NotInDebugMode extends Base
 {
     /**
      * Check resource.
