@@ -3,4 +3,4 @@ abbreviation: debug
 checker: PragmaRX\Health\Checkers\SecurityChecker
 notify: true
 column_size: 4
-error_message: 'Application is in debug mode'
+error_message: 'The following packages have vulnerabilities referenced in the SensioLabs security advisories database: %s'
