@@ -6,7 +6,7 @@ use GuzzleHttp\TransferStats;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Support\Collection;
 
-class Http extends  Base
+class Http extends Base
 {
     /**
      * @var bool
