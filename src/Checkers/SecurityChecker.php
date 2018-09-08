@@ -17,8 +17,12 @@ class SecurityChecker extends Base
 
         $alerts = $checker->check(base_path('composer.lock'));
 
-        dd($alerts);
+        if (count($alerts) == 0) {
+            return $this->makeHealthyResult();
+        }
 
-        return $this->makeResult($isHealthy, $this->resource['error_message']);
+        $problems = collect($alerts)->keys()->implode(', ');
+
+        return $this->makeResult($isHealthy, sprintf($this->resource['error_message'], $problems));
     }
 }
