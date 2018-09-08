@@ -1,0 +1,19 @@
+name: Mailgun Connectable
+abbreviation: redisconn
+checker: PragmaRX\Health\Checkers\PortCheck
+ports:
+  mailgun1:
+    hostname: api.mailgun.net
+    port: 443
+    timeout: 2
+  mailgun2:
+    hostname: smtp.mailgun.org
+    port: 465
+    timeout: 2
+  mailgun3:
+    hostname: smtp.mailgun.org
+    port: 587
+    timeout: 2
+notify: true
+column_size: 4
+error_message: "Could not connect to %s on port %s"

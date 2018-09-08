@@ -6,6 +6,6 @@ volumes:
   root:
       name: root
       path: "/"
-      minimum: 1TB
+      minimum: 1GB
       message: 'Volume %s is getting out of space. It has %s when it should have at least %s.'
 column_size: 4
