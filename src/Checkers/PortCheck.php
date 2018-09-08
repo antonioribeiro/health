@@ -12,7 +12,7 @@ class PortCheck extends Base
         foreach ($this->resource['ports'] as $data) {
             $ipAddress = ip_address_from_hostname($data['hostname']);
 
-            if (!$this->portCheck($ipAddress, $data['port'], $data['timeout'] ?? 1)) {
+            if (! $this->portCheck($ipAddress, $data['port'], $data['timeout'] ?? 1)) {
                 return $this->makeResult(
                     false,
                     sprintf($this->resource['error_message'],
@@ -30,7 +30,7 @@ class PortCheck extends Base
      */
     protected function hosnameAndIp($hostname, $ipAdress)
     {
-        return $hostname . ($hostname != $ipAdress ? " ({$ipAdress})" : '');
+        return $hostname.($hostname != $ipAdress ? " ({$ipAdress})" : '');
     }
 
     public function portCheck($ipAddress, $port, $timeout)
