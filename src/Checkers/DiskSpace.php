@@ -2,8 +2,6 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Illuminate\Filesystem\Filesystem;
-
 class DiskSpace extends Base
 {
     /**
@@ -16,7 +14,7 @@ class DiskSpace extends Base
         foreach ($this->resource['volumes'] as $volume) {
             $free = $this->getFreeSpace($volume);
 
-            if (!$this->isEnouth($free, $volume['minimum'])) {
+            if (! $this->isEnouth($free, $volume['minimum'])) {
                 return $this->makeResult(false, sprintf($volume['message'], $volume['path'], bytes_to_human($free), $volume['minimum']));
             }
         }

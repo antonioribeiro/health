@@ -2,7 +2,6 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan as IlluminateArtisan;
 
 class Artisan extends Base

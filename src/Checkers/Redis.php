@@ -4,7 +4,7 @@ namespace PragmaRX\Health\Checkers;
 
 use Redis as IlluminateRedis;
 
-class Redis extends  Base
+class Redis extends Base
 {
     /**
      * Check resource.

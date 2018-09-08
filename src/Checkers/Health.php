@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-class Health extends  Base
+class Health extends Base
 {
     /**
      * Check health.
