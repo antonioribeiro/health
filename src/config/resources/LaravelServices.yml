@@ -1,6 +1,6 @@
 name: LaravelServices
 abbreviation: lvs
-checker: PragmaRX\Health\Checkers\HttpsChecker
+checker: PragmaRX\Health\Checkers\Https
 notify: true
 connection_timeout: 2
 roundtrip_timeout: 4

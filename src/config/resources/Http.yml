@@ -1,6 +1,6 @@
 name: Http
 abbreviation: http
-checker: PragmaRX\Health\Checkers\HttpChecker
+checker: PragmaRX\Health\Checkers\Http
 notify: true
 url: '{{ config("app.url") }}'
 column_size: 4

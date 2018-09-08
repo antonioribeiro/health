@@ -1,6 +1,6 @@
 name: LocalStorage
 abbreviation: lclstrg
-checker: PragmaRX\Health\Checkers\CloudStorageChecker
+checker: PragmaRX\Health\Checkers\CloudStorage
 notify: true
 driver: local
 file: pragmarx-health-storage-testfile.txt

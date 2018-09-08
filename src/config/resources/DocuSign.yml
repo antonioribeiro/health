@@ -1,6 +1,6 @@
 name: DocuSign
 abbreviation: dcsgn
-checker: PragmaRX\Health\Checkers\DocusignChecker
+checker: PragmaRX\Health\Checkers\Docusign
 username: "{{ docusign.username }}"
 password: "{{ docusign.password }}"
 integrator_key: "{{ docusign.integrator_key }}"

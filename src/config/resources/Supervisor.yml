@@ -1,6 +1,6 @@
 name: Supervisor
 abbreviation: sprvsr
-checker: PragmaRX\Health\Checkers\ProcessChecker
+checker: PragmaRX\Health\Checkers\Process
 command: 'ps aux | grep python | grep supervisord'
 method: process_count
 process_name: supervisor

@@ -2,9 +2,9 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Redis;
+use Redis as IlluminateRedis;
 
-class RedisChecker extends BaseChecker
+class Redis extends  Base
 {
     /**
      * Check resource.
@@ -13,9 +13,9 @@ class RedisChecker extends BaseChecker
      */
     public function check()
     {
-        Redis::set($key = $this->resource['key'], $number = random_bytes(80));
+        IlluminateRedis::set($key = $this->resource['key'], $number = random_bytes(80));
 
-        $result = Redis::get($key);
+        $result = IlluminateRedis::get($key);
 
         return $this->makeResult(
             $number == $result,

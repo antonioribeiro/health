@@ -1,6 +1,6 @@
 name: Database
 abbreviation: db
-checker: PragmaRX\Health\Checkers\DatabaseChecker
+checker: PragmaRX\Health\Checkers\Database
 notify: true
 models:
     - "{{ config('auth.providers.users.model') }}"

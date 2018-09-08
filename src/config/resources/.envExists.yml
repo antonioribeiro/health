@@ -1,11 +1,11 @@
-name: RebootRequired
-abbreviation: rbtrqrd
+name: .env Exists
+abbreviation: envexists
 checker: PragmaRX\Health\Checkers\DirectoryAndFilePresence
 file_exists:
-  - /var/run/reboot-required
+  - "{{ base_path('.env') }}"
 file_do_not_exists:
 directory_exists:
 directory_do_not_exists:
 notify: true
-error_message: 'A reboot is required in this server (Uptime Checker)'
+error_message: 'The .env file does not exists'
 column_size: 4

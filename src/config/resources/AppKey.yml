@@ -1,0 +1,8 @@
+name: App Key
+abbreviation: appkey
+checker: PragmaRX\Health\Checkers\Expression
+notify: true
+expression_value: "config('app.key') !== null"
+should_return: true
+column_size: 4
+error_message: 'Application is in debug mode'

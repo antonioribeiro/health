@@ -1,6 +1,6 @@
 name: Mail
 abbreviation: ml
-checker: PragmaRX\Health\Checkers\MailChecker
+checker: PragmaRX\Health\Checkers\Mail
 notify: true
 view: 'pragmarx/health::default.email'
 config:

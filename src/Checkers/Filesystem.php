@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-class FilesystemChecker extends BaseChecker
+class Filesystem extends  Base
 {
     /**
      * @return bool
@@ -13,7 +13,7 @@ class FilesystemChecker extends BaseChecker
             $file = $this->temporaryFile('health-check-', 'just testing', storage_path());
 
             if (! file_exists($file)) {
-                return $this->makeResult(false, sprintf($this->resource['error-message'], $file));
+                return $this->makeResult(false, sprintf($this->resource['error_message'], $file));
             }
 
             unlink($file);

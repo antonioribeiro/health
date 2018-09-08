@@ -1,6 +1,6 @@
 name: Cache
 abbreviation: csh
-checker: PragmaRX\Health\Checkers\CacheChecker
+checker: PragmaRX\Health\Checkers\Cache
 notify: true
 error_message: 'Cache is not returning cached values.'
 key: health-cache-test

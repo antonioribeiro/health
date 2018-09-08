@@ -1,6 +1,6 @@
 name: QueueWorkers
 abbreviation: qwrkrs
-checker: PragmaRX\Health\Checkers\ProcessChecker
+checker: PragmaRX\Health\Checkers\Process
 command: 'ps aux | grep php | grep queue:work'
 method: process_count
 process_name: php

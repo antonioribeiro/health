@@ -2,11 +2,11 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Queue;
+use Queue as IlluminateQueue;
 use Illuminate\Queue\Worker;
 use Illuminate\Queue\WorkerOptions;
 
-class QueueChecker extends BaseChecker
+class Queue extends  Base
 {
     /**
      * Check resource.
@@ -15,7 +15,7 @@ class QueueChecker extends BaseChecker
      */
     public function check()
     {
-        Queue::pushOn($this->resource['name'], instantiate($this->resource['test_job']));
+        IlluminateQueue::pushOn($this->resource['name'], instantiate($this->resource['test_job']));
 
         $worker = instantiate(Worker::class);
 
