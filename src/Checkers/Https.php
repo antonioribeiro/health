@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-class HttpsChecker extends HttpChecker
+class Https extends Http
 {
     /**
      * @var bool

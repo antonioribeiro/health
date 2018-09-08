@@ -1,6 +1,6 @@
 name: RedisServer
 abbreviation: rdssrvr
-checker: PragmaRX\Health\Checkers\ProcessChecker
+checker: PragmaRX\Health\Checkers\Process
 command: 'pgrep %s'
 method: process_count
 process_name: redis-server

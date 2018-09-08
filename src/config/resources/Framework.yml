@@ -1,5 +1,5 @@
 name: Framework
 abbreviation: frmwrk
-checker: PragmaRX\Health\Checkers\FrameworkChecker
+checker: PragmaRX\Health\Checkers\Framework
 notify: true
 column_size: 4

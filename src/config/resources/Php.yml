@@ -1,6 +1,6 @@
 name: Php
 abbreviation: php
-checker: PragmaRX\Health\Checkers\ProcessChecker
+checker: PragmaRX\Health\Checkers\Process
 command: 'pgrep %s'
 method: process_count
 process_name: php-fpm

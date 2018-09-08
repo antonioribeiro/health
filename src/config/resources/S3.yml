@@ -1,6 +1,6 @@
 name: S3
 abbreviation: s3
-checker: PragmaRX\Health\Checkers\CloudStorageChecker
+checker: PragmaRX\Health\Checkers\CloudStorage
 notify: true
 driver: s3
 file: pragmarx-health-s3-testfile.txt

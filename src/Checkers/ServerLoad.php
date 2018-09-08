@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-class ServerLoadChecker extends ServerUptimeChecker
+class ServerLoad extends ServerUptime
 {
     /**
      * Check resource.

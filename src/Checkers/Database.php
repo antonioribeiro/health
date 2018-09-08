@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-class DatabaseChecker extends BaseChecker
+class Database extends  Base
 {
     /**
      * @return bool

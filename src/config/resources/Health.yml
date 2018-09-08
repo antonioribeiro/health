@@ -1,6 +1,6 @@
 name: Health
 abbreviation: hlth
-checker: PragmaRX\Health\Checkers\HealthChecker
+checker: PragmaRX\Health\Checkers\Health
 is_global: true
 notify: false
 error_message: 'At least one resource failed the health check.'

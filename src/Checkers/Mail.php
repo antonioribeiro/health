@@ -2,9 +2,9 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Mail as IlluminateMail;
 
-class MailChecker extends BaseChecker
+class Mail extends  Base
 {
     /**
      * Store mail configuration.
@@ -66,7 +66,7 @@ class MailChecker extends BaseChecker
      */
     private function sendMail()
     {
-        Mail::send($this->resource['view'], [], function ($message) {
+        IlluminateMail::send($this->resource['view'], [], function ($message) {
             $fromAddress = array_get($this->resource, 'config.from.address');
 
             $message->returnPath($fromAddress);

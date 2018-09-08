@@ -2,9 +2,9 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Cache;
+use Cache as IlluminateCache;
 
-class CacheChecker extends BaseChecker
+class Cache extends  Base
 {
     /**
      * @return bool
@@ -32,7 +32,7 @@ class CacheChecker extends BaseChecker
     {
         $checker = $this->getChecker();
 
-        return Cache::remember(
+        return IlluminateCache::remember(
             $this->resource['key'],
             $this->resource['minutes'],
             $checker

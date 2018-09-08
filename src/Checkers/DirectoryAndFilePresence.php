@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-class DirectoryAndFilePresenceChecker extends BaseChecker
+class DirectoryAndFilePresence extends  Base
 {
     /**
      * File exists constant.
@@ -45,17 +45,23 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
      *
      * @return static
      */
-    private function checkPresence()
+    protected function checkPresence()
     {
         $messages = [];
 
-        $result = collect($this->resource['files'])->map(function ($checkType, $file) use (&$messages) {
+        $result = collect($this->getFiles())->map(function ($files, $type) use (&$messages) {
             $isGood = true;
 
-            foreach ($this->getCheckers()[$checkType] as $checker) {
-                if (is_string($message = $checker($file))) {
-                    $messages[] = $message;
-                    $isGood = false;
+            $files = collect($files);
+
+            foreach ($files as $file) {
+                if (!is_null($file)) {
+                    foreach ($this->getCheckers($type) as $checker) {
+                        if (is_string($message = $checker($file))) {
+                            $messages[] = $message;
+                            $isGood = false;
+                        }
+                    }
                 }
             }
 
@@ -65,6 +71,16 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
         });
 
         return [$messages, $result];
+    }
+
+    public function getFiles()
+    {
+        return [
+            static::FILE_EXISTS => $this->resource['file_exists'],
+            static::FILE_DOES_NOT_EXISTS => $this->resource['file_do_not_exists'],
+            static::DIRECTORY_EXISTS => $this->resource['directory_exists'],
+            static::DIRECTORY_DOES_NOT_EXISTS => $this->resource['directory_do_not_exists'],
+        ];
     }
 
     /**
@@ -108,23 +124,26 @@ class DirectoryAndFilePresenceChecker extends BaseChecker
      *
      * @return array
      */
-    public function getCheckers()
+    public function getCheckers($checker)
     {
-        return [
-            static::FILE_EXISTS => [$this->buildFileExistsChecker()],
+        switch ($checker) {
+            case static::FILE_EXISTS:
+                return [$this->buildFileExistsChecker()];
+            case static::FILE_DOES_NOT_EXISTS:
+                return [$this->buildFileDoesNotExistsChecker()];
+            case static::DIRECTORY_EXISTS:
+                return [
+                    $this->buildFileExistsChecker(),
+                    $this->buildIsDirectoryChecker(),
+                ];
+            case static::DIRECTORY_DOES_NOT_EXISTS:
+                return [
+                    $this->buildFileDoesNotExistsChecker(),
+                    $this->buildIsDirectoryChecker(),
+                ];
+        }
 
-            static::FILE_DOES_NOT_EXISTS => [$this->buildFileDoesNotExistsChecker()],
-
-            static::DIRECTORY_EXISTS => [
-                $this->buildFileExistsChecker(),
-                $this->buildIsDirectoryChecker(),
-            ],
-
-            static::DIRECTORY_DOES_NOT_EXISTS => [
-                $this->buildFileDoesNotExistsChecker(),
-                $this->buildIsDirectoryChecker(),
-            ],
-        ];
+        return [];
     }
 
     /**

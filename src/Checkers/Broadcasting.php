@@ -5,7 +5,7 @@ namespace PragmaRX\Health\Checkers;
 use Carbon\Carbon;
 use PragmaRX\Health\Events\HealthPing;
 
-class BroadcastingChecker extends BaseChecker
+class Broadcasting extends  Base
 {
     /**
      * Check resource.

@@ -4,7 +4,7 @@ namespace PragmaRX\Health\Checkers;
 
 use Illuminate\Support\Collection;
 
-abstract class BaseChecker implements Contract
+abstract class Base implements Contract
 {
     /**
      * @var
@@ -32,7 +32,7 @@ abstract class BaseChecker implements Contract
     protected $database;
 
     /**
-     * BaseChecker constructor.
+     *  Base constructor.
      *
      * @param $resource
      * @param $resources

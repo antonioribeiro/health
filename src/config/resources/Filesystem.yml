@@ -1,6 +1,6 @@
 name: Filesystem
 abbreviation: flstm
-checker: PragmaRX\Health\Checkers\FilesystemChecker
+checker: PragmaRX\Health\Checkers\Filesystem
 notify: true
-error-message: 'Unable to create temp file: %s.'
+error_message: 'Unable to create temp file: %s.'
 column_size: 4
