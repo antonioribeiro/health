@@ -2,6 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use SensioLabs\Security\SecurityChecker as SensioLabsSecurityChecker;
+
 class SecurityChecker extends Base
 {
     /**
@@ -11,11 +13,11 @@ class SecurityChecker extends Base
      */
     public function check()
     {
-        $isHealthy = ! $this->pingTimedout();
+        $checker = new SensioLabsSecurityChecker();
 
-        $this->createPing();
+        $alerts = $checker->check(base_path('composer.lock'));
 
-        $this->dispatchEvent();
+        dd($alerts);
 
         return $this->makeResult($isHealthy, $this->resource['error_message']);
     }
