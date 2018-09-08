@@ -2,11 +2,11 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Queue as IlluminateQueue;
 use Illuminate\Queue\Worker;
+use Queue as IlluminateQueue;
 use Illuminate\Queue\WorkerOptions;
 
-class Queue extends  Base
+class Queue extends Base
 {
     /**
      * Check resource.
