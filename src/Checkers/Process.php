@@ -4,7 +4,7 @@ namespace PragmaRX\Health\Checkers;
 
 use DomainException;
 
-class Process extends  Base
+class Process extends Base
 {
     const METHOD_PROCESS_COUNT = 'process_count';
 

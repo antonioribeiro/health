@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-class DirectoryAndFilePresence extends  Base
+class DirectoryAndFilePresence extends Base
 {
     /**
      * File exists constant.
@@ -55,7 +55,7 @@ class DirectoryAndFilePresence extends  Base
             $files = collect($files);
 
             foreach ($files as $file) {
-                if (!is_null($file)) {
+                if (! is_null($file)) {
                     foreach ($this->getCheckers($type) as $checker) {
                         if (is_string($message = $checker($file))) {
                             $messages[] = $message;

@@ -16,7 +16,7 @@ class Writable extends Base
     public function check()
     {
         foreach ($this->resource['paths'] as $path) {
-            if (!$this->getFilesystem()->isWritable($path)) {
+            if (! $this->getFilesystem()->isWritable($path)) {
                 return $this->makeResult(false, sprintf($this->resource['error_message'], $path));
             }
         }

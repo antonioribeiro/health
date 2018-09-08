@@ -4,7 +4,7 @@ namespace PragmaRX\Health\Checkers;
 
 use Storage;
 
-class CloudStorage extends  Base
+class CloudStorage extends Base
 {
     /**
      * @return bool

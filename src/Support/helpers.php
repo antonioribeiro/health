@@ -90,11 +90,11 @@ if (! function_exists('bytes_to_human')) {
     {
         $base = log($bytes) / log(1024);
 
-        $suffix = array("", "KB", "MB", "GB", "TB");
+        $suffix = ['', 'KB', 'MB', 'GB', 'TB'];
 
         $f_base = floor($base);
 
-        return round(pow(1024, $base - floor($base)), 1) . $suffix[$f_base];
+        return round(pow(1024, $base - floor($base)), 1).$suffix[$f_base];
     }
 }
 
@@ -108,17 +108,18 @@ if (! function_exists('human_to_bytes')) {
     {
         $str = trim($str);
 
-        $num = (double)$str;
+        $num = (float) $str;
 
-        if (strtoupper(substr($str, -1)) == "B")  $str = substr($str, 0, -1);
+        if (strtoupper(substr($str, -1)) == 'B') {
+            $str = substr($str, 0, -1);
+        }
 
-        switch (strtoupper(substr($str, -1)))
-        {
-            case "P":  $num *= 1024;
-            case "T":  $num *= 1024;
-            case "G":  $num *= 1024;
-            case "M":  $num *= 1024;
-            case "K":  $num *= 1024;
+        switch (strtoupper(substr($str, -1))) {
+            case 'P':  $num *= 1024;
+            case 'T':  $num *= 1024;
+            case 'G':  $num *= 1024;
+            case 'M':  $num *= 1024;
+            case 'K':  $num *= 1024;
         }
 
         return $num;
