@@ -35,9 +35,8 @@ class Artisan extends Base
     {
         $output = IlluminateArtisan::output();
 
-        return (
-            $output && preg_match("|{$this->target->should_return}|", $output)
-        );
+        return
+            $output && preg_match("|{$this->target->should_return}|", $output);
     }
 
     protected function executeArtisan(): void

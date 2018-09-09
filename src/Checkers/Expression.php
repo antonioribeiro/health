@@ -29,7 +29,7 @@ class Expression extends Base
         }
 
         if ($this->target->should_return === false) {
-            return !$expressionResult;
+            return ! $expressionResult;
         }
 
         return preg_match(

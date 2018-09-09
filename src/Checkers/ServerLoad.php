@@ -20,7 +20,7 @@ class ServerLoad extends ServerUptime
             $current['load_5'] > $this->target->max_load['load_5'] ||
             $current['load_15'] > $this->target->max_load['load_15'];
 
-        return $this->makeResult(!$inTrouble, $this->makeMessage($current));
+        return $this->makeResult(! $inTrouble, $this->makeMessage($current));
     }
 
     protected function makeMessage($current, $saved = null)
