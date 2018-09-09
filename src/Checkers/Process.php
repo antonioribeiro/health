@@ -3,6 +3,7 @@
 namespace PragmaRX\Health\Checkers;
 
 use DomainException;
+use PragmaRX\Health\Support\Result;
 
 class Process extends Base
 {
@@ -11,15 +12,15 @@ class Process extends Base
     const METHOD_PID_FILE = 'pid_file';
 
     /**
-     * Check resource.
+     * Check target.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
         $message = $this->checkMinMax($this->getProcessesRunningCount());
 
-        if (! empty($message)) {
+        if (!empty($message)) {
             return $this->makeResult(false, $message);
         }
 
@@ -28,14 +29,15 @@ class Process extends Base
 
     private function checkMinMax($processes)
     {
-        return $this->buildMessage('minimum', $processes) ?: $this->buildMessage('maximum', $processes);
+        return $this->buildMessage('minimum', $processes)
+            ?: $this->buildMessage('maximum', $processes);
     }
 
     private function buildMessage($type, $processes)
     {
-        $instances = $this->resource['instances'];
+        $instances = $this->target->instances;
 
-        if (! $count = (int) $instances[$type]['count']) {
+        if (!$count = (int) $instances[$type]['count']) {
             return '';
         }
 
@@ -46,15 +48,18 @@ class Process extends Base
         }
 
         if ($diff < 0) {
-            return sprintf($instances[$type]['message'], $this->resource['process_name'], $processes, $count);
+            return sprintf(
+                $instances[$type]['message'],
+                $this->target->process_name,
+                $processes,
+                $count
+            );
         }
     }
 
     private function checkPidFile()
     {
-        return $this->processPidFileIsLocked()
-                ? 1
-                : 0;
+        return $this->processPidFileIsLocked() ? 1 : 0;
     }
 
     private function countRunningProcesses()
@@ -78,7 +83,9 @@ class Process extends Base
             return 1;
         }
 
-        throw new DomainException(sprintf($this->resource['pid_file_missing_error_message'], $file));
+        throw new DomainException(
+            sprintf($this->target->pid_file_missing_error_message, $file)
+        );
     }
 
     /**
@@ -94,8 +101,10 @@ class Process extends Base
 
             fclose($filePointer);
 
-            if (! $locked) {
-                throw new DomainException(sprintf($this->resource['pid_file_missing_not_locked'], $file));
+            if (!$locked) {
+                throw new DomainException(
+                    sprintf($this->target->pid_file_missing_not_locked, $file)
+                );
             }
         } catch (\Exception $exception) {
             // Nice, file is locked!
@@ -107,7 +116,7 @@ class Process extends Base
      */
     private function processPidFileIsLocked()
     {
-        $file = $this->resource['pid_file'];
+        $file = $this->target->pid_file;
 
         $this->checkPidFileExistence($file);
 
@@ -118,9 +127,9 @@ class Process extends Base
 
     private function getCommand()
     {
-        $command = $this->resource['command'];
+        $command = $this->target->command;
 
-        $name = $this->resource['process_name'];
+        $name = $this->target->process_name;
 
         if ($command && $name) {
             return sprintf($command, $name);
@@ -129,11 +138,11 @@ class Process extends Base
 
     private function getProcessesRunningCount()
     {
-        if ($this->resource['method'] == static::METHOD_PROCESS_COUNT) {
+        if ($this->target->method == static::METHOD_PROCESS_COUNT) {
             return $this->countRunningProcesses();
         }
 
-        if ($this->resource['method'] == static::METHOD_PID_FILE) {
+        if ($this->target->method == static::METHOD_PID_FILE) {
             return $this->checkPidFile();
         }
     }

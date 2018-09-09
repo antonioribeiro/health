@@ -13,10 +13,38 @@ class Artisan extends Base
      */
     public function check()
     {
-        IlluminateArtisan::call($this->resource['command']['name'], $this->resource['command']['options']->toArray());
-
-        return IlluminateArtisan::output() && preg_match("|{$this->resource['should_return']}|", IlluminateArtisan::output())
+        return $this->executeAndCheck()
             ? $this->makeHealthyResult()
-            : $this->makeResult(false, $this->resource['error_message']);
+            : $this->makeResult(false, $this->target->getErrorMessage());
+    }
+
+    /**
+     * @return bool
+     */
+    protected function executeAndCheck(): bool
+    {
+        $this->executeArtisan();
+
+        return $this->checkArtisanOutput();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function checkArtisanOutput(): bool
+    {
+        $output = IlluminateArtisan::output();
+
+        return (
+            $output && preg_match("|{$this->target->should_return}|", $output)
+        );
+    }
+
+    protected function executeArtisan(): void
+    {
+        IlluminateArtisan::call(
+            $this->target->command['name'],
+            $this->target->command['options']->toArray()
+        );
     }
 }

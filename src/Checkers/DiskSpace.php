@@ -2,32 +2,35 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use PragmaRX\Health\Support\Result;
+
 class DiskSpace extends Base
 {
     /**
      * Check resource.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
-        foreach ($this->resource['volumes'] as $volume) {
-            $free = $this->getFreeSpace($volume);
+        $free = disk_free_space($this->target->path);
 
-            if (! $this->isEnouth($free, $volume['minimum'])) {
-                return $this->makeResult(false, sprintf($volume['message'], $volume['path'], bytes_to_human($free), $volume['minimum']));
-            }
+        if (!$this->isEnough($free, $this->target->minimum)) {
+            return $this->makeResult(
+                false,
+                sprintf(
+                    $this->target->message,
+                    $this->target->path,
+                    bytes_to_human($free),
+                    $this->target->minimum
+                )
+            );
         }
 
         return $this->makeHealthyResult();
     }
 
-    public function getFreeSpace($volume)
-    {
-        return disk_free_space($volume['path']);
-    }
-
-    public function isEnouth($free, $minimum)
+    public function isEnough($free, $minimum)
     {
         return $free > human_to_bytes($minimum);
     }

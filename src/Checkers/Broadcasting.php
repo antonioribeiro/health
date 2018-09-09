@@ -3,36 +3,54 @@
 namespace PragmaRX\Health\Checkers;
 
 use Carbon\Carbon;
+use PragmaRX\Health\Support\Result;
 use PragmaRX\Health\Events\HealthPing;
+use PragmaRX\Health\Support\Traits\Routing;
+use PragmaRX\Health\Support\Traits\Database;
 
 class Broadcasting extends Base
 {
+    use Routing, Database;
+
+    protected function bootRouter()
+    {
+        $this->target->routes->each(function ($route, $name) {
+            $this->registerRoute($route, $name);
+        });
+    }
+
     /**
      * Check resource.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
-        $isHealthy = ! $this->pingTimedout();
+        $this->loadDatabase();
+
+        $this->bootRouter();
+
+        $isHealthy = !$this->pingTimedout();
 
         $this->createPing();
 
         $this->dispatchEvent();
 
-        return $this->makeResult($isHealthy, $this->resource['error_message']);
+        return $this->makeResult($isHealthy, $this->target->getErrorMessage());
     }
 
     /**
      * Dispatch event.
      */
-    private function dispatchEvent()
+    protected function dispatchEvent()
     {
-        event(new HealthPing(
-            $this->resource['channel'],
-            route($this->resource['route_name'], [$this->resource['secret']]),
-            $this->resource
-        ));
+        event(
+            new HealthPing(
+                $this->target->channel,
+                route($this->target->route_name, [$this->target->secret]),
+                $this->target
+            )
+        );
     }
 
     /**
@@ -50,14 +68,14 @@ class Broadcasting extends Base
      *
      * @return array
      */
-    private function createPingRow()
+    protected function createPingRow()
     {
-        info('Laravel Health Panel - PING - secret: '.$this->resource['secret']);
+        info('Laravel Health Panel - PING - secret: ' . $this->target->secret);
 
         return [
             'pinged_at' => Carbon::now(),
             'ponged_at' => null,
-            'secret' => $this->resource['secret'],
+            'secret' => $this->target->secret,
         ];
     }
 
@@ -65,9 +83,9 @@ class Broadcasting extends Base
      * Parse date.
      *
      * @param $date
-     * @return static
+     * @return Carbon
      */
-    private function parseDate($date)
+    protected function parseDate($date)
     {
         return Carbon::parse($date['date'], $date['timezone']);
     }
@@ -79,7 +97,7 @@ class Broadcasting extends Base
      */
     public function pong($secret)
     {
-        info('Laravel Health Panel - PONG - secret: '.$secret);
+        info('Laravel Health Panel - PONG - secret: ' . $secret);
 
         $this->database = $this->database->map(function ($item) use ($secret) {
             if ($item['secret'] == $secret) {
@@ -97,13 +115,19 @@ class Broadcasting extends Base
      *
      * @return bool
      */
-    private function pingTimedout()
+    protected function pingTimedout()
     {
         $timedout = false;
 
-        $this->database = $this->database->filter(function ($item) use (&$timedout) {
-            if (! $item['ponged_at']) {
-                if (Carbon::now()->diffInSeconds($this->parseDate($item['pinged_at'])) > $this->resource['timeout']) {
+        $this->database = $this->database->filter(function ($item) use (
+            &$timedout
+        ) {
+            if (!$item['ponged_at']) {
+                if (
+                    Carbon::now()->diffInSeconds(
+                        $this->parseDate($item['pinged_at'])
+                    ) > $this->target->timeout
+                ) {
                     $timedout = true;
 
                     return false;

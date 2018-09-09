@@ -2,12 +2,14 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use PragmaRX\Health\Support\Result;
+
 class Health extends Base
 {
     /**
      * Check health.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
@@ -15,7 +17,7 @@ class Health extends Base
 
         return $this->makeResult(
             $healthy,
-            $healthy ? '' : $this->resource['error_message']
+            $healthy ? '' : $this->target->getErrorMessage()
         );
     }
 
@@ -23,14 +25,27 @@ class Health extends Base
      * Compute health.
      *
      * @param $previous
-     * @param $current
+     * @param $resource
      * @return bool
      */
-    private function computeHealth($previous, $current)
+    private function computeHealth($previous, $resource)
     {
-        return isset($current['is_global']) && $current['is_global']
+        return $resource->isGlobal
             ? $previous
-            : $previous && $current['health']['healthy'];
+            : $previous && $this->computeHealthForAllTargets($resource);
+    }
+
+    /**
+     * Compute health for targets.
+     *
+     * @param $resource
+     * @return boolean
+     */
+    private function computeHealthForAllTargets($resource)
+    {
+        return $resource->targets->reduce(function ($carry, $target) {
+            return $target->result->healthy;
+        }, true);
     }
 
     /**
@@ -40,9 +55,13 @@ class Health extends Base
      */
     protected function isHealthy()
     {
-        $healthy = $this->resources->reduce(function ($carry, $item) {
+        $healthy = $this->target->resource->resources->reduce(function (
+            $carry,
+            $item
+        ) {
             return $this->computeHealth($carry, $item);
-        }, true);
+        },
+        true);
 
         return $healthy;
     }

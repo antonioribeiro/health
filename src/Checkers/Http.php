@@ -5,11 +5,12 @@ namespace PragmaRX\Health\Checkers;
 use GuzzleHttp\TransferStats;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Support\Collection;
+use PragmaRX\Health\Support\Result;
 
 class Http extends Base
 {
     /**
-     * @var bool
+     * @return Result
      */
     protected $secure = false;
 
@@ -31,7 +32,7 @@ class Http extends Base
     /**
      * HTTP Checker.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
@@ -44,10 +45,12 @@ class Http extends Base
                     $this->secure
                 );
 
-                $health[] = $this->makeResult($healthy, $message);
+                if (!$healthy) {
+                    return $this->makeResult($healthy, $message);
+                }
             }
 
-            return $health;
+            return $this->makeHealthyResult();
         } catch (\Exception $exception) {
             return $this->makeResultFromException($exception);
         }
@@ -60,11 +63,11 @@ class Http extends Base
      */
     private function getResourceUrlArray()
     {
-        if (is_a($this->resource['url'], Collection::class)) {
-            return $this->resource['url']->toArray();
+        if (is_a($this->target->urls, Collection::class)) {
+            return $this->target->urls->toArray();
         }
 
-        return (array) $this->resource['url'];
+        return (array) $this->target->urls;
     }
 
     /**
@@ -78,10 +81,7 @@ class Http extends Base
     {
         $success = $this->requestSuccessful($url, $ssl);
 
-        return [
-            $success,
-            $success ? '' : $this->getErrorMessage(),
-        ];
+        return [$success, $success ? '' : $this->getErrorMessage()];
     }
 
     /**
@@ -90,6 +90,7 @@ class Http extends Base
      * @param $url
      * @param $ssl
      * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function fetchResponse($url, $ssl)
     {
@@ -125,8 +126,7 @@ class Http extends Base
      */
     private function getErrorMessage()
     {
-        $message = array_get($this->resource, 'timeout_message') ?:
-                    '[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s seconds.';
+        $message = $this->target->resource->timeout_message;
 
         return sprintf(
             $message,
@@ -143,7 +143,7 @@ class Http extends Base
      */
     private function getConnectionTimeout()
     {
-        return array_get($this->resource, 'connection_timeout') ?: 30;
+        return $this->target->resource->connection_timeout;
     }
 
     /**
@@ -153,7 +153,7 @@ class Http extends Base
      */
     private function getRoundtripTimeout()
     {
-        return array_get($this->resource, 'roundtrip_timeout') ?: 30;
+        return $this->target->resource->roundtrip_timeout;
     }
 
     /**
@@ -165,7 +165,11 @@ class Http extends Base
      */
     private function makeUrlWithScheme($url, $secure)
     {
-        return preg_replace('|^((https?:)?\/\/)?(.*)|', 'http'.($secure ? 's' : '').'://\\3', $url);
+        return preg_replace(
+            '|^((https?:)?\/\/)?(.*)|',
+            'http' . ($secure ? 's' : '') . '://\\3',
+            $url
+        );
     }
 
     /**
@@ -190,8 +194,10 @@ class Http extends Base
      */
     private function requestSuccessful($url, $ssl)
     {
-        return $this->fetchResponse($url, $ssl)->getStatusCode() == 200 &&
-                ! $this->requestTimedout();
+        return (
+            $this->fetchResponse($url, $ssl)->getStatusCode() == 200 &&
+            !$this->requestTimedout()
+        );
     }
 
     /**

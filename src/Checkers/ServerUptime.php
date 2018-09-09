@@ -4,23 +4,34 @@ namespace PragmaRX\Health\Checkers;
 
 use DomainException;
 use Carbon\CarbonInterval;
+use PragmaRX\Health\Support\Result;
+use PragmaRX\Health\Support\Traits\Database;
 
 class ServerUptime extends Base
 {
+    use Database;
+
     /**
      * Check resource.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
+        $this->loadDatabase();
+
         $current = $this->getCurrentUptime();
 
         $this->persist($current);
 
-        $rebooted = ($cs = $this->uptimeInSeconds($current)) < ($ss = $this->uptimeInSeconds($this->database));
+        $rebooted =
+            ($cs = $this->uptimeInSeconds($current)) <
+            ($ss = $this->uptimeInSeconds($this->database));
 
-        return $this->makeResult(! $rebooted, $this->makeMessage($current, $this->database));
+        return $this->makeResult(
+            !$rebooted,
+            $this->makeMessage($current, $this->database)
+        );
     }
 
     /**
@@ -31,13 +42,13 @@ class ServerUptime extends Base
      */
     private function executeUptimeCommand()
     {
-        $error = exec($this->resource['command'], $system_string, $output);
+        $error = exec($this->target->command, $system_string, $output);
 
         if ($output !== 0) {
             throw new DomainException((string) $error);
         }
 
-        return (! is_array($system_string) || empty($system_string))
+        return (!is_array($system_string) || empty($system_string))
             ? ''
             : $system_string[0];
     }
@@ -45,14 +56,12 @@ class ServerUptime extends Base
     /**
      * Get current uptime.
      *
-     * @return static
+     * @return array
      * @throws Exception
      */
     protected function getCurrentUptime()
     {
-        return $this->parseUptimeString(
-            $this->executeUptimeCommand()
-        );
+        return $this->parseUptimeString($this->executeUptimeCommand());
     }
 
     /**
@@ -63,21 +72,24 @@ class ServerUptime extends Base
      */
     protected function normalizeMatches($matches)
     {
-        return collect($matches)->filter(function ($item, $key) {
-            return ! is_numeric($key);
-        })->map(function ($item, $key) {
-            $return = $item[0];
+        return collect($matches)
+            ->filter(function ($item, $key) {
+                return !is_numeric($key);
+            })
+            ->map(function ($item, $key) {
+                $return = $item[0];
 
-            if (starts_with($key, 'load')) {
-                $return = floatval($return);
-            } elseif (is_numeric($return)) {
-                $return = (int) $return;
-            } elseif (empty($return)) {
-                $return = null;
-            }
+                if (starts_with($key, 'load')) {
+                    $return = floatval($return);
+                } elseif (is_numeric($return)) {
+                    $return = (int) $return;
+                } elseif (empty($return)) {
+                    $return = null;
+                }
 
-            return $return;
-        })->toArray();
+                return $return;
+            })
+            ->toArray();
     }
 
     /**
@@ -90,7 +102,12 @@ class ServerUptime extends Base
     {
         $matches = [];
 
-        preg_match($this->resource['regex'], $system_string, $matches, PREG_OFFSET_CAPTURE);
+        preg_match(
+            $this->target->regex,
+            $system_string,
+            $matches,
+            PREG_OFFSET_CAPTURE
+        );
 
         $matches = $this->normalizeMatches($matches);
 
@@ -107,9 +124,11 @@ class ServerUptime extends Base
      */
     protected function uptimeInSeconds($date)
     {
-        return (isset($date['up_days']) ? $date['up_days'] * 24 * 60 : 0) +
-                (isset($date['up_hours']) ? $date['up_hours'] * 60 : 0) +
-                (isset($date['up_minutes']) ? $date['up_minutes'] : 0);
+        return (
+            (isset($date['up_days']) ? $date['up_days'] * 24 * 60 : 0) +
+            (isset($date['up_hours']) ? $date['up_hours'] * 60 : 0) +
+            (isset($date['up_minutes']) ? $date['up_minutes'] : 0)
+        );
     }
 
     /**
@@ -125,7 +144,7 @@ class ServerUptime extends Base
 
         $saved = $this->toUptimeString($saved);
 
-        return sprintf($this->resource['error_message'], $current, $saved);
+        return sprintf($this->target->getErrorMessage(), $current, $saved);
     }
 
     /**
@@ -136,8 +155,10 @@ class ServerUptime extends Base
      */
     public function toUptimeString($uptime)
     {
-        return (string) CarbonInterval::days(isset($uptime['up_days']) ? $uptime['up_days'] : 0)
-                            ->hours(isset($uptime['up_hours']) ? $uptime['up_hours'] : 0)
-                            ->minutes(isset($uptime['up_minutes']) ? $uptime['up_minutes'] : 0);
+        return (string) CarbonInterval::days(
+            isset($uptime['up_days']) ? $uptime['up_days'] : 0
+        )
+            ->hours(isset($uptime['up_hours']) ? $uptime['up_hours'] : 0)
+            ->minutes(isset($uptime['up_minutes']) ? $uptime['up_minutes'] : 0);
     }
 }

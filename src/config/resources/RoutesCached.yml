@@ -2,7 +2,9 @@ name: Routes Cached
 abbreviation: rtcch
 checker: PragmaRX\Health\Checkers\Expression
 notify: true
-expression_value: "app()->routesAreCached()"
-should_return: true
-column_size: 4
-error_message: 'Routes are not cached'
+column_size: 2
+error_message: "Routes are not cached"
+targets:
+  - default:
+      expression_value: "app()->routesAreCached()"
+      should_return: true

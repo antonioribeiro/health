@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use PragmaRX\Health\Support\Result;
 use Illuminate\Support\Facades\Mail as IlluminateMail;
 
 class Mail extends Base
@@ -16,7 +17,7 @@ class Mail extends Base
     /**
      * Check resource.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
@@ -30,7 +31,7 @@ class Mail extends Base
     {
         $this->mailConfiguration = config('mail');
 
-        config(['mail' => $this->resource['config']->toArray()]);
+        config(['mail' => $this->target->config->toArray()]);
     }
 
     /**
@@ -66,8 +67,11 @@ class Mail extends Base
      */
     private function sendMail()
     {
-        IlluminateMail::send($this->resource['view'], [], function ($message) {
-            $fromAddress = array_get($this->resource, 'config.from.address');
+        IlluminateMail::send($this->target->view, [], function ($message) {
+            $fromAddress = array_get(
+                $this->target->data,
+                'config.from.address'
+            );
 
             $message->returnPath($fromAddress);
 
@@ -77,9 +81,9 @@ class Mail extends Base
 
             $message->replyTo($fromAddress);
 
-            $message->to($this->resource['to']);
+            $message->to($this->target->to);
 
-            $message->subject($this->resource['subject']);
+            $message->subject($this->target->subject);
         });
     }
 }

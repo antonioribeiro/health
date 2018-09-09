@@ -1,7 +1,7 @@
 @extends('pragmarx/health::default.html')
 
 @section('html.body')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <h1>{{ config('health.title') }}</h1>
@@ -9,16 +9,19 @@
 
             <div class="col-md-12">
                 <div class="row">
-                    @foreach($health as $item)
-                        @include(
-                            config('health.views.partials.well'),
-                            [
-                                'itemName' => $item['name'],
-                                'itemHealth' => $item['health']['healthy'],
-                                'itemMessage' => $item['health']['message'],
-                                'columnSize' => $item['columnSize'] ?: $item['column_size']
-                            ]
-                        )
+                    @foreach($health as $resource)
+                        @foreach($resource->targets as $target)
+                            @include(
+                                config('health.views.partials.well'),
+                                [
+                                    'itemTitle' => $resource->name,
+                                    'itemSubtitle' => $target->name,
+                                    'itemHealth' => $target->result->healthy,
+                                    'itemMessage' => $target->getMessage(),
+                                    'columnSize' => $resource->columnSize
+                                ]
+                            )
+                        @endforeach
                     @endforeach
                 </div>
             </div>

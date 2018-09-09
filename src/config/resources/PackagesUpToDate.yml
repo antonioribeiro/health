@@ -1,0 +1,14 @@
+name: Packages up to date
+abbreviation: pkgupdtd
+checker: PragmaRX\Health\Checkers\Composer
+notify: true
+binary: "composer outdated --format=json"
+should_count_at_most: 0
+json_result: true
+root_item: "installed"
+error_message:
+  'There are %s outdated packages, please run composer outdated to see the full list'
+column_size: 2
+targets:
+  - default:
+      working_dir: "{{ base_path() }}"

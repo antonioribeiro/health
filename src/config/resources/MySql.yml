@@ -1,18 +1,23 @@
 name: MySql
 abbreviation: msql
 checker: PragmaRX\Health\Checkers\Process
-command: 'pgrep %s'
-method: process_count
-process_name: mysqld
-pid_file: ''
-instances:
-    minimum:
-        count: 1
-        message: 'Process "%s" has not enough instances running: it has %s, when should have at least %s'
-    maximum:
-        count: 20
-        message: 'Process "%s" exceeded the maximum number of running instances: it has %s, when should have at most %s'
+column_size: 2
 notify: true
-pid_file_missing_error_message: 'Process ID file is missing: %s.'
-pid_file_missing_not_locked: 'Process ID file is not being used by any process: %s.'
-column_size: 4
+targets:
+  - default:
+      command: "pgrep %s"
+      method: process_count
+      process_name: mysqld
+      pid_file: ""
+      instances:
+        minimum:
+          count: 1
+          message:
+            'Process "%s" has not enough instances running: it has %s, when should have at least %s'
+        maximum:
+          count: 20
+          message:
+            'Process "%s" exceeded the maximum number of running instances: it has %s, when should have at most %s'
+      pid_file_missing_error_message: "Process ID file is missing: %s."
+      pid_file_missing_not_locked:
+        "Process ID file is not being used by any process: %s."

@@ -3,27 +3,32 @@
 namespace PragmaRX\Health\Checkers;
 
 use Storage;
+use PragmaRX\Health\Support\Result;
 
 class CloudStorage extends Base
 {
     /**
-     * @return bool
+     * @return Result
      */
     public function check()
     {
         try {
-            Storage::disk($this->resource['driver'])
-                ->put(
-                    $this->resource['file'],
-                    $this->resource['contents']
+            Storage::disk($this->target->driver)->put(
+                $this->target->file,
+                $this->target->contents
+            );
+
+            $contents = Storage::disk($this->target->driver)->get(
+                $this->target->file
+            );
+
+            Storage::disk($this->target->driver)->delete($this->target->file);
+
+            if ($contents !== $this->target->contents) {
+                return $this->makeResult(
+                    false,
+                    $this->target->getErrorMessage()
                 );
-
-            $contents = Storage::disk($this->resource['driver'])->get($this->resource['file']);
-
-            Storage::disk($this->resource['driver'])->delete($this->resource['file']);
-
-            if ($contents !== $this->resource['contents']) {
-                return $this->makeResult(false, $this->resource['error_message']);
             }
 
             return $this->makeHealthyResult();

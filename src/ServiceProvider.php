@@ -4,7 +4,7 @@ namespace PragmaRX\Health;
 
 use Event;
 use Artisan;
-use Illuminate\Routing\Router;
+use PragmaRX\Health\Support\Traits\Routing;
 use PragmaRX\Yaml\Package\Yaml;
 use PragmaRX\Health\Support\Cache;
 use Illuminate\Console\Scheduling\Schedule;
@@ -16,6 +16,8 @@ use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
+    use Routing;
+
     /**
      * The application instance.
      *
@@ -78,12 +80,14 @@ class ServiceProvider extends IlluminateServiceProvider
     private function configurePaths()
     {
         $this->publishes([
-            __DIR__.'/config/health.php' => config_path('health/config.php'),
-            __DIR__.'/config/resources/' => config_path('health/resources/'),
+            __DIR__ . '/config/health.php' => config_path('health/config.php'),
+            __DIR__ . '/config/resources/' => config_path('health/resources/'),
         ]);
 
         $this->publishes([
-            __DIR__.'/views/' => resource_path('views/vendor/pragmarx/health/'),
+            __DIR__ . '/views/' => resource_path(
+                'views/vendor/pragmarx/health/'
+            ),
         ]);
     }
 
@@ -92,7 +96,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function configureViews()
     {
-        $this->loadViewsFrom(realpath(__DIR__.'/views'), 'pragmarx/health');
+        $this->loadViewsFrom(realpath(__DIR__ . '/views'), 'pragmarx/health');
     }
 
     /**
@@ -104,7 +108,10 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $cache = call_user_func($this->cacheClosure);
 
-        $this->healthServiceClosure = function () use ($resourceChecker, $cache) {
+        $this->healthServiceClosure = function () use (
+            $resourceChecker,
+            $cache
+        ) {
             return $this->instantiateService($resourceChecker, $cache);
         };
 
@@ -120,7 +127,10 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->cacheClosure = $this->getCacheClosure();
 
-        $this->resourceCheckerClosure = $this->getResourceCheckerClosure($this->resourceLoader, call_user_func($this->cacheClosure));
+        $this->resourceCheckerClosure = $this->getResourceCheckerClosure(
+            $this->resourceLoader,
+            call_user_func($this->cacheClosure)
+        );
     }
 
     /**
@@ -164,24 +174,6 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
-     * Get the current router.
-     *
-     * @return mixed
-     */
-    private function getRouter()
-    {
-        if (! $this->router) {
-            $this->router = $this->app->router;
-
-            if (! $this->router instanceof Router) {
-                $this->router = app()->router;
-            }
-        }
-
-        return $this->router;
-    }
-
-    /**
      * Get the list of routes.
      *
      * @return array
@@ -198,7 +190,9 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function instantiateCommands()
     {
-        return $this->commands = instantiate(Commands::class, [$this->healthService]);
+        return $this->commands = instantiate(Commands::class, [
+            $this->healthService,
+        ]);
     }
 
     /**
@@ -218,13 +212,9 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function mergeConfig()
     {
-        $this->mergeConfigFrom(
-            config_path('/health/config.php'), 'health'
-        );
+        $this->mergeConfigFrom(config_path('/health/config.php'), 'health');
 
-        $this->mergeConfigFrom(
-            __DIR__.'/config/health.php', 'health'
-        );
+        $this->mergeConfigFrom(__DIR__ . '/config/health.php', 'health');
     }
 
     /**
@@ -295,26 +285,6 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
-     * @param $route
-     * @param null $name
-     */
-    private function registerRoute($route, $name = null)
-    {
-        $action = isset($route['controller'])
-                    ? "{$route['controller']}@{$route['action']}"
-                    : $route['action'];
-
-        $router = $this->getRouter()->get($route['uri'], [
-            'as' => $name ?: $route['name'],
-            'uses' => $action,
-        ]);
-
-        if (isset($route['middleware'])) {
-            $router->middleware($route['middleware']);
-        }
-    }
-
-    /**
      * Register routes.
      */
     private function registerRoutes()
@@ -335,11 +305,17 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->app->singleton('pragmarx.health.cache', $this->cacheClosure);
 
-        $this->app->singleton('pragmarx.health.resource.checker', $this->resourceCheckerClosure);
+        $this->app->singleton(
+            'pragmarx.health.resource.checker',
+            $this->resourceCheckerClosure
+        );
 
         $this->app->singleton('pragmarx.health', $this->healthServiceClosure);
 
-        $this->app->singleton('pragmarx.health.commands', $this->instantiateCommands());
+        $this->app->singleton(
+            'pragmarx.health.commands',
+            $this->instantiateCommands()
+        );
     }
 
     /**
@@ -357,13 +333,16 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function registerTasks()
     {
-        if (config('health.scheduler.enabled') &&
+        if (
+            config('health.scheduler.enabled') &&
             ($frequency = config('health.scheduler.frequency')) &&
             config('health.notifications.enabled')
         ) {
             $scheduler = instantiate(Schedule::class);
 
-            $scheduler->call($this->healthService->getSilentChecker())->{$frequency}();
+            $scheduler
+                ->call($this->healthService->getSilentChecker())
+                ->$frequency();
         }
     }
 

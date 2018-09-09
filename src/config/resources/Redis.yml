@@ -1,8 +1,10 @@
 name: Redis
 abbreviation: rds
-key: 'health:redis:key'
 checker: PragmaRX\Health\Checkers\Redis
+column_size: 2
 notify: true
-connection: ''
-error_message: 'Got a wrong value back from Redis.'
-column_size: 4
+error_message: "Got a wrong value back from Redis."
+targets:
+  - default:
+      key: "health:redis:key"
+      connection: ""

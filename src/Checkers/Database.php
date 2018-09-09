@@ -2,15 +2,17 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use PragmaRX\Health\Support\Result;
+
 class Database extends Base
 {
     /**
-     * @return bool
+     * @return Result
      */
     public function check()
     {
         try {
-            collect($this->resource['models'])->each(function ($model) {
+            collect($this->target->models)->each(function ($model) {
                 instantiate($model)->first();
             });
 

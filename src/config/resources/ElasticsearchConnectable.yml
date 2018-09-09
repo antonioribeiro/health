@@ -1,11 +1,15 @@
 name: Elasticsearch Connectable
 abbreviation: redisconn
 checker: PragmaRX\Health\Checkers\PortCheck
-ports:
-  server1:
-    hostname: localhost
-    port: 9200
-    timeout: 2
 notify: true
-column_size: 4
+column_size: 2
 error_message: "Could not connect to %s on port %s"
+targets:
+  - localhost:
+      hostname: localhost
+      port: 9200
+      timeout: 2
+  - localhost:
+      hostname: google.com
+      port: 9200
+      timeout: 2

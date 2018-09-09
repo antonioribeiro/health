@@ -2,5 +2,12 @@ name: Http
 abbreviation: http
 checker: PragmaRX\Health\Checkers\Http
 notify: true
-url: '{{ config("app.url") }}'
-column_size: 4
+column_size: 2
+timeout_message: "[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s seconds."
+connection_timeout: 30
+roundtrip_timeout: 30
+targets:
+  - default:
+      urls:
+        - '{{ config("app.url") }}'
+        - http://google.com

@@ -1,0 +1,13 @@
+name: .env Exists
+abbreviation: envexists
+checker: PragmaRX\Health\Checkers\DirectoryAndFilePresence
+notify: true
+error_message: "The .env file does not exists"
+column_size: 2
+targets:
+  - default:
+      file_exists:
+        - "{{ base_path('.env') }}"
+      file_do_not_exists:
+      directory_exists:
+      directory_do_not_exists:

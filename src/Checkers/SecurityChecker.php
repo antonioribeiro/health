@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use PragmaRX\Health\Support\Result;
 use SensioLabs\Security\SecurityChecker as SensioLabsSecurityChecker;
 
 class SecurityChecker extends Base
@@ -9,7 +10,7 @@ class SecurityChecker extends Base
     /**
      * Check resource.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
@@ -21,8 +22,13 @@ class SecurityChecker extends Base
             return $this->makeHealthyResult();
         }
 
-        $problems = collect($alerts)->keys()->implode(', ');
+        $problems = collect($alerts)
+            ->keys()
+            ->implode(', ');
 
-        return $this->makeResult($isHealthy, sprintf($this->resource['error_message'], $problems));
+        return $this->makeResult(
+            $isHealthy,
+            sprintf($this->target->getErrorMessage(), $problems)
+        );
     }
 }

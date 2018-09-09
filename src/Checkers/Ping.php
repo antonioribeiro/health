@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use JJG\Ping as JJPing;
+use PragmaRX\Health\Support\Result;
 
 class Ping extends Base
 {
@@ -15,26 +15,33 @@ class Ping extends Base
     /**
      * Check resource.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
-        $this->pingBin = $this->resource['binary'] ?? 'ping';
+        $this->pingBinFactory();
 
-        foreach ($this->resource['servers'] as $data) {
-            $ipAddress = ip_address_from_hostname($data['hostname']);
+        $ipAddress = ip_address_from_hostname($this->target->hostname);
 
-            $latency = $this->ping($ipAddress);
+        $latency = $this->ping($ipAddress);
 
-            info("latency: $ipAddress - $latency");
+        $this->target->setName("{$this->target->name} ({$latency}ms)");
 
-            if ($latency === false || $latency > $data['accepted_latency']) {
-                return $this->makeResult(
+        if ($latency === false || $latency > $this->target->accepted_latency) {
+            return $this->target->setResult(
+                $this->makeResult(
                     false,
-                    sprintf($this->resource['error_message'],
-                        $this->hosnameAndIp($data['hostname'], $ipAddress), $latency === false ? '[ping error]' : $latency, $data['accepted_latency'])
-                );
-            }
+                    sprintf(
+                        $this->target->getErrorMessage(),
+                        $this->hosnameAndIp(
+                            $this->target->hostname,
+                            $ipAddress
+                        ),
+                        $latency === false ? '[ping error]' : $latency,
+                        $this->target->accepted_latency
+                    )
+                )
+            )->getResult();
         }
 
         return $this->makeHealthyResult();
@@ -55,7 +62,7 @@ class Ping extends Base
      */
     protected function hosnameAndIp($hostname, $ipAdress)
     {
-        return $hostname.($hostname != $ipAdress ? " ({$ipAdress})" : '');
+        return $hostname . ($hostname != $ipAdress ? " ({$ipAdress})" : '');
     }
 
     /**
@@ -78,7 +85,8 @@ class Ping extends Base
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             // -n = number of pings; -i = ttl; -w = timeout (in milliseconds).
             $exec_string =
-                $this->pingBin.' -n 1 -i ' .
+                $this->pingBin .
+                ' -n 1 -i ' .
                 $ttl .
                 ' -w ' .
                 ($timeout * 1000) .
@@ -88,12 +96,19 @@ class Ping extends Base
             // Exec string for Darwin based systems (OS X).
             // -n = numeric output; -c = number of pings; -m = ttl; -t = timeout.
             $exec_string =
-                $this->pingBin.' -n -c 1 -m ' . $ttl . ' -t ' . $timeout . ' ' . $host;
+                $this->pingBin .
+                ' -n -c 1 -m ' .
+                $ttl .
+                ' -t ' .
+                $timeout .
+                ' ' .
+                $host;
         } else {
             // Exec string for other UNIX-based systems (Linux).
             // -n = numeric output; -c = number of pings; -t = ttl; -W = timeout
             $exec_string =
-                $this->pingBin.' -n -c 1 -t ' .
+                $this->pingBin .
+                ' -n -c 1 -t ' .
                 $ttl .
                 ' -W ' .
                 $timeout .
@@ -125,5 +140,10 @@ class Ping extends Base
         }
 
         return $latency;
+    }
+
+    protected function pingBinFactory(): void
+    {
+        $this->pingBin = $this->target->resource->binary ?? 'ping';
     }
 }
