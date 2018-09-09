@@ -3,11 +3,12 @@
 namespace PragmaRX\Health\Checkers;
 
 use Cache as IlluminateCache;
+use PragmaRX\Health\Support\Result;
 
 class Cache extends Base
 {
     /**
-     * @return bool
+     * @return Result
      */
     public function check()
     {
@@ -19,7 +20,10 @@ class Cache extends Base
             $value2 = $this->getCached();
 
             if ($value1 !== $value2 || $value2 !== $checker()) {
-                return $this->makeResult(false, $this->resource['error_message']);
+                return $this->makeResult(
+                    false,
+                    $this->target->getErrorMessage()
+                );
             }
 
             return $this->makeHealthyResult();
@@ -33,8 +37,8 @@ class Cache extends Base
         $checker = $this->getChecker();
 
         return IlluminateCache::remember(
-            $this->resource['key'],
-            $this->resource['minutes'],
+            $this->target->key,
+            $this->target->minutes,
             $checker
         );
     }

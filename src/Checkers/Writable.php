@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use PragmaRX\Health\Support\Result;
 use Illuminate\Filesystem\Filesystem;
 
 class Writable extends Base
@@ -11,13 +12,16 @@ class Writable extends Base
     /**
      * Check resource.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
-        foreach ($this->resource['paths'] as $path) {
-            if (! $this->getFilesystem()->isWritable($path)) {
-                return $this->makeResult(false, sprintf($this->resource['error_message'], $path));
+        foreach ($this->target->paths as $path) {
+            if (!$this->getFilesystem()->isWritable($path)) {
+                return $this->makeResult(
+                    false,
+                    sprintf($this->target->getErrorMessage(), $path)
+                );
             }
         }
 

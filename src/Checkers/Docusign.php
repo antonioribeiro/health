@@ -5,22 +5,28 @@ namespace PragmaRX\Health\Checkers;
 use DomainException;
 use DocuSign\eSign\ApiClient;
 use DocuSign\eSign\Configuration;
+use PragmaRX\Health\Support\Result;
 use DocuSign\eSign\Api\AuthenticationApi;
 use DocuSign\eSign\Api\AuthenticationApi\LoginOptions;
 
 class Docusign extends Base
 {
     /**
-     * @return bool
+     * @return Result
      */
     public function check()
     {
         if ($this->docusignIsNotInstalled()) {
-            return $this->makeResult(false, $this->resource['not_installed_message']);
+            return $this->makeResult(
+                false,
+                $this->target->not_installed_message
+            );
         }
 
-        if (! $this->login()) {
-            throw new DomainException('Unable to authenticate to the DocuSign Api');
+        if (!$this->login()) {
+            throw new DomainException(
+                'Unable to authenticate to the DocuSign Api'
+            );
         }
 
         return $this->makeHealthyResult();
@@ -28,7 +34,7 @@ class Docusign extends Base
 
     private function docusignIsNotInstalled()
     {
-        return ! class_exists(ApiClient::class);
+        return !class_exists(ApiClient::class);
     }
 
     private function getAccountIdFromLogin($login)
@@ -59,17 +65,17 @@ class Docusign extends Base
      */
     protected function getConfig()
     {
-        return (new Configuration)
-            ->setDebug($this->resource['debug'])
-            ->setDebugFile($this->makeFileName($this->resource['debug_file']))
-            ->setHost($this->resource['api_host'])
+        return (new Configuration())
+            ->setDebug($this->target->debug)
+            ->setDebugFile($this->makeFileName($this->target->debug_file))
+            ->setHost($this->target->api_host)
             ->addDefaultHeader(
                 'X-DocuSign-Authentication',
                 json_encode([
-                                'Username'      => $this->resource['username'],
-                                'Password'      => $this->resource['password'],
-                                'IntegratorKey' => $this->resource['integrator_key'],
-                            ])
+                    'Username' => $this->target->username,
+                    'Password' => $this->target->password,
+                    'IntegratorKey' => $this->target->integrator_key,
+                ])
             );
     }
 
@@ -96,9 +102,7 @@ class Docusign extends Base
     protected function login()
     {
         return $this->getAccountIdFromLogin(
-            $this->getLoginInformation(
-                $this->getConfig()
-            )
+            $this->getLoginInformation($this->getConfig())
         );
     }
 

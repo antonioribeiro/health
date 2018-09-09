@@ -2,33 +2,40 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use PragmaRX\Health\Support\Result;
+
 class Expression extends Base
 {
     /**
      * Check resource.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
         return $this->expressionIsOk()
             ? $this->makeHealthyResult()
-            : $this->makeResult(false, $this->resource['error_message']);
+            : $this->makeResult(false, $this->target->getErrorMessage());
     }
 
     public function expressionIsOk()
     {
-        $expressionResult = $this->executeExpression($this->resource['expression_value']);
+        $expressionResult = $this->executeExpression(
+            $this->target->expression_value
+        );
 
-        if ($this->resource['should_return'] === true) {
+        if ($this->target->should_return === true) {
             return (bool) $expressionResult;
         }
 
-        if ($this->resource['should_return'] === false) {
-            return ! $expressionResult;
+        if ($this->target->should_return === false) {
+            return !$expressionResult;
         }
 
-        return preg_match("|{$this->resource['should_return']}|", $expressionResult);
+        return preg_match(
+            "|{$this->target->should_return}|",
+            $expressionResult
+        );
     }
 
     public function executeExpression($expression)

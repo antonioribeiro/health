@@ -2,9 +2,11 @@ name: Directory Permissions
 abbreviation: dirperm
 checker: PragmaRX\Health\Checkers\Writable
 notify: true
-paths:
-  - "{{ storage_path() }}"
-  - "{{ storage_path('logs/laravel.log') }}"
-  - "{{ base_path('bootstrap/cache') }}"
-column_size: 4
-error_message: '%s is not writable'
+column_size: 2
+error_message: "%s is not writable"
+targets:
+  - default:
+      paths:
+        - "{{ storage_path() }}"
+        - "{{ storage_path('logs/laravel.log') }}"
+        - "{{ base_path('bootstrap/cache') }}"

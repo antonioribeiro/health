@@ -33,46 +33,45 @@ class Service
     /**
      * Check Resources.
      *
+     * @param bool $force
      * @return \Illuminate\Support\Collection
+     * @throws \Exception
      */
-    public function checkResources($flushCache = false)
+    public function checkResources($force = false)
     {
-        if ($flushCache) {
-            $this->cache->flush(true);
-        }
-
-        return $this->resourceChecker->checkResources($flushCache);
+        return $this->resourceChecker->checkResources($force);
     }
 
     /**
      * Check one resource.
      *
-     * @param $name
+     * @param $slug
      * @return array
+     * @throws \Exception
      */
-    public function checkResource($name)
+    public function checkResource($slug)
     {
-        return $this->resourceChecker->checkResource($name);
+        return $this->resourceChecker->checkResource($slug);
     }
 
     /**
      * Get services health.
      *
      * @return mixed
+     * @throws \Exception
      */
     public function health()
     {
-        $this->checkResources();
-
-        return $this->getResources();
+        return $this->checkResources();
     }
 
     /**
      * Get resources.
      *
      * @return mixed
+     * @throws \Exception
      */
-    private function getResources()
+    public function getResources()
     {
         return $this->resourceChecker->getResources();
     }
@@ -80,12 +79,13 @@ class Service
     /**
      * Get one resource.
      *
-     * @param $name
+     * @param $slug
      * @return mixed
+     * @throws \Exception
      */
-    private function getResource($name)
+    private function getResource($slug)
     {
-        return $this->resourceChecker->getResource($name);
+        return $this->resourceChecker->getResourceBySlug($slug);
     }
 
     /**
@@ -96,8 +96,6 @@ class Service
     public function getSilentChecker()
     {
         return function () {
-            $this->cache->flush();
-
             return $this->checkResources();
         };
     }
@@ -106,13 +104,12 @@ class Service
      * Check if server is healthy.
      *
      * @return mixed
+     * @throws \Exception
      */
     public function isHealthy()
     {
-        $this->checkResources();
-
-        return $this->getResources()->reduce(function ($carry, $item) {
-            return $carry && $item['health']['healthy'];
+        return $this->checkResources()->reduce(function ($carry, $item) {
+            return $carry && $item->isHealthy();
         }, true);
     }
 
@@ -125,34 +122,24 @@ class Service
      */
     private function makeString($string, $checkSystem)
     {
-        return $string.
-                ($checkSystem
-                    ? config('health.string.ok')
-                    : config('health.string.fail')
-                );
-    }
-
-    /**
-     * Get results for panel.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function panel()
-    {
-        return $this->health();
+        return (
+            $string .
+            ($checkSystem
+                ? config('health.string.ok')
+                : config('health.string.fail'))
+        );
     }
 
     /**
      * Check and get a resource.
-     *		       *.
+     *
      * @param $name
      * @return mixed
+     * @throws \Exception
      */
-    public function resource($name)
+    public function resource($slug)
     {
-        $this->checkResources();
-
-        return $this->getResource($name);
+        return $this->checkResource($slug);
     }
 
     /**
@@ -167,19 +154,19 @@ class Service
 
     /**
      * @return mixed
+     * @throws \Exception
      */
     public function string()
     {
-        $this->health();
-
-        return collect($this->getResources())->reduce(function ($current, $item) {
-            return $current.
-                ($current ? config('health.string.glue') : '')
-                .
+        return collect($this->health())->reduce(function ($current, $resource) {
+            return (
+                $current .
+                ($current ? config('health.string.glue') : '') .
                 $this->makeString(
-                    $item['abbreviation'],
-                    $this->checkResource($item['slug'])['healthy']
-                );
+                    $resource->abbreviation,
+                    $resource->isHealthy()
+                )
+            );
         });
     }
 }

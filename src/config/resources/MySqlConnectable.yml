@@ -1,11 +1,12 @@
 name: MySQL Connectable
 abbreviation: mysqlgrsqlsrvrconn
 checker: PragmaRX\Health\Checkers\PortCheck
-ports:
-  server1:
-    hostname: localhost
-    port: 3306
-    timeout: 2
 notify: true
-column_size: 4
+column_size: 2
 error_message: "Could not connect to %s on port %s"
+targets:
+  - default:
+      name: localhost
+      hostname: localhost
+      port: 3306
+      timeout: 2

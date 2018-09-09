@@ -22,18 +22,18 @@ class HealthPing implements ShouldBroadcast
     /**
      * @var
      */
-    public $resource;
+    public $target;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($channel, $callbackUrl, $resource)
+    public function __construct($channel, $callbackUrl, $target)
     {
         $this->callbackUrl = $callbackUrl;
 
         $this->channel = $channel;
 
-        $this->resource = $resource;
+        $this->target = $target;
     }
 
     /**

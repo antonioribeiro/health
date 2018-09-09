@@ -2,18 +2,27 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use PragmaRX\Health\Support\Result;
+
 class Filesystem extends Base
 {
     /**
-     * @return bool
+     * @return Result
      */
     public function check()
     {
         try {
-            $file = $this->temporaryFile('health-check-', 'just testing', storage_path());
+            $file = $this->temporaryFile(
+                'health-check-',
+                'just testing',
+                storage_path()
+            );
 
-            if (! file_exists($file)) {
-                return $this->makeResult(false, sprintf($this->resource['error_message'], $file));
+            if (!file_exists($file)) {
+                return $this->makeResult(
+                    false,
+                    sprintf($this->target->getErrorMessage(), $file)
+                );
             }
 
             unlink($file);

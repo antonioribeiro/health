@@ -14,6 +14,7 @@ class Health extends Controller
 
     /**
      * Health constructor.
+     *
      * @param Service $healthService
      */
     public function __construct(Service $healthService)
@@ -25,6 +26,7 @@ class Health extends Controller
      * Check all resources.
      *
      * @return array
+     * @throws \Exception
      */
     public function check()
     {
@@ -38,28 +40,30 @@ class Health extends Controller
 
     /**
      * @return int
+     * @throws \Exception
      */
     private function getReponseCode()
     {
-        $code = $this->healthService->isHealthy()
-            ? 200
-            : 500;
+        $code = $this->healthService->isHealthy() ? 200 : 500;
 
         return $code;
     }
 
     /**
+     * @param $slug
      * @return mixed
+     * @throws \Exception
      */
-    public function resource($name)
+    public function resource($slug)
     {
         $this->healthService->setAction('resource');
 
-        return $this->healthService->resource($name);
+        return $this->healthService->resource($slug);
     }
 
     /**
      * @return mixed
+     * @throws \Exception
      */
     public function string()
     {
@@ -73,14 +77,22 @@ class Health extends Controller
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Exception
      */
     public function panel()
     {
         $this->healthService->setAction('panel');
 
-        $view = view(config('health.views.panel'), [
-            'health' => $this->healthService->panel(),
-        ]);
+        $view = view(
+            config(
+                ($health = $this->healthService->health())->isEmpty()
+                    ? 'health.views.empty-panel'
+                    : 'health.views.panel'
+            ),
+            [
+                'health' => $health,
+            ]
+        );
 
         return response((string) $view, $this->getReponseCode());
     }

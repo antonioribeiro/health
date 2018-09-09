@@ -2,7 +2,9 @@ name: Configuration Cached
 abbreviation: cfgcch
 checker: PragmaRX\Health\Checkers\Expression
 notify: true
-expression_value: "app()->configurationIsCached()"
-should_return: true
-column_size: 4
-error_message: 'Configuration is not cached'
+column_size: 2
+error_message: "Configuration is not cached"
+targets:
+  - default:
+      expression_value: "app()->configurationIsCached()"
+      should_return: true

@@ -1,13 +1,16 @@
 <?php
 
 return [
-
     'title' => 'Laravel Health Check Panel',
 
     'resources' => [
         'path' => config_path('health/resources'),
 
         'enabled' => PragmaRX\Health\Support\Constants::RESOURCES_ENABLED_ALL,
+    ],
+
+    'columns' => [
+        'default_size' => 4,
     ],
 
     'sort_by' => 'slug',
@@ -32,7 +35,8 @@ return [
 
         'action-title' => 'View App Health',
 
-        'action_message' => "The '%s' service is in trouble and needs attention%s",
+        'action_message' =>
+            "The '%s' service is in trouble and needs attention%s",
 
         'from' => [
             'name' => 'Laravel Health Checker',
@@ -51,9 +55,7 @@ return [
         'users' => [
             'model' => App\User::class,
 
-            'emails' => [
-                'admin@mydomain.com',
-            ],
+            'emails' => ['admin@mydomain.com'],
         ],
 
         'channels' => [
@@ -77,12 +79,13 @@ return [
 
     'alert' => [
         'success' => [
-            'message' => 'Everything is fine with this resource',
             'type' => 'success',
+            'message' => 'Everything is fine with this resource',
         ],
 
         'error' => [
             'type' => 'error',
+            'message' => 'This resource is erroring',
         ],
     ],
 
@@ -94,6 +97,8 @@ return [
 
     'views' => [
         'panel' => 'pragmarx/health::default.panel',
+
+        'empty-panel' => 'pragmarx/health::default.empty-panel',
 
         'partials' => [
             'well' => 'pragmarx/health::default.partials.well',
@@ -107,10 +112,15 @@ return [
     ],
 
     'actions' => [
-        'panel' => $action_panel = 'PragmaRX\Health\Http\Controllers\Health@panel',
-        'check' => $action_check = 'PragmaRX\Health\Http\Controllers\Health@check',
-        'string' => $action_string = 'PragmaRX\Health\Http\Controllers\Health@string',
-        'resource' => $action_resource = 'PragmaRX\Health\Http\Controllers\Health@resource',
+        'panel' =>
+            $action_panel = 'PragmaRX\Health\Http\Controllers\Health@panel',
+        'check' =>
+            $action_check = 'PragmaRX\Health\Http\Controllers\Health@check',
+        'string' =>
+            $action_string = 'PragmaRX\Health\Http\Controllers\Health@string',
+        'resource' =>
+            $action_resource =
+                'PragmaRX\Health\Http\Controllers\Health@resource',
     ],
 
     'routes' => [
@@ -127,28 +137,30 @@ return [
 
         'list' => [
             [
-                'uri' => $route_prefix.$route_suffix_panel,
+                'uri' => $route_prefix . $route_suffix_panel,
                 'name' => 'pragmarx.health.panel',
                 'action' => $action_panel,
-                'middleware' => [/*'auth.basic'*/],
+                'middleware' => [
+                    /*'auth.basic'*/
+                ],
             ],
 
             [
-                'uri' => $route_prefix.$route_suffix_check,
+                'uri' => $route_prefix . $route_suffix_check,
                 'name' => 'pragmarx.health.check',
                 'action' => $action_check,
                 'middleware' => [],
             ],
 
             [
-                'uri' => $route_prefix.$route_suffix_string,
+                'uri' => $route_prefix . $route_suffix_string,
                 'name' => 'pragmarx.health.string',
                 'action' => $action_string,
                 'middleware' => [],
             ],
 
             [
-                'uri' => "{$route_prefix}.{$route_suffix_resource}/{name}",
+                'uri' => "{$route_prefix}/{$route_suffix_resource}/{name}",
                 'name' => 'pragmarx.health.resource',
                 'action' => $action_resource,
                 'middleware' => [],
@@ -159,5 +171,4 @@ return [
     'urls' => [
         'panel' => '/health/panel',
     ],
-
 ];

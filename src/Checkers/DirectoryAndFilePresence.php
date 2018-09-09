@@ -2,6 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use PragmaRX\Health\Support\Result;
+
 class DirectoryAndFilePresence extends Base
 {
     /**
@@ -27,7 +29,7 @@ class DirectoryAndFilePresence extends Base
     /**
      * Checker.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
@@ -37,7 +39,10 @@ class DirectoryAndFilePresence extends Base
             return $this->makeHealthyResult();
         }
 
-        return $this->makeResult(false, $this->resource['error_message'].' - '.implode(' ', $messages));
+        return $this->makeResult(
+            false,
+            $this->target->getErrorMessage() . ' - ' . implode(' ', $messages)
+        );
     }
 
     /**
@@ -49,26 +54,28 @@ class DirectoryAndFilePresence extends Base
     {
         $messages = [];
 
-        $result = collect($this->getFiles())->map(function ($files, $type) use (&$messages) {
-            $isGood = true;
+        $result = collect($this->getFiles())
+            ->map(function ($files, $type) use (&$messages) {
+                $isGood = true;
 
-            $files = collect($files);
+                $files = collect($files);
 
-            foreach ($files as $file) {
-                if (! is_null($file)) {
-                    foreach ($this->getCheckers($type) as $checker) {
-                        if (is_string($message = $checker($file))) {
-                            $messages[] = $message;
-                            $isGood = false;
+                foreach ($files as $file) {
+                    if (!is_null($file)) {
+                        foreach ($this->getCheckers($type) as $checker) {
+                            if (is_string($message = $checker($file))) {
+                                $messages[] = $message;
+                                $isGood = false;
+                            }
                         }
                     }
                 }
-            }
 
-            return $isGood;
-        })->filter(function ($value) {
-            return $value === false;
-        });
+                return $isGood;
+            })
+            ->filter(function ($value) {
+                return $value === false;
+            });
 
         return [$messages, $result];
     }
@@ -76,10 +83,11 @@ class DirectoryAndFilePresence extends Base
     public function getFiles()
     {
         return [
-            static::FILE_EXISTS => $this->resource['file_exists'],
-            static::FILE_DOES_NOT_EXISTS => $this->resource['file_do_not_exists'],
-            static::DIRECTORY_EXISTS => $this->resource['directory_exists'],
-            static::DIRECTORY_DOES_NOT_EXISTS => $this->resource['directory_do_not_exists'],
+            static::FILE_EXISTS => $this->target->file_exists,
+            static::FILE_DOES_NOT_EXISTS => $this->target->file_do_not_exists,
+            static::DIRECTORY_EXISTS => $this->target->directory_exists,
+            static::DIRECTORY_DOES_NOT_EXISTS =>
+                $this->target->directory_do_not_exists,
         ];
     }
 
@@ -169,7 +177,7 @@ class DirectoryAndFilePresence extends Base
      */
     public function fileDoesNotExists($file)
     {
-        if (! file_exists($file)) {
+        if (!file_exists($file)) {
             return true;
         }
 

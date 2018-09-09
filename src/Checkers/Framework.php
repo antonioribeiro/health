@@ -2,10 +2,12 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use PragmaRX\Health\Support\Result;
+
 class Framework extends Base
 {
     /**
-     * @return bool
+     * @return Result
      */
     public function check()
     {

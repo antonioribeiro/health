@@ -2,6 +2,8 @@ name: Database
 abbreviation: db
 checker: PragmaRX\Health\Checkers\Database
 notify: true
-models:
-    - "{{ config('auth.providers.users.model') }}"
-column_size: 4
+column_size: 2
+targets:
+  - default:
+      models:
+        - "{{ config('auth.providers.users.model') }}"

@@ -2,49 +2,15 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Illuminate\Support\Collection;
+use PragmaRX\Health\Support\Result;
+use PragmaRX\Health\Support\Target;
 
 abstract class Base implements Contract
 {
     /**
-     * @var
+     * @var Target
      */
-    protected $healthy;
-
-    /**
-     * @var
-     */
-    protected $message;
-
-    /**
-     * @var
-     */
-    protected $resource;
-
-    /**
-     * @var
-     */
-    protected $resources;
-
-    /**
-     * @var Collection|void
-     */
-    protected $database;
-
-    /**
-     *  Base constructor.
-     *
-     * @param $resource
-     * @param $resources
-     */
-    public function __construct($resource, $resources)
-    {
-        $this->resource = $resource;
-
-        $this->resources = $resources;
-
-        $this->database = $this->load();
-    }
+    protected $target;
 
     /**
      * Create base directory for files.
@@ -55,25 +21,27 @@ abstract class Base implements Contract
     {
         $dir = dirname($fileName);
 
-        if (! file_exists($dir)) {
+        if (!file_exists($dir)) {
             mkdir($dir, 0775, true);
         }
     }
 
     /**
+     * Make a result.
+     *
      * @param bool $healthy
-     * @param null $message
-     * @return array
+     * @param null $errorMessage
+     * @return Result
      */
-    public function makeResult($healthy = true, $message = null)
+    public function makeResult($healthy = true, $errorMessage = null)
     {
-        $this->setHealthy($healthy);
-
-        $this->setMessage($message);
+        return new Result($healthy, $errorMessage);
     }
 
     /**
-     * @return array
+     * Make a healthy result.
+     *
+     * @return Result
      */
     protected function makeHealthyResult()
     {
@@ -81,8 +49,10 @@ abstract class Base implements Contract
     }
 
     /**
+     * Make a result from an exception.
+     *
      * @param $exception
-     * @return array
+     * @return Result
      */
     protected function makeResultFromException($exception)
     {
@@ -138,11 +108,11 @@ abstract class Base implements Contract
     /**
      * Load cache.
      *
-     * @return \Illuminate\Support\Collection|void
+     * @return \Illuminate\Support\Collection
      */
     public function load()
     {
-        if (! file_exists($file = $this->getFileName())) {
+        if (!file_exists($file = $this->getFileName())) {
             return collect();
         }
 
@@ -160,7 +130,7 @@ abstract class Base implements Contract
             $data = $this->database->toArray();
         }
 
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             $data = $data->toArray();
         }
 
@@ -176,10 +146,19 @@ abstract class Base implements Contract
      */
     protected function getFileName()
     {
-        if (! isset($this->resource['save_to'])) {
-            return;
-        }
+        return $this->target->save_to ?? '';
+    }
 
-        return storage_path($this->resource['save_to']);
+    /**
+     * Target setter.
+     *
+     * @param $target
+     * @return $this
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+
+        return $this;
     }
 }

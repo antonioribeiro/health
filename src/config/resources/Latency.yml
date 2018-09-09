@@ -1,17 +1,21 @@
 name: Latency
-binary: /sbin/ping
 abbreviation: latency
 checker: PragmaRX\Health\Checkers\Ping
-servers:
-  server1:
-    hostname: localhost
-    accepted_latency: 50
-  server2:
-    hostname: google.com
-    accepted_latency: 2
-  server3:
-    hostname: government.cn
-    accepted_latency: 2
 notify: true
-error_message: 'The host "%s" exceeded the maximum accepted latency on ping: last ping was %s, accepted is %s'
-column_size: 4
+binary: /sbin/ping
+error_message:
+  'The host "%s" exceeded the maximum accepted latency on ping: last ping was %s, accepted is %s'
+column_size: 2
+targets:
+  - server:
+      name: rio de janeiro servers
+      hostname: google.com
+      accepted_latency: 15
+  - server:
+      name: south america servers
+      hostname: globo.com
+      accepted_latency: 20
+  - server:
+      name: europe servers
+      hostname: ovh.fr
+      accepted_latency: 2

@@ -4,25 +4,32 @@ namespace PragmaRX\Health\Support;
 
 use Exception;
 use Illuminate\Http\Request;
-use Cache as IlluminateCache;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache as IlluminateCache;
 
 class Cache
 {
     /**
-     * Cache was flushed?
+     * Check if the cache is enabled.
      *
-     * @var
+     * @return bool
      */
-    private $cacheFlushed;
+    protected function cacheIsEnabled()
+    {
+        return $this->getMinutes() !== false;
+    }
 
     /**
      * Flush cache.
+     *
+     * @param bool $force
+     * @param null $key
      */
-    public function flush($force = false)
+    public function flush($force = false, $key = null)
     {
         if ($force || $this->needsToFlush()) {
             try {
-                $this->forceFlush();
+                $this->forceFlush($key);
             } catch (Exception $exception) {
                 // cache service may be down
             }
@@ -31,12 +38,12 @@ class Cache
 
     /**
      * Force cache flush.
+     *
+     * @param string|null $key
      */
-    protected function forceFlush()
+    protected function forceFlush($key = null)
     {
-        IlluminateCache::forget(config('health.cache.key'));
-
-        $this->cacheFlushed = true;
+        IlluminateCache::forget($key ?? config('health.cache.key'));
     }
 
     /**
@@ -54,7 +61,7 @@ class Cache
      *
      * @return \Illuminate\Foundation\Application|mixed
      */
-    private function getCurrentRequest()
+    protected function getCurrentRequest()
     {
         return instantiate(Request::class);
     }
@@ -62,30 +69,65 @@ class Cache
     /**
      * Get cached resources.
      *
-     * @param $checker
+     * @return \Illuminate\Support\Collection
      */
-    public function getCachedResources($checker)
+    public function getCachedResources()
     {
         $this->flush();
 
-        try {
-            if (($minutes = $this->getMinutes()) !== false) {
-                return IlluminateCache::remember(config('health.cache.key'), $minutes, $checker);
-            }
-        } catch (Exception $exception) {
-            // cache service may be down
-        }
-
-        return $checker();
+        return $this->cacheIsEnabled()
+            ? IlluminateCache::get(config('health.cache.key'), collect())
+            : collect();
     }
 
     /**
+     * Check if cache needs to be flushed.
+     *
      * @return bool
      */
     protected function needsToFlush()
     {
-        return ! $this->cacheFlushed &&
-                $this->getMinutes() !== false &&
-                $this->getCurrentRequest()->get('flush');
+        return (
+            $this->cacheIsEnabled() && $this->getCurrentRequest()->get('flush')
+        );
+    }
+
+    /**
+     * Cache all resources.
+     *
+     * @param Collection $resources
+     * @return Collection
+     */
+    public function cacheResources($resources)
+    {
+        if ($this->cacheIsEnabled()) {
+            IlluminateCache::put(
+                config('health.cache.key'),
+                $resources,
+                $this->getMinutes()
+            );
+        }
+
+        return $resources;
+    }
+
+    /**
+     * Get an item from the cache, or store the default value.
+     *
+     * @param  string $key
+     * @param \Closure $callback
+     * @return mixed
+     */
+    public function remember($key, \Closure $callback)
+    {
+        if (!$this->cacheIsEnabled()) {
+            return $callback();
+        }
+
+        $key = config('health.cache.key') . $key;
+
+        $this->flush(false, $key);
+
+        return IlluminateCache::remember($key, $this->getMinutes(), $callback);
     }
 }

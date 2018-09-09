@@ -5,31 +5,35 @@ namespace PragmaRX\Health\Checkers;
 use Illuminate\Queue\Worker;
 use Queue as IlluminateQueue;
 use Illuminate\Queue\WorkerOptions;
+use PragmaRX\Health\Support\Result;
 
 class Queue extends Base
 {
     /**
      * Check resource.
      *
-     * @return bool
+     * @return Result
      */
     public function check()
     {
-        IlluminateQueue::pushOn($this->resource['name'], instantiate($this->resource['test_job']));
+        IlluminateQueue::pushOn(
+            $this->target->name,
+            instantiate($this->target->test_job)
+        );
 
         $worker = instantiate(Worker::class);
 
-        $connection = $this->resource['connection'] ?: app('config')['queue.default'];
+        $connection = $this->target->connection
+            ?: app('config')['queue.default'];
 
         $queue = app('config')->get(
-            "queue.connections.{$connection}.queue", 'default'
+            "queue.connections.{$connection}.queue",
+            'default'
         );
 
-        $worker->setCache(instantiate($this->resource['cache_instance'])->driver());
+        $worker->setCache(instantiate($this->target->cache_instance)->driver());
 
-        $worker->runNextJob(
-            $connection, $queue, $this->gatherWorkerOptions()
-        );
+        $worker->runNextJob($connection, $queue, $this->gatherWorkerOptions());
 
         return $this->makeResult(true);
     }
@@ -41,10 +45,6 @@ class Queue extends Base
      */
     protected function gatherWorkerOptions()
     {
-        return new WorkerOptions(
-            0, 0,
-            0, 0,
-            0, false
-        );
+        return new WorkerOptions(0, 0, 0, 0, 0, false);
     }
 }

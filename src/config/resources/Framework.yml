@@ -2,4 +2,4 @@ name: Framework
 abbreviation: frmwrk
 checker: PragmaRX\Health\Checkers\Framework
 notify: true
-column_size: 4
+column_size: 2

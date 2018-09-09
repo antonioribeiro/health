@@ -2,11 +2,13 @@ name: Migrations Up to Date
 abbreviation: debug
 checker: PragmaRX\Health\Checkers\Artisan
 notify: true
-command:
-  name: "migrate"
-  options:
-    "--pretend": true
-    "--force": true
-should_return: "Nothing to migrate"
-column_size: 4
-error_message: 'Not all migrations were migrated'
+column_size: 2
+error_message: "Not all migrations were migrated"
+targets:
+  - default:
+      command:
+        name: "migrate"
+        options:
+          "--pretend": true
+          "--force": true
+      should_return: "Nothing to migrate"
