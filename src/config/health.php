@@ -10,7 +10,7 @@ return [
     ],
 
     'columns' => [
-        'default_size' => 4,
+        'default_size' => 2,
     ],
 
     'sort_by' => 'slug',
@@ -85,7 +85,7 @@ return [
 
         'error' => [
             'type' => 'error',
-            'message' => 'This resource is erroring',
+            'message' => 'We are having trouble with this resource',
         ],
     ],
 
@@ -160,7 +160,7 @@ return [
             ],
 
             [
-                'uri' => "{$route_prefix}/{$route_suffix_resource}/{name}",
+                'uri' => "{$route_prefix}{$route_suffix_resource}/{slug}",
                 'name' => 'pragmarx.health.resource',
                 'action' => $action_resource,
                 'middleware' => [],
