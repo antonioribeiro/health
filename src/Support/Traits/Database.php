@@ -18,7 +18,7 @@ trait Database
      */
     public function __load()
     {
-        if (!file_exists($file = $this->getDatabaseFileName())) {
+        if (! file_exists($file = $this->getDatabaseFileName())) {
             return collect();
         }
 
