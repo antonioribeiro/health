@@ -2,7 +2,6 @@
 
 namespace PragmaRX\Health\Support;
 
-use Closure;
 use Exception;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Support\Traits\HandleExceptions;
@@ -80,11 +79,11 @@ class ResourceChecker
      */
     public function checkResources($force = false)
     {
-        if (!($resources = $this->getCachedResources($force))->isEmpty()) {
+        if (! ($resources = $this->getCachedResources($force))->isEmpty()) {
             return $resources;
         }
 
-        if (!$this->allResourcesAreGood()) {
+        if (! $this->allResourcesAreGood()) {
             return $this->resources = collect();
         }
 
@@ -133,7 +132,7 @@ class ResourceChecker
     /**
      * Get cached resources.
      *
-     * @param boolean $force
+     * @param bool $force
      * @return \Illuminate\Support\Collection
      * @throws Exception
      */
@@ -168,9 +167,9 @@ class ResourceChecker
      */
     protected function allResourcesAreGood()
     {
-        return !$this->getResources()
+        return ! $this->getResources()
             ->reject(function ($resource) {
-                return !$resource instanceof Resource;
+                return ! $resource instanceof Resource;
             })
             ->isEmpty();
     }
@@ -184,7 +183,7 @@ class ResourceChecker
     protected function getNonGlobalResources()
     {
         return $this->getResources()->filter(function (Resource $resource) {
-            return !$resource->isGlobal;
+            return ! $resource->isGlobal;
         });
     }
 
@@ -228,7 +227,7 @@ class ResourceChecker
             ? $exception->getMessage()
             : static::UNKNOWN_ERROR;
 
-        if (!isset($resourceChecker)) {
+        if (! isset($resourceChecker)) {
             return [
                 null,
                 [
@@ -300,7 +299,7 @@ class ResourceChecker
     /**
      * Get one resource.
      *
-     * @param Resource|Collection $resource
+     * @param resource|Collection $resource
      * @return \PragmaRX\Health\Support\Resource
      */
     public function makeResource($resource)
@@ -326,9 +325,8 @@ class ResourceChecker
                     $resource,
                     $sortBy
                 ) {
-                    return (
-                        ($resource->isGlobal ? "a-" : "z-") . $resource->$sortBy
-                    );
+                    return
+                        ($resource->isGlobal ? 'a-' : 'z-').$resource->$sortBy;
                 });
             });
         }
