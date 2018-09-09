@@ -4,11 +4,11 @@ namespace PragmaRX\Health;
 
 use Event;
 use Artisan;
-use PragmaRX\Health\Support\Traits\Routing;
 use PragmaRX\Yaml\Package\Yaml;
 use PragmaRX\Health\Support\Cache;
 use Illuminate\Console\Scheduling\Schedule;
 use PragmaRX\Health\Support\ResourceLoader;
+use PragmaRX\Health\Support\Traits\Routing;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Support\ResourceChecker;
 use PragmaRX\Health\Listeners\NotifyHealthIssue;
@@ -80,12 +80,12 @@ class ServiceProvider extends IlluminateServiceProvider
     private function configurePaths()
     {
         $this->publishes([
-            __DIR__ . '/config/health.php' => config_path('health/config.php'),
-            __DIR__ . '/config/resources/' => config_path('health/resources/'),
+            __DIR__.'/config/health.php' => config_path('health/config.php'),
+            __DIR__.'/config/resources/' => config_path('health/resources/'),
         ]);
 
         $this->publishes([
-            __DIR__ . '/views/' => resource_path(
+            __DIR__.'/views/' => resource_path(
                 'views/vendor/pragmarx/health/'
             ),
         ]);
@@ -96,7 +96,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function configureViews()
     {
-        $this->loadViewsFrom(realpath(__DIR__ . '/views'), 'pragmarx/health');
+        $this->loadViewsFrom(realpath(__DIR__.'/views'), 'pragmarx/health');
     }
 
     /**
@@ -214,7 +214,7 @@ class ServiceProvider extends IlluminateServiceProvider
     {
         $this->mergeConfigFrom(config_path('/health/config.php'), 'health');
 
-        $this->mergeConfigFrom(__DIR__ . '/config/health.php', 'health');
+        $this->mergeConfigFrom(__DIR__.'/config/health.php', 'health');
     }
 
     /**

@@ -11,7 +11,7 @@ trait ToArray
     private static $__maxDepth;
 
     /**
-     * Reset depth and convert object to array
+     * Reset depth and convert object to array.
      *
      * @param $subject
      * @param int $maxDepth
@@ -27,7 +27,7 @@ trait ToArray
     }
 
     /**
-     * Convert object to array
+     * Convert object to array.
      *
      * @param $subject
      * @return array|null

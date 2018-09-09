@@ -3,9 +3,9 @@
 namespace PragmaRX\Health\Support;
 
 use Illuminate\Support\Collection;
+use PragmaRX\Health\Support\Traits\ToArray;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Support\Traits\MagicData;
-use PragmaRX\Health\Support\Traits\ToArray;
 
 class Resource
 {
@@ -42,7 +42,7 @@ class Resource
     public $errorMessage;
 
     /**
-     * @var integer
+     * @var int
      */
     public $columnSize;
 
@@ -80,7 +80,7 @@ class Resource
      * Resource factory.
      *
      * @param Collection $data
-     * @return Resource
+     * @return resource
      */
     public static function factory(Collection $data)
     {
@@ -162,7 +162,7 @@ class Resource
     /**
      * Check all targets for a resource.
      *
-     * @return Resource
+     * @return resource
      */
     public function check()
     {
@@ -179,7 +179,7 @@ class Resource
      * Check global resources.
      *
      * @param $resources
-     * @return Resource
+     * @return resource
      */
     public function checkGlobal($resources)
     {
@@ -234,11 +234,10 @@ class Resource
      */
     protected function canNotify()
     {
-        return (
-            !$this->notified &&
+        return
+            ! $this->notified &&
             $this->notificationsAreEnabled() &&
-            !$this->isHealthy()
-        );
+            ! $this->isHealthy();
     }
 
     /**
@@ -248,18 +247,17 @@ class Resource
      */
     protected function notificationsAreEnabled()
     {
-        return (
+        return
             $this->notify &&
             config('health.notifications.enabled') &&
-            config('health.notifications.notify_on.' . $this->currentAction)
-        );
+            config('health.notifications.notify_on.'.$this->currentAction);
     }
 
     /**
      * Resources setter.
      *
      * @param $resources
-     * @return Resource
+     * @return resource
      */
     protected function setResources($resources)
     {

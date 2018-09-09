@@ -11,7 +11,7 @@ class Target
     use MagicData, ToArray;
 
     /**
-     * @var String
+     * @var string
      */
     public $name;
 
@@ -21,7 +21,7 @@ class Target
     public $data;
 
     /**
-     * @var Resource
+     * @var resource
      */
     public $resource;
 
@@ -84,7 +84,7 @@ class Target
     }
 
     /**
-     * @return String
+     * @return string
      */
     public function getName()
     {
@@ -150,7 +150,7 @@ class Target
     }
 
     /**
-     * @param String $name
+     * @param string $name
      */
     public function setName(string $name): void
     {
