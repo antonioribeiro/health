@@ -133,12 +133,11 @@ class Target implements JsonSerializable
      */
     protected static function makeName($data, $name)
     {
-        return (
+        return
             (
                 $data['name'] ??
                     ($name !== 'default' ? $name : ($data['hostname'] ?? null))
-            ) ?? 'default'
-        );
+            ) ?? 'default';
     }
 
     /**
@@ -195,7 +194,7 @@ class Target implements JsonSerializable
      * @param string $display
      * @return Target
      */
-    public function setDisplay(string $display): Target
+    public function setDisplay(string $display): self
     {
         $this->display = $display;
 
