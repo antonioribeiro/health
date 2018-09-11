@@ -4,24 +4,42 @@ namespace PragmaRX\Health\Checkers;
 
 use PragmaRX\Health\Support\Result;
 use PragmaRX\Health\Support\Target;
+use PragmaRX\Health\Support\Traits\Database;
+use SebastianBergmann\Timer\Timer;
 
 abstract class Base implements Contract
 {
+    use Database;
+
     /**
      * @var Target
      */
     protected $target;
 
     /**
+     * Check target and store elapsed time
+     */
+    protected function checkAndStoreTime()
+    {
+        Timer::start();
+
+        $result = $this->check();
+
+        $result->elapsedTime = Timer::stop();
+
+        return $result;
+    }
+
+    /**
      * Create base directory for files.
      *
      * @param $fileName
      */
-    private function makeDir($fileName)
+    protected function makeDir($fileName)
     {
         $dir = dirname($fileName);
 
-        if (! file_exists($dir)) {
+        if (!file_exists($dir)) {
             mkdir($dir, 0775, true);
         }
     }
@@ -78,6 +96,19 @@ abstract class Base implements Contract
     }
 
     /**
+     * Save result to database.
+     *
+     * @param $result
+     * @return
+     */
+    protected function saveToDatabase($result)
+    {
+        if ($this->databaseEnabled()) {
+            return $this->saveResultsToDatabase($this->target, $result);
+        }
+    }
+
+    /**
      * @param $healthy
      */
     public function setHealthy($healthy)
@@ -112,7 +143,7 @@ abstract class Base implements Contract
      */
     public function load()
     {
-        if (! file_exists($file = $this->getFileName())) {
+        if (!file_exists($file = $this->getFileName())) {
             return collect();
         }
 
@@ -130,7 +161,7 @@ abstract class Base implements Contract
             $data = $this->database->toArray();
         }
 
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             $data = $data->toArray();
         }
 
@@ -146,7 +177,7 @@ abstract class Base implements Contract
      */
     protected function getFileName()
     {
-        return $this->target->save_to ?? '';
+        return $this->target->saveTo ?? '';
     }
 
     /**
@@ -160,5 +191,14 @@ abstract class Base implements Contract
         $this->target = $target;
 
         return $this;
+    }
+
+    public function checkTarget()
+    {
+        $result = $this->checkAndStoreTime();
+
+        $this->saveToDatabase($result);
+
+        return $result;
     }
 }

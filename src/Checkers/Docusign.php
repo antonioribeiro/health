@@ -17,13 +17,10 @@ class Docusign extends Base
     public function check()
     {
         if ($this->docusignIsNotInstalled()) {
-            return $this->makeResult(
-                false,
-                $this->target->not_installed_message
-            );
+            return $this->makeResult(false, $this->target->notInstalledMessage);
         }
 
-        if (! $this->login()) {
+        if (!$this->login()) {
             throw new DomainException(
                 'Unable to authenticate to the DocuSign Api'
             );
@@ -34,7 +31,7 @@ class Docusign extends Base
 
     private function docusignIsNotInstalled()
     {
-        return ! class_exists(ApiClient::class);
+        return !class_exists(ApiClient::class);
     }
 
     private function getAccountIdFromLogin($login)
@@ -67,14 +64,14 @@ class Docusign extends Base
     {
         return (new Configuration())
             ->setDebug($this->target->debug)
-            ->setDebugFile($this->makeFileName($this->target->debug_file))
-            ->setHost($this->target->api_host)
+            ->setDebugFile($this->makeFileName($this->target->debugFile))
+            ->setHost($this->target->apiHost)
             ->addDefaultHeader(
                 'X-DocuSign-Authentication',
                 json_encode([
                     'Username' => $this->target->username,
                     'Password' => $this->target->password,
-                    'IntegratorKey' => $this->target->integrator_key,
+                    'IntegratorKey' => $this->target->integratorKey,
                 ])
             );
     }

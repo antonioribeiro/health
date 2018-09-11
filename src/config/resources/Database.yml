@@ -4,6 +4,13 @@ checker: PragmaRX\Health\Checkers\Database
 notify: true
 column_size: 2
 targets:
-  - default:
+  - users:
+      type: "find_first_model"
       models:
         - "{{ config('auth.providers.users.model') }}"
+  - "query speed":
+      type: "raw_query"
+      connection: "default"
+      query: "select * from users u join password_resets pr on pr.email = u.email order by u.created_at desc"
+      maximum_time: 0.05
+      error_message: "Query took %sms when it should have last at most %sms"

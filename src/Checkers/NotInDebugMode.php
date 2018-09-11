@@ -24,7 +24,7 @@ class NotInDebugMode extends Base
             ($ss = $this->uptimeInSeconds($this->database));
 
         return $this->makeResult(
-            ! $rebooted,
+            !$rebooted,
             $this->makeMessage($current, $this->database)
         );
     }
@@ -37,13 +37,13 @@ class NotInDebugMode extends Base
      */
     private function executeUptimeCommand()
     {
-        $error = exec($this->resource['command'], $system_string, $output);
+        $error = exec($this->resource->command, $system_string, $output);
 
         if ($output !== 0) {
             throw new DomainException((string) $error);
         }
 
-        return (! is_array($system_string) || empty($system_string))
+        return (!is_array($system_string) || empty($system_string))
             ? ''
             : $system_string[0];
     }
@@ -69,7 +69,7 @@ class NotInDebugMode extends Base
     {
         return collect($matches)
             ->filter(function ($item, $key) {
-                return ! is_numeric($key);
+                return !is_numeric($key);
             })
             ->map(function ($item, $key) {
                 $return = $item[0];
@@ -119,10 +119,11 @@ class NotInDebugMode extends Base
      */
     protected function uptimeInSeconds($date)
     {
-        return
+        return (
             (isset($date['up_days']) ? $date['up_days'] * 24 * 60 : 0) +
             (isset($date['up_hours']) ? $date['up_hours'] * 60 : 0) +
-            (isset($date['up_minutes']) ? $date['up_minutes'] : 0);
+            (isset($date['up_minutes']) ? $date['up_minutes'] : 0)
+        );
     }
 
     /**

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Cache as IlluminateCache;
 
 class Cache
 {
+    protected $flushed = [];
+
     /**
      * Check if the cache is enabled.
      *
@@ -27,12 +29,14 @@ class Cache
      */
     public function flush($force = false, $key = null)
     {
-        if ($force || $this->needsToFlush()) {
+        if (!isset($this->flushed[$key]) && ($force || $this->needsToFlush())) {
             try {
                 $this->forceFlush($key);
             } catch (Exception $exception) {
-                // cache service may be down
+                report($exception);
             }
+
+            $this->flushed[$key] = true;
         }
     }
 
@@ -87,8 +91,9 @@ class Cache
      */
     protected function needsToFlush()
     {
-        return
-            $this->cacheIsEnabled() && $this->getCurrentRequest()->get('flush');
+        return (
+            $this->cacheIsEnabled() && $this->getCurrentRequest()->get('flush')
+        );
     }
 
     /**
@@ -119,11 +124,11 @@ class Cache
      */
     public function remember($key, \Closure $callback)
     {
-        if (! $this->cacheIsEnabled()) {
+        if (!$this->cacheIsEnabled()) {
             return $callback();
         }
 
-        $key = config('health.cache.key').$key;
+        $key = config('health.cache.key') . $key;
 
         $this->flush(false, $key);
 

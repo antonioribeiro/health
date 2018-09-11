@@ -16,9 +16,7 @@ class Composer extends Base
     {
         $outdated = $this->executeCommand();
 
-        if (
-            $outdated->count() > $this->target->resource->should_count_at_most
-        ) {
+        if ($outdated->count() > $this->target->resource->shouldCountAtMost) {
             return $this->makeResult(
                 false,
                 sprintf($this->target->getErrorMessage(), $outdated->count())
@@ -36,7 +34,7 @@ class Composer extends Base
      */
     protected function outputToCollection(string $output)
     {
-        if ($this->target->resource->json_result) {
+        if ($this->target->resource->jsonResult) {
             return collect(json_decode($output, true) ?? collect([]));
         }
 
@@ -60,7 +58,7 @@ class Composer extends Base
     {
         $process = new SymfonyProcess(
             $this->getBinary(),
-            $this->target->working_dir
+            $this->target->workingDir
         );
 
         $process->run();
@@ -71,7 +69,7 @@ class Composer extends Base
             return $output;
         }
 
-        if ($rootItem = $this->target->resource->root_item) {
+        if ($rootItem = $this->target->resource->rootItem) {
             return collect($output[$rootItem]);
         }
 

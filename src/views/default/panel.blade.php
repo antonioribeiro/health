@@ -15,7 +15,7 @@
                                 config('health.views.partials.well'),
                                 [
                                     'itemTitle' => $resource->name,
-                                    'itemSubtitle' => $target->name,
+                                    'itemSubtitle' => $target->display,
                                     'itemHealth' => $target->result->healthy,
                                     'itemMessage' => $target->getMessage(),
                                     'columnSize' => $resource->columnSize

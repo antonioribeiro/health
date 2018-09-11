@@ -10,6 +10,21 @@ class Result
     public $healthy;
 
     /**
+     * @var float
+     */
+    public $elapsedTime;
+
+    /**
+     * @var mixed
+     */
+    public $value;
+
+    /**
+     * @var string
+     */
+    public $valueHuman;
+
+    /**
      * @var string
      */
     public $errorMessage;
@@ -19,5 +34,31 @@ class Result
         $this->healthy = $healthy;
 
         $this->errorMessage = $errorMessage;
+    }
+
+    /**
+     * Value setter.
+     *
+     * @param mixed $value
+     * @return Result
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Value for humans setter.
+     *
+     * @param string $valueHuman
+     * @return Result
+     */
+    public function setValueHuman(string $valueHuman): Result
+    {
+        $this->valueHuman = $valueHuman;
+
+        return $this;
     }
 }

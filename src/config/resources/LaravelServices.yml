@@ -3,12 +3,11 @@ abbreviation: lvs
 checker: PragmaRX\Health\Checkers\Https
 notify: true
 column_size: 2
+connection_timeout: 2
+roundtrip_timeout: 4
+timeout_message: "[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s."
 targets:
   - default:
-      connection_timeout: 2
-      roundtrip_timeout: 4
-      timeout_message:
-        "[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s."
-      url:
+      urls:
         - "https://forge.laravel.com"
         - "https://envoyer.io"
