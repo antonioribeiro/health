@@ -41,7 +41,7 @@ class DirectoryAndFilePresence extends Base
 
         return $this->makeResult(
             false,
-            $this->target->getErrorMessage() . ' - ' . implode(' ', $messages)
+            $this->target->getErrorMessage().' - '.implode(' ', $messages)
         );
     }
 
@@ -61,7 +61,7 @@ class DirectoryAndFilePresence extends Base
                 $files = collect($files);
 
                 foreach ($files as $file) {
-                    if (!is_null($file)) {
+                    if (! is_null($file)) {
                         foreach ($this->getCheckers($type) as $checker) {
                             if (is_string($message = $checker($file))) {
                                 $messages[] = $message;
@@ -86,8 +86,7 @@ class DirectoryAndFilePresence extends Base
             static::FILE_EXISTS => $this->target->fileExists,
             static::FILE_DOES_NOT_EXISTS => $this->target->fileDoNotExists,
             static::DIRECTORY_EXISTS => $this->target->directoryExists,
-            static::DIRECTORY_DOES_NOT_EXISTS =>
-                $this->target->directoryDoNotExists,
+            static::DIRECTORY_DOES_NOT_EXISTS => $this->target->directoryDoNotExists,
         ];
     }
 
@@ -177,7 +176,7 @@ class DirectoryAndFilePresence extends Base
      */
     public function fileDoesNotExists($file)
     {
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
             return true;
         }
 
