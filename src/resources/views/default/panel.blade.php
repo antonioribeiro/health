@@ -4,27 +4,28 @@
     <div id="app">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <h1>{{ config('health.title') }}</h1>
                 </div>
 
+                <div class="col-md-4 text-right">
+                    <button @click="checkAllResources()" class="btn btn-primary">refresh</button>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-12">
-                    <div class="row">
-                        @foreach($health as $resource)
-                            @foreach($resource->targets as $target)
-                                @include(
-                                    config('health.views.partials.well'),
-                                    [
-                                        'itemTitle' => $resource->name,
-                                        'itemSubtitle' => $target->display,
-                                        'itemHealth' => $target->result->healthy,
-                                        'itemMessage' => $target->getMessage(),
-                                        'columnSize' => $resource->columnSize
-                                    ]
-                                )
-                            @endforeach
-                        @endforeach
-                    </div>
+                    <span class="row">
+                        <template v-for="resource in resources">
+                            <resource-target
+                                v-for="target in resource.targets" :key="target.id"
+                                :target="target"
+                                :resource="resource"
+                                @check-resource="checkResource(resource)"
+                            >
+                            </resource-target>
+                        </template>
+                    </span>
                 </div>
             </div>
         </div>
