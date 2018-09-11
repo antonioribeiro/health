@@ -13,7 +13,7 @@ class Mail extends BaseChannel
      */
     public function send($notifiable, $item)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->line($this->getMessage($item))
             ->from(
                 config('health.notifications.from.address'),

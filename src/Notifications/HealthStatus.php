@@ -38,7 +38,11 @@ class HealthStatus extends Notification
     {
         $name = substr($name, 2);
 
-        return instantiate(config('health.notifications.channels.'.strtolower($name).'.sender'));
+        return instantiate(
+            config(
+                'health.notifications.channels.' . strtolower($name) . '.sender'
+            )
+        );
     }
 
     /**
@@ -61,10 +65,7 @@ class HealthStatus extends Notification
         $parameters[] = $this->item;
 
         return call_user_func_array(
-            [
-                $this->getSenderInstance($name),
-                'send',
-            ],
+            [$this->getSenderInstance($name), 'send'],
             $parameters
         );
     }

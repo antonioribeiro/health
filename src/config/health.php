@@ -49,7 +49,8 @@ return [
 
         'action-title' => 'View App Health',
 
-        'action_message' => "The '%s' service is in trouble and needs attention%s",
+        'action_message' =>
+            "The '%s' service is in trouble and needs attention%s",
 
         'from' => [
             'name' => 'Laravel Health Checker',
@@ -143,25 +144,25 @@ return [
 
         'list' => [
             [
-                'uri' => $route_prefix.$route_suffix_panel,
-                'name' => 'pragmarx.health.panel',
-                'action' => $action_panel,
+                'uri' => "{$route_prefix}/panel",
+                'name' => "{$name_prefix}.panel",
+                'action' => "{$namespace}@panel",
                 'middleware' => [
                     /*'auth.basic'*/
                 ],
             ],
 
             [
-                'uri' => $route_prefix.$route_suffix_check,
-                'name' => 'pragmarx.health.check',
-                'action' => $action_check,
+                'uri' => "{$route_prefix}/check",
+                'name' => "{$name_prefix}.check",
+                'action' => "{$namespace}@check",
                 'middleware' => [],
             ],
 
             [
-                'uri' => $route_prefix.$route_suffix_string,
-                'name' => 'pragmarx.health.string',
-                'action' => $action_string,
+                'uri' => "{$route_prefix}/string",
+                'name' => "{$name_prefix}.string",
+                'action' => "{$namespace}@string",
                 'middleware' => [],
             ],
 
@@ -169,6 +170,13 @@ return [
                 'uri' => "{$route_prefix}/resources",
                 'name' => "{$name_prefix}.resources.all",
                 'action' => "{$namespace}@allResources",
+                'middleware' => [],
+            ],
+
+            [
+                'uri' => "{$route_prefix}/resources/{slug}",
+                'name' => "{$name_prefix}.resources.get",
+                'action' => "{$namespace}@getResource",
                 'middleware' => [],
             ],
 
@@ -181,7 +189,7 @@ return [
 
             [
                 'uri' => "{$route_prefix}/assets/js/app.js",
-                'name' => "{$name_prefix}.assets.js",
+                'name' => "{$name_prefix}.assets.js",≤
                 'action' => "{$namespace}@assetAppJs",
                 'middleware' => [],
             ],

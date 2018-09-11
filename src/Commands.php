@@ -40,15 +40,17 @@ class Commands
     {
         $columns = ['Resource', 'State', 'Message'];
 
-        $rows = $this->healthService->health()->map(function ($resource) {
-            return [
-                $resource['name'],
-                $resource['health']['healthy']
-                    ? '<info>healthy</info>'
-                    : '<fg=red>failing</fg=red>',
-                $this->normalizeMessage($resource['health']['message']),
-            ];
-        })->toArray();
+        $rows = $this->healthService->health()
+            ->map(function ($resource) {
+                return [
+                    $resource['name'],
+                    $resource['health']['healthy']
+                        ? '<info>healthy</info>'
+                        : '<fg=red>failing</fg=red>',
+                    $this->normalizeMessage($resource['health']['message']),
+                ];
+            })
+            ->toArray();
 
         $this->table($command, $columns, $rows);
     }
@@ -57,19 +59,22 @@ class Commands
     {
         $checker = $this->healthService->getSilentChecker();
 
-        $errors = $checker()->where('is_global', false)->reduce(function ($carry, $item) {
-            return $carry + ($item['health']['healthy'] ? 0 : 1);
-        }, 0);
+        $errors = $checker()
+            ->where('is_global', false)
+            ->reduce(function ($carry, $item) {
+                return $carry + ($item['health']['healthy'] ? 0 : 1);
+            }, 0);
 
         $exitCode = 0;
 
         if ($errors) {
             $this->error(
                 $command,
-                "Application needs attention, $errors ".
-                str_plural('resouce', $errors).' '.
-                ($errors > 1 ? 'are' : 'is').
-                ' currently failing.'
+                "Application needs attention, $errors " .
+                    str_plural('resouce', $errors) .
+                    ' ' .
+                    ($errors > 1 ? 'are' : 'is') .
+                    ' currently failing.'
             );
 
             $exitCode = 255;
@@ -84,22 +89,29 @@ class Commands
     {
         $yaml = new Yaml();
 
-        collect(config('health.resources'))->each(function ($resource, $key) use ($command, $yaml) {
+        collect(config('health.resources'))->each(function (
+            $resource,
+            $key
+        ) use ($command, $yaml) {
             $path = config('health.resources.path');
 
             $resource['column_size'] = (int) $resource['columnSize'];
 
             unset($resource['columnSize']);
 
-            if (! file_exists($path)) {
+            if (!file_exists($path)) {
                 mkdir($path, 0660, true);
             }
 
             $dump = $yaml->dump($resource, 5);
 
-            file_put_contents($file = $path.DIRECTORY_SEPARATOR.studly_case($key).'.yml', $dump);
+            file_put_contents(
+                $file =
+                    $path . DIRECTORY_SEPARATOR . studly_case($key) . '.yml',
+                $dump
+            );
 
-            $this->info($command, 'Exported '.$file);
+            $this->info($command, 'Exported ' . $file);
         });
     }
 
@@ -107,21 +119,27 @@ class Commands
     {
         $yaml = new Yaml();
 
-        $yaml->loadFromDirectory(package_resources_dir(), false)->each(function ($value, $key) use ($command, $yaml) {
-            if (! file_exists($path = config('health.resources.path'))) {
-                mkdir($path, 0755, true);
-            }
+        $yaml
+            ->loadFromDirectory(package_resources_dir(), false)
+            ->each(function ($value, $key) use ($command, $yaml) {
+                if (!file_exists($path = config('health.resources.path'))) {
+                    mkdir($path, 0755, true);
+                }
 
-            if (file_exists($file = $path.DIRECTORY_SEPARATOR.$key.'.yaml')) {
-                $this->warn($command, 'Skipped: '.$file);
+                if (
+                    file_exists(
+                        $file = $path . DIRECTORY_SEPARATOR . $key . '.yaml'
+                    )
+                ) {
+                    $this->warn($command, 'Skipped: ' . $file);
 
-                return;
-            }
+                    return;
+                }
 
-            file_put_contents($file, $yaml->dump($value));
+                file_put_contents($file, $yaml->dump($value));
 
-            $this->info($command, 'Saved: '.$file);
-        });
+                $this->info($command, 'Saved: ' . $file);
+            });
     }
 
     /**

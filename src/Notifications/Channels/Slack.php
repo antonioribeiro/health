@@ -13,7 +13,7 @@ class Slack extends BaseChannel
      */
     public function send($notifiable, $item)
     {
-        return (new SlackMessage)
+        return (new SlackMessage())
             ->error()
             ->from(
                 config('health.notifications.from.name'),
@@ -21,8 +21,9 @@ class Slack extends BaseChannel
             )
             ->content($this->getMessage($item))
             ->attachment(function ($attachment) use ($item) {
-                $attachment->title($this->getActionTitle(), $this->getActionLink())
-                            ->content($item['health']['message']);
+                $attachment
+                    ->title($this->getActionTitle(), $this->getActionLink())
+                    ->content($item['health']['message']);
             });
     }
 }
