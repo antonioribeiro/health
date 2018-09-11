@@ -2,10 +2,10 @@
 
 namespace PragmaRX\Health\Http\Controllers;
 
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\File;
 use PragmaRX\Health\Service;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\File;
 
 class Health extends Controller
 {
@@ -105,7 +105,7 @@ class Health extends Controller
 
         $response = response()->make($file);
 
-        $response->header('Content-Type', "text/css");
+        $response->header('Content-Type', 'text/css');
 
         return $response;
     }
@@ -116,7 +116,7 @@ class Health extends Controller
 
         $response = response()->make($file);
 
-        $response->header('Content-Type', "text/css");
+        $response->header('Content-Type', 'text/css');
 
         return $response;
     }
