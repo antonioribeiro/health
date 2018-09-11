@@ -41,8 +41,7 @@ return [
 
         'action-title' => 'View App Health',
 
-        'action_message' =>
-            "The '%s' service is in trouble and needs attention%s",
+        'action_message' => "The '%s' service is in trouble and needs attention%s",
 
         'from' => [
             'name' => 'Laravel Health Checker',
@@ -118,14 +117,10 @@ return [
     ],
 
     'actions' => [
-        'panel' =>
-            $action_panel = 'PragmaRX\Health\Http\Controllers\Health@panel',
-        'check' =>
-            $action_check = 'PragmaRX\Health\Http\Controllers\Health@check',
-        'string' =>
-            $action_string = 'PragmaRX\Health\Http\Controllers\Health@string',
-        'resource' =>
-            $action_resource =
+        'panel' => $action_panel = 'PragmaRX\Health\Http\Controllers\Health@panel',
+        'check' => $action_check = 'PragmaRX\Health\Http\Controllers\Health@check',
+        'string' => $action_string = 'PragmaRX\Health\Http\Controllers\Health@string',
+        'resource' => $action_resource =
                 'PragmaRX\Health\Http\Controllers\Health@resource',
     ],
 
@@ -143,7 +138,7 @@ return [
 
         'list' => [
             [
-                'uri' => $route_prefix . $route_suffix_panel,
+                'uri' => $route_prefix.$route_suffix_panel,
                 'name' => 'pragmarx.health.panel',
                 'action' => $action_panel,
                 'middleware' => [
@@ -152,14 +147,14 @@ return [
             ],
 
             [
-                'uri' => $route_prefix . $route_suffix_check,
+                'uri' => $route_prefix.$route_suffix_check,
                 'name' => 'pragmarx.health.check',
                 'action' => $action_check,
                 'middleware' => [],
             ],
 
             [
-                'uri' => $route_prefix . $route_suffix_string,
+                'uri' => $route_prefix.$route_suffix_string,
                 'name' => 'pragmarx.health.string',
                 'action' => $action_string,
                 'middleware' => [],
