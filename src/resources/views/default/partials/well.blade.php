@@ -1,4 +1,4 @@
-<div class="col-md-{{ isset($columnSize) ? $columnSize : 12 }}">
+<div class="col-md-{{ isset($columnSize) ? $columnSize : 12 }}" @click="clickBait()">
     <div class="btn btn-block btn-{{ $itemHealth ? 'success' : 'danger' }} {{ config('health.style.button_lines') }}"
          title="{{ $itemMessage }}"
          data-name="{{ $itemTitle }}"

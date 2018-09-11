@@ -5,7 +5,6 @@ namespace PragmaRX\Health\Support;
 use Exception;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Support\Traits\HandleExceptions;
-use SebastianBergmann\Timer\Timer;
 
 class ResourceChecker
 {

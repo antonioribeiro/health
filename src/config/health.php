@@ -25,6 +25,18 @@ return [
         'enabled' => false,
 
         'graphs' => true,
+
+        'max_records' => 30,
+    ],
+
+    'assets' => [
+        'css' => base_path(
+            'vendor/pragmarx/health/src/resources/dist/css/app.css'
+        ),
+
+        'js' => base_path(
+            'vendor/pragmarx/health/src/resources/dist/js/app.js'
+        ),
     ],
 
     'cache_files_base_path' => $path = 'app/pragmarx/health',
@@ -120,13 +132,24 @@ return [
     'actions' => [
         'panel' =>
             $action_panel = 'PragmaRX\Health\Http\Controllers\Health@panel',
+
         'check' =>
             $action_check = 'PragmaRX\Health\Http\Controllers\Health@check',
+
         'string' =>
             $action_string = 'PragmaRX\Health\Http\Controllers\Health@string',
+
         'resource' =>
             $action_resource =
                 'PragmaRX\Health\Http\Controllers\Health@resource',
+
+        'app.css' =>
+            $action_asset_app_css =
+                'PragmaRX\Health\Http\Controllers\Health@assetAppCss',
+
+        'app.js' =>
+            $action_asset_app_js =
+                'PragmaRX\Health\Http\Controllers\Health@assetAppJs',
     ],
 
     'routes' => [
@@ -137,6 +160,7 @@ return [
             'check' => $route_suffix_check = '/check',
             'string' => $route_suffix_string = '/string',
             'resource' => $route_suffix_resource = '/resource',
+            'assets' => $route_suffix_assets = '/assets',
         ],
 
         'notification' => 'pragmarx.health.panel',
@@ -169,6 +193,20 @@ return [
                 'uri' => "{$route_prefix}{$route_suffix_resource}/{slug}",
                 'name' => 'pragmarx.health.resource',
                 'action' => $action_resource,
+                'middleware' => [],
+            ],
+
+            [
+                'uri' => "{$route_prefix}{$route_suffix_assets}/css/app.css",
+                'name' => 'pragmarx.health.assets.css',
+                'action' => $action_asset_app_css,
+                'middleware' => [],
+            ],
+
+            [
+                'uri' => "{$route_prefix}{$route_suffix_assets}/js/app.js",
+                'name' => 'pragmarx.health.assets.js',
+                'action' => $action_asset_app_js,
                 'middleware' => [],
             ],
         ],

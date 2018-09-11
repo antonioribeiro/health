@@ -53,6 +53,7 @@ trait Database
             'resource_name' => $resource = $target->resource->name,
             'resource_slug' => $target->resource->slug,
             'target_name' => $target->name,
+            'target_slug' => str_slug($target->name),
             'target_display' => $target->display,
             'healthy' => $result->healthy,
             'error_message' => $result->errorMessage,
@@ -60,5 +61,12 @@ trait Database
             'value' => $result->value,
             'value_human' => $result->valueHuman,
         ]);
+
+        return HealthCheck::where([
+            'resource_slug' => $target->resource->slug,
+            'target_name' => $target->name,
+        ])
+            ->take(config('health.database.max_records'))
+            ->get();
     }
 }

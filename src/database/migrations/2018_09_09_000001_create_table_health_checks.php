@@ -21,6 +21,8 @@ class CreateTableHealthChecks extends Migration
 
             $table->string('target_name');
 
+            $table->string('target_slug')->index();
+
             $table->string('target_display');
 
             $table->boolean('healthy');
