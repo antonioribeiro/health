@@ -93,7 +93,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->publishes(
             [
-                __DIR__ . '/views/' => resource_path(
+                __DIR__ . '/resources/views/' => resource_path(
                     'views/vendor/pragmarx/health/'
                 ),
             ],
@@ -115,7 +115,10 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function configureViews()
     {
-        $this->loadViewsFrom(realpath(__DIR__ . '/views'), 'pragmarx/health');
+        $this->loadViewsFrom(
+            realpath(__DIR__ . '/resources/views'),
+            'pragmarx/health'
+        );
     }
 
     /**

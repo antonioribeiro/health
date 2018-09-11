@@ -197,7 +197,7 @@ abstract class Base implements Contract
     {
         $result = $this->checkAndStoreTime();
 
-        $this->saveToDatabase($result);
+        $result->checks = $this->saveToDatabase($result);
 
         return $result;
     }

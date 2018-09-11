@@ -2,6 +2,8 @@
 
 namespace PragmaRX\Health\Http\Controllers;
 
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
 use PragmaRX\Health\Service;
 use Illuminate\Routing\Controller;
 
@@ -95,5 +97,27 @@ class Health extends Controller
         );
 
         return response((string) $view, $this->getReponseCode());
+    }
+
+    public function assetAppJs()
+    {
+        $file = File::get(config('health.assets.js'));
+
+        $response = response()->make($file);
+
+        $response->header('Content-Type', "text/css");
+
+        return $response;
+    }
+
+    public function assetAppCss()
+    {
+        $file = File::get(config('health.assets.css'));
+
+        $response = response()->make($file);
+
+        $response->header('Content-Type', "text/css");
+
+        return $response;
     }
 }

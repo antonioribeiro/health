@@ -4,6 +4,7 @@ namespace PragmaRX\Health\Support;
 
 use JsonSerializable;
 use PragmaRX\Health\Support\Traits\ToArray;
+use Illuminate\Database\Eloquent\Collection;
 use PragmaRX\Health\Support\Traits\ImportProperties;
 
 class Target implements JsonSerializable
@@ -34,6 +35,11 @@ class Target implements JsonSerializable
      * @var Result
      */
     public $value;
+
+    /**
+     * @var Collection
+     */
+    public $checks;
 
     /**
      * @param \Exception|\Throwable
@@ -93,6 +99,8 @@ class Target implements JsonSerializable
             $this->exceptionResult($error);
         }
 
+        $this->moveChecksBackToTarget();
+
         return $this;
     }
 
@@ -142,12 +150,24 @@ class Target implements JsonSerializable
     }
 
     /**
+     * Move checks to target object.
+     */
+    protected function moveChecksBackToTarget()
+    {
+        if ($this->result->checks) {
+            $this->checks = $this->result->checks;
+
+            unset($this->result->checks);
+        }
+    }
+
+    /**
      * Make a result.
      *
      * @param $result
      * @return Result
      */
-    private function result($result)
+    protected function result($result)
     {
         $this->result =
             $result instanceof Result
