@@ -245,11 +245,10 @@ class Resource implements JsonSerializable
      */
     protected function canNotify()
     {
-        return (
-            !$this->notified &&
+        return
+            ! $this->notified &&
             $this->notificationsAreEnabled() &&
-            !$this->isHealthy()
-        );
+            ! $this->isHealthy();
     }
 
     /**
@@ -259,11 +258,10 @@ class Resource implements JsonSerializable
      */
     protected function notificationsAreEnabled()
     {
-        return (
+        return
             $this->notify &&
             config('health.notifications.enabled') &&
-            config('health.notifications.notify_on.' . $this->currentAction)
-        );
+            config('health.notifications.notify_on.'.$this->currentAction);
     }
 
     /**
