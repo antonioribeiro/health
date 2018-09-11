@@ -18,7 +18,7 @@ class Queue extends Base
     {
         IlluminateQueue::pushOn(
             $this->target->name,
-            instantiate($this->target->test_job)
+            instantiate($this->target->testJob)
         );
 
         $worker = instantiate(Worker::class);
@@ -31,7 +31,7 @@ class Queue extends Base
             'default'
         );
 
-        $worker->setCache(instantiate($this->target->cache_instance)->driver());
+        $worker->setCache(instantiate($this->target->cacheInstance)->driver());
 
         $worker->runNextJob($connection, $queue, $this->gatherWorkerOptions());
 

@@ -2,13 +2,13 @@
 
 namespace PragmaRX\Health\Support;
 
-use Illuminate\Support\Collection;
+use JsonSerializable;
 use PragmaRX\Health\Support\Traits\ToArray;
-use PragmaRX\Health\Support\Traits\MagicData;
+use PragmaRX\Health\Support\Traits\ImportProperties;
 
-class Target
+class Target implements JsonSerializable
 {
-    use MagicData, ToArray;
+    use ToArray, ImportProperties;
 
     /**
      * @var string
@@ -16,9 +16,9 @@ class Target
     public $name;
 
     /**
-     * @var Collection
+     * @var string
      */
-    public $data;
+    public $display;
 
     /**
      * @var resource
@@ -29,6 +29,11 @@ class Target
      * @var Result
      */
     public $result;
+
+    /**
+     * @var Result
+     */
+    public $value;
 
     /**
      * @param \Exception|\Throwable
@@ -48,15 +53,17 @@ class Target
      * @param $data
      * @return Target
      */
-    public static function factory($resource, $data)
+    public static function factory($resource, $data, $name = null)
     {
         $instance = new static();
 
-        $instance->data = $data;
+        $instance->name = self::makeName($data, $name);
 
-        $instance->name = $data['name'] ?? $data['hostname'] ?? 'default';
+        $instance->display = $instance->name;
 
         $instance->resource = $resource;
+
+        $instance->importProperties($data);
 
         return $instance;
     }
@@ -71,16 +78,32 @@ class Target
         try {
             try {
                 $this->result(
-                    $this->resource->checker->setTarget($this)->check($this)
+                    $this->resource->checker->setTarget($this)->checkTarget(
+                        $this
+                    )
                 );
             } catch (\Exception $exception) {
+                report($exception);
+
                 $this->exceptionResult($exception);
             }
         } catch (\Throwable $error) {
+            report($error);
+
             $this->exceptionResult($error);
         }
 
         return $this;
+    }
+
+    /**
+     * Display getter.
+     *
+     * @return string
+     */
+    public function getDisplay()
+    {
+        return $this->display;
     }
 
     /**
@@ -99,6 +122,23 @@ class Target
     public function getResult()
     {
         return $this->result;
+    }
+
+    /**
+     * Make target name.
+     *
+     * @param $data
+     * @param $name
+     * @return string
+     */
+    protected static function makeName($data, $name)
+    {
+        return (
+            (
+                $data['name'] ??
+                    ($name !== 'default' ? $name : ($data['hostname'] ?? null))
+            ) ?? 'default'
+        );
     }
 
     /**
@@ -150,6 +190,19 @@ class Target
     }
 
     /**
+     * Display setter.
+     *
+     * @param string $display
+     * @return Target
+     */
+    public function setDisplay(string $display): Target
+    {
+        $this->display = $display;
+
+        return $this;
+    }
+
+    /**
      * @param string $name
      */
     public function setName(string $name): void
@@ -178,5 +231,15 @@ class Target
     public function __toString()
     {
         return json_encode($this->__toArray($this, 6));
+    }
+
+    /**
+     * Prepare the resource for JSON serialization.
+     *
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return json_decode($this->__toString(), true);
     }
 }

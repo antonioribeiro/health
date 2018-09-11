@@ -2,6 +2,8 @@
 
 namespace PragmaRX\Health\Support\Traits;
 
+use PragmaRX\Health\Data\Models\HealthCheck;
+
 trait Database
 {
     protected $database;
@@ -18,7 +20,7 @@ trait Database
      */
     public function __load()
     {
-        if (! file_exists($file = $this->getDatabaseFileName())) {
+        if (!file_exists($file = $this->getDatabaseFileName())) {
             return collect();
         }
 
@@ -32,6 +34,31 @@ trait Database
      */
     protected function getDatabaseFileName()
     {
-        return $this->target->save_to;
+        return $this->target->saveTo;
+    }
+
+    /**
+     * Check if database is enabled.
+     *
+     * @return bool
+     */
+    protected function databaseEnabled()
+    {
+        return config('health.database.enabled');
+    }
+
+    protected function saveResultsToDatabase($target, $result)
+    {
+        HealthCheck::create([
+            'resource_name' => $resource = $target->resource->name,
+            'resource_slug' => $target->resource->slug,
+            'target_name' => $target->name,
+            'target_display' => $target->display,
+            'healthy' => $result->healthy,
+            'error_message' => $result->errorMessage,
+            'runtime' => $result->elapsedTime,
+            'value' => $result->value,
+            'value_human' => $result->valueHuman,
+        ]);
     }
 }

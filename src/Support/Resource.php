@@ -2,19 +2,15 @@
 
 namespace PragmaRX\Health\Support;
 
+use JsonSerializable;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Support\Traits\ToArray;
 use PragmaRX\Health\Events\RaiseHealthIssue;
-use PragmaRX\Health\Support\Traits\MagicData;
+use PragmaRX\Health\Support\Traits\ImportProperties;
 
-class Resource
+class Resource implements JsonSerializable
 {
-    use MagicData, ToArray;
-
-    /**
-     * @var Collection
-     */
-    public $data;
+    use ToArray, ImportProperties;
 
     /**
      * @var string
@@ -86,33 +82,30 @@ class Resource
     {
         $instance = new static();
 
-        $instance->data = $data;
+        $instance->name = $data['name'];
 
-        $instance->name = $instance->data['name'];
+        $instance->slug = str_slug($data['name']);
 
-        $instance->slug = str_slug($instance->data['name']);
-
-        $instance->abbreviation = $instance->data['abbreviation'];
+        $instance->abbreviation = $data['abbreviation'];
 
         $instance->targets = $instance->instantiateTargets(
-            $instance->data['targets'] ?? collect()
+            $data['targets'] ?? collect()
         );
 
         $instance->notify =
-            $instance->data['notify'] ?? config('health.notifications.enabled');
+            $data['notify'] ?? config('health.notifications.enabled');
 
         $instance->columnSize =
-            $instance->data['column_size'] ??
-            config('health.columns.default_size');
+            $data['column_size'] ?? config('health.columns.default_size');
 
         $instance->errorMessage =
-            $instance->data['error_message'] ?? config('health.errors.message');
+            $data['error_message'] ?? config('health.errors.message');
 
-        $instance->isGlobal = $instance->data['is_global'] ?? false;
+        $instance->isGlobal = $data['is_global'] ?? false;
 
-        $instance->checker = $instance->instantiateChecker(
-            $instance->data['checker']
-        );
+        $instance->checker = $instance->instantiateChecker($data['checker']);
+
+        $instance->importProperties($data);
 
         return $instance;
     }
@@ -133,8 +126,8 @@ class Resource
 
         $targets = $targets
             ->map(function (Collection $targetList) {
-                return $targetList->map(function ($target) {
-                    return Target::factory($this, $target);
+                return $targetList->map(function ($target, $name) {
+                    return Target::factory($this, $target, $name);
                 });
             })
             ->reduce(function ($current, $targetList) {
@@ -234,10 +227,11 @@ class Resource
      */
     protected function canNotify()
     {
-        return
-            ! $this->notified &&
+        return (
+            !$this->notified &&
             $this->notificationsAreEnabled() &&
-            ! $this->isHealthy();
+            !$this->isHealthy()
+        );
     }
 
     /**
@@ -247,10 +241,11 @@ class Resource
      */
     protected function notificationsAreEnabled()
     {
-        return
+        return (
             $this->notify &&
             config('health.notifications.enabled') &&
-            config('health.notifications.notify_on.'.$this->currentAction);
+            config('health.notifications.notify_on.' . $this->currentAction)
+        );
     }
 
     /**
@@ -274,5 +269,15 @@ class Resource
     public function __toString()
     {
         return json_encode($this->__toArray($this, 6));
+    }
+
+    /**
+     * Prepare the resource for JSON serialization.
+     *
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return json_decode($this->__toString(), true);
     }
 }

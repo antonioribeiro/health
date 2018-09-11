@@ -20,7 +20,7 @@ class Process extends Base
     {
         $message = $this->checkMinMax($this->getProcessesRunningCount());
 
-        if (! empty($message)) {
+        if (!empty($message)) {
             return $this->makeResult(false, $message);
         }
 
@@ -37,7 +37,7 @@ class Process extends Base
     {
         $instances = $this->target->instances;
 
-        if (! $count = (int) $instances[$type]['count']) {
+        if (!$count = (int) $instances[$type]['count']) {
             return '';
         }
 
@@ -50,7 +50,7 @@ class Process extends Base
         if ($diff < 0) {
             return sprintf(
                 $instances[$type]['message'],
-                $this->target->process_name,
+                $this->target->processName,
                 $processes,
                 $count
             );
@@ -84,7 +84,7 @@ class Process extends Base
         }
 
         throw new DomainException(
-            sprintf($this->target->pid_file_missing_error_message, $file)
+            sprintf($this->target->pidFileMissingErrorMessage, $file)
         );
     }
 
@@ -101,13 +101,13 @@ class Process extends Base
 
             fclose($filePointer);
 
-            if (! $locked) {
+            if (!$locked) {
                 throw new DomainException(
                     sprintf($this->target->pid_file_missing_not_locked, $file)
                 );
             }
         } catch (\Exception $exception) {
-            // Nice, file is locked!
+            report($exception);
         }
     }
 
@@ -116,7 +116,7 @@ class Process extends Base
      */
     private function processPidFileIsLocked()
     {
-        $file = $this->target->pid_file;
+        $file = $this->target->pidFile;
 
         $this->checkPidFileExistence($file);
 
@@ -129,7 +129,7 @@ class Process extends Base
     {
         $command = $this->target->command;
 
-        $name = $this->target->process_name;
+        $name = $this->target->processName;
 
         if ($command && $name) {
             return sprintf($command, $name);

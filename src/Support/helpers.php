@@ -2,7 +2,7 @@
 
 use PragmaRX\Health\Service;
 
-if (! function_exists('instantiate')) {
+if (!function_exists('instantiate')) {
     /**
      * Instantiate a class.
      *
@@ -22,7 +22,7 @@ if (! function_exists('instantiate')) {
     }
 }
 
-if (! function_exists('package_dir')) {
+if (!function_exists('package_dir')) {
     /**
      * Get the package root directory.
      *
@@ -36,7 +36,7 @@ if (! function_exists('package_dir')) {
     }
 }
 
-if (! function_exists('package_resources_dir')) {
+if (!function_exists('package_resources_dir')) {
     /**
      * Get package resources directory.
      *
@@ -44,16 +44,17 @@ if (! function_exists('package_resources_dir')) {
      */
     function package_resources_dir()
     {
-        return
-            package_dir().
-            DIRECTORY_SEPARATOR.
-            'config'.
-            DIRECTORY_SEPARATOR.
-            'resources';
+        return (
+            package_dir() .
+            DIRECTORY_SEPARATOR .
+            'config' .
+            DIRECTORY_SEPARATOR .
+            'resources'
+        );
     }
 }
 
-if (! function_exists('is_absolute_path')) {
+if (!function_exists('is_absolute_path')) {
     /**
      * Check if string is absolute path.
      *
@@ -65,8 +66,8 @@ if (! function_exists('is_absolute_path')) {
         // Optional wrapper(s).
         $regExp =
             // Optional root prefix.
-            '%^(?<wrappers>(?:[[:print:]]{2,}://)*)'.
-            '(?<root>(?:[[:alpha:]]:/|/)?)'.
+            '%^(?<wrappers>(?:[[:print:]]{2,}://)*)' .
+            '(?<root>(?:[[:alpha:]]:/|/)?)' .
             // Actual path.
             '(?<path>(?:[[:print:]]*))$%';
 
@@ -82,7 +83,7 @@ if (! function_exists('is_absolute_path')) {
     }
 }
 
-if (! function_exists('bytes_to_human')) {
+if (!function_exists('bytes_to_human')) {
     /**
      * Convert bytes to human readable.
      *
@@ -96,11 +97,11 @@ if (! function_exists('bytes_to_human')) {
 
         $f_base = floor($base);
 
-        return round(pow(1024, $base - floor($base)), 1).$suffix[$f_base];
+        return round(pow(1024, $base - floor($base)), 1) . $suffix[$f_base];
     }
 }
 
-if (! function_exists('human_to_bytes')) {
+if (!function_exists('human_to_bytes')) {
     /**
      * Convert bytes to human readable.
      *
@@ -133,7 +134,7 @@ if (! function_exists('human_to_bytes')) {
     }
 }
 
-if (! function_exists('ip_address_from_hostname')) {
+if (!function_exists('ip_address_from_hostname')) {
     function ip_address_from_hostname($host)
     {
         if (

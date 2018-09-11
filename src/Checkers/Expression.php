@@ -21,21 +21,18 @@ class Expression extends Base
     public function expressionIsOk()
     {
         $expressionResult = $this->executeExpression(
-            $this->target->expression_value
+            $this->target->expressionValue
         );
 
-        if ($this->target->should_return === true) {
+        if ($this->target->shouldReturn === true) {
             return (bool) $expressionResult;
         }
 
-        if ($this->target->should_return === false) {
-            return ! $expressionResult;
+        if ($this->target->shouldReturn === false) {
+            return !$expressionResult;
         }
 
-        return preg_match(
-            "|{$this->target->should_return}|",
-            $expressionResult
-        );
+        return preg_match("|{$this->target->shouldReturn}|", $expressionResult);
     }
 
     public function executeExpression($expression)

@@ -30,7 +30,7 @@ class Broadcasting extends Base
 
         $this->bootRouter();
 
-        $isHealthy = ! $this->pingTimedout();
+        $isHealthy = !$this->pingTimedout();
 
         $this->createPing();
 
@@ -47,7 +47,7 @@ class Broadcasting extends Base
         event(
             new HealthPing(
                 $this->target->channel,
-                route($this->target->route_name, [$this->target->secret]),
+                route($this->target->routeName, [$this->target->secret]),
                 $this->target
             )
         );
@@ -70,7 +70,7 @@ class Broadcasting extends Base
      */
     protected function createPingRow()
     {
-        info('Laravel Health Panel - PING - secret: '.$this->target->secret);
+        info('Laravel Health Panel - PING - secret: ' . $this->target->secret);
 
         return [
             'pinged_at' => Carbon::now(),
@@ -97,7 +97,7 @@ class Broadcasting extends Base
      */
     public function pong($secret)
     {
-        info('Laravel Health Panel - PONG - secret: '.$secret);
+        info('Laravel Health Panel - PONG - secret: ' . $secret);
 
         $this->database = $this->database->map(function ($item) use ($secret) {
             if ($item['secret'] == $secret) {
@@ -122,7 +122,7 @@ class Broadcasting extends Base
         $this->database = $this->database->filter(function ($item) use (
             &$timedout
         ) {
-            if (! $item['ponged_at']) {
+            if (!$item['ponged_at']) {
                 if (
                     Carbon::now()->diffInSeconds(
                         $this->parseDate($item['pinged_at'])

@@ -28,6 +28,8 @@ class Cache extends Base
 
             return $this->makeHealthyResult();
         } catch (\Exception $exception) {
+            report($exception);
+
             return $this->makeResultFromException($exception);
         }
     }

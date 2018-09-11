@@ -45,13 +45,15 @@ class Http extends Base
                     $this->secure
                 );
 
-                if (! $healthy) {
+                if (!$healthy) {
                     return $this->makeResult($healthy, $message);
                 }
             }
 
             return $this->makeHealthyResult();
         } catch (\Exception $exception) {
+            report($exception);
+
             return $this->makeResultFromException($exception);
         }
     }
@@ -126,7 +128,7 @@ class Http extends Base
      */
     private function getErrorMessage()
     {
-        $message = $this->target->resource->timeout_message;
+        $message = $this->target->resource->timeoutMessage;
 
         return sprintf(
             $message,
@@ -143,7 +145,7 @@ class Http extends Base
      */
     private function getConnectionTimeout()
     {
-        return $this->target->resource->connection_timeout;
+        return $this->target->resource->connectionTimeout;
     }
 
     /**
@@ -153,7 +155,7 @@ class Http extends Base
      */
     private function getRoundtripTimeout()
     {
-        return $this->target->resource->roundtrip_timeout;
+        return $this->target->resource->roundtripTimeout;
     }
 
     /**
@@ -167,7 +169,7 @@ class Http extends Base
     {
         return preg_replace(
             '|^((https?:)?\/\/)?(.*)|',
-            'http'.($secure ? 's' : '').'://\\3',
+            'http' . ($secure ? 's' : '') . '://\\3',
             $url
         );
     }
@@ -194,9 +196,10 @@ class Http extends Base
      */
     private function requestSuccessful($url, $ssl)
     {
-        return
+        return (
             $this->fetchResponse($url, $ssl)->getStatusCode() == 200 &&
-            ! $this->requestTimedout();
+            !$this->requestTimedout()
+        );
     }
 
     /**

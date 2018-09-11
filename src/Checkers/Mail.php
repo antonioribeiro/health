@@ -46,6 +46,8 @@ class Mail extends Base
 
             $result = $this->makeHealthyResult();
         } catch (\Exception $exception) {
+            report($exception);
+
             $result = $this->makeResultFromException($exception);
         }
 
@@ -68,10 +70,7 @@ class Mail extends Base
     private function sendMail()
     {
         IlluminateMail::send($this->target->view, [], function ($message) {
-            $fromAddress = array_get(
-                $this->target->data,
-                'config.from.address'
-            );
+            $fromAddress = array_get($this->target->config, 'from.address');
 
             $message->returnPath($fromAddress);
 
