@@ -55,7 +55,7 @@ class Result
      * @param string $valueHuman
      * @return Result
      */
-    public function setValueHuman(string $valueHuman): Result
+    public function setValueHuman(string $valueHuman): self
     {
         $this->valueHuman = $valueHuman;
 
