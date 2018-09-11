@@ -193,6 +193,13 @@ return [
                 'action' => "{$namespace}@assetAppJs",
                 'middleware' => [],
             ],
+
+            [
+                'uri' => "{$route_prefix}/config",
+                'name' => "{$name_prefix}.config",
+                'action' => "{$namespace}@config",
+                'middleware' => [],
+            ],
         ],
     ],
 

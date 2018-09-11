@@ -9,6 +9,8 @@ const app = new Vue({
 
     data: {
         resources: {},
+
+        config: {},
     },
 
     methods: {
@@ -23,17 +25,13 @@ const app = new Vue({
         },
 
         checkAllResources() {
-            console.log('check all')
             _.map(this.resources, this.checkResource)
         },
 
         checkResource(resource) {
-            if (resource.loading) {
-                console.log('already loading')
+            if (!resource || resource.loading) {
                 return
             }
-
-            console.log('START loading')
 
             this.$set(resource, 'loading', true)
 
@@ -43,13 +41,33 @@ const app = new Vue({
                     resource.targets = response.data.targets
 
                     resource.loading = false
+                })
+        },
 
-                    console.log('END loading')
+        showResult(resource, target) {
+            const message = !target.result.healthy ? target.result.errorMessage : this.config.alert.success.message
+
+            const type = !target.result.healthy ? this.config.alert.error.type : this.config.alert.success.type
+
+            swal(resource.name, message, type)
+        },
+
+        loadConfig() {
+            me = this
+
+            return axios
+                .get('/health/config')
+                .then(function(response) {
+                    me.config = response.data
                 })
         },
     },
 
     mounted() {
-        this.loadAllResources()
+        me = this
+
+        me.loadConfig().then(function() {
+            me.loadAllResources()
+        })
     },
 })

@@ -107,4 +107,9 @@ class Health extends Controller
 
         return $response;
     }
+
+    public function config()
+    {
+        return config('health');
+    }
 }
