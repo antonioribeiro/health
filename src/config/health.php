@@ -144,30 +144,25 @@ return [
 
         'list' => [
             [
-                'uri' => "{$route_prefix}/panel",
-                'name' => "{$name_prefix}.panel",
-                'action' => "{$namespace}@panel",
+                'uri' => $route_prefix . $route_suffix_panel,
+                'name' => 'pragmarx.health.panel',
+                'action' => $action_panel,
+                'middleware' => [
+                    /*'auth.basic'*/
+                ],
+            ],
+
+            [
+                'uri' => $route_prefix . $route_suffix_check,
+                'name' => 'pragmarx.health.check',
+                'action' => $action_check,
                 'middleware' => [],
             ],
 
             [
-                'uri' => "{$route_prefix}/check",
-                'name' => "{$name_prefix}.check",
-                'action' => "{$namespace}@check",
-                'middleware' => [],
-            ],
-
-            [
-                'uri' => "{$route_prefix}/string",
-                'name' => "{$name_prefix}.string",
-                'action' => "{$namespace}@string",
-                'middleware' => [],
-            ],
-
-            [
-                'uri' => "{$route_prefix}/resources/{slug}",
-                'name' => "{$name_prefix}.resource.get",
-                'action' => "{$namespace}@getResource",
+                'uri' => $route_prefix . $route_suffix_string,
+                'name' => 'pragmarx.health.string',
+                'action' => $action_string,
                 'middleware' => [],
             ],
 
