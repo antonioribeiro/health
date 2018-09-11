@@ -24,7 +24,7 @@
 .subtitle {
   line-height: 10px;
   font-size: 0.8em;
-  color: yellow;
+  color: blue;
   margin-bottom: 1px;
 }
 
@@ -38,3 +38,39 @@
   right: 0px;
   fill: black;
 }
+
+.target-card {
+  border-color: #868686 !important;
+}
+
+.color-neutral {
+  color: blue;
+  fill: blue;
+}
+
+.color-success {
+  color: green;
+  fill: green;
+}
+
+.color-danger {
+  color: red;
+  fill: red;
+}
+
+.color-neutral-background {
+}
+
+.color-success-background {
+}
+
+.color-danger-background {
+  background-color: rgba(239, 4, 4, 0.1);
+}
+
+.info-icon {
+  width: 1.7em;
+}
+
+
+
