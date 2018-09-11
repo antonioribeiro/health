@@ -111,9 +111,9 @@ return [
         'multiplier' => 0.4,
 
         'opacity' => [
-            'healthy' => '0.5',
+            'healthy' => '0.4',
 
-            'failing' => '0.85',
+            'failing' => '1',
         ],
     ],
 
