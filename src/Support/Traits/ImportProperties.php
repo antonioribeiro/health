@@ -14,7 +14,7 @@ trait ImportProperties
         $data->each(function ($value, $key) {
             $key = camel_case($key);
 
-            if (! property_exists($this, $key)) {
+            if (!property_exists($this, $key)) {
                 $this->$key = $value;
             }
         });

@@ -1,8 +1,7 @@
 <?php
 
-namespace
-{
-    if (! interface_exists('Throwable')) {
+namespace  {
+    if (!interface_exists('Throwable')) {
         interface Throwable
         {
             public function getMessage();
