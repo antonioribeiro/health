@@ -58,7 +58,7 @@ class Database extends Base
         $took = round(Timer::stop(), 5);
         $tookHuman = "{$took}s";
 
-        $this->target->setDisplay($this->target->name . " ({$tookHuman})");
+        $this->target->setDisplay($this->target->name." ({$tookHuman})");
 
         $result =
             $took > $this->target->maximumTime
