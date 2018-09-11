@@ -189,7 +189,7 @@ return [
 
             [
                 'uri' => "{$route_prefix}/assets/js/app.js",
-                'name' => "{$name_prefix}.assets.js",≤
+                'name' => "{$name_prefix}.assets.js",
                 'action' => "{$namespace}@assetAppJs",
                 'middleware' => [],
             ],
