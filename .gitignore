@@ -4,3 +4,4 @@ composer.lock
 .DS_Store
 tests/_output/*
 coverage
+node_modules/

@@ -9,7 +9,17 @@
                 </div>
 
                 <div class="col-md-4 text-right">
-                    <button @click="checkAllResources()" class="btn btn-primary">refresh</button>
+                    <button @click="checkAllResources()" class="btn btn-primary nav-button">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 20 20"
+                             width="20px"
+                             fill="white"
+                        >
+                            <path d="M10 3v2a5 5 0 0 0-3.54 8.54l-1.41 1.41A7 7 0 0 1 10 3zm4.95 2.05A7 7 0 0 1 10 17v-2a5 5 0 0 0 3.54-8.54l1.41-1.41zM10 20l-4-4 4-4v8zm0-12V0l4 4-4 4z"/>
+                        </svg>
+
+                        refresh
+                    </button>
                 </div>
             </div>
 
@@ -21,7 +31,8 @@
                                 v-for="target in resource.targets" :key="target.id"
                                 :target="target"
                                 :resource="resource"
-                                @check-resource="checkResource(resource)"
+                                v-on:check-resource="checkResource(resource)"
+                                v-on:show-result="showResult(resource, target)"
                             >
                             </resource-target>
                         </template>
@@ -30,18 +41,4 @@
             </div>
         </div>
     </div>
-@stop
-
-@section('scripts')
-    {{--<script>--}}
-        {{--$('.btn').bind('click', function () {--}}
-            {{--var resource = $(this).data('name');--}}
-
-            {{--var message = $(this).prop('title') ? $(this).prop('title') : '{{ config('health.alert.success.message') }}';--}}
-
-            {{--var type = $(this).prop('title') ? '{{ config('health.alert.error.type') }}' : '{{ config('health.alert.success.type') }}';--}}
-
-            {{--swal(resource, message, type);--}}
-        {{--});--}}
-    {{--</script>--}}
 @stop

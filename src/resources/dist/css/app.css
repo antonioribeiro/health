@@ -10482,6 +10482,7 @@ a.text-dark:focus {
   font-weight: 100;
   margin-top: 1px;
   margin-bottom: 1px;
+  position: relative;
 }
 
 .subtitle {
@@ -10489,5 +10490,16 @@ a.text-dark:focus {
   font-size: 0.8em;
   color: yellow;
   margin-bottom: 1px;
+}
+
+.nav-button {
+  margin: 0 !important;
+}
+
+.question-mark {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  fill: black;
 }
 
