@@ -15,9 +15,9 @@ class Database extends Base
     {
         try {
             switch ($this->target->type) {
-                case "find_first_model":
+                case 'find_first_model':
                     return $this->findFirstModel();
-                case "raw_query":
+                case 'raw_query':
                     return $this->rawQuery();
             }
 

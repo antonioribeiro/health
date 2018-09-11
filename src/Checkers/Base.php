@@ -2,10 +2,10 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use SebastianBergmann\Timer\Timer;
 use PragmaRX\Health\Support\Result;
 use PragmaRX\Health\Support\Target;
 use PragmaRX\Health\Support\Traits\Database;
-use SebastianBergmann\Timer\Timer;
 
 abstract class Base implements Contract
 {
@@ -17,7 +17,7 @@ abstract class Base implements Contract
     protected $target;
 
     /**
-     * Check target and store elapsed time
+     * Check target and store elapsed time.
      */
     protected function checkAndStoreTime()
     {
