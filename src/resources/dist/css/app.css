@@ -10477,3 +10477,17 @@ a.text-dark:focus {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.title {
+  font-size: 1.2em;
+  font-weight: 100;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.subtitle {
+  line-height: 10px;
+  font-size: 0.8em;
+  color: yellow;
+  margin-bottom: 1px;
+}
+
