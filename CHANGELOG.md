@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.5 - 2018-09-12
+### Changed
+- Complete refactor
+- Can now create many targets inside resources
+- Resource charts
+- VueJS Panel
+- Allow users to click to refresh one item
+- Store data on database to plot charts
+- Lots of new Checkers and resources
+
 ## 0.4.0 - 2017-12-18
 ### Changed
 - User will need change config files and surround expressions ({{ <expression> }}) with "" (breaking change)  
