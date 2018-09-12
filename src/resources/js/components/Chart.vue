@@ -1,101 +1,49 @@
 <script>
-import { Bar } from 'vue-chartjs'
+import { Bar, mixins } from 'vue-chartjs'
+const { reactiveProp } = mixins
 
 export default {
-  props: [],
+  props: ['labels', 'data', 'backgrounds'],
+
+  mixins: [reactiveProp],
 
   extends: Bar,
 
   mounted() {
-    // Overwriting base render method with actual data.
-    this.renderChart(
-      {
-        labels: [
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-          'D00',
-        ],
-        datasets: [
+    var me = this
+
+    this.renderChart(this.chartData, {
+      onClick: function(event) {
+        me.$emit('bar-clicked', this.getElementsAtEvent(event))
+      },
+
+      maintainAspectRatio: false,
+
+      legend: {
+        display: false,
+      },
+
+      elements: { point: { radius: 0 } },
+
+      scales: {
+        xAxes: [
           {
-            label: 'GitHub Commits',
-            backgroundColor: '#8799FF',
-            data: [
-              40,
-              20,
-              12,
-              39,
-              10,
-              40,
-              39,
-              80,
-              40,
-              20,
-              12,
-              11,
-              40,
-              20,
-              12,
-              39,
-              10,
-              40,
-              39,
-              80,
-              40,
-              20,
-              12,
-              11,
-            ],
+            display: false,
+            scaleLabel: {
+              display: false,
+            },
+          },
+        ],
+        yAxes: [
+          {
+            display: false,
+            scaleLabel: {
+              display: false,
+            },
           },
         ],
       },
-      {
-        barThickness: 5,
-        maintainAspectRatio: false,
-        legend: {
-          display: false,
-        },
-        elements: { point: { radius: 0 } },
-        scales: {
-          xAxes: [
-            {
-              display: false,
-              scaleLabel: {
-                display: false,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              display: false,
-              scaleLabel: {
-                display: false,
-              },
-            },
-          ],
-        },
-      },
-    )
+    })
   },
 }
 </script>

@@ -79,6 +79,11 @@ class Resource implements JsonSerializable
     protected $currentAction;
 
     /**
+     * @var boolean|null
+     */
+    protected $graphEnabled = null;
+
+    /**
      * Resource factory.
      *
      * @param Collection $data
@@ -94,6 +99,10 @@ class Resource implements JsonSerializable
         $instance->name = $data['name'];
 
         $instance->slug = str_slug($data['name']);
+
+        $instance->graphEnabled = isset($data['graph_enabled'])
+            ? $data['graph_enabled']
+            : null;
 
         $instance->abbreviation = $data['abbreviation'];
 

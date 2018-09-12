@@ -41,7 +41,7 @@ class Ping extends Base
             $result = $this->makeHealthyResult();
         }
 
-        return $result->setValue($latency)->setValueHuman("{$latency}s");
+        return $result->setValue($latency)->setValueHuman("{$latency}ms");
     }
 
     public function ping($hostname, $timeout = 5, $ttl = 128)
