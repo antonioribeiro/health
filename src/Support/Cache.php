@@ -29,7 +29,7 @@ class Cache
      */
     public function flush($force = false, $key = null)
     {
-        if (!isset($this->flushed[$key]) && ($force || $this->needsToFlush())) {
+        if (! isset($this->flushed[$key]) && ($force || $this->needsToFlush())) {
             try {
                 $this->forceFlush($key);
             } catch (Exception $exception) {
@@ -91,9 +91,8 @@ class Cache
      */
     protected function needsToFlush()
     {
-        return (
-            $this->cacheIsEnabled() && $this->getCurrentRequest()->get('flush')
-        );
+        return
+            $this->cacheIsEnabled() && $this->getCurrentRequest()->get('flush');
     }
 
     /**
@@ -124,11 +123,11 @@ class Cache
      */
     public function remember($key, \Closure $callback)
     {
-        if (!$this->cacheIsEnabled()) {
+        if (! $this->cacheIsEnabled()) {
             return $callback();
         }
 
-        $key = config('health.cache.key') . $key;
+        $key = config('health.cache.key').$key;
 
         $this->flush(false, $key);
 
