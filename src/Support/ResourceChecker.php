@@ -250,7 +250,7 @@ class ResourceChecker
      */
     public function getResources()
     {
-        return $this->loadResources();
+        return $this->sortResources($this->loadResources());
     }
 
     /**

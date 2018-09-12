@@ -2,7 +2,7 @@ name: Migrations Up to Date
 abbreviation: debug
 checker: PragmaRX\Health\Checkers\Artisan
 notify: true
-column_size: 2
+column_size: 3
 error_message: "Not all migrations were migrated"
 targets:
   - default:

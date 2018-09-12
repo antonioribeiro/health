@@ -1,7 +1,7 @@
 name: ServerUptime
 abbreviation: uptm
 checker: PragmaRX\Health\Checkers\ServerUptime
-column_size: 2
+column_size: 3
 notify: true
 error_message:
   'Looks like your server was recently rebooted, current uptime is now "%s" and it was "%s" before restart.'

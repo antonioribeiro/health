@@ -234,7 +234,9 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function mergeConfig()
     {
-        $this->mergeConfigFrom(config_path('/health/config.php'), 'health');
+        if (file_exists(config_path('/health/config.php'))) {
+            $this->mergeConfigFrom(config_path('/health/config.php'), 'health');
+        }
 
         $this->mergeConfigFrom(__DIR__.'/config/health.php', 'health');
     }

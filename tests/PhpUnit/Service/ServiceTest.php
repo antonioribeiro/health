@@ -92,7 +92,10 @@ class ServiceTest extends TestCase
     {
         $this->app = $app;
 
-        $this->app['config']->set('health.resources_location.path', package_resources_dir());
+        $this->app['config']->set(
+            'health.resources_location.path',
+            package_resources_dir()
+        );
     }
 
     public function setUp()
@@ -109,36 +112,34 @@ class ServiceTest extends TestCase
 
     public function testCacheFlush()
     {
-        $this->assertCheckedResources(
-            $this->getResources(true)
-        );
+        $this->assertCheckedResources($this->getResources(true));
     }
 
     public function testLoadArray()
     {
-        $this->app['config']->set('health.resources_location.type', \PragmaRX\Health\Support\Constants::RESOURCES_TYPE_ARRAY);
-
-        $this->assertCheckedResources(
-            $this->getResources(true)
+        $this->app['config']->set(
+            'health.resources_location.type',
+            \PragmaRX\Health\Support\Constants::RESOURCES_TYPE_ARRAY
         );
+
+        $this->assertCheckedResources($this->getResources(true));
     }
 
     public function testLoadFiles()
     {
-        $this->app['config']->set('health.resources_location.type', \PragmaRX\Health\Support\Constants::RESOURCES_TYPE_FILES);
-
-        $this->assertCheckedResources(
-            $this->getResources(true)
+        $this->app['config']->set(
+            'health.resources_location.type',
+            \PragmaRX\Health\Support\Constants::RESOURCES_TYPE_FILES
         );
+
+        $this->assertCheckedResources($this->getResources(true));
     }
 
     public function testUnsorted()
     {
         $this->app['config']->set('health.sort_by', null);
 
-        $this->assertCheckedResources(
-            $this->getResources(true)
-        );
+        $this->assertCheckedResources($this->getResources(true));
     }
 
     public function testInvalidEnabledResources()
@@ -164,19 +165,19 @@ class ServiceTest extends TestCase
     public function assertCheckedResources($resources)
     {
         $healthCount = $resources->reduce(function ($carry, $item) {
-            return $carry + (isset($item['health']['healthy'])
-                    ? 1
-                    : 0);
+            return $carry + (isset($item['health']['healthy']) ? 1 : 0);
         }, 0);
 
         $this->assertEquals(count(static::ALL_RESOURCES), $healthCount);
 
-        $failing = $resources
-            ->filter(function ($item) {
-                return $item['health']['healthy'];
-            });
+        $failing = $resources->filter(function ($item) {
+            return $item['health']['healthy'];
+        });
 
-        $this->assertGreaterThanOrEqual(static::RESOURCES_HEALTHY_EVERYWHERE, $failing->count());
+        $this->assertGreaterThanOrEqual(
+            static::RESOURCES_HEALTHY_EVERYWHERE,
+            $failing->count()
+        );
     }
 
     public function testInstantiation()
@@ -196,27 +197,33 @@ class ServiceTest extends TestCase
 
     public function testResourcesHasTheCorrectCount()
     {
-        $this->assertCount(count(static::ALL_RESOURCES), $this->getResources()->toArray());
+        $this->assertCount(
+            count(static::ALL_RESOURCES),
+            $this->getResources()->toArray()
+        );
     }
 
     public function testResourcesItemsMatchConfig()
     {
         $this->assertEquals(
-            collect(static::ALL_RESOURCES)->sort()->values()->toArray(),
-            $this->getResources()->keys()->map(function ($value) {
-                return strtolower($value);
-            })->sort()->values()->toArray()
+            collect(static::ALL_RESOURCES)
+                ->sort()
+                ->values()
+                ->toArray(),
+            $this->getResources()
+                ->keys()
+                ->map(function ($value) {
+                    return strtolower($value);
+                })
+                ->sort()
+                ->values()
+                ->toArray()
         );
     }
 
     public function testArtisanCommands()
     {
-        $commands = [
-            'panel',
-            'check',
-            'export',
-            'publish',
-        ];
+        $commands = ['panel', 'check', 'export', 'publish'];
 
         foreach ($commands as $command) {
             (new Commands($this->service))->$command();
@@ -229,7 +236,9 @@ class ServiceTest extends TestCase
     {
         $controller = new HealthController($this->service);
 
-        $this->assertCheckedResources(collect(json_decode($controller->check()->getContent(), true)));
+        $this->assertCheckedResources(
+            collect(json_decode($controller->check()->getContent(), true))
+        );
 
         foreach ($this->getResources() as $key => $resource) {
             $this->assertEquals($controller->resource($key)['name'], $key);
@@ -237,10 +246,19 @@ class ServiceTest extends TestCase
 
         $string = $controller->string()->getContent();
 
-        $this->assertTrue(strpos($string, config('health.string.ok').'-') !== false);
+        $this->assertTrue(
+            strpos($string, config('health.string.ok').'-') !== false
+        );
 
-        $this->assertTrue(strpos($string, config('health.string.fail').'-') !== false);
+        $this->assertTrue(
+            strpos($string, config('health.string.fail').'-') !== false
+        );
 
-        $this->assertTrue(strpos($controller->panel()->getContent(), '<title>'.config('health.title').'</title>') !== false);
+        $this->assertTrue(
+            strpos(
+                $controller->panel()->getContent(),
+                '<title>'.config('health.title').'</title>'
+            ) !== false
+        );
     }
 }

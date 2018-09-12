@@ -2,7 +2,7 @@ name: Broadcasting
 abbreviation: brdc
 checker: PragmaRX\Health\Checkers\Broadcasting
 notify: true
-column_size: 2
+column_size: 3
 error_message:
   "The broadcasting service did not respond in time, it may be in trouble."
 targets:

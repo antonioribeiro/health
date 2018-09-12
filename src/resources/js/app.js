@@ -1,27 +1,75 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap')
 
 window.Vue = require('vue')
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-Vue.component('example-component', require('./components/ExampleComponent.vue'))
+Vue.component('resource-target', require('./components/Target.vue'))
 
 const app = new Vue({
-  el: '#app',
+    el: '#app',
 
-  methods: {
-    clickBait() {
-      alert('bait')
+    data: {
+        resources: {},
+
+        config: {},
     },
-  },
+
+    methods: {
+        loadAllResources() {
+            me = this
+
+            axios.get('/health/resources').then(function(response) {
+                me.resources = response.data
+
+                me.checkAllResources()
+            })
+        },
+
+        checkAllResources() {
+            _.map(this.resources, this.checkResource)
+        },
+
+        checkResource(resource) {
+            if (!resource || resource.loading) {
+                return
+            }
+
+            this.$set(resource, 'loading', true)
+
+            axios
+                .get('/health/resources/' + resource.slug)
+                .then(function(response) {
+                    resource.targets = response.data.targets
+
+                    resource.loading = false
+                })
+        },
+
+        showResult(resource, target) {
+            const message = !target.result.healthy
+                ? target.result.errorMessage
+                : this.config.alert.success.message
+
+            const type = !target.result.healthy
+                ? this.config.alert.error.type
+                : this.config.alert.success.type
+
+            swal(resource.name, message, type)
+        },
+
+        loadConfig() {
+            me = this
+
+            return axios.get('/health/config').then(function(response) {
+                me.config = response.data
+            })
+        },
+    },
+
+    mounted() {
+        me = this
+
+        me.loadConfig().then(function() {
+            me.loadAllResources()
+        })
+    },
 })

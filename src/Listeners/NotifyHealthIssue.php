@@ -13,13 +13,17 @@ class NotifyHealthIssue
      */
     private function getNotifiableUsers()
     {
-        return collect(config('health.notifications.users.emails'))->map(function ($item) {
-            $model = instantiate(config('health.notifications.users.model'));
+        return collect(config('health.notifications.users.emails'))->map(
+            function ($item) {
+                $model = instantiate(
+                    config('health.notifications.users.model')
+                );
 
-            $model->email = $item;
+                $model->email = $item;
 
-            return $model;
-        });
+                return $model;
+            }
+        );
     }
 
     /**
