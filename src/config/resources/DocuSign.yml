@@ -1,7 +1,7 @@
 name: DocuSign
 abbreviation: dcsgn
 checker: PragmaRX\Health\Checkers\Docusign
-column_size: 2
+column_size: 3
 notify: true
 error_message: "A reboot is required in this server (Uptime Checker)"
 targets:

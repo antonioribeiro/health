@@ -8,7 +8,7 @@ json_result: true
 root_item: "installed"
 error_message:
   'There are %s outdated packages, please run composer outdated to see the full list'
-column_size: 2
+column_size: 3
 targets:
   - default:
       working_dir: "{{ base_path() }}"

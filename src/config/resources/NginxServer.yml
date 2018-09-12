@@ -1,7 +1,7 @@
 name: NginxServer
 abbreviation: ngnxsrvr
 checker: PragmaRX\Health\Checkers\Process
-column_size: 2
+column_size: 3
 notify: true
 targets:
   - default:

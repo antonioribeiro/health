@@ -70,10 +70,10 @@ class Commands
         if ($errors) {
             $this->error(
                 $command,
-                "Application needs attention, $errors ".
-                    str_plural('resouce', $errors).
-                    ' '.
-                    ($errors > 1 ? 'are' : 'is').
+                "Application needs attention, $errors " .
+                    str_plural('resouce', $errors) .
+                    ' ' .
+                    ($errors > 1 ? 'are' : 'is') .
                     ' currently failing.'
             );
 
@@ -99,7 +99,7 @@ class Commands
 
             unset($resource['columnSize']);
 
-            if (! file_exists($path)) {
+            if (!file_exists($path)) {
                 mkdir($path, 0660, true);
             }
 
@@ -107,11 +107,11 @@ class Commands
 
             file_put_contents(
                 $file =
-                    $path.DIRECTORY_SEPARATOR.studly_case($key).'.yml',
+                    $path . DIRECTORY_SEPARATOR . studly_case($key) . '.yml',
                 $dump
             );
 
-            $this->info($command, 'Exported '.$file);
+            $this->info($command, 'Exported ' . $file);
         });
     }
 
@@ -122,23 +122,23 @@ class Commands
         $yaml
             ->loadFromDirectory(package_resources_dir(), false)
             ->each(function ($value, $key) use ($command, $yaml) {
-                if (! file_exists($path = config('health.resources.path'))) {
+                if (!file_exists($path = config('health.resources.path'))) {
                     mkdir($path, 0755, true);
                 }
 
                 if (
                     file_exists(
-                        $file = $path.DIRECTORY_SEPARATOR.$key.'.yaml'
+                        $file = $path . DIRECTORY_SEPARATOR . $key . '.yaml'
                     )
                 ) {
-                    $this->warn($command, 'Skipped: '.$file);
+                    $this->warn($command, 'Skipped: ' . $file);
 
                     return;
                 }
 
                 file_put_contents($file, $yaml->dump($value));
 
-                $this->info($command, 'Saved: '.$file);
+                $this->info($command, 'Saved: ' . $file);
             });
     }
 
