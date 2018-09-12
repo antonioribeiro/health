@@ -79,7 +79,7 @@ class Resource implements JsonSerializable
     protected $currentAction;
 
     /**
-     * @var boolean|null
+     * @var bool|null
      */
     protected $graphEnabled = null;
 
