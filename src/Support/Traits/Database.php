@@ -62,13 +62,12 @@ trait Database
             'value_human' => $result->valueHuman,
         ]);
 
-        return
-            HealthCheck::where([
-                'resource_slug' => $target->resource->slug,
-                'target_name' => $target->name,
-            ])
-                ->orderBy('created_at', 'desc')
-                ->take(config('health.database.max_records'))
-                ->get();
+        return HealthCheck::where([
+            'resource_slug' => $target->resource->slug,
+            'target_name' => $target->name,
+        ])
+            ->orderBy('created_at', 'desc')
+            ->take(config('health.database.max_records'))
+            ->get();
     }
 }
