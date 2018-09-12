@@ -59,7 +59,7 @@ class Ping extends Base
      */
     protected function hosnameAndIp($hostname, $ipAdress)
     {
-        return $hostname.($hostname != $ipAdress ? " ({$ipAdress})" : '');
+        return $hostname . ($hostname != $ipAdress ? " ({$ipAdress})" : '');
     }
 
     /**
@@ -82,35 +82,35 @@ class Ping extends Base
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             // -n = number of pings; -i = ttl; -w = timeout (in milliseconds).
             $exec_string =
-                $this->pingBin.
-                ' -n 1 -i '.
-                $ttl.
-                ' -w '.
-                ($timeout * 1000).
-                ' '.
+                $this->pingBin .
+                ' -n 1 -i ' .
+                $ttl .
+                ' -w ' .
+                ($timeout * 1000) .
+                ' ' .
                 $host;
         } elseif (strtoupper(PHP_OS) === 'DARWIN') {
             // Exec string for Darwin based systems (OS X).
             // -n = numeric output; -c = number of pings; -m = ttl; -t = timeout.
             $exec_string =
-                $this->pingBin.
-                ' -n -c 1 -m '.
-                $ttl.
-                ' -t '.
-                $timeout.
-                ' '.
+                $this->pingBin .
+                ' -n -c 1 -m ' .
+                $ttl .
+                ' -t ' .
+                $timeout .
+                ' ' .
                 $host;
         } else {
             // Exec string for other UNIX-based systems (Linux).
             // -n = numeric output; -c = number of pings; -t = ttl; -W = timeout
             $exec_string =
-                $this->pingBin.
-                ' -n -c 1 -t '.
-                $ttl.
-                ' -W '.
-                $timeout.
-                ' '.
-                $host.
+                $this->pingBin .
+                ' -n -c 1 -t ' .
+                $ttl .
+                ' -W ' .
+                $timeout .
+                ' ' .
+                $host .
                 ' 2>&1';
         }
 
@@ -122,7 +122,7 @@ class Ping extends Base
         $output = array_values(array_filter($output));
 
         // If the result line in the output is not empty, parse it.
-        if (! empty($output[1])) {
+        if (!empty($output[1])) {
             // Search for a 'time' value in the result line.
             $response = preg_match(
                 "/time(?:=|<)(?<time>[\.0-9]+)(?:|\s)ms/",

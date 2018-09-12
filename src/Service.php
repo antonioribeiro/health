@@ -77,18 +77,6 @@ class Service
     }
 
     /**
-     * Get one resource.
-     *
-     * @param $slug
-     * @return mixed
-     * @throws \Exception
-     */
-    private function getResource($slug)
-    {
-        return $this->resourceChecker->getResourceBySlug($slug);
-    }
-
-    /**
      * Get a silent checker and notifier closure.
      *
      * @return \Closure
@@ -101,19 +89,6 @@ class Service
     }
 
     /**
-     * Check if server is healthy.
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    public function isHealthy()
-    {
-        return $this->checkResources()->reduce(function ($carry, $item) {
-            return $carry && $item->isHealthy();
-        }, true);
-    }
-
-    /**
      * Make a string result of all resources.
      *
      * @param $string
@@ -122,11 +97,12 @@ class Service
      */
     private function makeString($string, $checkSystem)
     {
-        return
-            $string.
+        return (
+            $string .
             ($checkSystem
                 ? config('health.string.ok')
-                : config('health.string.fail'));
+                : config('health.string.fail'))
+        );
     }
 
     /**
@@ -158,13 +134,14 @@ class Service
     public function string()
     {
         return collect($this->health())->reduce(function ($current, $resource) {
-            return
-                $current.
-                ($current ? config('health.string.glue') : '').
+            return (
+                $current .
+                ($current ? config('health.string.glue') : '') .
                 $this->makeString(
                     $resource->abbreviation,
                     $resource->isHealthy()
-                );
+                )
+            );
         });
     }
 }
