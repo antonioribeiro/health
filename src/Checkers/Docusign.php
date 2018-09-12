@@ -20,7 +20,7 @@ class Docusign extends Base
             return $this->makeResult(false, $this->target->notInstalledMessage);
         }
 
-        if (! $this->login()) {
+        if (!$this->login()) {
             throw new DomainException(
                 'Unable to authenticate to the DocuSign Api'
             );
@@ -31,7 +31,7 @@ class Docusign extends Base
 
     private function docusignIsNotInstalled()
     {
-        return ! class_exists(ApiClient::class);
+        return !class_exists(ApiClient::class);
     }
 
     private function getAccountIdFromLogin($login)

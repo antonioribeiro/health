@@ -75,7 +75,7 @@ class ServiceTest extends TestCase
      */
     private function getResources($force = false)
     {
-        if ($force || ! $this->resources) {
+        if ($force || !$this->resources) {
             $this->resources = $this->service->checkResources($force);
         }
 
@@ -229,7 +229,7 @@ class ServiceTest extends TestCase
             (new Commands($this->service))->$command();
         }
 
-        $this->assertFalse(! true);
+        $this->assertFalse(!true);
     }
 
     public function testController()
@@ -247,17 +247,17 @@ class ServiceTest extends TestCase
         $string = $controller->string()->getContent();
 
         $this->assertTrue(
-            strpos($string, config('health.string.ok').'-') !== false
+            strpos($string, config('health.string.ok') . '-') !== false
         );
 
         $this->assertTrue(
-            strpos($string, config('health.string.fail').'-') !== false
+            strpos($string, config('health.string.fail') . '-') !== false
         );
 
         $this->assertTrue(
             strpos(
                 $controller->panel()->getContent(),
-                '<title>'.config('health.title').'</title>'
+                '<title>' . config('health.title') . '</title>'
             ) !== false
         );
     }

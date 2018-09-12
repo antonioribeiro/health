@@ -122,11 +122,12 @@ class Service
      */
     private function makeString($string, $checkSystem)
     {
-        return
-            $string.
+        return (
+            $string .
             ($checkSystem
                 ? config('health.string.ok')
-                : config('health.string.fail'));
+                : config('health.string.fail'))
+        );
     }
 
     /**
@@ -158,13 +159,14 @@ class Service
     public function string()
     {
         return collect($this->health())->reduce(function ($current, $resource) {
-            return
-                $current.
-                ($current ? config('health.string.glue') : '').
+            return (
+                $current .
+                ($current ? config('health.string.glue') : '') .
                 $this->makeString(
                     $resource->abbreviation,
                     $resource->isHealthy()
-                );
+                )
+            );
         });
     }
 }
