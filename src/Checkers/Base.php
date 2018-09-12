@@ -39,7 +39,7 @@ abstract class Base implements Contract
     {
         $dir = dirname($fileName);
 
-        if (!file_exists($dir)) {
+        if (! file_exists($dir)) {
             mkdir($dir, 0775, true);
         }
     }
@@ -143,7 +143,7 @@ abstract class Base implements Contract
      */
     public function load()
     {
-        if (!file_exists($file = $this->getFileName())) {
+        if (! file_exists($file = $this->getFileName())) {
             return collect();
         }
 
@@ -161,7 +161,7 @@ abstract class Base implements Contract
             $data = $this->database->toArray();
         }
 
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             $data = $data->toArray();
         }
 
