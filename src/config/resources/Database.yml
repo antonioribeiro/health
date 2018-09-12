@@ -2,7 +2,7 @@ name: Database
 abbreviation: db
 checker: PragmaRX\Health\Checkers\Database
 notify: true
-column_size: 2
+column_size: 3
 targets:
   - users:
       type: "find_first_model"

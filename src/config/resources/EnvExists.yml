@@ -3,7 +3,7 @@ abbreviation: envexists
 checker: PragmaRX\Health\Checkers\DirectoryAndFilePresence
 notify: true
 error_message: "The .env file does not exists"
-column_size: 2
+column_size: 3
 targets:
   - default:
       file_exists:

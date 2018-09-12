@@ -3,7 +3,7 @@ abbreviation: rbtrqrd
 checker: PragmaRX\Health\Checkers\DirectoryAndFilePresence
 notify: true
 error_message: "A reboot is required in this server (Uptime Checker)"
-column_size: 2
+column_size: 3
 targets:
   - default:
       file_exists:

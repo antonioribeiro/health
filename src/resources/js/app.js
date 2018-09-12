@@ -45,9 +45,13 @@ const app = new Vue({
         },
 
         showResult(resource, target) {
-            const message = !target.result.healthy ? target.result.errorMessage : this.config.alert.success.message
+            const message = !target.result.healthy
+                ? target.result.errorMessage
+                : this.config.alert.success.message
 
-            const type = !target.result.healthy ? this.config.alert.error.type : this.config.alert.success.type
+            const type = !target.result.healthy
+                ? this.config.alert.error.type
+                : this.config.alert.success.type
 
             swal(resource.name, message, type)
         },
@@ -55,11 +59,9 @@ const app = new Vue({
         loadConfig() {
             me = this
 
-            return axios
-                .get('/health/config')
-                .then(function(response) {
-                    me.config = response.data
-                })
+            return axios.get('/health/config').then(function(response) {
+                me.config = response.data
+            })
         },
     },
 

@@ -2,7 +2,7 @@ name: QueueWorkers
 abbreviation: qwrkrs
 checker: PragmaRX\Health\Checkers\Process
 notify: true
-column_size: 2
+column_size: 3
 targets:
   - default:
       command: "ps aux | grep php | grep queue:work"

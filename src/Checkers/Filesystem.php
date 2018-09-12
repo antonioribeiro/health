@@ -18,7 +18,7 @@ class Filesystem extends Base
                 storage_path()
             );
 
-            if (! file_exists($file)) {
+            if (!file_exists($file)) {
                 return $this->makeResult(
                     false,
                     sprintf($this->target->getErrorMessage(), $file)
