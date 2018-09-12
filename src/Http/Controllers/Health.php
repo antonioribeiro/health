@@ -3,7 +3,6 @@
 namespace PragmaRX\Health\Http\Controllers;
 
 use PragmaRX\Health\Service;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 
@@ -34,33 +33,32 @@ class Health extends Controller
     {
         $this->healthService->setAction('check');
 
-        return response(
-            $this->healthService->health(),
-            $this->getReponseCode()
-        );
+        return response($this->healthService->health());
     }
 
     /**
-     * @return int
-     * @throws \Exception
-     */
-    private function getReponseCode()
-    {
-        $code = $this->healthService->isHealthy() ? 200 : 500;
-
-        return $code;
-    }
-
-    /**
+     * Check and get one resource.
+     *
      * @param $slug
      * @return mixed
      * @throws \Exception
      */
-    public function resource($slug)
+    public function getResource($slug)
     {
         $this->healthService->setAction('resource');
 
         return $this->healthService->resource($slug);
+    }
+
+    /**
+     * Get all resources.
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    public function allResources()
+    {
+        return $this->healthService->getResources();
     }
 
     /**
@@ -85,18 +83,7 @@ class Health extends Controller
     {
         $this->healthService->setAction('panel');
 
-        $view = view(
-            config(
-                ($health = $this->healthService->health())->isEmpty()
-                    ? 'health.views.empty-panel'
-                    : 'health.views.panel'
-            ),
-            [
-                'health' => $health,
-            ]
-        );
-
-        return response((string) $view, $this->getReponseCode());
+        return response((string) view(config('health.views.panel')));
     }
 
     public function assetAppJs()
@@ -119,5 +106,10 @@ class Health extends Controller
         $response->header('Content-Type', 'text/css');
 
         return $response;
+    }
+
+    public function config()
+    {
+        return config('health');
     }
 }

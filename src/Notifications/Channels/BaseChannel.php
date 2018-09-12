@@ -9,12 +9,9 @@ abstract class BaseChannel implements Contract
     private function getActionMessage($item)
     {
         return isset($item['action_message'])
-                ? $item['action_message']
-                : (
-                        config('health.notifications.action_message')
-                        ?:
-                        config('health.notifications.action-message') /// TODO: deprecate
-                    );
+            ? $item['action_message']
+            : (config('health.notifications.action_message')
+                ?: config('health.notifications.action-message')); /// TODO: deprecate
     }
 
     /**

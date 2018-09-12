@@ -1,6 +1,5 @@
 <style>
     body {
-        background-color: #fff;
         padding-top: {{ 30 * config('health.style.multiplier', 1) }}px;
         padding-bottom: {{ 20 * config('health.style.multiplier', 1) }}px;
         font-family: 'Ubuntu', sans-serif;

@@ -9,8 +9,6 @@ class TestCase extends OrchestraTestCase
 {
     protected function getPackageProviders($app)
     {
-        return [
-            HealthServiceProvider::class,
-        ];
+        return [HealthServiceProvider::class];
     }
 }

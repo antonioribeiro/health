@@ -2,7 +2,7 @@ name: Debug Mode
 abbreviation: debug
 checker: PragmaRX\Health\Checkers\Expression
 notify: true
-column_size: 2
+column_size: 3
 error_message: "Application is in debug mode"
 targets:
   - default:

@@ -3,7 +3,7 @@ abbreviation: csh
 checker: PragmaRX\Health\Checkers\Cache
 notify: true
 error_message: "Cache is not returning cached values."
-column_size: 2
+column_size: 3
 targets:
   - default:
       minutes: 1

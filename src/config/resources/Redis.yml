@@ -1,7 +1,7 @@
 name: Redis
 abbreviation: rds
 checker: PragmaRX\Health\Checkers\Redis
-column_size: 2
+column_size: 3
 notify: true
 error_message: "Got a wrong value back from Redis."
 targets:

@@ -9,10 +9,6 @@ return [
         'enabled' => PragmaRX\Health\Support\Constants::RESOURCES_ENABLED_ALL,
     ],
 
-    'columns' => [
-        'default_size' => 2,
-    ],
-
     'sort_by' => 'slug',
 
     'cache' => [
@@ -107,9 +103,17 @@ return [
     ],
 
     'style' => [
+        'columnSize' => 2,
+
         'button_lines' => 'multi', // multi or single
 
         'multiplier' => 0.4,
+
+        'opacity' => [
+            'healthy' => '0.4',
+
+            'failing' => '1',
+        ],
     ],
 
     'views' => [
@@ -128,78 +132,71 @@ return [
         'fail' => 'FAIL',
     ],
 
-    'actions' => [
-        'panel' => $action_panel = 'PragmaRX\Health\Http\Controllers\Health@panel',
-
-        'check' => $action_check = 'PragmaRX\Health\Http\Controllers\Health@check',
-
-        'string' => $action_string = 'PragmaRX\Health\Http\Controllers\Health@string',
-
-        'resource' => $action_resource =
-                'PragmaRX\Health\Http\Controllers\Health@resource',
-
-        'app.css' => $action_asset_app_css =
-                'PragmaRX\Health\Http\Controllers\Health@assetAppCss',
-
-        'app.js' => $action_asset_app_js =
-                'PragmaRX\Health\Http\Controllers\Health@assetAppJs',
-    ],
-
     'routes' => [
         'prefix' => $route_prefix = '/health',
 
-        'suffixes' => [
-            'panel' => $route_suffix_panel = '/panel',
-            'check' => $route_suffix_check = '/check',
-            'string' => $route_suffix_string = '/string',
-            'resource' => $route_suffix_resource = '/resource',
-            'assets' => $route_suffix_assets = '/assets',
-        ],
+        'namespace' => $namespace = 'PragmaRX\Health\Http\Controllers\Health',
+
+        'name_prefix' => $name_prefix = 'pragmarx.health',
 
         'notification' => 'pragmarx.health.panel',
 
         'list' => [
             [
-                'uri' => $route_prefix.$route_suffix_panel,
-                'name' => 'pragmarx.health.panel',
-                'action' => $action_panel,
+                'uri' => "{$route_prefix}/panel",
+                'name' => "{$name_prefix}.panel",
+                'action' => "{$namespace}@panel",
                 'middleware' => [
                     /*'auth.basic'*/
                 ],
             ],
 
             [
-                'uri' => $route_prefix.$route_suffix_check,
-                'name' => 'pragmarx.health.check',
-                'action' => $action_check,
+                'uri' => "{$route_prefix}/check",
+                'name' => "{$name_prefix}.check",
+                'action' => "{$namespace}@check",
                 'middleware' => [],
             ],
 
             [
-                'uri' => $route_prefix.$route_suffix_string,
-                'name' => 'pragmarx.health.string',
-                'action' => $action_string,
+                'uri' => "{$route_prefix}/string",
+                'name' => "{$name_prefix}.string",
+                'action' => "{$namespace}@string",
                 'middleware' => [],
             ],
 
             [
-                'uri' => "{$route_prefix}{$route_suffix_resource}/{slug}",
-                'name' => 'pragmarx.health.resource',
-                'action' => $action_resource,
+                'uri' => "{$route_prefix}/resources",
+                'name' => "{$name_prefix}.resources.all",
+                'action' => "{$namespace}@allResources",
                 'middleware' => [],
             ],
 
             [
-                'uri' => "{$route_prefix}{$route_suffix_assets}/css/app.css",
-                'name' => 'pragmarx.health.assets.css',
-                'action' => $action_asset_app_css,
+                'uri' => "{$route_prefix}/resources/{slug}",
+                'name' => "{$name_prefix}.resources.get",
+                'action' => "{$namespace}@getResource",
                 'middleware' => [],
             ],
 
             [
-                'uri' => "{$route_prefix}{$route_suffix_assets}/js/app.js",
-                'name' => 'pragmarx.health.assets.js',
-                'action' => $action_asset_app_js,
+                'uri' => "{$route_prefix}/assets/css/app.css",
+                'name' => "{$name_prefix}.assets.css",
+                'action' => "{$namespace}@assetAppCss",
+                'middleware' => [],
+            ],
+
+            [
+                'uri' => "{$route_prefix}/assets/js/app.js",
+                'name' => "{$name_prefix}.assets.js",
+                'action' => "{$namespace}@assetAppJs",
+                'middleware' => [],
+            ],
+
+            [
+                'uri' => "{$route_prefix}/config",
+                'name' => "{$name_prefix}.config",
+                'action' => "{$namespace}@config",
                 'middleware' => [],
             ],
         ],

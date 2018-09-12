@@ -3,6 +3,7 @@
 namespace PragmaRX\Health\Support;
 
 use JsonSerializable;
+use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Support\Traits\ToArray;
 use PragmaRX\Health\Events\RaiseHealthIssue;
@@ -11,6 +12,11 @@ use PragmaRX\Health\Support\Traits\ImportProperties;
 class Resource implements JsonSerializable
 {
     use ToArray, ImportProperties;
+
+    /**
+     * @var string
+     */
+    public $id;
 
     /**
      * @var string
@@ -38,9 +44,9 @@ class Resource implements JsonSerializable
     public $errorMessage;
 
     /**
-     * @var int
+     * @var array
      */
-    public $columnSize;
+    public $style;
 
     /**
      * @var bool
@@ -65,22 +71,25 @@ class Resource implements JsonSerializable
     /**
      * @var bool
      */
-    private $notified;
+    protected $notified;
 
     /**
      * @var string
      */
-    private $currentAction;
+    protected $currentAction;
 
     /**
      * Resource factory.
      *
      * @param Collection $data
      * @return resource
+     * @throws \Exception
      */
     public static function factory(Collection $data)
     {
         $instance = new static();
+
+        $instance->id = (string) Uuid::uuid4();
 
         $instance->name = $data['name'];
 
@@ -95,8 +104,10 @@ class Resource implements JsonSerializable
         $instance->notify =
             $data['notify'] ?? config('health.notifications.enabled');
 
-        $instance->columnSize =
-            $data['column_size'] ?? config('health.columns.default_size');
+        $instance->style = $instance->keysToCamel(config('health.style'));
+
+        $instance->style['columnSize'] =
+            $data['column_size'] ?? $instance->style['columnSize'];
 
         $instance->errorMessage =
             $data['error_message'] ?? config('health.errors.message');
@@ -189,6 +200,13 @@ class Resource implements JsonSerializable
         return $this->targets->reduce(function ($carry, $target) {
             return $carry && $target->result->healthy;
         }, true);
+    }
+
+    protected function keysToCamel($array)
+    {
+        return collect($array)->mapWithKeys(function ($item, $key) {
+            return [camel_case($key) => $item];
+        });
     }
 
     /**

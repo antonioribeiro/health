@@ -2,8 +2,6 @@
 
 @section('head')
     <link rel="stylesheet" href="/health/assets/css/app.css">
-
-    <script src="/health/assets/js/app.js"></script>
 @stop
 
 @section('body')
@@ -15,5 +13,9 @@
 
     @yield('html.footer')
 
-    @yield('scripts')
+    <script src="/health/assets/js/app.js"></script>
+
+    @if (config('app.env') == 'local')
+        <script src="http://localhost:35729/livereload.js"></script>
+    @endif
 @stop

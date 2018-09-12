@@ -3,6 +3,7 @@
 namespace PragmaRX\Health\Support;
 
 use JsonSerializable;
+use Ramsey\Uuid\Uuid;
 use PragmaRX\Health\Support\Traits\ToArray;
 use Illuminate\Database\Eloquent\Collection;
 use PragmaRX\Health\Support\Traits\ImportProperties;
@@ -10,6 +11,11 @@ use PragmaRX\Health\Support\Traits\ImportProperties;
 class Target implements JsonSerializable
 {
     use ToArray, ImportProperties;
+
+    /**
+     * @var string
+     */
+    public $id;
 
     /**
      * @var string
@@ -62,6 +68,8 @@ class Target implements JsonSerializable
     public static function factory($resource, $data, $name = null)
     {
         $instance = new static();
+
+        $instance->id = (string) Uuid::uuid4();
 
         $instance->name = self::makeName($data, $name);
 
@@ -153,7 +161,7 @@ class Target implements JsonSerializable
      */
     protected function moveChecksBackToTarget()
     {
-        if ($this->result->checks) {
+        if (isset($this->result->checks)) {
             $this->checks = $this->result->checks;
 
             unset($this->result->checks);

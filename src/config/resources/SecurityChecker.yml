@@ -2,6 +2,6 @@ name: Packages Security Checker
 abbreviation: debug
 checker: PragmaRX\Health\Checkers\SecurityChecker
 notify: true
-column_size: 2
+column_size: 3
 error_message:
   "The following packages have vulnerabilities referenced in the SensioLabs security advisories database: %s"

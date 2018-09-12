@@ -5,7 +5,7 @@ notify: true
 binary: /sbin/ping
 error_message:
   'The host "%s" exceeded the maximum accepted latency on ping: last ping was %s, accepted is %s'
-column_size: 2
+column_size: 3
 targets:
   - server:
       name: rio de janeiro servers

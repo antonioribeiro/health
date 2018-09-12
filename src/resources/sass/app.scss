@@ -8,7 +8,72 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+body {
+  background-color: #FFFEEA;
+}
+
 .navbar-laravel {
-  background-color: #fff;
+  background-color: rgba(239, 204, 18, 0.14);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.title {
+  font-size: 1.2em;
+  font-weight: 100;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  position: relative;
+}
+
+.subtitle {
+  line-height: 10px;
+  font-size: 1em;
+  color: blue;
+  margin-bottom: 1px;
+}
+
+.nav-button {
+  margin: 0 !important;
+}
+
+.target-card {
+  border-color: #bdbdbd !important;
+  background-color: white;
+}
+
+.shadow {
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+}
+
+.color-neutral {
+  color: blue;
+  fill: blue;
+}
+
+.color-success {
+  color: green;
+  fill: green;
+}
+
+.color-danger {
+  color: #FFA8C4;
+  fill: red;
+}
+
+.color-neutral-background {
+}
+
+.color-success-background {
+}
+
+.color-danger-background {
+  background-color: #FFE5C4;
+}
+
+.info-icon {
+  width: 1.2em;
+}
+
+.chart {
+  max-height: 90px;
 }

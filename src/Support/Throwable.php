@@ -1,7 +1,6 @@
 <?php
 
-namespace
-{
+namespace  {
     if (! interface_exists('Throwable')) {
         interface Throwable
         {

@@ -3,7 +3,7 @@ abbreviation: load
 checker: PragmaRX\Health\Checkers\ServerLoad
 error_message:
   'Your server might be overloaded, current server load values are "%s, %s and %s", which are above the threshold values: "%s, %s and %s".'
-column_size: 2
+column_size: 3
 notify: true
 targets:
   - default:
