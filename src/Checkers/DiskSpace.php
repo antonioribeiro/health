@@ -15,7 +15,7 @@ class DiskSpace extends Base
     {
         $free = disk_free_space($this->target->path);
 
-        if (!$this->isEnough($free, $this->target->minimum)) {
+        if (! $this->isEnough($free, $this->target->minimum)) {
             return $this->makeResult(
                 false,
                 sprintf(

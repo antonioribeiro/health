@@ -45,7 +45,7 @@ class Http extends Base
                     $this->secure
                 );
 
-                if (!$healthy) {
+                if (! $healthy) {
                     return $this->makeResult($healthy, $message);
                 }
             }
@@ -169,7 +169,7 @@ class Http extends Base
     {
         return preg_replace(
             '|^((https?:)?\/\/)?(.*)|',
-            'http' . ($secure ? 's' : '') . '://\\3',
+            'http'.($secure ? 's' : '').'://\\3',
             $url
         );
     }
@@ -196,10 +196,9 @@ class Http extends Base
      */
     private function requestSuccessful($url, $ssl)
     {
-        return (
+        return
             $this->fetchResponse($url, $ssl)->getStatusCode() == 200 &&
-            !$this->requestTimedout()
-        );
+            ! $this->requestTimedout();
     }
 
     /**
