@@ -77,18 +77,18 @@ class Commands
         $checker = $this->healthService->getSilentChecker();
 
         $errors = $this->getTargetsFomResources($checker()->filter(function ($resource) {
-                        return !$resource->isGlobal;
-                    }))->reduce(function ($carry, $target) {
-                        return $carry + ($target->result->healthy ? 0 : 1);
-                    }, 0);
+            return ! $resource->isGlobal;
+        }))->reduce(function ($carry, $target) {
+            return $carry + ($target->result->healthy ? 0 : 1);
+        }, 0);
 
         if ($errors) {
             $this->error(
                 $command,
-                "Application needs attention, $errors " .
-                    str_plural('resouce', $errors) .
-                    ' ' .
-                    ($errors > 1 ? 'are' : 'is') .
+                "Application needs attention, $errors ".
+                    str_plural('resouce', $errors).
+                    ' '.
+                    ($errors > 1 ? 'are' : 'is').
                     ' currently failing.'
             );
         } else {
