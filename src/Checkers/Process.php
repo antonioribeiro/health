@@ -20,7 +20,7 @@ class Process extends Base
     {
         $message = $this->checkMinMax($this->getProcessesRunningCount());
 
-        if (!empty($message)) {
+        if (! empty($message)) {
             return $this->makeResult(false, $message);
         }
 
@@ -37,7 +37,7 @@ class Process extends Base
     {
         $instances = $this->target->instances;
 
-        if (!$count = (int) $instances[$type]['count']) {
+        if (! $count = (int) $instances[$type]['count']) {
             return '';
         }
 
@@ -101,7 +101,7 @@ class Process extends Base
 
             fclose($filePointer);
 
-            if (!$locked) {
+            if (! $locked) {
                 throw new DomainException(
                     sprintf($this->target->pid_file_missing_not_locked, $file)
                 );
