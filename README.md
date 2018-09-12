@@ -20,33 +20,49 @@ This package checks if the application resources are running as they should and 
 
 Heath has pre-configured resource checkers for the following services:
 
-- Broadcasting    
-- Cache           
-- Database        
-- DocuSign        
-- Filesystem      
-- Framework       
-- Health          
-- Http            
-- Https           
-- LaravelServices 
-- LocalStorage    
-- Mail            
-- MySql           
-- NewrelicDeamon  
-- NginxServer     
-- Php             
+- AppKey
+- Broadcasting
+- Cache
+- ConfigurationCached
+- Database
+- DebugMode
+- DirectoryPermissions
+- DiskSpace
+- DocuSign
+- ElasticsearchConnectable
+- EnvExists
+- Filesystem
+- Framework
+- Http
+- Https
+- LaravelServices
+- Latency
+- LocalStorage
+- Mail
+- MailgunConnectable
+- MemcachedConnectable
+- MigrationsUpToDate
+- MySql
+- MySqlConnectable
+- NewrelicDeamon
+- NginxServer
+- PackagesUpToDate
+- Php
+- PostgreSqlConnectable
 - PostgreSqlServer
-- Queue           
-- QueueWorkers    
-- RebootRequired  
-- Redis           
-- RedisServer     
-- S3              
-- ServerLoad      
-- ServerUptime    
-- Sshd            
-- Supervisor      
+- Queue
+- QueueWorkers
+- RebootRequired
+- Redis
+- RedisConnectable
+- RedisServer
+- RoutesCached
+- S3
+- SecurityChecker
+- ServerLoad
+- ServerUptime
+- Sshd
+- Supervisor
  
 But you can add anything else you need!
 
@@ -90,7 +106,7 @@ Creating new resources monitors is easy, just create a new YAML file in app's co
 
 ### Panel
 
-![default panel](docs/images/error-multi.png)
+![default panel](docs/images/panel.png)
 
 ### Panel alternate design
 
