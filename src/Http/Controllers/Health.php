@@ -70,8 +70,7 @@ class Health extends Controller
         $this->healthService->setAction('string');
 
         return response(
-            $this->healthService->string(),
-            $this->getReponseCode()
+            $this->healthService->string()
         );
     }
 

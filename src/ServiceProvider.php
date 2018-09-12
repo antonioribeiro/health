@@ -81,10 +81,10 @@ class ServiceProvider extends IlluminateServiceProvider
     {
         $this->publishes(
             [
-                __DIR__.'/config/health.php' => config_path(
+                __DIR__ . '/config/health.php' => config_path(
                     'health/config.php'
                 ),
-                __DIR__.'/config/resources/' => config_path(
+                __DIR__ . '/config/resources/' => config_path(
                     'health/resources/'
                 ),
             ],
@@ -93,7 +93,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->publishes(
             [
-                __DIR__.'/resources/views/' => resource_path(
+                __DIR__ . '/resources/views/' => resource_path(
                     'views/vendor/pragmarx/health/'
                 ),
             ],
@@ -102,7 +102,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->publishes(
             [
-                __DIR__.'/database/migrations/' => database_path(
+                __DIR__ . '/database/migrations/' => database_path(
                     'migrations'
                 ),
             ],
@@ -116,7 +116,7 @@ class ServiceProvider extends IlluminateServiceProvider
     private function configureViews()
     {
         $this->loadViewsFrom(
-            realpath(__DIR__.'/resources/views'),
+            realpath(__DIR__ . '/resources/views'),
             'pragmarx/health'
         );
     }
@@ -167,16 +167,6 @@ class ServiceProvider extends IlluminateServiceProvider
         };
 
         return $cacheClosure;
-    }
-
-    /**
-     * Return the health service.
-     *
-     * @return mixed
-     */
-    public function getHealthService()
-    {
-        return $this->healthService;
     }
 
     /**
@@ -238,7 +228,7 @@ class ServiceProvider extends IlluminateServiceProvider
             $this->mergeConfigFrom(config_path('/health/config.php'), 'health');
         }
 
-        $this->mergeConfigFrom(__DIR__.'/config/health.php', 'health');
+        $this->mergeConfigFrom(__DIR__ . '/config/health.php', 'health');
     }
 
     /**
@@ -290,14 +280,6 @@ class ServiceProvider extends IlluminateServiceProvider
         Artisan::command('health:check', function () use ($commands) {
             $commands->check($this);
         })->describe('Check resources health and send error notifications.');
-
-        Artisan::command('health:export', function () use ($commands) {
-            $commands->export($this);
-        })->describe('Export "array" resources to .yml files');
-
-        Artisan::command('health:publish', function () use ($commands) {
-            $commands->publish($this);
-        })->describe('Publish all .yml resouces files to config directory.');
     }
 
     /**
