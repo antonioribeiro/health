@@ -45,7 +45,7 @@ class HealthStatus extends Notification
 
         return instantiate(
             config(
-                'health.notifications.channels.' . strtolower($name) . '.sender'
+                'health.notifications.channels.'.strtolower($name).'.sender'
             )
         );
     }
@@ -71,8 +71,6 @@ class HealthStatus extends Notification
         if (isset($this->item->$name)) {
             return $this->item->$name;
         }
-
-        return null;
     }
 
     /**
