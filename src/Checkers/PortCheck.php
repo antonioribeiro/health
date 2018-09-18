@@ -32,7 +32,7 @@ class PortCheck extends Base
      */
     protected function hosnameAndIp($hostname, $ipAdress)
     {
-        return $hostname.($hostname != $ipAdress ? " ({$ipAdress})" : '');
+        return $hostname . ($hostname != $ipAdress ? " ({$ipAdress})" : '');
     }
 
     /**
@@ -41,7 +41,7 @@ class PortCheck extends Base
      * @param bool $ipAddress
      * @return Result
      */
-    protected function makeFinalResult($ipAddress): Result
+    protected function makeFinalResult($ipAddress)
     {
         return $this->target->setResult(
             $this->makeResult(
@@ -72,9 +72,9 @@ class PortCheck extends Base
      * @param $ipAddress
      * @return bool
      */
-    protected function portIsNotConnectable($ipAddress): bool
+    protected function portIsNotConnectable($ipAddress)
     {
-        return ! $this->portCheck(
+        return !$this->portCheck(
             $ipAddress,
             $this->target->port,
             $this->target->timeout ?? 1

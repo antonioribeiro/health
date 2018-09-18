@@ -33,6 +33,7 @@ Heath has pre-configured resource checkers for the following services:
 - EnvExists
 - Filesystem
 - Framework
+- Horizon
 - Http
 - Https
 - LaravelServices
@@ -63,6 +64,24 @@ Heath has pre-configured resource checkers for the following services:
 - ServerUptime
 - Sshd
 - Supervisor
+
+- AppKey
+- ConfigurationCached
+- DebugMode
+- DirectoryPermissions
+- DiskSpace
+- ElasticsearchConnectable
+- EnvExists
+- Horizon
+- Latency
+- LocalStorage
+- MailgunConnectable
+- MemcachedConnectable
+- MigrationsUpToDate
+- PackagesUpToDate
+- Php Version
+- RoutesCached
+- SecurityChecker
  
 But you can add anything else you need!
 
