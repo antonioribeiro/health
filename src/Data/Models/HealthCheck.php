@@ -12,6 +12,7 @@ class HealthCheck extends Model
         'resource_name',
         'resource_slug',
         'target_name',
+        'target_slug',
         'target_display',
         'healthy',
         'error_message',
