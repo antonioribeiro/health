@@ -53,7 +53,8 @@ return [
 
         'action-title' => 'View App Health',
 
-        'action_message' => "The '%s' service is in trouble and needs attention%s",
+        'action_message' =>
+            "The '%s' service is in trouble and needs attention%s",
 
         'from' => [
             'name' => 'Laravel Health Checker',
@@ -75,21 +76,7 @@ return [
             'emails' => ['admin@mydomain.com'],
         ],
 
-        'channels' => [
-            'mail' => [
-                'enabled' => true,
-                'sender' => PragmaRX\Health\Notifications\Channels\Mail::class,
-            ],
-
-            'slack' => [
-                'enabled' => true,
-                'sender' => PragmaRX\Health\Notifications\Channels\Slack::class,
-            ],
-
-            'facebook' => [
-                'enabled' => false,
-            ],
-        ],
+        'channels' => ['mail', 'slack'], // mail, slack
 
         'notifier' => 'PragmaRX\Health\Notifications',
     ],

@@ -175,11 +175,14 @@ class Resource implements JsonSerializable
     /**
      * Check all targets for a resource.
      *
+     * @param string $action
      * @return resource
      */
-    public function check()
+    public function check($action = 'resource')
     {
-        $this->targets->each(function (Target $target) {
+        $this->setCurrentAction($action)->targets->each(function (
+            Target $target
+        ) {
             $target->check($target);
         });
 
@@ -241,7 +244,6 @@ class Resource implements JsonSerializable
             try {
                 event(new RaiseHealthIssue($this, $channel));
             } catch (\Exception $exception) {
-                // Notifications are broken, just report it
                 report($exception);
             }
         });
@@ -254,10 +256,11 @@ class Resource implements JsonSerializable
      */
     protected function canNotify()
     {
-        return
-            ! $this->notified &&
+        return (
+            !$this->notified &&
             $this->notificationsAreEnabled() &&
-            ! $this->isHealthy();
+            !$this->isHealthy()
+        );
     }
 
     /**
@@ -267,10 +270,24 @@ class Resource implements JsonSerializable
      */
     protected function notificationsAreEnabled()
     {
-        return
+        return (
             $this->notify &&
             config('health.notifications.enabled') &&
-            config('health.notifications.notify_on.'.$this->currentAction);
+            config('health.notifications.notify_on.' . $this->currentAction)
+        );
+    }
+
+    /**
+     * Set current action.
+     *
+     * @param string $currentAction
+     * @return Resource
+     */
+    public function setCurrentAction(string $currentAction)
+    {
+        $this->currentAction = $currentAction;
+
+        return $this;
     }
 
     /**
