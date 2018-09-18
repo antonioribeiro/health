@@ -60,33 +60,7 @@ class ServiceTest extends TestCase
         'Supervisor',
     ];
 
-    const RESOURCES_HEALTHY = [
-        'Cache',
-        'Debug Mode',
-        'Directory Permissions',
-        'Disk Space',
-        'Filesystem',
-        'Framework',
-        'LaravelServices',
-        'LocalStorage',
-        'Mail',
-        'Mailgun Connectable',
-        'Memcached Connectable',
-        'MySql',
-        'MySQL Connectable',
-        'Packages up to date',
-        'PostgreSqlConnectable',
-        'PostgreSqlServer',
-        'Php',
-        'Queue',
-        'QueueWorkers',
-        'RebootRequired',
-        'Redis',
-        'Redis Connectable',
-        'RedisServer',
-        'ServerUptime',
-        'Supervisor',
-    ];
+    const RESOURCES_HEALTHY = 18;
 
     const RESOURCES_FAILING = [
         'AppKey',
@@ -226,7 +200,7 @@ class ServiceTest extends TestCase
         }, 0);
 
         $this->assertGreaterThanOrEqual(
-            count(static::RESOURCES_HEALTHY),
+            static::RESOURCES_HEALTHY,
             $healthCount
         );
 
