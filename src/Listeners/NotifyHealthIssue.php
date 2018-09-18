@@ -36,7 +36,7 @@ class NotifyHealthIssue
     {
         try {
             $event->failure->targets->each(function ($target) use ($event) {
-                if (!$target->result->healthy) {
+                if (! $target->result->healthy) {
                     Notification::send(
                         $this->getNotifiableUsers(),
                         new HealthStatus($target, $event->channel)

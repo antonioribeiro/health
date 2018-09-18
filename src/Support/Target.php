@@ -149,12 +149,11 @@ class Target implements JsonSerializable
      */
     protected static function makeName($data, $name)
     {
-        return (
+        return
             (
                 $data['name'] ??
                     ($name !== 'default' ? $name : ($data['hostname'] ?? null))
-            ) ?? 'default'
-        );
+            ) ?? 'default';
     }
 
     /**
