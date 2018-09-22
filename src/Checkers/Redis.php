@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Redis as IlluminateRedis;
 use PragmaRX\Health\Support\Result;
+use Illuminate\Support\Facades\Redis as IlluminateRedis;
 
 class Redis extends Base
 {
