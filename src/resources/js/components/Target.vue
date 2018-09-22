@@ -72,122 +72,125 @@
 Vue.component('target-chart', require('./Chart.vue'))
 
 export default {
-  props: ['resource', 'target', 'config'],
+    props: ['resource', 'target', 'config'],
 
-  computed: {
-    colorClass() {
-      return !this.target.result
-        ? 'color-neutral'
-        : this.target.result.healthy
-          ? 'color-success'
-          : 'color-danger'
+    computed: {
+        colorClass() {
+            return !this.target.result
+                ? 'color-neutral'
+                : this.target.result.healthy
+                    ? 'color-success'
+                    : 'color-danger'
+        },
+
+        colorClassBackground() {
+            return this.colorClass + '-background'
+        },
+
+        graphLabels() {
+            let labels = []
+
+            _.forEach(this.target.checks, function(check) {
+                labels.push(
+                    check.value_human
+                        ? check.value_human
+                        : check.target_display,
+                )
+            })
+
+            return labels
+        },
+
+        graphData() {
+            let data = []
+
+            _.forEach(this.target.checks, function(check) {
+                data.push(check.value ? check.value : check.runtime)
+            })
+
+            return data
+        },
+
+        graphBackgrounds() {
+            let colors = []
+
+            _.forEach(this.target.checks, function(check) {
+                colors.push(check.healthy ? '#8cca82' : '#FF7C74')
+            })
+
+            return colors
+        },
+
+        chartData() {
+            if (!this.graphsAreEnabled()) {
+                return this.emptyGraphData()
+            }
+
+            return this.generateGraphData()
+        },
     },
 
-    colorClassBackground() {
-      return this.colorClass + '-background'
+    methods: {
+        barClicked(activeElement) {
+            const check = this.target.checks[activeElement[0]._index]
+
+            this.showResultAlert(
+                check.resource_name,
+                check.error_message,
+                check.healthy,
+            )
+        },
+
+        generateGraphData() {
+            return {
+                labels: this.graphLabels,
+                datasets: [
+                    {
+                        backgroundColor: this.graphBackgrounds,
+                        data: this.graphData,
+                    },
+                ],
+            }
+        },
+
+        graphsAreEnabled() {
+            return (
+                this.config.database.enabled &&
+                (this.config.database.graphs.enabled ||
+                    this.config.database.graphs.enabled !==
+                        this.resource.graphEnabled)
+            )
+        },
+
+        emptyGraphData() {
+            return {
+                labels: [],
+                datasets: [
+                    {
+                        backgroundColor: [],
+                        data: [],
+                    },
+                ],
+            }
+        },
+
+        showResult() {
+            this.showResultAlert(
+                this.resource.name,
+                this.target.result.errorMessage,
+                this.target.result.healthy,
+            )
+        },
+
+        showResultAlert(name, message, healthy) {
+            message = !healthy ? message : this.config.alert.success.message
+
+            const type = !healthy
+                ? this.config.alert.error.type
+                : this.config.alert.success.type
+
+            swal(name, message, type)
+        },
     },
-
-    graphLabels() {
-      let labels = []
-
-      _.forEach(this.target.checks, function(check) {
-        labels.push(
-          check.value_human ? check.value_human : check.target_display,
-        )
-      })
-
-      return labels
-    },
-
-    graphData() {
-      let data = []
-
-      _.forEach(this.target.checks, function(check) {
-        data.push(check.value ? check.value : check.runtime)
-      })
-
-      return data
-    },
-
-    graphBackgrounds() {
-      let colors = []
-
-      _.forEach(this.target.checks, function(check) {
-        colors.push(check.healthy ? '#8cca82' : '#FF7C74')
-      })
-
-      return colors
-    },
-
-    chartData() {
-      if (!this.graphsAreEnabled()) {
-        return this.emptyGraphData()
-      }
-
-      return this.generateGraphData()
-    },
-  },
-
-  methods: {
-    barClicked(activeElement) {
-      const check = this.target.checks[activeElement[0]._index]
-
-      this.showResultAlert(
-        check.resource_name,
-        check.error_message,
-        check.healthy,
-      )
-    },
-
-    generateGraphData() {
-      return {
-        labels: this.graphLabels,
-        datasets: [
-          {
-            backgroundColor: this.graphBackgrounds,
-            data: this.graphData,
-          },
-        ],
-      }
-    },
-
-    graphsAreEnabled() {
-      return (
-        this.config.database.enabled &&
-        (this.config.database.graphs.enabled ||
-          this.config.database.graphs.enabled !== this.resource.graphEnabled)
-      )
-    },
-
-    emptyGraphData() {
-      return {
-        labels: [],
-        datasets: [
-          {
-            backgroundColor: [],
-            data: [],
-          },
-        ],
-      }
-    },
-
-    showResult() {
-      this.showResultAlert(
-        this.resource.name,
-        this.target.result.errorMessage,
-        this.target.result.healthy,
-      )
-    },
-
-    showResultAlert(name, message, healthy) {
-      message = !healthy ? message : this.config.alert.success.message
-
-      const type = !healthy
-        ? this.config.alert.error.type
-        : this.config.alert.success.type
-
-      swal(name, message, type)
-    },
-  },
 }
 </script>
