@@ -106,6 +106,7 @@ export default {
         .get('/health/resources/' + resource.slug + '?flush=1')
         .then(function(response) {
           resource.targets = response.data.targets
+
           resource.loading = false
         })
     },
