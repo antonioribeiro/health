@@ -44,9 +44,13 @@ class Composer extends Base
     /**
      * Get the ping binary.
      */
-    protected function getBinary()
+    protected function makeCommand()
     {
-        return $this->target->resource->binary;
+        return sprintf(
+            "%s %s",
+            $this->target->resource->binary,
+            $this->target->resource->command
+        );
     }
 
     /**
@@ -57,7 +61,7 @@ class Composer extends Base
     protected function executeCommand()
     {
         $process = new SymfonyProcess(
-            $this->getBinary(),
+            $this->makeCommand(),
             $this->target->workingDir
         );
 

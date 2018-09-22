@@ -29,6 +29,16 @@ return [
         'max_records' => 30,
     ],
 
+    'services' => [
+        'ping' => [
+            'bin' => env('HEALTH_PING_BIN', '/sbin/ping'),
+        ],
+
+        'composer' => [
+            'bin' => env('HEALTH_COMPOSER_BIN', 'composer'),
+        ],
+    ],
+
     'assets' => [
         'css' => base_path(
             'vendor/pragmarx/health/src/resources/dist/css/app.css'
@@ -53,7 +63,8 @@ return [
 
         'action-title' => 'View App Health',
 
-        'action_message' => "The '%s' service is in trouble and needs attention%s",
+        'action_message' =>
+            "The '%s' service is in trouble and needs attention%s",
 
         'from' => [
             'name' => 'Laravel Health Checker',
