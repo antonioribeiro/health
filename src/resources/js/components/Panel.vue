@@ -58,126 +58,130 @@
 Vue.component('resource-target', require('./Target.vue'))
 
 export default {
-  props: ['config'],
+    props: ['config'],
 
-  data() {
-    return {
-      resources: {},
-      filterType: 'all',
-    }
-  },
-
-  methods: {
-    loadAllResources() {
-      let $this = this
-
-      axios.get('/health/resources').then(function(response) {
-        $this.resources = response.data
-
-        $this.refreshAll()
-      })
+    data() {
+        return {
+            resources: {},
+            filterType: 'all',
+        }
     },
 
-    refreshAll() {
-      _.map(this.resources, this.checkResource)
-    },
+    methods: {
+        loadAllResources() {
+            let $this = this
 
-    filter(targets) {
-      let $this = this
+            axios.get('/health/resources').then(function(response) {
+                $this.resources = response.data
 
-      return _.filter(targets, function(target) {
-        return (
-          !target.result ||
-          $this.filterType == 'all' ||
-          ($this.filterType == 'healthy' && target.result.healthy) ||
-          ($this.filterType == 'failing' && !target.result.healthy)
-        )
-      })
-    },
-
-    checkResource(resource) {
-      if (!resource || resource.loading) {
-        return
-      }
-
-      this.$set(resource, 'loading', true)
-
-      axios
-        .get('/health/resources/' + resource.slug + '?flush=1')
-        .then(function(response) {
-          resource.targets = response.data.targets
-
-          resource.loading = false
-        })
-    },
-
-    selectedFilterButtonClass(button) {
-      if (this.filterType == button) {
-        return ' btn-primary'
-      }
-
-      return ' btn-warning'
-    },
-
-    getAllTargets(type) {
-      let targets = []
-
-      _.each(this.resources, function(resource) {
-        _.each(resource.targets, function(target) {
-          if (
-            type == 'all' ||
-            (type == 'failing' && target.result && !target.result.healthy) ||
-            (type == 'healthy' && target.result && target.result.healthy)
-          ) {
-            targets.push(target)
-          }
-        })
-      })
-
-      return targets
-    },
-  },
-
-  computed: {
-    allCount() {
-      return this.getAllTargets('all').length
-    },
-
-    failingCount() {
-      return this.getAllTargets('failing').length
-    },
-
-    healthyCount() {
-      return this.getAllTargets('healthy').length
-    },
-
-    isLoading() {
-      return _.reduce(
-        this.resources,
-        function(current, resource) {
-          return current || resource.loading
+                $this.refreshAll()
+            })
         },
-        false,
-      )
-    },
-  },
 
-  mounted() {
-    this.loadAllResources()
-  },
+        refreshAll() {
+            _.map(this.resources, this.checkResource)
+        },
+
+        filter(targets) {
+            let $this = this
+
+            return _.filter(targets, function(target) {
+                return (
+                    !target.result ||
+                    $this.filterType == 'all' ||
+                    ($this.filterType == 'healthy' && target.result.healthy) ||
+                    ($this.filterType == 'failing' && !target.result.healthy)
+                )
+            })
+        },
+
+        checkResource(resource) {
+            if (!resource || resource.loading) {
+                return
+            }
+
+            this.$set(resource, 'loading', true)
+
+            axios
+                .get('/health/resources/' + resource.slug + '?flush=1')
+                .then(function(response) {
+                    resource.targets = response.data.targets
+
+                    resource.loading = false
+                })
+        },
+
+        selectedFilterButtonClass(button) {
+            if (this.filterType == button) {
+                return ' btn-primary'
+            }
+
+            return ' btn-warning'
+        },
+
+        getAllTargets(type) {
+            let targets = []
+
+            _.each(this.resources, function(resource) {
+                _.each(resource.targets, function(target) {
+                    if (
+                        type == 'all' ||
+                        (type == 'failing' &&
+                            target.result &&
+                            !target.result.healthy) ||
+                        (type == 'healthy' &&
+                            target.result &&
+                            target.result.healthy)
+                    ) {
+                        targets.push(target)
+                    }
+                })
+            })
+
+            return targets
+        },
+    },
+
+    computed: {
+        allCount() {
+            return this.getAllTargets('all').length
+        },
+
+        failingCount() {
+            return this.getAllTargets('failing').length
+        },
+
+        healthyCount() {
+            return this.getAllTargets('healthy').length
+        },
+
+        isLoading() {
+            return _.reduce(
+                this.resources,
+                function(current, resource) {
+                    return current || resource.loading
+                },
+                false,
+            )
+        },
+    },
+
+    mounted() {
+        this.loadAllResources()
+    },
 }
 </script>
 
 <style>
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(359deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(359deg);
+    }
 }
 .spin-svg {
-  animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
 }
 </style>
