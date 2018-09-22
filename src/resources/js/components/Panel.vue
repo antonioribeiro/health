@@ -101,11 +101,13 @@ export default {
 
       this.$set(resource, 'loading', true)
 
-      axios.get('/health/resources/' + resource.slug).then(function(response) {
-        resource.targets = response.data.targets
+      axios
+        .get('/health/resources/' + resource.slug + '?flush=1')
+        .then(function(response) {
+          resource.targets = response.data.targets
 
-        resource.loading = false
-      })
+          resource.loading = false
+        })
     },
 
     selectedFilterButtonClass(button) {
