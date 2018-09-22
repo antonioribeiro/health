@@ -47,8 +47,11 @@
       "src/Support/helpers.php"
     ],
     "psr-4": {
-      "PragmaRX\\Health\\": "src/",
-      "PragmaRX\\Health\\tests\\phpunit\\": "tests/phpunit/",
+      "PragmaRX\\Health\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "PragmaRX\\Health\\Tests\\PhpUnit\\": "tests/PhpUnit/"
     }
   },

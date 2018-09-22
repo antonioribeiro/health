@@ -149,7 +149,7 @@ Use the command `health:check` to check all your resources and send notification
 
 ## Routes
 
-After installing you will have access to the folowing routes:
+After installing you will have access to the following routes:
 
 ### /health/panel
 
