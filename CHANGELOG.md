@@ -9,6 +9,8 @@
 - Added config key 'services' to configure services binaries
 - Checker Ping updated, please review configuration for Latency resources
 - Checker Composer updated, please review configuration for PackagesUpToDate resources
+### Fix
+- Laravel 5.5 support
 
 ## 0.9.9 - 2018-09-19
 ## 0.9.8 - 2018-09-19
