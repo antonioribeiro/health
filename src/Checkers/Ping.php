@@ -134,7 +134,7 @@ class Ping extends Base
                 $matches
             );
 
-            // If there's a result and it's greater than 0, return the latency.
+            // If there's a result and it's greater than 0, returnnpm the latency.
             if ($response > 0 && isset($matches['time'])) {
                 $latency = round($matches['time']);
             }
