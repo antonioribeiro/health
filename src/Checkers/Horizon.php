@@ -25,7 +25,7 @@ class Horizon extends Base
      */
     protected function horizonIsRunning()
     {
-        if (! $masters = app(MasterSupervisorRepository::class)->all()) {
+        if (!$masters = app(MasterSupervisorRepository::class)->all()) {
             return false;
         }
 

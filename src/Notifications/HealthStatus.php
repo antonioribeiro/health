@@ -45,7 +45,7 @@ class HealthStatus extends Notification
 
         return instantiate(
             config(
-                'health.notifications.channels.'.strtolower($name).'.sender'
+                'health.notifications.channels.' . strtolower($name) . '.sender'
             )
         );
     }

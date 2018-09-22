@@ -79,11 +79,11 @@ class ResourceChecker
      */
     public function checkResources($force = false)
     {
-        if (! ($resources = $this->getCachedResources($force))->isEmpty()) {
+        if (!($resources = $this->getCachedResources($force))->isEmpty()) {
             return $resources;
         }
 
-        if (! $this->allResourcesAreGood()) {
+        if (!$this->allResourcesAreGood()) {
             return $this->resources = collect();
         }
 
@@ -167,9 +167,9 @@ class ResourceChecker
      */
     protected function allResourcesAreGood()
     {
-        return ! $this->getResources()
+        return !$this->getResources()
             ->reject(function ($resource) {
-                return ! $resource instanceof Resource;
+                return !$resource instanceof Resource;
             })
             ->isEmpty();
     }
@@ -183,7 +183,7 @@ class ResourceChecker
     protected function getNonGlobalResources()
     {
         return $this->getResources()->filter(function (Resource $resource) {
-            return ! $resource->isGlobal;
+            return !$resource->isGlobal;
         });
     }
 
@@ -227,7 +227,7 @@ class ResourceChecker
             ? $exception->getMessage()
             : static::UNKNOWN_ERROR;
 
-        if (! isset($resourceChecker)) {
+        if (!isset($resourceChecker)) {
             return [
                 null,
                 [
@@ -324,8 +324,9 @@ class ResourceChecker
                     $resource,
                     $sortBy
                 ) {
-                    return
-                        ($resource->isGlobal ? 'a-' : 'z-').$resource->$sortBy;
+                    return (
+                        ($resource->isGlobal ? 'a-' : 'z-') . $resource->$sortBy
+                    );
                 });
             });
         }
