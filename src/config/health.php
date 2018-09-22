@@ -52,7 +52,7 @@ return [
     'cache_files_base_path' => $path = 'app/pragmarx/health',
 
     'notifications' => [
-        'enabled' => true,
+        'enabled' => false,
 
         'notify_on' => [
             'panel' => false,
