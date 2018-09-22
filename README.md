@@ -16,7 +16,7 @@ This package checks if the application resources are running as they should and 
 - View app error messages right in the panel.
 - Http response codes 200 and 500, on error, for services like [Envoyer](https://envoyer.io) to keep track of your app health.
 
-## Built-in Checkers 
+## Built-in Resources 
 
 Heath has pre-configured resource checkers for the following services:
 
@@ -64,26 +64,8 @@ Heath has pre-configured resource checkers for the following services:
 - ServerUptime
 - Sshd
 - Supervisor
-
-- AppKey
-- ConfigurationCached
-- DebugMode
-- DirectoryPermissions
-- DiskSpace
-- ElasticsearchConnectable
-- EnvExists
-- Horizon
-- Latency
-- LocalStorage
-- MailgunConnectable
-- MemcachedConnectable
-- MigrationsUpToDate
-- PackagesUpToDate
-- Php Version
-- RoutesCached
-- SecurityChecker
  
-But you can add anything else you need!
+But you can add anything else you need, you just have to find the right checker to use or just create a new checker for your resource. 
 
 ## Easy Configuration 
 
@@ -220,17 +202,32 @@ Add the Service Provider to your `config/app.php`:
     
 ## Configure All The Things
 
-- Panel
+Almost everything is easily configurable in this package:
+ 
+- Panel name
 - Title and messages
 - Resource checkers
 - Slack icon
-- Sort resources in the panel
 - Notification channels
 - Template location
 - Routes and prefixes
 - Mail server
 - Cache
 - Scheduler
+
+## Configure binaries
+
+Some of the checkers need you to configure the proper binary path for the checker to work:
+
+    'services' => [
+        'ping' => [
+            'bin' => env('HEALTH_PING_BIN', '/sbin/ping'),
+        ],
+
+        'composer' => [
+            'bin' => env('HEALTH_COMPOSER_BIN', 'composer'),
+        ],
+    ],
 
 ## Allowing Slack Notifications
 
