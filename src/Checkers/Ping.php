@@ -25,7 +25,11 @@ class Ping extends Base
 
         $latency = $this->ping($ipAddress);
 
-        $this->target->setDisplay("{$this->target->name} ({$latency}s)");
+        $latencyFormatted = $latency ? "{$latency}ms" : 'error!';
+
+        $this->target->setDisplay(
+            "{$this->target->name} ({$latencyFormatted})"
+        );
 
         if ($latency === false || $latency > $this->target->acceptedLatency) {
             $result = $this->makeResult(
@@ -86,7 +90,7 @@ class Ping extends Base
                 ' -n 1 -i ' .
                 $ttl .
                 ' -w ' .
-                ($timeout * 1000) .
+                $timeout * 1000 .
                 ' ' .
                 $host;
         } elseif (strtoupper(PHP_OS) === 'DARWIN') {
