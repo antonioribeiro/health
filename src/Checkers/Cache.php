@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Cache as IlluminateCache;
 use PragmaRX\Health\Support\Result;
+use Illuminate\Support\Facades\Cache as IlluminateCache;
 
 class Cache extends Base
 {
