@@ -2,7 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use SebastianBergmann\Timer\Timer;
+use PragmaRX\Health\Support\Timer;
 use PragmaRX\Health\Support\Result;
 use PragmaRX\Health\Support\Target;
 use PragmaRX\Health\Support\Traits\Database;
