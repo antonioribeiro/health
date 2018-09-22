@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.9.10 - 2018-09-22
+### Changed
+- Flush cache when clicking to refresh one resource in the panel
+- Binaries (composer, ping) are now configurable
+- Added config key 'services' to configure services binaries
+- Checker Ping updated, please review configuration for Latency resources
+- Checker Composer updated, please review configuration for PackagesUpToDate resources
+
+## 0.9.9 - 2018-09-19
+## 0.9.8 - 2018-09-19
+## 0.9.7 - 2018-09-17
+## 0.9.6 - 2018-09-14
+### Fixed
+- Some minor bugs
+
 ## 0.9.5 - 2018-09-12
 ### Changed
 - Complete refactor
