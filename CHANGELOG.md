@@ -1,6 +1,8 @@
 # Changelog
 
 ## 0.9.10 - 2018-09-22
+### Added
+- Input to filter resources
 ### Changed
 - Flush cache when clicking to refresh one resource in the panel
 - Binaries (composer, ping) are now configurable
