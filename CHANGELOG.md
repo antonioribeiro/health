@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.13 - 2018-09-24
+### Fixed
+- Fix Result status in Security Checker
+
 ## 0.9.12 - 2018-09-24
 ### Fixed
 - Fix content types for javascript import
