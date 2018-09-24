@@ -27,7 +27,7 @@ class SecurityChecker extends Base
             ->implode(', ');
 
         return $this->makeResult(
-            $isHealthy,
+            false,
             sprintf($this->target->getErrorMessage(), $problems)
         );
     }
