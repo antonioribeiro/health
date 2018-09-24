@@ -91,7 +91,7 @@ class Health extends Controller
 
         $response = response()->make($file);
 
-        $response->header('Content-Type', 'text/css');
+        $response->header('Content-Type', 'text/javascript');
 
         return $response;
     }
