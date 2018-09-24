@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.12 - 2018-09-24
+### Changed
+- Notifications are disabled by default
+### Fixed
+- Fix content types for javascript import
+- Uptime checker
+- Use full namespaces for Laravel façades
+
 ## 0.9.10 - 2018-09-22
 ### Added
 - Input to filter resources
