@@ -1,0 +1,7 @@
+name: Horizon
+abbreviation: horizon
+checker: PragmaRX\Health\Checkers\Horizon
+notify: true
+column_size: 3
+error_message: "Laravel Horizon workers are not running"
+graph_enabled: true

@@ -25,7 +25,11 @@ class Ping extends Base
 
         $latency = $this->ping($ipAddress);
 
-        $this->target->setDisplay("{$this->target->name} ({$latency}s)");
+        $latencyFormatted = $latency ? "{$latency}ms" : 'error!';
+
+        $this->target->setDisplay(
+            "{$this->target->name} ({$latencyFormatted})"
+        );
 
         if ($latency === false || $latency > $this->target->acceptedLatency) {
             $result = $this->makeResult(
@@ -41,7 +45,7 @@ class Ping extends Base
             $result = $this->makeHealthyResult();
         }
 
-        return $result->setValue($latency)->setValueHuman("{$latency}s");
+        return $result->setValue($latency)->setValueHuman("{$latency}ms");
     }
 
     public function ping($hostname, $timeout = 5, $ttl = 128)
@@ -86,7 +90,7 @@ class Ping extends Base
                 ' -n 1 -i '.
                 $ttl.
                 ' -w '.
-                ($timeout * 1000).
+                $timeout * 1000 .
                 ' '.
                 $host;
         } elseif (strtoupper(PHP_OS) === 'DARWIN') {
@@ -130,7 +134,7 @@ class Ping extends Base
                 $matches
             );
 
-            // If there's a result and it's greater than 0, return the latency.
+            // If there's a result and it's greater than 0, returnnpm the latency.
             if ($response > 0 && isset($matches['time'])) {
                 $latency = round($matches['time']);
             }
@@ -139,7 +143,7 @@ class Ping extends Base
         return $latency;
     }
 
-    protected function pingBinFactory(): void
+    protected function pingBinFactory()
     {
         $this->pingBin = $this->target->resource->binary ?? 'ping';
     }

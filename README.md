@@ -16,39 +16,56 @@ This package checks if the application resources are running as they should and 
 - View app error messages right in the panel.
 - Http response codes 200 and 500, on error, for services like [Envoyer](https://envoyer.io) to keep track of your app health.
 
-## Built-in Checkers 
+## Built-in Resources 
 
 Heath has pre-configured resource checkers for the following services:
 
-- Broadcasting    
-- Cache           
-- Database        
-- DocuSign        
-- Filesystem      
-- Framework       
-- Health          
-- Http            
-- Https           
-- LaravelServices 
-- LocalStorage    
-- Mail            
-- MySql           
-- NewrelicDeamon  
-- NginxServer     
-- Php             
+- AppKey
+- Broadcasting
+- Cache
+- ConfigurationCached
+- Database
+- DebugMode
+- DirectoryPermissions
+- DiskSpace
+- DocuSign
+- ElasticsearchConnectable
+- EnvExists
+- Filesystem
+- Framework
+- Horizon
+- Http
+- Https
+- LaravelServices
+- Latency
+- LocalStorage
+- Mail
+- MailgunConnectable
+- MemcachedConnectable
+- MigrationsUpToDate
+- MySql
+- MySqlConnectable
+- NewrelicDeamon
+- NginxServer
+- PackagesUpToDate
+- Php
+- PostgreSqlConnectable
 - PostgreSqlServer
-- Queue           
-- QueueWorkers    
-- RebootRequired  
-- Redis           
-- RedisServer     
-- S3              
-- ServerLoad      
-- ServerUptime    
-- Sshd            
-- Supervisor      
+- Queue
+- QueueWorkers
+- RebootRequired
+- Redis
+- RedisConnectable
+- RedisServer
+- RoutesCached
+- S3
+- SecurityChecker
+- ServerLoad
+- ServerUptime
+- Sshd
+- Supervisor
  
-But you can add anything else you need!
+But you can add anything else you need, you just have to find the right checker to use or just create a new checker for your resource. 
 
 ## Easy Configuration 
 
@@ -90,7 +107,7 @@ Creating new resources monitors is easy, just create a new YAML file in app's co
 
 ### Panel
 
-![default panel](docs/images/error-multi.png)
+![default panel](docs/images/panel.png)
 
 ### Panel alternate design
 
@@ -132,7 +149,7 @@ Use the command `health:check` to check all your resources and send notification
 
 ## Routes
 
-After installing you will have access to the folowing routes:
+After installing you will have access to the following routes:
 
 ### /health/panel
 
@@ -185,17 +202,32 @@ Add the Service Provider to your `config/app.php`:
     
 ## Configure All The Things
 
-- Panel
+Almost everything is easily configurable in this package:
+ 
+- Panel name
 - Title and messages
 - Resource checkers
 - Slack icon
-- Sort resources in the panel
 - Notification channels
 - Template location
 - Routes and prefixes
 - Mail server
 - Cache
 - Scheduler
+
+## Configure binaries
+
+Some of the checkers need you to configure the proper binary path for the checker to work:
+
+    'services' => [
+        'ping' => [
+            'bin' => env('HEALTH_PING_BIN', '/sbin/ping'),
+        ],
+
+        'composer' => [
+            'bin' => env('HEALTH_COMPOSER_BIN', 'composer'),
+        ],
+    ],
 
 ## Allowing Slack Notifications
 

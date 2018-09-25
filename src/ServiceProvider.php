@@ -170,16 +170,6 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
-     * Return the health service.
-     *
-     * @return mixed
-     */
-    public function getHealthService()
-    {
-        return $this->healthService;
-    }
-
-    /**
      * Get the resource checker closure for instantiation.
      *
      * @param $resourceLoader
@@ -239,6 +229,8 @@ class ServiceProvider extends IlluminateServiceProvider
         }
 
         $this->mergeConfigFrom(__DIR__.'/config/health.php', 'health');
+
+        $this->addDistPathToConfig();
     }
 
     /**
@@ -290,14 +282,6 @@ class ServiceProvider extends IlluminateServiceProvider
         Artisan::command('health:check', function () use ($commands) {
             $commands->check($this);
         })->describe('Check resources health and send error notifications.');
-
-        Artisan::command('health:export', function () use ($commands) {
-            $commands->export($this);
-        })->describe('Export "array" resources to .yml files');
-
-        Artisan::command('health:publish', function () use ($commands) {
-            $commands->publish($this);
-        })->describe('Publish all .yml resouces files to config directory.');
     }
 
     /**
@@ -313,7 +297,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function registerRoutes()
     {
-        collect($routes = $this->getRoutes())->each(function ($route) {
+        collect(($routes = $this->getRoutes()))->each(function ($route) {
             $this->registerRoute($route);
         });
 
@@ -383,5 +367,10 @@ class ServiceProvider extends IlluminateServiceProvider
             'pragmarx.health',
             'pragmarx.health.commands',
         ];
+    }
+
+    public function addDistPathToConfig()
+    {
+        config(['health.dist_path' => __DIR__.'/resources/dist']);
     }
 }

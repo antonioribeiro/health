@@ -1,7 +1,9 @@
 @extends('pragmarx/health::html')
 
 @section('head')
-    <link rel="stylesheet" href="/health/assets/css/app.css">
+    <style>
+        {!! file_get_contents(config('health.dist_path').'/css/app.css')  !!}
+    </style>
 @stop
 
 @section('body')
@@ -13,7 +15,9 @@
 
     @yield('html.footer')
 
-    <script src="/health/assets/js/app.js"></script>
+    <script>
+        {!! file_get_contents(config('health.dist_path').'/js/app.js')  !!}
+    </script>
 
     @if (config('app.env') == 'local')
         <script src="http://localhost:35729/livereload.js"></script>

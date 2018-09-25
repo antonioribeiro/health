@@ -66,6 +66,7 @@ trait Database
             'resource_slug' => $target->resource->slug,
             'target_name' => $target->name,
         ])
+            ->orderBy('created_at', 'desc')
             ->take(config('health.database.max_records'))
             ->get();
     }

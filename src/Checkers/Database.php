@@ -3,7 +3,7 @@
 namespace PragmaRX\Health\Checkers;
 
 use Illuminate\Support\Facades\DB;
-use SebastianBergmann\Timer\Timer;
+use PragmaRX\Health\Support\Timer;
 use PragmaRX\Health\Support\Result;
 
 class Database extends Base

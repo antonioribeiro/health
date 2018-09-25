@@ -222,7 +222,7 @@ class Target implements JsonSerializable
      * @param string $display
      * @return Target
      */
-    public function setDisplay(string $display): self
+    public function setDisplay(string $display)
     {
         $this->display = $display;
 
@@ -232,7 +232,7 @@ class Target implements JsonSerializable
     /**
      * @param string $name
      */
-    public function setName(string $name): void
+    public function setName(string $name)
     {
         $this->name = $name;
     }

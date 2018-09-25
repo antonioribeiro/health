@@ -23,8 +23,8 @@
                     <div class="col-6">
                         <div class="row d-flex">
                             <div class="col-12 text-right">
-                                <span :class="'info-icon '+colorClass" @click="$emit('show-result')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="15px" viewBox="0 0 20 20"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm2-13c0 .28-.21.8-.42 1L10 9.58c-.57.58-1 1.6-1 2.42v1h2v-1c0-.29.21-.8.42-1L13 9.42c.57-.58 1-1.6 1-2.42a4 4 0 1 0-8 0h2a2 2 0 1 1 4 0zm-3 8v2h2v-2H9z"/></svg>
+                                <span @click="showResult()" :class="colorClass">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="info-icon" viewBox="0 0 20 20"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm2-13c0 .28-.21.8-.42 1L10 9.58c-.57.58-1 1.6-1 2.42v1h2v-1c0-.29.21-.8.42-1L13 9.42c.57-.58 1-1.6 1-2.42a4 4 0 1 0-8 0h2a2 2 0 1 1 4 0zm-3 8v2h2v-2H9z"/></svg>
                                 </span>
 
                                 <span @click="$emit('check-resource')" :class="colorClass">
@@ -47,7 +47,15 @@
 
                 <div class="row">
                     <div class="col-12 chart">
-                        <target-chart height="90"></target-chart>
+                        <target-chart
+                            :height="config.database.graphs.height"
+                            :chart-data="chartData"
+                            :labels="graphLabels"
+                            :data="graphData"
+                            :backgrounds="graphBackgrounds"
+                            v-on:bar-clicked="barClicked"
+                        >
+                        </target-chart>
                     </div>
                 </div>
             </div>
@@ -64,20 +72,125 @@
 Vue.component('target-chart', require('./Chart.vue'))
 
 export default {
-  props: ['resource', 'target'],
+    props: ['resource', 'target', 'config'],
 
-  computed: {
-    colorClass() {
-      return !this.target.result
-        ? 'color-neutral'
-        : this.target.result.healthy
-          ? 'color-success'
-          : 'color-danger'
+    computed: {
+        colorClass() {
+            return !this.target.result
+                ? 'color-neutral'
+                : this.target.result.healthy
+                    ? 'color-success'
+                    : 'color-danger'
+        },
+
+        colorClassBackground() {
+            return this.colorClass + '-background'
+        },
+
+        graphLabels() {
+            let labels = []
+
+            _.forEach(this.target.checks, function(check) {
+                labels.push(
+                    check.value_human
+                        ? check.value_human
+                        : check.target_display,
+                )
+            })
+
+            return labels
+        },
+
+        graphData() {
+            let data = []
+
+            _.forEach(this.target.checks, function(check) {
+                data.push(check.value ? check.value : check.runtime)
+            })
+
+            return data
+        },
+
+        graphBackgrounds() {
+            let colors = []
+
+            _.forEach(this.target.checks, function(check) {
+                colors.push(check.healthy ? '#8cca82' : '#FF7C74')
+            })
+
+            return colors
+        },
+
+        chartData() {
+            if (!this.graphsAreEnabled()) {
+                return this.emptyGraphData()
+            }
+
+            return this.generateGraphData()
+        },
     },
 
-    colorClassBackground() {
-      return this.colorClass + '-background'
+    methods: {
+        barClicked(activeElement) {
+            const check = this.target.checks[activeElement[0]._index]
+
+            this.showResultAlert(
+                check.resource_name,
+                check.error_message,
+                check.healthy,
+            )
+        },
+
+        generateGraphData() {
+            return {
+                labels: this.graphLabels,
+                datasets: [
+                    {
+                        backgroundColor: this.graphBackgrounds,
+                        data: this.graphData,
+                    },
+                ],
+            }
+        },
+
+        graphsAreEnabled() {
+            return (
+                this.config.database.enabled &&
+                (this.config.database.graphs.enabled ||
+                    this.config.database.graphs.enabled !==
+                        this.resource.graphEnabled)
+            )
+        },
+
+        emptyGraphData() {
+            return {
+                labels: [],
+                datasets: [
+                    {
+                        backgroundColor: [],
+                        data: [],
+                    },
+                ],
+            }
+        },
+
+        showResult() {
+            this.showResultAlert(
+                this.resource.name,
+                this.target.result.errorMessage,
+                this.target.result.healthy,
+            )
+        },
+
+        showResultAlert(name, message, healthy) {
+            message = !healthy ? message : this.config.alert.success.message
+
+            const type = !healthy
+                ? this.config.alert.error.type
+                : this.config.alert.success.type
+
+            swal(name, message, type)
+        },
     },
-  },
 }
 </script>

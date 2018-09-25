@@ -121,7 +121,7 @@ class ResourceChecker
         $checked = $this->cache->remember($resource->slug, function () use (
             $resource
         ) {
-            return $resource->check();
+            return $resource->check($this->getCurrentAction());
         });
 
         $resource->targets = $checked->targets;
@@ -298,7 +298,8 @@ class ResourceChecker
      * Get one resource.
      *
      * @param resource|Collection $resource
-     * @return \PragmaRX\Health\Support\Resource
+     * @return resource
+     * @throws Exception
      */
     public function makeResource($resource)
     {

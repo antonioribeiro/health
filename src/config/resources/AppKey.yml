@@ -4,6 +4,7 @@ checker: PragmaRX\Health\Checkers\Expression
 notify: true
 column_size: 3
 error_message: "There is no app key defined"
+graph_enabled: false
 targets:
 - default:
     expression_value: "config('app.key') !== null"
