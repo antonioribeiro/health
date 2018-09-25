@@ -3,7 +3,6 @@
 namespace PragmaRX\Health;
 
 use Event;
-use Artisan;
 use PragmaRX\Yaml\Package\Yaml;
 use PragmaRX\Health\Support\Cache;
 use Illuminate\Console\Scheduling\Schedule;
@@ -12,6 +11,7 @@ use PragmaRX\Health\Support\Traits\Routing;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Support\ResourceChecker;
 use PragmaRX\Health\Listeners\NotifyHealthIssue;
+use PragmaRX\Health\Console\Commands as ConsoleCommands;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 class ServiceProvider extends IlluminateServiceProvider
@@ -273,15 +273,10 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function registerConsoleCommands()
     {
-        $commands = $this->commands;
-
-        Artisan::command('health:panel', function () use ($commands) {
-            $commands->panel($this);
-        })->describe('Show all resources and their current health states.');
-
-        Artisan::command('health:check', function () use ($commands) {
-            $commands->check($this);
-        })->describe('Check resources health and send error notifications.');
+        $this->commands([
+            ConsoleCommands\HealthPanelCommand::class,
+            ConsoleCommands\HealthCheckCommand::class,
+        ]);
     }
 
     /**
