@@ -14,65 +14,107 @@ class ServiceTest extends TestCase
     const RESOURCES_HEALTHY_EVERYWHERE = 8;
 
     const ALL_RESOURCES = [
-        'health',
-        'broadcasting',
-        'cache',
-        'database',
-        'docusign',
-        'filesystem',
-        'framework',
-        'http',
-        'https',
-        'laravelservices',
-        'localstorage',
-        'mail',
-        'mysql',
-        'newrelicdeamon',
-        'nginxserver',
-        'php',
-        'postgresqlserver',
-        'queue',
-        'queueworkers',
-        'rebootrequired',
-        'redis',
-        'redisserver',
-        's3',
-        'serverload',
-        'serveruptime',
-        'sshd',
-        'supervisor',
-    ];
-
-    const RESOURCES_FAILING = [
-        'Health',
+        'AppKey',
         'Broadcasting',
+        'Cache',
+        'ConfigurationCached',
         'Database',
+        'DebugMode',
+        'DirectoryPermissions',
+        'DiskSpace',
         'DocuSign',
+        'ElasticsearchConnectable',
+        'EnvExists',
+        'Filesystem',
+        'Framework',
+        'Horizon',
         'Http',
         'Https',
+        'LaravelServices',
+        'Latency',
+        'LocalStorage',
+        'Mail',
+        'MailgunConnectable',
+        'MemcachedConnectable',
+        'MigrationsUpToDate',
+        'MySql',
+        'MySqlConnectable',
         'NewrelicDeamon',
-        'Redis',
-        'S3',
         'NginxServer',
+        'PackagesUpToDate',
         'Php',
+        'PostgreSqlConnectable',
         'PostgreSqlServer',
+        'Queue',
+        'QueueWorkers',
+        'RebootRequired',
+        'Redis',
+        'RedisConnectable',
+        'RedisServer',
+        'RoutesCached',
+        'S3',
+        'SecurityChecker',
         'ServerLoad',
+        'ServerUptime',
+        'Sshd',
+        'Supervisor',
     ];
 
-    /**
-     * @var \PragmaRX\Health\Service
-     */
+    const RESOURCES_HEALTHY = 18;
+
+    const RESOURCES_FAILING = [
+        'AppKey',
+        'Broadcasting',
+        'Cache',
+        'ConfigurationCached',
+        'Database',
+        'DebugMode',
+        'DirectoryPermissions',
+        'DiskSpace',
+        'DocuSign',
+        'ElasticsearchConnectable',
+        'EnvExists',
+        'Filesystem',
+        'Framework',
+        'Horizon',
+        'Http',
+        'Https',
+        'LaravelServices',
+        'Latency',
+        'LocalStorage',
+        'Mail',
+        'MailgunConnectable',
+        'MemcachedConnectable',
+        'MigrationsUpToDate',
+        'MySql',
+        'MySqlConnectable',
+        'NewrelicDeamon',
+        'NginxServer',
+        'PackagesUpToDate',
+        'Php',
+        'PostgreSqlConnectable',
+        'PostgreSqlServer',
+        'Queue',
+        'QueueWorkers',
+        'RebootRequired',
+        'Redis',
+        'RedisConnectable',
+        'RedisServer',
+        'RoutesCached',
+        'S3',
+        'SecurityChecker',
+        'ServerLoad',
+        'ServerUptime',
+        'Sshd',
+        'Supervisor',
+    ];
+
+    const RESOURCES_STRING = 'appkeyFAIL-brdcFAIL-cshOK-cfgcchFAIL-dbFAIL-debugOK-dirpermOK-dskspcOK-dcsgnFAIL-redisconnFAIL-envexistsFAIL-flstmOK-frmwrkOK-httpFAIL-httpsFAIL-lvsOK-latencyFAIL-lclstrgOK-mlOK-redisconnOK-redisconnOK-debugFAIL-msqlOK-mysqlgrsqlsrvrconnOK-nwrlcdmnFAIL-ngnxsrvrFAIL-debugFAIL-pkgupdtdOK-phpOK-pstgrsqlsrvrconnOK-pstgrsqlsrvrFAIL-queueOK-qwrkrsOK-rbtrqrdOK-rdsOK-redisconnOK-rdssrvrOK-rtcchFAIL-s3FAIL-loadFAIL-uptmOK-sshdFAIL-sprvsrOK';
+
     private $service;
 
-    /**
-     * @var \Illuminate\Support\Collection
-     */
     private $resources;
 
-    /**
-     * @param bool $force
-     * @return \Illuminate\Support\Collection
-     */
     private function getResources($force = false)
     {
         if ($force || ! $this->resources) {
@@ -105,6 +147,15 @@ class ServiceTest extends TestCase
         $this->service = app('pragmarx.health');
     }
 
+    private function sortChars($string)
+    {
+        $stringParts = str_split($string);
+
+        sort($stringParts);
+
+        return implode('', $stringParts);
+    }
+
     public function testResourcesWhereChecked()
     {
         $this->assertCheckedResources($this->getResources());
@@ -112,26 +163,6 @@ class ServiceTest extends TestCase
 
     public function testCacheFlush()
     {
-        $this->assertCheckedResources($this->getResources(true));
-    }
-
-    public function testLoadArray()
-    {
-        $this->app['config']->set(
-            'health.resources_location.type',
-            \PragmaRX\Health\Support\Constants::RESOURCES_TYPE_ARRAY
-        );
-
-        $this->assertCheckedResources($this->getResources(true));
-    }
-
-    public function testLoadFiles()
-    {
-        $this->app['config']->set(
-            'health.resources_location.type',
-            \PragmaRX\Health\Support\Constants::RESOURCES_TYPE_FILES
-        );
-
         $this->assertCheckedResources($this->getResources(true));
     }
 
@@ -164,14 +195,17 @@ class ServiceTest extends TestCase
 
     public function assertCheckedResources($resources)
     {
-        $healthCount = $resources->reduce(function ($carry, $item) {
-            return $carry + (isset($item['health']['healthy']) ? 1 : 0);
+        $healthCount = $resources->reduce(function ($carry, $resource) {
+            return $carry + ($resource->isHealthy() ? 1 : 0);
         }, 0);
 
-        $this->assertEquals(count(static::ALL_RESOURCES), $healthCount);
+        $this->assertGreaterThanOrEqual(
+            static::RESOURCES_HEALTHY,
+            $healthCount
+        );
 
-        $failing = $resources->filter(function ($item) {
-            return $item['health']['healthy'];
+        $failing = $resources->filter(function ($resource) {
+            return $resource->isHealthy();
         });
 
         $this->assertGreaterThanOrEqual(
@@ -183,16 +217,6 @@ class ServiceTest extends TestCase
     public function testInstantiation()
     {
         $this->assertInstanceOf(Collection::class, $this->getResources());
-    }
-
-    public function testConfigWasLoadedProperly()
-    {
-        $resources = $this->getResources();
-
-        $this->assertEquals(
-            $resources['Health']['error_message'],
-            'At least one resource failed the health check.'
-        );
     }
 
     public function testResourcesHasTheCorrectCount()
@@ -207,6 +231,9 @@ class ServiceTest extends TestCase
     {
         $this->assertEquals(
             collect(static::ALL_RESOURCES)
+                ->map(function ($value) {
+                    return strtolower($value);
+                })
                 ->sort()
                 ->values()
                 ->toArray(),
@@ -223,7 +250,7 @@ class ServiceTest extends TestCase
 
     public function testArtisanCommands()
     {
-        $commands = ['panel', 'check', 'export', 'publish'];
+        $commands = ['panel', 'check'];
 
         foreach ($commands as $command) {
             (new Commands($this->service))->$command();
@@ -236,29 +263,25 @@ class ServiceTest extends TestCase
     {
         $controller = new HealthController($this->service);
 
-        $this->assertCheckedResources(
-            collect(json_decode($controller->check()->getContent(), true))
-        );
-
-        foreach ($this->getResources() as $key => $resource) {
-            $this->assertEquals($controller->resource($key)['name'], $key);
-        }
-
-        $string = $controller->string()->getContent();
-
-        $this->assertTrue(
-            strpos($string, config('health.string.ok').'-') !== false
+        $this->assertEquals(
+            collect(
+                json_decode($controller->check()->getContent(), true)
+            )->count(),
+            count(static::ALL_RESOURCES)
         );
 
         $this->assertTrue(
-            strpos($string, config('health.string.fail').'-') !== false
+            starts_with($controller->panel()->getContent(), '<!DOCTYPE html>')
+        );
+
+        $this->assertTrue(count($controller->config()) > 10);
+
+        $this->assertTrue(
+            $controller->getResource('app-key')->name == 'App Key'
         );
 
         $this->assertTrue(
-            strpos(
-                $controller->panel()->getContent(),
-                '<title>'.config('health.title').'</title>'
-            ) !== false
+            $controller->allResources()->count() == count(static::ALL_RESOURCES)
         );
     }
 }

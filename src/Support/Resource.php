@@ -79,6 +79,11 @@ class Resource implements JsonSerializable
     protected $currentAction;
 
     /**
+     * @var bool|null
+     */
+    protected $graphEnabled = null;
+
+    /**
      * Resource factory.
      *
      * @param Collection $data
@@ -94,6 +99,10 @@ class Resource implements JsonSerializable
         $instance->name = $data['name'];
 
         $instance->slug = str_slug($data['name']);
+
+        $instance->graphEnabled = isset($data['graph_enabled'])
+            ? $data['graph_enabled']
+            : null;
 
         $instance->abbreviation = $data['abbreviation'];
 
@@ -166,11 +175,14 @@ class Resource implements JsonSerializable
     /**
      * Check all targets for a resource.
      *
+     * @param string $action
      * @return resource
      */
-    public function check()
+    public function check($action = 'resource')
     {
-        $this->targets->each(function (Target $target) {
+        $this->setCurrentAction($action)->targets->each(function (
+            Target $target
+        ) {
             $target->check($target);
         });
 
@@ -232,7 +244,6 @@ class Resource implements JsonSerializable
             try {
                 event(new RaiseHealthIssue($this, $channel));
             } catch (\Exception $exception) {
-                // Notifications are broken, just report it
                 report($exception);
             }
         });
@@ -262,6 +273,19 @@ class Resource implements JsonSerializable
             $this->notify &&
             config('health.notifications.enabled') &&
             config('health.notifications.notify_on.'.$this->currentAction);
+    }
+
+    /**
+     * Set current action.
+     *
+     * @param string $currentAction
+     * @return resource
+     */
+    public function setCurrentAction(string $currentAction)
+    {
+        $this->currentAction = $currentAction;
+
+        return $this;
     }
 
     /**

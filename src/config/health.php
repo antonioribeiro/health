@@ -20,9 +20,23 @@ return [
     'database' => [
         'enabled' => false,
 
-        'graphs' => true,
+        'graphs' => [
+            'enabled' => true,
+
+            'height' => 90,
+        ],
 
         'max_records' => 30,
+    ],
+
+    'services' => [
+        'ping' => [
+            'bin' => env('HEALTH_PING_BIN', '/sbin/ping'),
+        ],
+
+        'composer' => [
+            'bin' => env('HEALTH_COMPOSER_BIN', 'composer'),
+        ],
     ],
 
     'assets' => [
@@ -38,7 +52,7 @@ return [
     'cache_files_base_path' => $path = 'app/pragmarx/health',
 
     'notifications' => [
-        'enabled' => true,
+        'enabled' => false,
 
         'notify_on' => [
             'panel' => false,
@@ -71,21 +85,7 @@ return [
             'emails' => ['admin@mydomain.com'],
         ],
 
-        'channels' => [
-            'mail' => [
-                'enabled' => true,
-                'sender' => PragmaRX\Health\Notifications\Channels\Mail::class,
-            ],
-
-            'slack' => [
-                'enabled' => true,
-                'sender' => PragmaRX\Health\Notifications\Channels\Slack::class,
-            ],
-
-            'facebook' => [
-                'enabled' => false,
-            ],
-        ],
+        'channels' => ['mail', 'slack'], // mail, slack
 
         'notifier' => 'PragmaRX\Health\Notifications',
     ],

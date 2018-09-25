@@ -77,18 +77,6 @@ class Service
     }
 
     /**
-     * Get one resource.
-     *
-     * @param $slug
-     * @return mixed
-     * @throws \Exception
-     */
-    private function getResource($slug)
-    {
-        return $this->resourceChecker->getResourceBySlug($slug);
-    }
-
-    /**
      * Get a silent checker and notifier closure.
      *
      * @return \Closure
@@ -98,19 +86,6 @@ class Service
         return function () {
             return $this->checkResources();
         };
-    }
-
-    /**
-     * Check if server is healthy.
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    public function isHealthy()
-    {
-        return $this->checkResources()->reduce(function ($carry, $item) {
-            return $carry && $item->isHealthy();
-        }, true);
     }
 
     /**

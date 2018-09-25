@@ -41,7 +41,7 @@ class PortCheck extends Base
      * @param bool $ipAddress
      * @return Result
      */
-    protected function makeFinalResult($ipAddress): Result
+    protected function makeFinalResult($ipAddress)
     {
         return $this->target->setResult(
             $this->makeResult(
@@ -72,7 +72,7 @@ class PortCheck extends Base
      * @param $ipAddress
      * @return bool
      */
-    protected function portIsNotConnectable($ipAddress): bool
+    protected function portIsNotConnectable($ipAddress)
     {
         return ! $this->portCheck(
             $ipAddress,

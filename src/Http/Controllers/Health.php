@@ -70,8 +70,7 @@ class Health extends Controller
         $this->healthService->setAction('string');
 
         return response(
-            $this->healthService->string(),
-            $this->getReponseCode()
+            $this->healthService->string()
         );
     }
 
@@ -92,7 +91,7 @@ class Health extends Controller
 
         $response = response()->make($file);
 
-        $response->header('Content-Type', 'text/css');
+        $response->header('Content-Type', 'text/javascript');
 
         return $response;
     }
