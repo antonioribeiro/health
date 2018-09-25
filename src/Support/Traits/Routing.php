@@ -11,10 +11,10 @@ trait Routing
     protected function registerRoute($route, $name = null)
     {
         $attributes = [
-            'middleware' => isset($route['middleware']) ? $route['middleware'] : []
+            'middleware' => isset($route['middleware']) ? $route['middleware'] : [],
         ];
 
-        $this->getRouter()->group($attributes, function() use ($route, $name) {
+        $this->getRouter()->group($attributes, function () use ($route, $name) {
             $action = isset($route['controller'])
                 ? "{$route['controller']}@{$route['action']}"
                 : $route['action'];
