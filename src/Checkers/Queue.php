@@ -3,7 +3,6 @@
 namespace PragmaRX\Health\Checkers;
 
 use Illuminate\Queue\Worker;
-use Queue as IlluminateQueue;
 use Illuminate\Queue\WorkerOptions;
 use PragmaRX\Health\Support\Result;
 
@@ -16,12 +15,12 @@ class Queue extends Base
      */
     public function check()
     {
-        IlluminateQueue::pushOn(
+        app('queue')->pushOn(
             $this->target->name,
             instantiate($this->target->testJob)
         );
 
-        $worker = instantiate(Worker::class);
+        $worker = app('queue.worker');
 
         $connection = $this->target->connection
             ?: app('config')['queue.default'];

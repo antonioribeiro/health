@@ -70,8 +70,6 @@ class Broadcasting extends Base
      */
     protected function createPingRow()
     {
-        info('Laravel Health Panel - PING - secret: '.$this->target->secret);
-
         return [
             'pinged_at' => Carbon::now(),
             'ponged_at' => null,
@@ -97,8 +95,6 @@ class Broadcasting extends Base
      */
     public function pong($secret)
     {
-        info('Laravel Health Panel - PONG - secret: '.$secret);
-
         $this->database = $this->database->map(function ($item) use ($secret) {
             if ($item['secret'] == $secret) {
                 $item['ponged_at'] = Carbon::now();

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.14 - 2018-09-25
+### Added
+- Laravel Lumen support
+
 ## 0.9.13 - 2018-09-24
 ### Fixed
 - Fix Result status in Security Checker
