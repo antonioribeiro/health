@@ -49,7 +49,7 @@ trait Database
 
     protected function saveResultsToDatabase($target, $result)
     {
-        $model = config('health.database.model');
+        $model = config('health.database.model', HealthCheck::class);
 
         $model::create([
             'resource_name' => $resource = $target->resource->name,
