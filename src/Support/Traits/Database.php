@@ -49,7 +49,9 @@ trait Database
 
     protected function saveResultsToDatabase($target, $result)
     {
-        HealthCheck::create([
+        $model = config('health.database.model');
+
+        $model::create([
             'resource_name' => $resource = $target->resource->name,
             'resource_slug' => $target->resource->slug,
             'target_name' => $target->name,
@@ -62,7 +64,7 @@ trait Database
             'value_human' => $result->valueHuman,
         ]);
 
-        return HealthCheck::where([
+        return $model::where([
             'resource_slug' => $target->resource->slug,
             'target_name' => $target->name,
         ])
