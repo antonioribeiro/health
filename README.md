@@ -308,6 +308,23 @@ Broadcasting checker is done via ping and pong system. The broadcast checker wil
         </body>
     </html>
 
+## Lumen
+To use it on Lumen, you'll probably need to do something like this on your `bootstrap/app.php`:
+
+    $app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
+    $app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');
+    
+    $app->withFacades();
+    
+    $app->singleton('Illuminate\Contracts\Routing\ResponseFactory', function ($app) {
+        return new \Illuminate\Routing\ResponseFactory(
+            $app['Illuminate\Contracts\View\Factory'],
+            $app['Illuminate\Routing\Redirector']
+        );
+    });
+    
+    $app->register(PragmaRX\Health\ServiceProvider::class);
+ 
 ## Testing
 
 ``` bash
