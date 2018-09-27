@@ -27,6 +27,8 @@ return [
         ],
 
         'max_records' => 30,
+
+        'model' => PragmaRX\Health\Data\Models\HealthCheck::class,
     ],
 
     'services' => [
