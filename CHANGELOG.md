@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.15 - 2018-09-27
+### Changed
+- Composer outdated now ignores major versions
+### Fix
+- Buttons alignment
+
 ## 0.9.14 - 2018-09-25
 ### Added
 - Laravel Lumen support
