@@ -1,12 +1,12 @@
 <template>
     <div class="container-fluid" v-if="config.loaded">
         <div class="row mb-8">
-            <div class="col-md-8 align-self-center">
+            <div class="col-md-4">
                 <h1 class="m-0">{{ config.title }}</h1>
             </div>
 
-            <div class="col-md-4 text-right">
-                <div class="form-inline pull-right">
+            <div class="col-md-8 clearfix">
+                <div class="form-inline float-right">
                     <div class="form-group mx-sm-3">
                         <input
                             v-model="filterString"
