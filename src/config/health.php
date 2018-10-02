@@ -12,7 +12,11 @@ return [
     'sort_by' => 'slug',
 
     'cache' => [
-        'minutes' => ! config('app.debug'), // false = disabled
+        // forever = 0
+        // false = disabled
+        // default = 1 minute
+        // in debug mode defautls to "disabled"
+        'minutes' => config('app.debug') === true ? false : 1,
 
         'key' => 'health-resources',
     ],
