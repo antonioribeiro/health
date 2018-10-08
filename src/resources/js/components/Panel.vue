@@ -65,10 +65,14 @@
 </template>
 
 <script>
+import routesMixin from '../mixins/routes'
+
 Vue.component('resource-target', require('./Target.vue'))
 
 export default {
     props: ['config'],
+
+    mixins: [routesMixin],
 
     data() {
         return {
@@ -82,7 +86,7 @@ export default {
         loadAllResources() {
             let $this = this
 
-            axios.get('/health/resources').then(function(response) {
+            axios.get($this.route('pragmarx.health.resources.all')).then(function(response) {
                 $this.resources = response.data
 
                 $this.refreshAll()
@@ -133,7 +137,7 @@ export default {
             this.$set(resource, 'loading', true)
 
             axios
-                .get('/health/resources/' + resource.slug + '?flush=1')
+                .get(this.route('pragmarx.health.resources.get', {slug: resource.slug}) + '?flush=1')
                 .then(function(response) {
                     resource.targets = response.data.targets
 

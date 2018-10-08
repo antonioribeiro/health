@@ -143,14 +143,12 @@ return [
 
         'namespace' => $namespace = 'PragmaRX\Health\Http\Controllers\Health',
 
-        'name_prefix' => $name_prefix = 'pragmarx.health',
-
         'notification' => 'pragmarx.health.panel',
 
         'list' => [
             [
                 'uri' => "{$route_prefix}/panel",
-                'name' => "{$name_prefix}.panel",
+                'name' => "pragmarx.health.panel",
                 'action' => "{$namespace}@panel",
                 'middleware' => [
                     /*'auth.basic'*/
@@ -159,49 +157,49 @@ return [
 
             [
                 'uri' => "{$route_prefix}/check",
-                'name' => "{$name_prefix}.check",
+                'name' => "pragmarx.health.check",
                 'action' => "{$namespace}@check",
                 'middleware' => [],
             ],
 
             [
                 'uri' => "{$route_prefix}/string",
-                'name' => "{$name_prefix}.string",
+                'name' => "pragmarx.health.string",
                 'action' => "{$namespace}@string",
                 'middleware' => [],
             ],
 
             [
                 'uri' => "{$route_prefix}/resources",
-                'name' => "{$name_prefix}.resources.all",
+                'name' => "pragmarx.health.resources.all",
                 'action' => "{$namespace}@allResources",
                 'middleware' => [],
             ],
 
             [
                 'uri' => "{$route_prefix}/resources/{slug}",
-                'name' => "{$name_prefix}.resources.get",
+                'name' => "pragmarx.health.resources.get",
                 'action' => "{$namespace}@getResource",
                 'middleware' => [],
             ],
 
             [
                 'uri' => "{$route_prefix}/assets/css/app.css",
-                'name' => "{$name_prefix}.assets.css",
+                'name' => "pragmarx.health.assets.css",
                 'action' => "{$namespace}@assetAppCss",
                 'middleware' => [],
             ],
 
             [
                 'uri' => "{$route_prefix}/assets/js/app.js",
-                'name' => "{$name_prefix}.assets.js",
+                'name' => "pragmarx.health.assets.js",
                 'action' => "{$namespace}@assetAppJs",
                 'middleware' => [],
             ],
 
             [
                 'uri' => "{$route_prefix}/config",
-                'name' => "{$name_prefix}.config",
+                'name' => "pragmarx.health.config",
                 'action' => "{$namespace}@config",
                 'middleware' => [],
             ],
