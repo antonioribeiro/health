@@ -82,7 +82,7 @@ class Health extends Controller
     {
         $this->healthService->setAction('panel');
 
-        return response((string) view(config('health.views.panel')));
+        return response((string) view(config('health.views.panel'))->with('laravel', ['health' => config('health')]));
     }
 
     public function assetAppJs()

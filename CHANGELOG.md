@@ -1,9 +1,14 @@
 # Changelog
 
+## 0.9.16 - 2018-10-08
+### Fixed
+- Properly use routes from configuration on axios requests. 
+  Please check if your route names all starts with 'pragmarx.health.', it's mandatory now
+
 ## 0.9.15 - 2018-09-27
 ### Changed
 - Composer outdated now ignores major versions
-### Fix
+### Fixed
 - Buttons alignment
 
 ## 0.9.14 - 2018-09-25

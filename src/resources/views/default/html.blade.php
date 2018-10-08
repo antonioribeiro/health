@@ -1,6 +1,10 @@
 @extends('pragmarx/health::html')
 
 @section('head')
+    <script>
+        window.laravel = @json($laravel)
+    </script>
+
     <style>
         {!! file_get_contents(config('health.dist_path').'/css/app.css')  !!}
     </style>
