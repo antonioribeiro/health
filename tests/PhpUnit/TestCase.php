@@ -109,7 +109,7 @@ class TestCase extends OrchestraTestCase
 
     protected function getPackageProviders($app)
     {
-    	$app['config']->set('health.resources.enabled', static::ALL_RESOURCES);
+        $app['config']->set('health.resources.enabled', static::ALL_RESOURCES);
 
         return [HealthServiceProvider::class];
     }
