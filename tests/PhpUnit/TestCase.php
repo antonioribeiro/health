@@ -7,7 +7,7 @@ use PragmaRX\Health\ServiceProvider as HealthServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
-	const RESOURCES_HEALTHY_EVERYWHERE = 8;
+    const RESOURCES_HEALTHY_EVERYWHERE = 8;
 
     const ALL_RESOURCES = [
         'AppKey',
