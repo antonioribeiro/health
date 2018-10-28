@@ -1,24 +1,144 @@
 <?php
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Health Monitor Title
+    |--------------------------------------------------------------------------
+    |
+    | This is the title of the health check panel, that shows up at the top-left
+    | corner of the window. Feel free to edit this value to suit your needs.
+    |
+    */
     'title' => 'Laravel Health Check Panel',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Health Monitor Resources
+    |--------------------------------------------------------------------------
+    |
+    | Below is the list of resources the health checker will look into.
+    | And the path to where the resources yaml files are located.
+    |
+    */
     'resources' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Health Monitor Resources Path
+        |--------------------------------------------------------------------------
+        |
+        | This value determines the path to where the resources yaml files are
+        | located. By default, all resources are in config/health/resources
+        |
+        */
         'path' => config_path('health/resources'),
 
-        'enabled' => PragmaRX\Health\Support\Constants::RESOURCES_ENABLED_ALL,
+        /*
+        |--------------------------------------------------------------------------
+        | Health Monitor Enabled Resources
+        |--------------------------------------------------------------------------
+        |
+        | Below is the list of resources currently enabled for your laravel application.
+        | The default enabled resources are picked for the common use-case. However,
+        | you are free to uncomment certain resource or add your own as you wish.
+        |
+        */
+        'enabled' => [
+            'AppKey',
+            // 'Broadcasting',
+            'Cache',
+            'ConfigurationCached',
+            'Database',
+            'DebugMode',
+            'DirectoryPermissions',
+            'DiskSpace',
+            // 'DocuSign',
+            // 'ElasticsearchConnectable',
+            'EnvExists',
+            'Filesystem',
+            'Framework',
+            // 'Horizon',
+            // 'Http',
+            'Https',
+            'LaravelServices',
+            'Latency',
+            'LocalStorage',
+            'Mail',
+            // 'MailgunConnectable',
+            // 'MemcachedConnectable',
+            'MigrationsUpToDate',
+            'MySql',
+            'MySqlConnectable',
+            // 'NewrelicDeamon',
+            'NginxServer',
+            // 'PackagesUpToDate',
+            'Php',
+            // 'PostgreSqlConnectable',
+            // 'PostgreSqlServer',
+            'Queue',
+            'QueueWorkers',
+            'RebootRequired',
+            'Redis',
+            'RedisConnectable',
+            'RedisServer',
+            'RoutesCached',
+            // 'S3',
+            'SecurityChecker',
+            'ServerLoad',
+            'ServerUptime',
+            // 'Sshd',
+            'Supervisor',
+        ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Health Monitor Sort Key
+    |--------------------------------------------------------------------------
+    |
+    | This value determines how the resources cards in your panel is sorted. By
+    | default, we sort by slug, but you may use other supported values below
+    |
+    | Options: 'abbreviation', 'slug', 'name'
+    */
     'sort_by' => 'slug',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Health Monitor Caching
+    |--------------------------------------------------------------------------
+    |
+    | Below is the list of configurations for health monitor caching mechanism
+    |
+    */
     'cache' => [
-        // forever = 0
-        // false = disabled
-        // default = 1 minute
-        // in debug mode defautls to "disabled"
-        'minutes' => config('app.debug') === true ? false : 1,
-
+        /*
+        |--------------------------------------------------------------------------
+        | Health Monitor Caching Key
+        |--------------------------------------------------------------------------
+        |
+        | This value determines the key to use for caching the results of health
+        | monitor. Please feel free to update this to suit your own convention
+        |
+        */
         'key' => 'health-resources',
+
+        /*
+        |--------------------------------------------------------------------------
+        | Health Monitor Caching Duration
+        |--------------------------------------------------------------------------
+        |
+        | This determines how long the results of each check should stay cached in
+        | your application. When your application is in "debug" mode caching is
+        | automatically disabled, otherwise we default to caching every minute
+        |
+        | Options:
+        |   0 = Cache Forever
+        |   false = Disables caching
+        |   30 = (integer) Minutes to cache
+        */
+        'minutes' => config('app.debug') === true ? false : 1,
     ],
 
     'database' => [
