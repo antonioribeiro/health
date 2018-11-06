@@ -308,6 +308,27 @@ Broadcasting checker is done via ping and pong system. The broadcast checker wil
         </body>
     </html>
 
+## Programatically checking resources
+
+``` php
+$generalHealthState = app('pragmarx.health')->checkResources();
+
+// or 
+
+$databaseHealthy = app('pragmarx.health')->checkResource('database')->isHealthy();
+```
+
+Checking in artisan commands example: 
+
+```
+Artisan::command('database:health', function () {
+    app('pragmarx.health')->checkResource('database')->isHealthy()
+        ? $this->info('database is healthy')
+        : $this->info('database is in trouble')
+    ;
+})->describe('Check database health');
+```
+
 ## Lumen
 To use it on Lumen, you'll probably need to do something like this on your `bootstrap/app.php`:
 
