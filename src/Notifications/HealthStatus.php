@@ -120,6 +120,7 @@ class HealthStatus extends Notification
     {
         return (new MailMessage())
             ->line($this->getMessage($notifiable))
+            ->line($this->result->errorMessage)
             ->from(
                 config('health.notifications.from.address'),
                 config('health.notifications.from.name')
