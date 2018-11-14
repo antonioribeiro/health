@@ -125,6 +125,7 @@ class HealthStatus extends Notification
                 config('health.notifications.from.address'),
                 config('health.notifications.from.name')
             )
+            ->subject($this->getSubject())
             ->action($this->getActionTitle(), $this->getActionLink());
     }
 
@@ -149,6 +150,16 @@ class HealthStatus extends Notification
     protected function getActionTitle()
     {
         return config('health.notifications.action-title');
+    }
+
+    /**
+     * Get the email subject.
+     *
+     * @return mixed
+     */
+    protected function getSubject()
+    {
+        return config('health.notifications.subject');
     }
 
     /**
