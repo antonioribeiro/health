@@ -11,12 +11,6 @@
         "server",
         "app"
     ],
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/caiquebb/yaml.git"
-        }
-    ],
     "license": "BSD-3-Clause",
     "authors": [
         {
@@ -40,7 +34,7 @@
         "illuminate/bus": ">=5.5",
         "illuminate/notifications": ">=5.5",
         "illuminate/config": ">=5.5",
-        "caiquebb/yaml": "dev-master",
+        "pragmarx/yaml": "^0.1.7",
         "phpunit/php-timer": "^1.0|^2.0"
     },
     "require-dev": {
