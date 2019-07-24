@@ -40,7 +40,7 @@
         "illuminate/bus": ">=5.5",
         "illuminate/notifications": ">=5.5",
         "illuminate/config": ">=5.5",
-        "caiquebb/yaml": "^0.1.7",
+        "caiquebb/yaml": "dev-master",
         "phpunit/php-timer": "^1.0|^2.0"
     },
     "require-dev": {
