@@ -187,6 +187,8 @@ return [
             'resource' => false,
         ],
 
+        'subject' => 'Health Status',
+
         'action-title' => 'View App Health',
 
         'action_message' => "The '%s' service is in trouble and needs attention%s",
