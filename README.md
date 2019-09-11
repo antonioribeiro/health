@@ -177,8 +177,8 @@ Returns a json with information about a particular service:
 
 ## Requirements
 
-- PHP 5.6+
-- Laravel 5.3+
+- PHP 7.1+
+- Laravel 5.6+
 
 ## Installing
 
