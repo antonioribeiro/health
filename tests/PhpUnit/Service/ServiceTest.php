@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\Tests\PhpUnit\Service;
 
+use Illuminate\Support\Str;
 use PragmaRX\Health\Commands;
 use PragmaRX\Yaml\Package\Yaml;
 use Illuminate\Support\Collection;
@@ -171,7 +172,7 @@ class ServiceTest extends TestCase
         );
 
         $this->assertTrue(
-            starts_with($controller->panel()->getContent(), '<!DOCTYPE html>')
+            Str::startsWith($controller->panel()->getContent(), '<!DOCTYPE html>')
         );
 
         $this->assertTrue(count($controller->config()) > 10);

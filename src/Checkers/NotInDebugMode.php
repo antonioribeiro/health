@@ -4,6 +4,7 @@ namespace PragmaRX\Health\Checkers;
 
 use DomainException;
 use Carbon\CarbonInterval;
+use Illuminate\Support\Str;
 use PragmaRX\Health\Support\Result;
 
 class NotInDebugMode extends Base
@@ -74,7 +75,7 @@ class NotInDebugMode extends Base
             ->map(function ($item, $key) {
                 $return = $item[0];
 
-                if (starts_with($key, 'load')) {
+                if (Str::startsWith($key, 'load')) {
                     $return = floatval($return);
                 } elseif (is_numeric($return)) {
                     $return = (int) $return;
