@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.10.0 - 2019-09-11
+### Added
+- Laravel 6 support 
+- Compatibility with PHP 7.4
+- Email notification improvements
+- Lumen support
+
 ## 0.9.16 - 2018-10-08
 ### Fixed
 - Properly use routes from configuration on axios requests. 
