@@ -33,7 +33,7 @@ class DirectoryAndFilePresence extends Base
      */
     public function check()
     {
-        list($messages, $result) = $this->checkPresence();
+        [$messages, $result] = $this->checkPresence();
 
         if ($result->count() == 0) {
             return $this->makeHealthyResult();
