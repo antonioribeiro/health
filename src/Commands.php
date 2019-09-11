@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use PragmaRX\Health\Service as HealthService;
 
@@ -86,7 +87,7 @@ class Commands
             $this->error(
                 $command,
                 "Application needs attention, $errors ".
-                    str_plural('resouce', $errors).
+                    Str::plural('resouce', $errors).
                     ' '.
                     ($errors > 1 ? 'are' : 'is').
                     ' currently failing.'

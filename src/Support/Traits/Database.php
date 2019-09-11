@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\Support\Traits;
 
+use Illuminate\Support\Str;
 use PragmaRX\Health\Data\Models\HealthCheck;
 
 trait Database
@@ -55,7 +56,7 @@ trait Database
             'resource_name' => $resource = $target->resource->name,
             'resource_slug' => $target->resource->slug,
             'target_name' => $target->name,
-            'target_slug' => str_slug($target->name),
+            'target_slug' => Str::slug($target->name),
             'target_display' => $target->display,
             'healthy' => $result->healthy,
             'error_message' => $result->errorMessage,

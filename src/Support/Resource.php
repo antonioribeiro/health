@@ -4,6 +4,7 @@ namespace PragmaRX\Health\Support;
 
 use JsonSerializable;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Support\Traits\ToArray;
 use PragmaRX\Health\Events\RaiseHealthIssue;
@@ -98,7 +99,7 @@ class Resource implements JsonSerializable
 
         $instance->name = $data['name'];
 
-        $instance->slug = str_slug($data['name']);
+        $instance->slug = Str::slug($data['name']);
 
         $instance->graphEnabled = isset($data['graph_enabled'])
             ? $data['graph_enabled']
@@ -217,7 +218,7 @@ class Resource implements JsonSerializable
     protected function keysToCamel($array)
     {
         return collect($array)->mapWithKeys(function ($item, $key) {
-            return [camel_case($key) => $item];
+            return [Str::camel($key) => $item];
         });
     }
 

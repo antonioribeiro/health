@@ -9,7 +9,7 @@ targets:
   - default:
       channel: pragmarx-health-broadcasting-channel
       route_name: pragmarx.health.broadcasting.callback
-      secret: "{{ str_random(32) }}"
+      secret: "{{ \\Illuminate\\Support\\Str::random(32) }}"
       timeout: 30
       routes:
         pragmarx.health.broadcasting.callback:

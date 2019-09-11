@@ -8,4 +8,4 @@ targets:
   - default:
       driver: s3
       file: pragmarx-health-s3-testfile.txt
-      contents: "{{ str_random(32) }}"
+      contents: "{{ \\Illuminate\\Support\\Str::random(32) }}"

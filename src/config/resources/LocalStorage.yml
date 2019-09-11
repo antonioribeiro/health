@@ -8,4 +8,4 @@ targets:
   - default:
       driver: local
       file: pragmarx-health-storage-testfile.txt
-      contents: "{{ str_random(32) }}"
+      contents: "{{ \\Illuminate\\Support\\Str::random(32) }}"

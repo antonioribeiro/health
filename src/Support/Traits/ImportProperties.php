@@ -2,6 +2,8 @@
 
 namespace PragmaRX\Health\Support\Traits;
 
+use Illuminate\Support\Str;
+
 trait ImportProperties
 {
     /**
@@ -12,7 +14,7 @@ trait ImportProperties
     public function importProperties($data)
     {
         $data->each(function ($value, $key) {
-            $key = camel_case($key);
+            $key = Str::camel($key);
 
             if (! property_exists($this, $key)) {
                 $this->$key = $value;
