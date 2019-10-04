@@ -23,7 +23,8 @@
         "php": ">=7.0",
         "illuminate/support": ">=5.5",
         "pragmarx/yaml": ">=0.1",
-        "phpunit/php-timer": "^1.0|^2.0"
+        "phpunit/php-timer": "^1.0|^2.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": ">=6.5",
