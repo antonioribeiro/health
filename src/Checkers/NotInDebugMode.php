@@ -34,7 +34,7 @@ class NotInDebugMode extends Base
      * Execute command to get an uptime string.
      *
      * @return mixed|string
-     * @throws Exception
+     * @throws DomainException
      */
     private function executeUptimeCommand()
     {
@@ -53,7 +53,7 @@ class NotInDebugMode extends Base
      * Get current uptime.
      *
      * @return static
-     * @throws Exception
+     * @throws DomainException
      */
     protected function getCurrentUptime()
     {
