@@ -2,11 +2,11 @@
 
 namespace PragmaRX\Health\Listeners;
 
+use ReflectionClass;
+use ReflectionException;
 use Illuminate\Support\Facades\Notification;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Notifications\HealthStatus;
-use ReflectionClass;
-use ReflectionException;
 
 class NotifyHealthIssue
 {
