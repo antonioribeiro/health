@@ -215,7 +215,7 @@ return [
 
         'channels' => ['mail', 'slack'], // mail, slack
 
-        'notifier' => 'PragmaRX\Health\Notifications',
+        'notifier' => 'PragmaRX\Health\Notifications\HealthStatus',
     ],
 
     'alert' => [
