@@ -2,9 +2,9 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use PragmaRX\Health\Support\Result;
-use Illuminate\Support\Facades\Mail as IlluminateMail;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Mail as IlluminateMail;
+use PragmaRX\Health\Support\Result;
 
 class Mail extends Base
 {
