@@ -2,11 +2,12 @@
 
 namespace PragmaRX\Health\Notifications;
 
-use Request;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
+use Request;
 
 class HealthStatus extends Notification
 {
@@ -173,7 +174,7 @@ class HealthStatus extends Notification
 
         return sprintf(
             $this->getActionMessage($this),
-            studly_case($this->resource->name),
+            Str::studly($this->resource->name),
             $domain ? " in {$domain}." : '.'
         );
     }
