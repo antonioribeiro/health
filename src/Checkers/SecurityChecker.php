@@ -17,7 +17,7 @@ class SecurityChecker extends Base
         $checker = new SensioLabsSecurityChecker();
 
         $result = $checker->check(base_path('composer.lock'));
-        $alerts = json_decode((string)$result, true);
+        $alerts = json_decode((string) $result, true);
         if (0 === count($alerts)) {
             return $this->makeHealthyResult();
         }
