@@ -13,6 +13,8 @@ class PortCheck extends Base
      */
     public function check()
     {
+        $this->prepareTargetData();
+
         if (
             $this->portIsNotConnectable(
                 $ipAddress = ip_address_from_hostname($this->target->hostname)
@@ -79,5 +81,15 @@ class PortCheck extends Base
             $this->target->port,
             $this->target->timeout ?? 1
         );
+    }
+
+    private function prepareTargetData(): void
+    {
+        if (null === $this->target->port) {
+            $url = parse_url($this->target->hostname);
+
+            $this->target->hostname = $url['host'];
+            $this->target->port = $url['port'];
+        }
     }
 }

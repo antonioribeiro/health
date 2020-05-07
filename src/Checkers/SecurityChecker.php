@@ -3,7 +3,7 @@
 namespace PragmaRX\Health\Checkers;
 
 use PragmaRX\Health\Support\Result;
-use SensioLabs\Security\SecurityChecker as SensioLabsSecurityChecker;
+use SensioLabs\Security\SecurityChecker as BaseSecurityChecker;
 
 class SecurityChecker extends Base
 {
@@ -14,7 +14,7 @@ class SecurityChecker extends Base
      */
     public function check()
     {
-        $checker = new SensioLabsSecurityChecker();
+        $checker = new BaseSecurityChecker();
 
         $alerts = $checker->check(base_path('composer.lock'));
 

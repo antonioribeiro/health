@@ -1,5 +1,5 @@
 {
-    "name": "pragmarx/health",
+    "name": "tenantcloud/health",
     "description": "Laravel Server & App Health Monitor and Notifier",
     "keywords": [
         "health",
