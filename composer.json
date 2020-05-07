@@ -21,19 +21,19 @@
     ],
     "require": {
         "php": ">=7.0",
-        "illuminate/support": ">=5.5",
+        "illuminate/support": ">=7.0.0",
         "pragmarx/yaml": ">=0.1",
         "phpunit/php-timer": "^3.1.4",
         "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0",
-        "laravel/laravel": ">=5.5",
-        "orchestra/testbench": ">=3.5",
+        "laravel/laravel": ">=7.0.0",
+        "orchestra/testbench": ">=5.2.0",
         "guzzlehttp/guzzle": "~6.0",
-        "docusign/esign-client": "^2.0",
+        "docusign/esign-client": "^5.1.0",
         "predis/predis": "^1.0",
-        "sensiolabs/security-checker": "^4.1",
+        "sensiolabs/security-checker": "^6.0.3",
         "nesbot/carbon": ">=1.34"
     },
     "suggest": {

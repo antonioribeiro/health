@@ -136,7 +136,6 @@ if (! function_exists('human_to_bytes')) {
 if (! function_exists('ip_address_from_hostname')) {
     function ip_address_from_hostname($host)
     {
-//        dd($host);
         if (
             filter_var(
                 $host,
