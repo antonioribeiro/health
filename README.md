@@ -28,7 +28,6 @@ Heath has pre-configured resource checkers for the following services:
 - DebugMode
 - DirectoryPermissions
 - DiskSpace
-- DocuSign
 - ElasticsearchConnectable
 - EnvExists
 - Filesystem
@@ -59,7 +58,6 @@ Heath has pre-configured resource checkers for the following services:
 - RedisServer
 - RoutesCached
 - S3
-- SecurityChecker
 - ServerLoad
 - ServerUptime
 - Sshd
