@@ -183,6 +183,7 @@ return [
             'check' => true,
             'string' => true,
             'resource' => false,
+            'status' => true,
         ],
 
         'subject' => 'Health Status',
@@ -286,6 +287,13 @@ return [
                 'uri' => "{$route_prefix}/string",
                 'name' => 'pragmarx.health.string',
                 'action' => "{$namespace}@string",
+                'middleware' => [],
+            ],
+
+            [
+                'uri' => "{$route_prefix}/status",
+                'name' => 'pragmarx.health.status',
+                'action' => "{$namespace}@status",
                 'middleware' => [],
             ],
 

@@ -2,7 +2,9 @@
 
 namespace PragmaRX\Health;
 
+use Illuminate\Http\Response;
 use PragmaRX\Health\Support\Cache;
+use PragmaRX\Health\Support\Resource;
 use PragmaRX\Health\Support\ResourceChecker;
 
 class Service
@@ -141,5 +143,30 @@ class Service
                     $resource->isHealthy()
                 );
         });
+    }
+
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
+    public function status(): array
+    {
+        $result = [
+            'status'    => Response::HTTP_OK,
+            'resources' => [],
+        ];
+
+        foreach ($this->checkResources(true) as $resource) {
+            /** @var Resource $resource */
+            $isHealthy = $resource->isHealthy();
+
+            $result['resources'][$resource->abbreviation] = $isHealthy;
+
+            if (!$isHealthy) {
+                $result['status'] = Response::HTTP_SERVICE_UNAVAILABLE;
+            }
+        }
+
+        return $result;
     }
 }

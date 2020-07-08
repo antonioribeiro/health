@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\Http\Controllers;
 
+use Illuminate\Http\Response;
 use PragmaRX\Health\Service;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
@@ -72,6 +73,20 @@ class Health extends Controller
         return response(
             $this->healthService->string()
         );
+    }
+
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
+    public function status()
+    {
+        $this->healthService->setAction('status');
+
+        $result = $this->healthService->status();
+
+        return response()
+            ->json($result['resources'], $result['status']);
     }
 
     /**
