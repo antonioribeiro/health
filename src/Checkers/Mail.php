@@ -2,8 +2,9 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use PragmaRX\Health\Support\Result;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail as IlluminateMail;
+use PragmaRX\Health\Support\Result;
 
 class Mail extends Base
 {
@@ -70,7 +71,7 @@ class Mail extends Base
     private function sendMail()
     {
         IlluminateMail::send($this->target->view, [], function ($message) {
-            $fromAddress = array_get($this->target->config, 'from.address');
+            $fromAddress = Arr::get($this->target->config, 'from.address');
 
             $message->returnPath($fromAddress);
 
