@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.0 - 2020-08-??
+- Fixed the deprecated use of implode
+- Add support for phpunit/php-timer 3
+- Added $dateFormat for MS SQL Server support
+- Fix SensioLabsSecurityChecker results
+- Fix Laravel deprecated helpers
+- Fix notifier
+
+## 0.10.2 - 2020-08-01
+- Fix Laravel 7.22.0 breaking change
+
 ## 0.10.0 - 2019-09-11
 ### Added
 - Laravel 6 support 
