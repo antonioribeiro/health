@@ -3,16 +3,16 @@
 namespace PragmaRX\Health;
 
 use Event;
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-use PragmaRX\Health\Console\Commands as ConsoleCommands;
-use PragmaRX\Health\Events\RaiseHealthIssue;
-use PragmaRX\Health\Listeners\NotifyHealthIssue;
+use PragmaRX\Yaml\Package\Yaml;
 use PragmaRX\Health\Support\Cache;
-use PragmaRX\Health\Support\ResourceChecker;
+use Illuminate\Console\Scheduling\Schedule;
 use PragmaRX\Health\Support\ResourceLoader;
 use PragmaRX\Health\Support\Traits\Routing;
-use PragmaRX\Yaml\Package\Yaml;
+use PragmaRX\Health\Events\RaiseHealthIssue;
+use PragmaRX\Health\Support\ResourceChecker;
+use PragmaRX\Health\Listeners\NotifyHealthIssue;
+use PragmaRX\Health\Console\Commands as ConsoleCommands;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
