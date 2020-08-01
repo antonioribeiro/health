@@ -1,0 +1,12 @@
+phpVersion: "7.4"
+trailingComma: all
+printWidth: 80
+tabWidth: 4
+useTabs: false
+singleQuote: true
+trailingCommaPHP: true
+braceStyle: psr-2
+requirePragma: false
+insertPragma: false
+semi: false
+vueIndentScriptAndStyle: true
