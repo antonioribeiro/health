@@ -69,7 +69,7 @@
 </template>
 
 <script>
-Vue.component('target-chart', require('./Chart.vue'))
+Vue.component('target-chart', require('./Chart.vue').default)
 
 export default {
     props: ['resource', 'target', 'config'],
