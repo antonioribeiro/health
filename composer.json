@@ -30,18 +30,18 @@
         "phpunit/phpunit": ">=6.5",
         "laravel/laravel": ">=5.5",
         "orchestra/testbench": ">=3.5",
-        "guzzlehttp/guzzle": "~6.0",
-        "docusign/esign-client": "^2.0",
-        "predis/predis": "^1.0",
-        "sensiolabs/security-checker": "^4.1",
+        "guzzlehttp/guzzle": ">=6.0",
+        "docusign/esign-client": ">=2.0",
+        "predis/predis": ">=1.0",
+        "sensiolabs/security-checker": ">=4.1",
         "nesbot/carbon": ">=1.34"
     },
     "suggest": {
-        "guzzlehttp/guzzle": "~6.0",
-        "docusign/esign-client": "^2.0",
-        "predis/predis": "^1.0",
-        "league/flysystem-aws-s3-v3": "^1.0",
-        "sensiolabs/security-checker": "^4.1"
+        "guzzlehttp/guzzle": ">=6.0",
+        "docusign/esign-client": ">=2.0",
+        "predis/predis": ">=1.0",
+        "league/flysystem-aws-s3-v3": ">=1.0",
+        "sensiolabs/security-checker": ">=4.1"
     },
     "autoload": {
         "files": [
