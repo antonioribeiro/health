@@ -4,3 +4,4 @@ composer.phar
 tests/_output/*
 coverage
 node_modules/
+.phpunit.result.cache
