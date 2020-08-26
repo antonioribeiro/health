@@ -4116,16 +4116,16 @@
         },
         {
             "name": "docusign/esign-client",
-            "version": "v5.3.0",
+            "version": "v5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/docusign/docusign-php-client.git",
-                "reference": "f8aff42cc62e652da635399d24a5263a4f6e284a"
+                "reference": "2a474d0cfbd7fa768fc2a34376f3d911b30fc198"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/docusign/docusign-php-client/zipball/f8aff42cc62e652da635399d24a5263a4f6e284a",
-                "reference": "f8aff42cc62e652da635399d24a5263a4f6e284a",
+                "url": "https://api.github.com/repos/docusign/docusign-php-client/zipball/2a474d0cfbd7fa768fc2a34376f3d911b30fc198",
+                "reference": "2a474d0cfbd7fa768fc2a34376f3d911b30fc198",
                 "shasum": ""
             },
             "require": {
@@ -4167,7 +4167,7 @@
                 "php",
                 "sdk"
             ],
-            "time": "2020-07-07T23:36:41+00:00"
+            "time": "2020-08-25T17:57:48+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -5720,12 +5720,12 @@
             "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nrk/predis.git",
+                "url": "https://github.com/predis/predis.git",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
+                "url": "https://api.github.com/repos/predis/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "shasum": ""
             },
@@ -5762,6 +5762,16 @@
                 "nosql",
                 "predis",
                 "redis"
+            ],
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/tillkruss",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/tillkruss",
+                    "type": "github"
+                }
             ],
             "time": "2016-06-16T16:22:20+00:00"
         },
