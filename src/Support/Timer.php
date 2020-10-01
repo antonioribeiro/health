@@ -31,9 +31,15 @@ class Timer
 
     public static function stopSB()
     {
-        return static::isStatic()
-            ? SBTimer::stop()->asSeconds()
-            : static::getSBInstance()->stop()->asSeconds();
+        $result = static::isStatic()
+            ? SBTimer::stop()
+            : static::getSBInstance()->stop();
+
+        if (is_object($result)) {
+            return $result->asSeconds();
+        }
+
+        return $result;
     }
 
     public static function isStatic()
