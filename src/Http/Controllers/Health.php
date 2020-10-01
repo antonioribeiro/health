@@ -2,9 +2,9 @@
 
 namespace PragmaRX\Health\Http\Controllers;
 
-use PragmaRX\Health\Service;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
+use PragmaRX\Health\Service;
 
 class Health extends Controller
 {

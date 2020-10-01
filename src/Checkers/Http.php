@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use GuzzleHttp\TransferStats;
 use GuzzleHttp\Client as Guzzle;
+use GuzzleHttp\TransferStats;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Support\Result;
 

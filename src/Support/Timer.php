@@ -43,7 +43,7 @@ class Timer
 
     public static function getSBInstance()
     {
-        if (!empty(static::$sbTimer)) {
+        if (! empty(static::$sbTimer)) {
             return static::$sbTimer;
         }
 

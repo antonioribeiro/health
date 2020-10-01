@@ -2,13 +2,13 @@
 
 namespace PragmaRX\Health\Support;
 
-use JsonSerializable;
-use Ramsey\Uuid\Uuid;
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use PragmaRX\Health\Support\Traits\ToArray;
+use Illuminate\Support\Str;
+use JsonSerializable;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Support\Traits\ImportProperties;
+use PragmaRX\Health\Support\Traits\ToArray;
+use Ramsey\Uuid\Uuid;
 
 class Resource implements JsonSerializable
 {
