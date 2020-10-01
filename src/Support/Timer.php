@@ -2,10 +2,12 @@
 
 namespace PragmaRX\Health\Support;
 
-use \SebastianBergmann\Timer\Timer as SBTimer;
+use SebastianBergmann\Timer\Timer as SBTimer;
 
 class Timer
 {
+    private static $sbTimer;
+
     public static function start()
     {
         return class_exists('SebastianBergmann\Timer\Timer')
@@ -22,12 +24,16 @@ class Timer
 
     public static function startSB()
     {
-        return static::isStatic() ? SBTimer::start() : static::getSBInstance()->start();
+        return static::isStatic()
+            ? SBTimer::start()
+            : static::getSBInstance()->start();
     }
 
     public static function stopSB()
     {
-        return static::isStatic() ? SBTimer::start() : static::getSBInstance()->start();
+        return static::isStatic()
+            ? SBTimer::stop()->asSeconds()
+            : static::getSBInstance()->stop()->asSeconds();
     }
 
     public static function isStatic()
@@ -37,7 +43,11 @@ class Timer
 
     public static function getSBInstance()
     {
-        return new SBTimer();
+        if (!empty(static::$sbTimer)) {
+            return static::$sbTimer;
+        }
+
+        return static::$sbTimer = new SBTimer();
     }
 
     public static function getStaticMethodNames()
