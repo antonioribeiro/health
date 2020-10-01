@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use PragmaRX\Health\Service as HealthService;
 
 class Commands

@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use DomainException;
 use Carbon\CarbonInterval;
+use DomainException;
 use Illuminate\Support\Str;
 use PragmaRX\Health\Support\Result;
 

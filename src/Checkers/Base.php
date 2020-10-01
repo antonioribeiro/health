@@ -2,9 +2,9 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use PragmaRX\Health\Support\Timer;
 use PragmaRX\Health\Support\Result;
 use PragmaRX\Health\Support\Target;
+use PragmaRX\Health\Support\Timer;
 use PragmaRX\Health\Support\Traits\Database;
 
 abstract class Base implements Contract

@@ -2,12 +2,12 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use DomainException;
-use DocuSign\eSign\ApiClient;
-use DocuSign\eSign\Configuration;
-use PragmaRX\Health\Support\Result;
 use DocuSign\eSign\Api\AuthenticationApi;
 use DocuSign\eSign\Api\AuthenticationApi\LoginOptions;
+use DocuSign\eSign\ApiClient;
+use DocuSign\eSign\Configuration;
+use DomainException;
+use PragmaRX\Health\Support\Result;
 
 class Docusign extends Base
 {

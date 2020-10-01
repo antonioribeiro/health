@@ -2,11 +2,11 @@
 
 namespace PragmaRX\Health\Support\Jobs;
 
-use stdClass;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use stdClass;
 
 class TestJob implements ShouldQueue
 {
