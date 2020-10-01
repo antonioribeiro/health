@@ -2,13 +2,13 @@
 
 namespace PragmaRX\Health\Tests\PhpUnit\Service;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use PragmaRX\Health\Commands;
-use PragmaRX\Yaml\Package\Yaml;
-use Illuminate\Support\Collection;
+use PragmaRX\Health\Http\Controllers\Health as HealthController;
 use PragmaRX\Health\Support\ResourceLoader;
 use PragmaRX\Health\Tests\PhpUnit\TestCase;
-use PragmaRX\Health\Http\Controllers\Health as HealthController;
+use PragmaRX\Yaml\Package\Yaml;
 
 class ServiceTest extends TestCase
 {
