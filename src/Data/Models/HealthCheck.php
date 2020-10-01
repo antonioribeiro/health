@@ -28,8 +28,8 @@ class HealthCheck extends Model
      * @var string
      */
     const UPDATED_AT = null;
-    
-     /**
+
+    /**
      * @var string
      * Set $dateFormat due to Carbon rawCreateFromFormat issue with MS SQL Server datetime format, which includes milliseconds.
      */

@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Console\Commands;
 
-use PragmaRX\Health\Commands;
 use Illuminate\Console\Command;
+use PragmaRX\Health\Commands;
 
 class HealthCheckCommand extends Command
 {
