@@ -57,6 +57,11 @@ class ServiceTest extends TestCase
         return implode('', $stringParts);
     }
 
+    public function testResourcesTimeIsCorrectlySet()
+    {
+        $this->assertGreaterThan(0, $this->getResources()['AppKey']->targets[0]->result->elapsedTime);
+    }
+
     public function testResourcesWhereChecked()
     {
         $this->assertCheckedResources($this->getResources());
