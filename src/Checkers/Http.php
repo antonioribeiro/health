@@ -40,9 +40,9 @@ class Http extends Base
             $health = [];
 
             foreach ($this->getResourceUrlArray() as $url) {
-                [$url, $parameters] = $this->parseConfigUrl($url);
+                list($url, $parameters) = $this->parseConfigUrl($url);
 
-                [$healthy, $message] = $this->checkWebPage(
+                list($healthy, $message) = $this->checkWebPage(
                     $this->makeUrlWithScheme($url, $this->secure),
                     $this->secure,
                     $parameters,
