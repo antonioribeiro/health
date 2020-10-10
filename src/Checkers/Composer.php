@@ -51,7 +51,7 @@ class Composer extends Base
                 '%s %s',
                 $this->target->resource->binary,
                 $this->target->resource->command
-            )
+            ),
         ];
     }
 
