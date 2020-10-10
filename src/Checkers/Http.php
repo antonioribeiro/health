@@ -40,9 +40,12 @@ class Http extends Base
             $health = [];
 
             foreach ($this->getResourceUrlArray() as $url) {
+                list($url, $parameters) = $this->parseConfigUrl($url);
+
                 [$healthy, $message] = $this->checkWebPage(
                     $this->makeUrlWithScheme($url, $this->secure),
-                    $this->secure
+                    $this->secure,
+                    $parameters
                 );
 
                 if (! $healthy) {
@@ -79,9 +82,9 @@ class Http extends Base
      * @param bool $ssl
      * @return mixed
      */
-    private function checkWebPage($url, $ssl = false)
+    private function checkWebPage($url, $ssl = false, $parameters = [])
     {
-        $success = $this->requestSuccessful($url, $ssl);
+        $success = $this->requestSuccessful($url, $ssl, $parameters);
 
         return [$success, $success ? '' : $this->getErrorMessage()];
     }
@@ -94,14 +97,14 @@ class Http extends Base
      * @return mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function fetchResponse($url, $ssl)
+    private function fetchResponse($url, $ssl, $parameters = [])
     {
         $this->url = $url;
 
         return (new Guzzle())->request(
             'GET',
             $this->url,
-            $this->getConnectionOptions($ssl)
+            array_merge($this->getConnectionOptions($ssl), $parameters)
         );
     }
 
@@ -194,10 +197,10 @@ class Http extends Base
      * @return bool
      * @internal param $response
      */
-    private function requestSuccessful($url, $ssl)
+    private function requestSuccessful($url, $ssl, $parameters)
     {
         return
-            $this->fetchResponse($url, $ssl)->getStatusCode() == 200 &&
+            $this->fetchResponse($url, $ssl, $parameters)->getStatusCode() == 200 &&
             ! $this->requestTimedout();
     }
 
@@ -209,5 +212,18 @@ class Http extends Base
     private function requestTimedout()
     {
         return $this->totalTime > $this->getRoundtripTimeout();
+    }
+
+    public function parseConfigUrl($data)
+    {
+        if (is_string($data)) {
+            return [$data, []];
+        }
+
+        $url = array_keys($data)[0];
+
+        $parameters = $data[$url];
+
+        return [$url, $parameters];
     }
 }
