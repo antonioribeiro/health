@@ -48,6 +48,7 @@ return [
             'AppKey',
             // 'Broadcasting',
             'Cache',
+            'Certificate',
             'ConfigurationCached',
             'Database',
             'DebugMode',
