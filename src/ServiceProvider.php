@@ -75,6 +75,14 @@ class ServiceProvider extends IlluminateServiceProvider
     private $healthServiceClosure;
 
     /**
+     * Boot
+     */
+    public function boot()
+    {
+        $this->bootTasks();
+    }
+
+    /**
      * Configure package paths.
      */
     private function configurePaths()
@@ -250,8 +258,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->registerRoutes();
 
-        $this->registerTasks();
-
         $this->registerEventListeners();
 
         $this->registerConsoleCommands();
@@ -336,13 +342,13 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * Register scheduled tasks.
      */
-    private function registerTasks()
+    private function bootTasks()
     {
-        if (
-            config('health.scheduler.enabled') &&
-            ($frequency = config('health.scheduler.frequency')) &&
-            config('health.notifications.enabled')
-        ) {
+        $enabled = config('health.notifications.scheduler.enabled');
+
+        $frequency = config('health.notifications.scheduler.frequency');
+
+        if ($enabled && $frequency) {
             $scheduler = instantiate(Schedule::class);
 
             $scheduler

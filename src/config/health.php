@@ -204,9 +204,9 @@ return [
         ],
 
         'scheduler' => [
-            'enabled' => true,
+            'enabled' => false,
 
-            'frequency' => 'everyMinute', // most methods on -- https://laravel.com/docs/5.3/scheduling#defining-schedules
+            'frequency' => 'everyFiveMinutes', // most methods on -- https://laravel.com/docs/8.x/scheduling#schedule-frequency-options
         ],
 
         'users' => [
