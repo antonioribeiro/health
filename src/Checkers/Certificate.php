@@ -3,9 +3,8 @@
 namespace PragmaRX\Health\Checkers;
 
 use Illuminate\Support\Collection;
-use Spatie\SslCertificate\SslCertificate;
-use Illuminate\Support\Facades\Cache as IlluminateCache;
 use PragmaRX\Health\Support\Result;
+use Spatie\SslCertificate\SslCertificate;
 
 class Certificate extends Base
 {
@@ -20,7 +19,7 @@ class Certificate extends Base
             foreach ($this->getResourceUrlArray() as $url) {
                 [$healthy, $message] = $this->checkCertificate($url);
 
-                if (!$healthy) {
+                if (! $healthy) {
                     return $this->makeResult(false, $message);
                 }
             }
@@ -70,8 +69,7 @@ class Certificate extends Base
     {
         $parsed = parse_url($url);
 
-        if (isset($parsed['host']))
-        {
+        if (isset($parsed['host'])) {
             return $parsed['host'];
         }
 
