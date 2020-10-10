@@ -11,3 +11,6 @@ targets:
       urls:
         - '{{ config("app.url") }}'
         - https://google.com
+        - https://yahoo.com:
+            headers:
+              Authorization: Basic ***REMOVED***
