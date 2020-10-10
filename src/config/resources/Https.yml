@@ -13,4 +13,4 @@ targets:
         - https://google.com
         - https://yahoo.com:
             headers:
-              Authorization: Basic ***REMOVED***
+              Authorization: Basic zzz0czBmz2zkzXRpb25sbzVpzzZ1zXRzz2zuZzz6z29hzC1zZWzkzQ==
