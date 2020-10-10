@@ -24,6 +24,7 @@ Heath has pre-configured resource checkers for the following services:
 - Broadcasting
 - Cache
 - ConfigurationCached
+- Certificate
 - Database
 - DebugMode
 - DirectoryPermissions

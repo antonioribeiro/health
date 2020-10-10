@@ -1,0 +1,11 @@
+name: Certificate
+abbreviation: ccert
+checker: PragmaRX\Health\Checkers\Certificate
+notify: true
+error_message: "Invalid certificate for domain: %s"
+column_size: 3
+targets:
+  - default:
+      urls:
+        - '{{ config("app.url") }}'
+        - http://google.com
