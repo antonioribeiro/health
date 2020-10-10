@@ -46,11 +46,13 @@ class Composer extends Base
      */
     protected function makeCommand()
     {
-        return sprintf(
-            '%s %s',
-            $this->target->resource->binary,
-            $this->target->resource->command
-        );
+        return [
+            sprintf(
+                '%s %s',
+                $this->target->resource->binary,
+                $this->target->resource->command
+            )
+        ];
     }
 
     /**
