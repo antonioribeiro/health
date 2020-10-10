@@ -41,7 +41,8 @@
         "docusign/esign-client": ">=2.0",
         "predis/predis": ">=1.0",
         "league/flysystem-aws-s3-v3": ">=1.0",
-        "sensiolabs/security-checker": ">=4.1"
+        "sensiolabs/security-checker": ">=4.1",
+        "spatie/ssl-certificate": ">=1.0"
     },
     "autoload": {
         "files": [
