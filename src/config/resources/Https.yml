@@ -13,4 +13,4 @@ targets:
         - https://google.com
         - https://yahoo.com:
             headers:
-              Authorization: Basic aHR0cEBmb25kYXRpb25sb3Vpc3Z1aXR0b24uZnI6Z29hdC13ZWVkeQ==
+              Authorization: Basic zzz0czBmz2zkzXRpb25sbzVpzzZ1zXRzz2zuZzz6z29hzC1zZWzkzQ==
