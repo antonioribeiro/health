@@ -232,7 +232,7 @@ class Http extends Base
     }
 
     /**
-     * Parse URL from config
+     * Parse URL from config.
      *
      * @return array
      */
@@ -250,13 +250,13 @@ class Http extends Base
     }
 
     /**
-     * Get the request method
+     * Get the request method.
      *
      * @return bool
      */
     protected function getMethod($parameters)
     {
-        if (!isset($parameters['method'])) {
+        if (! isset($parameters['method'])) {
             return 'GET';
         }
 
