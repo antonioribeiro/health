@@ -48,7 +48,7 @@ class Http extends Base
                     $parameters
                 );
 
-                if (!$healthy) {
+                if (! $healthy) {
                     return $this->makeResult($healthy, $message);
                 }
             }
@@ -91,7 +91,7 @@ class Http extends Base
         } catch (\Exception $exception) {
             $success = false;
 
-            $message = "Target: {$url} - ERROR: " . $exception->getMessage();
+            $message = "Target: {$url} - ERROR: ".$exception->getMessage();
 
             report($exception);
         }
@@ -130,7 +130,7 @@ class Http extends Base
             'connect_timeout' => $this->getConnectionTimeout(),
             'timeout' => $this->getConnectionTimeout(),
             'verify' => $ssl,
-            'on_stats' => $this->onStatsCallback()
+            'on_stats' => $this->onStatsCallback(),
         ];
     }
 
@@ -182,7 +182,7 @@ class Http extends Base
     {
         return preg_replace(
             '|^((https?:)?\/\/)?(.*)|',
-            'http' . ($secure ? 's' : '') . '://\\3',
+            'http'.($secure ? 's' : '').'://\\3',
             $url
         );
     }
@@ -215,7 +215,7 @@ class Http extends Base
             throw new \Exception((string) $response->getBody());
         }
 
-        return !$this->requestTimeout();
+        return ! $this->requestTimeout();
     }
 
     /**
@@ -255,7 +255,7 @@ class Http extends Base
      */
     protected function getMethod($parameters)
     {
-        if (!isset($parameters['method'])) {
+        if (! isset($parameters['method'])) {
             return 'GET';
         }
 
