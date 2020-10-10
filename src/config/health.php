@@ -45,6 +45,7 @@ return [
         |
         */
         'enabled' => [
+            'API',
             'AppKey',
             // 'Broadcasting',
             'Cache',

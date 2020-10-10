@@ -92,6 +92,8 @@ class Http extends Base
             $success = false;
 
             $message = "Target: {$url} - ERROR: ".$exception->getMessage();
+
+            report($exception);
         }
 
         return [$success, $success ? '' : $message];
@@ -110,9 +112,12 @@ class Http extends Base
         $this->url = $url;
 
         return (new Guzzle())->request(
-            'GET',
+            $this->getMethod($parameters),
             $this->url,
-            array_merge($this->getConnectionOptions($ssl), $parameters)
+            array_merge(
+                $this->getConnectionOptions($ssl),
+                $parameters
+            )
         );
     }
 
@@ -207,9 +212,13 @@ class Http extends Base
      */
     private function requestSuccessful($url, $ssl, $parameters)
     {
-        return
-            $this->fetchResponse($url, $ssl, $parameters)->getStatusCode() == 200 &&
-            ! $this->requestTimedout();
+        $response = $this->fetchResponse($url, $ssl, $parameters);
+
+        if ($response->getStatusCode() >= 400) {
+            throw new \Exception((string) $response->getBody());
+        }
+
+        return ! $this->requestTimeout();
     }
 
     /**
@@ -217,12 +226,17 @@ class Http extends Base
      *
      * @return bool
      */
-    private function requestTimedout()
+    private function requestTimeout()
     {
         return $this->totalTime > $this->getRoundtripTimeout();
     }
 
-    public function parseConfigUrl($data)
+    /**
+     * Parse URL from config
+     *
+     * @return array
+     */
+    protected function parseConfigUrl($data)
     {
         if (is_string($data)) {
             return [$data, []];
@@ -233,5 +247,19 @@ class Http extends Base
         $parameters = $data[$url];
 
         return [$url, $parameters];
+    }
+
+    /**
+     * Get the request method
+     *
+     * @return bool
+     */
+    protected function getMethod($parameters)
+    {
+        if (!isset($parameters['method'])) {
+            return 'GET';
+        }
+
+        return $parameters['method'];
     }
 }
