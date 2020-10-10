@@ -14,3 +14,24 @@ targets:
         - https://yahoo.com:
             headers:
               Authorization: Basic zzz0czBmz2zkzXRpb25sbzVpzzZ1zXRzz2zuZzz6z29hzC1zZWzkzQ==
+        - https://api.sendinblue.com/v3/account:
+            headers:
+              api-key: "{{ config('services.sendinblue.api_key') }}"
+            method: GET
+        - url-via-config-1:
+            url: "{{ config('services.see_tickets.api.endpoint') }}"
+            method: POST
+            auth:
+              - "{{ config('services.see_tickets.api.username') }}"
+              - "{{ config('services.see_tickets.api.password') }}"
+              - basic
+        - url-via-config-2:
+            url: "{{ config('services.whatever.url') }}"
+            method: POST
+            debug: false
+            form_params:
+              username: "{{ config('services.whatever.username') }}"
+              resource: "{{ config('services.whatever.api_endpoint') }}"
+              grant_type: password
+              password: "{{ config('services.whatever.password') }}"
+              client_id: "{{ config('services.whatever.client_id') }}"
