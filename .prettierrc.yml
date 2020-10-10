@@ -4,7 +4,7 @@ printWidth: 80
 tabWidth: 4
 useTabs: false
 singleQuote: true
-trailingCommaPHP: true
+trailingCommaPHP: false
 braceStyle: psr-2
 requirePragma: false
 insertPragma: false

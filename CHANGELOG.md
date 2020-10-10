@@ -1,7 +1,20 @@
 # Changelog
 
+## 1.0.0 - 2020-10-10
+- Add SSL certificates checker
+- Allow using URL parameter at the same level of method
+- Add support for API checks via the HTTP checker and add example
+- Add URL to error message when HTTP is not able to connect
+- Allow adding HTTP headers to requests
+- Allow HTTP checker method to be changed
+- Allow HTTP checker to POST with data
+- Allow configuration of Guzzle on the HTTP checker
 
-## 0.11.0 - 2020-10-11
+## 0.11.1 - 2020-10-01
+## 0.11.0 - 2020-10-01
+- Add Laravel 8 support
+
+## 0.10.4 - 2020-10-01
 - Fixed the deprecated use of implode
 - Add support for phpunit/php-timer 3
 - Added $dateFormat for MS SQL Server support
