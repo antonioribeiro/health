@@ -75,7 +75,7 @@ class ServiceProvider extends IlluminateServiceProvider
     private $healthServiceClosure;
 
     /**
-     * Boot
+     * Boot.
      */
     public function boot()
     {
