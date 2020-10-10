@@ -84,9 +84,17 @@ class Http extends Base
      */
     private function checkWebPage($url, $ssl = false, $parameters = [])
     {
-        $success = $this->requestSuccessful($url, $ssl, $parameters);
+        try {
+            $success = $this->requestSuccessful($url, $ssl, $parameters);
 
-        return [$success, $success ? '' : $this->getErrorMessage()];
+            $message = $this->getErrorMessage();
+        } catch (\Exception $exception) {
+            $success = false;
+
+            $message = "Target: {$url} - ERROR: ".$exception->getMessage();
+        }
+
+        return [$success, $success ? '' : $message];
     }
 
     /**
