@@ -45,7 +45,7 @@ class Http extends Base
                 list($healthy, $message) = $this->checkWebPage(
                     $this->makeUrlWithScheme($url, $this->secure),
                     $this->secure,
-                    $parameters,
+                    $parameters
                 );
 
                 if (! $healthy) {

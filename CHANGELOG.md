@@ -1,6 +1,7 @@
 # Changelog
 
-## 1.0.0 - 2020-08-??
+
+## 0.11.0 - 2020-10-11
 - Fixed the deprecated use of implode
 - Add support for phpunit/php-timer 3
 - Added $dateFormat for MS SQL Server support
