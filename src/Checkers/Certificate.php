@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use PragmaRX\Health\Support\Result;
 use Spatie\SslCertificate\SslCertificate;
 
@@ -28,7 +28,7 @@ class Certificate extends Base
             foreach ($resources as $url) {
                 [$healthy, $message] = $this->checkCertificate($url);
 
-                if (!$healthy) {
+                if (! $healthy) {
                     return $this->makeResult(false, $message);
                 }
             }
@@ -98,12 +98,12 @@ class Certificate extends Base
 
             'package' => [
                 SslCertificate::createForHostName($host)->isValid(),
-                'Invalid certificate'
+                'Invalid certificate',
             ],
 
-            'php' => $this->checkCertificateWithPhp($host)
+            'php' => $this->checkCertificateWithPhp($host),
         ])
-            ->filter(fn($result) => $result[0] === false)
+            ->filter(fn ($result) => $result[0] === false)
             ->first();
 
         if ($result === null) {
@@ -119,7 +119,7 @@ class Certificate extends Base
 
         $result = collect($output)
             ->filter(
-                fn($line) => Str::contains(
+                fn ($line) => Str::contains(
                     $line,
                     $this->target->resource->verifyString
                 )
@@ -134,7 +134,7 @@ class Certificate extends Base
 
         return [
             trim($result) == $this->target->resource->successString,
-            $result
+            $result,
         ];
     }
 
@@ -142,11 +142,11 @@ class Certificate extends Base
     {
         try {
             $get = stream_context_create([
-                'ssl' => ['capture_peer_cert' => true]
+                'ssl' => ['capture_peer_cert' => true],
             ]);
 
             $read = stream_socket_client(
-                'ssl://' . $host . ':443',
+                'ssl://'.$host.':443',
                 $errno,
                 $errstr,
                 30,
