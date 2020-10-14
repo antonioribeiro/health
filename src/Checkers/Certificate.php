@@ -2,6 +2,7 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Support\Result;
 use Spatie\SslCertificate\SslCertificate;
@@ -15,11 +16,19 @@ class Certificate extends Base
      */
     public function check()
     {
+        $resources = $this->getResourceUrlArray();
+
+        $first = collect($resources)->first();
+
+        if (filled($first)) {
+            $this->target->setDisplay("{$first}");
+        }
+
         try {
-            foreach ($this->getResourceUrlArray() as $url) {
+            foreach ($resources as $url) {
                 [$healthy, $message] = $this->checkCertificate($url);
 
-                if (! $healthy) {
+                if (!$healthy) {
                     return $this->makeResult(false, $message);
                 }
             }
@@ -39,12 +48,7 @@ class Certificate extends Base
      */
     public function checkCertificate($url)
     {
-        $host = $this->getHost($url);
-
-        return [
-            SslCertificate::createForHostName($host)->isValid(),
-            $this->getErrorMessage($host),
-        ];
+        return $this->checkHostCertificate($this->getHost($url));
     }
 
     /**
@@ -54,10 +58,7 @@ class Certificate extends Base
      */
     protected function getErrorMessage($host)
     {
-        return sprintf(
-            $this->target->resource->errorMessage,
-            $host
-        );
+        return sprintf($this->target->resource->errorMessage, $host);
     }
 
     /**
@@ -88,5 +89,89 @@ class Certificate extends Base
         }
 
         return (array) $this->target->urls;
+    }
+
+    public function checkHostCertificate($host)
+    {
+        $result = collect([
+            'openssl' => $this->checkCertificateWithOpenSSL($host),
+
+            'package' => [
+                SslCertificate::createForHostName($host)->isValid(),
+                'Invalid certificate'
+            ],
+
+            'php' => $this->checkCertificateWithPhp($host)
+        ])
+            ->filter(fn($result) => $result[0] === false)
+            ->first();
+
+        if ($result === null) {
+            return [true, ''];
+        }
+
+        return $result;
+    }
+
+    public function checkCertificateWithOpenSSL($host)
+    {
+        exec($this->makeCommand($host), $output);
+
+        $result = collect($output)
+            ->filter(
+                fn($line) => Str::contains(
+                    $line,
+                    $this->target->resource->verifyString
+                )
+            )
+            ->first();
+
+        if (blank($result)) {
+            $output = blank($output) ? 'Unkown openssl error' : $output;
+
+            return [false, json_encode($output)];
+        }
+
+        return [
+            trim($result) == $this->target->resource->successString,
+            $result
+        ];
+    }
+
+    public function checkCertificateWithPhp($host)
+    {
+        try {
+            $get = stream_context_create([
+                'ssl' => ['capture_peer_cert' => true]
+            ]);
+
+            $read = stream_socket_client(
+                'ssl://' . $host . ':443',
+                $errno,
+                $errstr,
+                30,
+                STREAM_CLIENT_CONNECT,
+                $get
+            );
+        } catch (\Exception $exception) {
+            return [false, $exception->getMessage()];
+        }
+
+        return [true, ''];
+    }
+
+    /**
+     * @param $host
+     * @return string|string[]
+     */
+    protected function makeCommand($host)
+    {
+        $command = $this->target->resource->command;
+
+        $command = str_replace('{$options}', $this->target->options, $command);
+
+        $command = str_replace('{$host}', $host, $command);
+
+        return $command;
     }
 }
