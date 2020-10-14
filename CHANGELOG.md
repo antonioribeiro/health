@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.1 - 2020-10-15
+- Check certificates using openSSL
+
 ## 1.0.0 - 2020-10-10
 - Add SSL certificates checker
 - Allow using URL parameter at the same level of method
