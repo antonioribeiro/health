@@ -19,4 +19,4 @@ window.axios = require('axios')
  * Sweet Alert
  */
 
-import swal from 'sweetalert'
+import Swal from 'sweetalert2'
