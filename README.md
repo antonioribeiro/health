@@ -30,7 +30,9 @@ This package checks if the application resources are running as they should and 
 
 Heath has pre-configured resource checkers for the following services:
 
+- Adyen
 - AppKey
+- APIs
 - Broadcasting
 - Cache
 - ConfigurationCached
@@ -71,6 +73,8 @@ Heath has pre-configured resource checkers for the following services:
 - RoutesCached
 - S3
 - SecurityChecker
+- SeeTickets
+- Sendinblue
 - ServerLoad
 - ServerUptime
 - Sshd
