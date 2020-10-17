@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
+
 Vue.component('target-chart', require('./Chart.vue').default)
 
 export default {

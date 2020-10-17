@@ -14,9 +14,3 @@ try {
 } catch (e) {}
 
 window.axios = require('axios')
-
-/**
- * Sweet Alert
- */
-
-import Swal from 'sweetalert2'
