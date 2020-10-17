@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
+
 Vue.component('target-chart', require('./Chart.vue').default)
 
 export default {
@@ -189,7 +191,7 @@ export default {
                 ? this.config.alert.error.type
                 : this.config.alert.success.type
 
-            swal(name, message, type)
+            Swal.fire(name, message, type)
         },
     },
 }
