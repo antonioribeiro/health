@@ -1,7 +1,17 @@
 # Health Monitor
 ## Laravel Server & App Health Monitor and Notifier
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/pragmarx/health.svg?style=flat-square)](https://packagist.org/packages/pragmarx/health) [![License](https://img.shields.io/badge/license-BSD_3_Clause-brightgreen.svg?style=flat-square)](LICENSE) [![Downloads](https://img.shields.io/packagist/dt/pragmarx/health.svg?style=flat-square)](https://packagist.org/packages/pragmarx/health) [![Code Quality](https://img.shields.io/scrutinizer/g/antonioribeiro/health.svg?style=flat-square)](https://scrutinizer-ci.com/g/antonioribeiro/health/?branch=master) [![Build](https://img.shields.io/travis/antonioribeiro/health.svg?style=flat-square)](https://scrutinizer-ci.com/g/antonioribeiro/health/?branch=master) [![Build](https://img.shields.io/scrutinizer/coverage/g/antonioribeiro/health.svg?style=flat-square)](https://scrutinizer-ci.com/g/antonioribeiro/health/?branch=master) [![StyleCI](https://styleci.io/repos/74829244/shield)](https://styleci.io/repos/74829244)
+<p align="center">
+    <a href="https://packagist.org/packages/pragmarx/health"><img alt="Latest Stable Version" src="https://img.shields.io/packagist/v/pragmarx/health.svg?style=flat-square"></a>
+    <a href="LICENSE.md"><img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
+    <a href="https://scrutinizer-ci.com/g/antonioribeiro/health/?branch=master"><img alt="Code Quality" src="https://img.shields.io/scrutinizer/g/antonioribeiro/health.svg?style=flat-square"></a>
+</p>
+<p align="center">
+    <a href="https://travis-ci.org/antonioribeiro/health"><img alt="Build" src="https://img.shields.io/travis/antonioribeiro/health.svg?style=flat-square"></a>
+    <a href="https://packagist.org/packages/pragmarx/health"><img alt="Downloads" src="https://img.shields.io/packagist/dt/pragmarx/health.svg?style=flat-square"></a>
+    <a href="https://scrutinizer-ci.com/g/antonioribeiro/health/?branch=master"><img alt="Coverage" src="https://img.shields.io/scrutinizer/coverage/g/antonioribeiro/health.svg?style=flat-square"></a>
+    <a href="https://travis-ci.org/antonioribeiro/health"><img alt="PHP" src="https://img.shields.io/badge/PHP-7.1%20--%208.0-brightgreen.svg?style=flat-square"></a>
+</p>
 
 This package checks if the application resources are running as they should and creates a service status panel. It has the following main points:
 
