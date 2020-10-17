@@ -18,8 +18,12 @@
     "laravel-mix": "^5.0.4",
     "lodash": "^4.17.5",
     "popper.js": "^1.12",
+    "resolve-url-loader": "^3.1.0",
+    "sass": "^1.27.0",
+    "sass-loader": "^8.0.2",
     "sweetalert2": "^10.6.0",
     "vue": "^2.5.7",
-    "vue-chartjs": "^3.4.0"
+    "vue-chartjs": "^3.4.0",
+    "vue-template-compiler": "^2.6.12"
   }
 }
