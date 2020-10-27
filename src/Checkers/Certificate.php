@@ -103,7 +103,9 @@ class Certificate extends Base
 
             'php' => $this->checkCertificateWithPhp($host),
         ])
-            ->filter(fn ($result) => $result[0] === false)
+            ->filter(function ($result) {
+                return $result[0] === false;
+            })
             ->first();
 
         if ($result === null) {
@@ -119,10 +121,12 @@ class Certificate extends Base
 
         $result = collect($output)
             ->filter(
-                fn ($line) => Str::contains(
-                    $line,
-                    $this->target->resource->verifyString
-                )
+                function ($line) {
+                    return Str::contains(
+                        $line,
+                        $this->target->resource->verifyString
+                    );
+                }
             )
             ->first();
 
