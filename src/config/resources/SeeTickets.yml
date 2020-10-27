@@ -1,0 +1,18 @@
+name: See Tickets API
+abbreviation: seetickets
+checker: PragmaRX\Health\Checkers\Https
+notify: true
+column_size: 3
+timeout_message: "[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s seconds."
+connection_timeout: 5
+roundtrip_timeout: 10
+targets:
+  - default:
+      urls:
+        - url1:
+            url: "{{ config('services.see_tickets.api.endpoint') }}"
+            method: POST
+            auth:
+              - "{{ config('services.see_tickets.api.username') }}"
+              - "{{ config('services.see_tickets.api.password') }}"
+              - basic

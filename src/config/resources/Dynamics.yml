@@ -1,0 +1,22 @@
+name: Dynamics 365
+abbreviation: dynamics
+checker: PragmaRX\Health\Checkers\Https
+notify: true
+column_size: 3
+timeout_message: "[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s seconds."
+connection_timeout: 5
+roundtrip_timeout: 10
+targets:
+  - default:
+      urls:
+        - url-from-config:
+            url: "{{ config('services.newsletter.login_url') }}"
+            headers:
+              api-key: "{{ config('services.sendinblue.api_key') }}"
+            method: POST
+            form_params:
+              username: "{{ config('services.newsletter.username') }}"
+              resource: "{{ config('services.newsletter.api_endpoint') }}"
+              grant_type: password
+              password: "{{ config('services.newsletter.password') }}"
+              client_id: "{{ config('services.newsletter.client_id') }}"
