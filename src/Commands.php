@@ -80,7 +80,7 @@ class Commands
      *
      * @throws \Exception
      */
-    public function check(Command $command = null) : bool
+    public function check(Command $command = null): bool
     {
         $checker = $this->healthService->getSilentChecker();
 
