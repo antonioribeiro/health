@@ -73,7 +73,14 @@ class Commands
         $this->table($command, $columns, $rows);
     }
 
-    public function check(Command $command = null)
+    /**
+     * @param Command|null $command
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function check(Command $command = null) : bool
     {
         $checker = $this->healthService->getSilentChecker();
 
@@ -95,6 +102,8 @@ class Commands
         } else {
             $this->info($command, 'Check completed with no errors.');
         }
+
+        return 0 === $errors;
     }
 
     /**
