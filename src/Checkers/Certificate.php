@@ -103,7 +103,9 @@ class Certificate extends Base
 
             'php' => $this->checkCertificateWithPhp($host),
         ])
-            ->filter(function ($result) { return $result[0] === false; })
+            ->filter(function ($result) {
+                return $result[0] === false;
+            })
             ->first();
 
         if ($result === null) {
