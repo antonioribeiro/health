@@ -1,0 +1,23 @@
+name: Adyen
+abbreviation: adyen
+checker: PragmaRX\Health\Checkers\Https
+notify: true
+column_size: 3
+timeout_message: "[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s seconds."
+connection_timeout: 20
+roundtrip_timeout: 30
+targets:
+  - default:
+      urls:
+        - url1:
+            url: "{{ config('services.adyen.api_base_url') }}"
+            method: POST
+            debug: false
+            headers:
+              x-api-key: "{{ config('services.adyen.backend.api_key') }}"
+              content-type: application/json
+            form_params:
+              merchantAccount: "{{ config('services.adyen.merchant_account') }}"
+
+
+
