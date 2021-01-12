@@ -1,0 +1,15 @@
+name: Sendinblue API
+abbreviation: sendinblue
+checker: PragmaRX\Health\Checkers\Https
+notify: true
+column_size: 3
+timeout_message: "[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s seconds."
+connection_timeout: 5
+roundtrip_timeout: 10
+targets:
+  - default:
+      urls:
+        - https://api.sendinblue.com/v3/account:
+            headers:
+              api-key: "{{ config('services.sendinblue.api_key') }}"
+            method: GET

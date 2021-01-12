@@ -3,16 +3,16 @@
 namespace PragmaRX\Health;
 
 use Event;
-use PragmaRX\Yaml\Package\Yaml;
-use PragmaRX\Health\Support\Cache;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use PragmaRX\Health\Console\Commands as ConsoleCommands;
+use PragmaRX\Health\Events\RaiseHealthIssue;
+use PragmaRX\Health\Listeners\NotifyHealthIssue;
+use PragmaRX\Health\Support\Cache;
+use PragmaRX\Health\Support\ResourceChecker;
 use PragmaRX\Health\Support\ResourceLoader;
 use PragmaRX\Health\Support\Traits\Routing;
-use PragmaRX\Health\Events\RaiseHealthIssue;
-use PragmaRX\Health\Support\ResourceChecker;
-use PragmaRX\Health\Listeners\NotifyHealthIssue;
-use PragmaRX\Health\Console\Commands as ConsoleCommands;
-use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use PragmaRX\Yaml\Package\Yaml;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
@@ -73,6 +73,14 @@ class ServiceProvider extends IlluminateServiceProvider
      * @var
      */
     private $healthServiceClosure;
+
+    /**
+     * Boot.
+     */
+    public function boot()
+    {
+        $this->bootTasks();
+    }
 
     /**
      * Configure package paths.
@@ -250,8 +258,6 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->registerRoutes();
 
-        $this->registerTasks();
-
         $this->registerEventListeners();
 
         $this->registerConsoleCommands();
@@ -317,7 +323,9 @@ class ServiceProvider extends IlluminateServiceProvider
 
         $this->app->singleton(
             'pragmarx.health.commands',
-            $this->instantiateCommands()
+            function () {
+                return $this->instantiateCommands();
+            }
         );
     }
 
@@ -334,13 +342,13 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * Register scheduled tasks.
      */
-    private function registerTasks()
+    private function bootTasks()
     {
-        if (
-            config('health.scheduler.enabled') &&
-            ($frequency = config('health.scheduler.frequency')) &&
-            config('health.notifications.enabled')
-        ) {
+        $enabled = config('health.notifications.scheduler.enabled');
+
+        $frequency = config('health.notifications.scheduler.frequency');
+
+        if ($enabled && $frequency) {
             $scheduler = instantiate(Schedule::class);
 
             $scheduler

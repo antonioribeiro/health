@@ -3,8 +3,8 @@
 namespace PragmaRX\Health\Checkers;
 
 use Illuminate\Support\Arr;
-use PragmaRX\Health\Support\Result;
 use Illuminate\Support\Facades\Mail as IlluminateMail;
+use PragmaRX\Health\Support\Result;
 
 class Mail extends Base
 {

@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use GuzzleHttp\TransferStats;
 use GuzzleHttp\Client as Guzzle;
+use GuzzleHttp\TransferStats;
 use Illuminate\Support\Collection;
 use PragmaRX\Health\Support\Result;
 
@@ -40,9 +40,12 @@ class Http extends Base
             $health = [];
 
             foreach ($this->getResourceUrlArray() as $url) {
+                [$url, $parameters] = $this->parseConfigUrl($url);
+
                 [$healthy, $message] = $this->checkWebPage(
                     $this->makeUrlWithScheme($url, $this->secure),
-                    $this->secure
+                    $this->secure,
+                    $parameters
                 );
 
                 if (! $healthy) {
@@ -79,11 +82,21 @@ class Http extends Base
      * @param bool $ssl
      * @return mixed
      */
-    private function checkWebPage($url, $ssl = false)
+    private function checkWebPage($url, $ssl = false, $parameters = [])
     {
-        $success = $this->requestSuccessful($url, $ssl);
+        try {
+            $success = $this->requestSuccessful($url, $ssl, $parameters);
 
-        return [$success, $success ? '' : $this->getErrorMessage()];
+            $message = $this->getErrorMessage();
+        } catch (\Exception $exception) {
+            $success = false;
+
+            $message = "Target: {$url} - ERROR: ".$exception->getMessage();
+
+            report($exception);
+        }
+
+        return [$success, $success ? '' : $message];
     }
 
     /**
@@ -94,14 +107,14 @@ class Http extends Base
      * @return mixed|\Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function fetchResponse($url, $ssl)
+    private function fetchResponse($url, $ssl, $parameters = [])
     {
         $this->url = $url;
 
         return (new Guzzle())->request(
-            'GET',
+            $this->getMethod($parameters),
             $this->url,
-            $this->getConnectionOptions($ssl)
+            array_merge($this->getConnectionOptions($ssl), $parameters)
         );
     }
 
@@ -194,11 +207,15 @@ class Http extends Base
      * @return bool
      * @internal param $response
      */
-    private function requestSuccessful($url, $ssl)
+    private function requestSuccessful($url, $ssl, $parameters)
     {
-        return
-            $this->fetchResponse($url, $ssl)->getStatusCode() == 200 &&
-            ! $this->requestTimedout();
+        $response = $this->fetchResponse($url, $ssl, $parameters);
+
+        if ($response->getStatusCode() >= 400) {
+            throw new \Exception((string) $response->getBody());
+        }
+
+        return ! $this->requestTimeout();
     }
 
     /**
@@ -206,8 +223,42 @@ class Http extends Base
      *
      * @return bool
      */
-    private function requestTimedout()
+    private function requestTimeout()
     {
         return $this->totalTime > $this->getRoundtripTimeout();
+    }
+
+    /**
+     * Parse URL from config.
+     *
+     * @return array
+     */
+    protected function parseConfigUrl($data)
+    {
+        if (is_string($data)) {
+            return [$data, []];
+        }
+
+        $url = array_keys($data)[0];
+
+        $parameters = $data[$url];
+
+        $url = isset($parameters['url']) ? $parameters['url'] : $url;
+
+        return [$url, $parameters];
+    }
+
+    /**
+     * Get the request method.
+     *
+     * @return bool
+     */
+    protected function getMethod($parameters)
+    {
+        if (! isset($parameters['method'])) {
+            return 'GET';
+        }
+
+        return $parameters['method'];
     }
 }

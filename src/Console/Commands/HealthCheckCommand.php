@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Console\Commands;
 
-use PragmaRX\Health\Commands;
 use Illuminate\Console\Command;
+use PragmaRX\Health\Commands;
 
 class HealthCheckCommand extends Command
 {
@@ -22,10 +22,18 @@ class HealthCheckCommand extends Command
     protected $description = 'Check resources health and send error notifications.';
 
     /**
-     * @return void
+     * @param Commands $commands
+     *
+     * @return int Exit code: 0 = success; 1 = failed
+     *
+     * @throws \Exception
      */
-    public function handle(Commands $commands): void
+    public function handle(Commands $commands)
     {
-        $commands->check($this);
+        if (false === $commands->check($this)) {
+            return 1;
+        }
+
+        return 0;
     }
 }

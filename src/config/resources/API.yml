@@ -1,0 +1,17 @@
+name: API Checker
+abbreviation: apichecker
+checker: PragmaRX\Health\Checkers\Https
+notify: true
+column_size: 3
+timeout_message: "[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s seconds."
+connection_timeout: 5
+roundtrip_timeout: 10
+targets:
+  - default:
+      urls:
+        - https://api.whatever.com/v1.1/authorization/token:
+            method: POST
+            auth:
+              - "{{ config('services.whatever.api.username') }}"
+              - "{{ config('services.whatever.api.password') }}"
+              - basic

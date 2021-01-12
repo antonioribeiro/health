@@ -2,11 +2,11 @@
 
 namespace PragmaRX\Health\Support;
 
-use JsonSerializable;
-use Ramsey\Uuid\Uuid;
-use PragmaRX\Health\Support\Traits\ToArray;
 use Illuminate\Database\Eloquent\Collection;
+use JsonSerializable;
 use PragmaRX\Health\Support\Traits\ImportProperties;
+use PragmaRX\Health\Support\Traits\ToArray;
+use Ramsey\Uuid\Uuid;
 
 class Target implements JsonSerializable
 {

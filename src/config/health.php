@@ -45,14 +45,18 @@ return [
         |
         */
         'enabled' => [
+            'API',
             'AppKey',
+            // 'Adyen',
             // 'Broadcasting',
             'Cache',
+            'Certificate',
             'ConfigurationCached',
             'Database',
             'DebugMode',
             'DirectoryPermissions',
             'DiskSpace',
+            // 'Dynamics',
             // 'ElasticsearchConnectable',
             'EnvExists',
             'Filesystem',
@@ -83,6 +87,8 @@ return [
             'RedisServer',
             'RoutesCached',
             // 'S3',
+            // 'SeeTickets',
+            // 'Sendinblue',
             'ServerLoad',
             'ServerUptime',
             // 'Sshd',
@@ -201,9 +207,9 @@ return [
         ],
 
         'scheduler' => [
-            'enabled' => true,
+            'enabled' => false,
 
-            'frequency' => 'everyMinute', // most methods on -- https://laravel.com/docs/5.3/scheduling#defining-schedules
+            'frequency' => 'everyFiveMinutes', // most methods on -- https://laravel.com/docs/8.x/scheduling#schedule-frequency-options
         ],
 
         'users' => [
@@ -214,7 +220,7 @@ return [
 
         'channels' => ['mail', 'slack'], // mail, slack
 
-        'notifier' => 'PragmaRX\Health\Notifications',
+        'notifier' => 'PragmaRX\Health\Notifications\HealthStatus',
     ],
 
     'alert' => [
