@@ -12,6 +12,16 @@ return [
     */
     'title' => 'Laravel Health Check Panel',
 
+	/*
+	|--------------------------------------------------------------------------
+	| Define application type
+	|--------------------------------------------------------------------------
+	|
+	| Used for disable some resources for specific applications like cron, queue etc
+	|
+	*/
+	'application_type' => null,
+
     /*
     |--------------------------------------------------------------------------
     | Health Monitor Resources
@@ -88,6 +98,45 @@ return [
             // 'Sshd',
             'Supervisor',
         ],
+
+		/*
+		|--------------------------------------------------------------------------
+		| Disabled resources for specific application types
+		|--------------------------------------------------------------------------
+		*/
+		'disabled_by_type' => [
+			'app' => [
+				'Horizon',
+				'HorizonSupervisors',
+				'Queue',
+			],
+			'queue' => [
+				'Https',
+				'NginxServer',
+			],
+			'cron' => [
+				'Https',
+				'Horizon',
+				'HorizonSupervisors',
+				'Queue',
+				'NginxServer',
+			],
+		],
+
+		/*
+		|--------------------------------------------------------------------------
+		| Disabled resources by environment
+		|--------------------------------------------------------------------------
+		*/
+		'disabled_by_environment' => [
+			'local' => [
+				'ConfigurationCached',
+				'DebugMode',
+				'Https',
+				'RoutesCached',
+				'Sshd',
+			],
+		],
     ],
 
     /*
