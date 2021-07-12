@@ -3,10 +3,10 @@
 namespace PragmaRX\Health\Checkers;
 
 use Carbon\Carbon;
-use PragmaRX\Health\Support\Result;
 use PragmaRX\Health\Events\HealthPing;
-use PragmaRX\Health\Support\Traits\Routing;
+use PragmaRX\Health\Support\Result;
 use PragmaRX\Health\Support\Traits\Database;
+use PragmaRX\Health\Support\Traits\Routing;
 
 class Broadcasting extends Base
 {

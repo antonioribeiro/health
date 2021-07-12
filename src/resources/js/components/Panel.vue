@@ -67,7 +67,7 @@
 <script>
 import routesMixin from '../mixins/routes'
 
-Vue.component('resource-target', require('./Target.vue'))
+Vue.component('resource-target', require('./Target.vue').default)
 
 export default {
     props: ['config'],

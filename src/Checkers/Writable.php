@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use PragmaRX\Health\Support\Result;
 use Illuminate\Filesystem\Filesystem;
+use PragmaRX\Health\Support\Result;
 
 class Writable extends Base
 {

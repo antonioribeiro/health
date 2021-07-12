@@ -3,8 +3,8 @@
 namespace PragmaRX\Health\Support;
 
 use DomainException;
-use PragmaRX\Yaml\Package\Yaml;
 use PragmaRX\Yaml\Package\Support\Resolver;
+use PragmaRX\Yaml\Package\Yaml;
 
 class ResourceLoader
 {

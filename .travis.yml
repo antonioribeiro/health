@@ -5,27 +5,29 @@ php:
   - 7.1
   - 7.2
   - 7.3
-  - 7.4snapshot
-# - nightly
+  - 7.4
+  - nightly
 
-# This triggers builds to run on the new TravisCI infrastructure.
-# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
 sudo: false
 
-## Cache composer
 cache:
   directories:
     - $HOME/.composer/cache
 
-before_script:
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+install:
+  - |
+    if [[ "$TRAVIS_PHP_VERSION" == 'nightly' ]]; then
+      travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist --ignore-platform-reqs
+    else
+      travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+    fi
 
 script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
   - |
-    if [[ "$TRAVIS_PHP_VERSION" == '7.2' ]]; then
+    if [[ "$TRAVIS_PHP_VERSION" != 'nightly' ]]; then
       wget https://scrutinizer-ci.com/ocular.phar
       php ocular.phar code-coverage:upload --format=php-clover coverage.clover
     fi

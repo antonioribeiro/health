@@ -2,8 +2,8 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use PragmaRX\Health\Support\Result;
 use Illuminate\Support\Facades\Storage;
+use PragmaRX\Health\Support\Result;
 
 class CloudStorage extends Base
 {

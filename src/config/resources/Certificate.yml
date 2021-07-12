@@ -1,0 +1,22 @@
+name: Certificate
+abbreviation: ccert
+checker: PragmaRX\Health\Checkers\Certificate
+notify: true
+error_message: "Invalid certificate for domain: %s"
+column_size: 3
+command: "openssl s_client {$options} -connect {$host}:443 2>&1"
+verify_string: "Verify return code"
+success_string: "Verify return code: 0 (ok)"
+targets:
+  - host1:
+      options: -tls1
+      urls:
+        - laravel.com
+  - wwwprd:
+      options: -tls1_1
+      urls:
+        - google.com
+  - revoked:
+      options: -tls1_2
+      urls:
+        - revoked-rsa-dv.ssl.com

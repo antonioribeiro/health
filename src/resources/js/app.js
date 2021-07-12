@@ -4,7 +4,7 @@ require('./bootstrap')
 
 window.Vue = require('vue')
 
-Vue.component('health-panel', require('./components/Panel.vue'))
+Vue.component('health-panel', require('./components/Panel.vue').default)
 
 const app = new Vue({
     el: '#app',
