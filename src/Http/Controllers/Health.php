@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 use PragmaRX\Health\Service;
 use Illuminate\Http\Request;
+use PragmaRX\Health\Support\Result;
 
 class Health extends Controller
 {
@@ -44,11 +45,51 @@ class Health extends Controller
      * @return mixed
      * @throws \Exception
      */
-    public function getResource($slug)
+    public function getResource($slug, Request $request)
     {
         $this->healthService->setAction('resource');
 
-        return $this->healthService->resource($slug);
+        $resource = $this->healthService->resource($slug);
+
+        // Get any expected response format (fallsback to JSON)
+        $format = $request->get('format');
+
+        // Summary format - Prints status: resource, and any extra piece of information we have.
+        if ($format === 'summary') {
+            $format = 'M j H:m:s';
+            $now = date($format, time());
+
+            // Additional details to include in the response, such as errors
+            $more = '';
+
+            switch ($resource->getStatus()) {
+                case Result::OK:
+                    $msg = "{$resource->name} is running as expected";
+                    break;
+                case Result::WARNING:
+                    $msg = "{$resource->name} is running above the warning threshold";
+                    break;
+                case Result::CRITICAL:
+                    if (!empty($resource->errorMessage)) {
+                        $msg = "{$resource->errorMessage}";
+                    } else {
+                        $msg = "{$resource->name} service is failing or has reached the critical threshold";
+                    }
+                    $checkerClassName = (new \ReflectionClass(get_class($resource->checker)))->getName();
+                    $more = "{$checkerClassName} was used to determine the health";
+                    break;
+                case Result::UNKNOWN:
+                default:
+                    $msg = "{$resource->name} service health is unknown";
+                    break;
+            }
+            $response = \strtoupper($resource->getStatus()).": {$msg} (Checked {$now})\n{$more}";
+            return response($response)
+                ->header('Content-Type', 'text/plain');
+
+        } else {
+            return $resource;
+        }
     }
 
     /**
