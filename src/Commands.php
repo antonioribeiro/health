@@ -4,10 +4,23 @@ namespace PragmaRX\Health;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Illuminate\Support\Result;
 use PragmaRX\Health\Service as HealthService;
 
 class Commands
 {
+    /**
+     * List of exit code mappings to the numerical value following the NPRE standard
+     *
+     * More information: https://nagios-plugins.org/doc/guidelines.html#AEN78
+     */
+    const EXIT_CODES = [
+        result::OK        => 0, // Healthy.
+        result::WARNING   => 1,
+        result::CRITICAL  => 2, // Not healthy.
+        result::UNKNOWN   => 3,
+    ];
+
     /**
      * @var Service
      */
@@ -54,12 +67,29 @@ class Commands
         return $message;
     }
 
-    public function panel(Command $command = null)
+    /**
+     * Builds and displays the CLI Panel / table, with the check, state and any
+     * additional information.
+     *
+     * @param  Command|null $command
+     * @return int $exitCode based on the Result's state
+     */
+    public function panel(Command $command = null): int
     {
         $columns = ['Resource', 'State', 'Message'];
 
+        $exitCode = self::EXIT_CODES[result::OK];
+
         $rows = $this->getTargetsFomResources($this->healthService->health())
-            ->map(function ($target) {
+            ->map(function ($target) use(&$exitCode) {
+                // Handles exit codes based on the result's status.
+                $thisStatus = $target->result->getStatus();
+                $thisExitCode = self::EXIT_CODES[$thisStatus];
+                // An exit code with a greater value should be preferred as the output.
+                if ($thisExitCode > $exitCode) {
+                    $exitCode = $thisExitCode;
+                }
+
                 return [
                     "{$target->resource->name} ({$target->display})",
                     $target->result->healthy
@@ -71,22 +101,36 @@ class Commands
             ->toArray();
 
         $this->table($command, $columns, $rows);
+
+        return $exitCode;
     }
 
     /**
-     * @param Command|null $command
+     * Performs the health check, printing out a one line summary of application
+     * health.
      *
-     * @return bool
+     * @param  Command|null $command
+     * @return int $exitCode based on the Result's state
      *
      * @throws \Exception
      */
-    public function check(Command $command = null): bool
+    public function check(Command $command = null): int
     {
         $checker = $this->healthService->getSilentChecker();
 
+        $exitCode = self::EXIT_CODES[result::OK];
+
         $errors = $this->getTargetsFomResources($checker()->filter(function ($resource) {
             return ! $resource->isGlobal;
-        }))->reduce(function ($carry, $target) {
+        }))->reduce(function ($carry, $target) use(&$exitCode) {
+            // Handles exit codes based on the result's status.
+            $thisStatus = $target->result->getStatus();
+            $thisExitCode = self::EXIT_CODES[$thisStatus];
+            // An exit code with a greater value should be preferred as the output.
+            if ($thisExitCode > $exitCode) {
+                $exitCode = $thisExitCode;
+            }
+
             return $carry + ($target->result->healthy ? 0 : 1);
         }, 0);
 
@@ -103,7 +147,7 @@ class Commands
             $this->info($command, 'Check completed with no errors.');
         }
 
-        return 0 === $errors;
+        return $exitCode;
     }
 
     /**

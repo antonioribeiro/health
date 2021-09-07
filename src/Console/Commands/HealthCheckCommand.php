@@ -24,16 +24,12 @@ class HealthCheckCommand extends Command
     /**
      * @param Commands $commands
      *
-     * @return int Exit code: 0 = success; 1 = failed
+     * @return int Exit code: 0 = success; 2 = failed
      *
      * @throws \Exception
      */
     public function handle(Commands $commands)
     {
-        if (false === $commands->check($this)) {
-            return 1;
-        }
-
-        return 0;
+        return $commands->check($this);
     }
 }
