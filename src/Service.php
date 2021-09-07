@@ -3,6 +3,7 @@
 namespace PragmaRX\Health;
 
 use PragmaRX\Health\Support\Cache;
+use PragmaRX\Health\Support\Result;
 use PragmaRX\Health\Support\ResourceChecker;
 
 class Service
@@ -92,16 +93,25 @@ class Service
      * Make a string result of all resources.
      *
      * @param $string
-     * @param $checkSystem
+     * @param string Result::status $resultStatus
      * @return string
      */
-    private function makeString($string, $checkSystem)
+    private function makeString($string, $resultStatus)
     {
-        return
-            $string.
-            ($checkSystem
-                ? config('health.string.ok')
-                : config('health.string.fail'));
+        // To preserve current ok/fail behaviour, it will override the result
+        // status string with 'fail', when the status is critical, and if the
+        // fail string was set.
+        if (
+            $resultStatus === Result::CRITICAL
+            && is_null(config('health.string.'.strtolower($resultStatus)))
+            && null !== config('health.string.fail')
+        ) {
+            $resultStatus = 'fail';
+        }
+        $resultStatusOutput = config('health.string.'.strtolower($resultStatus));
+
+        // If not defined, it should use the default string for the status.
+        return $string.($resultStatusOutput ?? $resultStatus);
     }
 
     /**
@@ -130,15 +140,27 @@ class Service
      * @return mixed
      * @throws \Exception
      */
-    public function string()
+    public function string(?string $filters = '')
     {
-        return collect($this->health())->reduce(function ($current, $resource) {
+        // If filters are required, return "" for results that should not be included.
+        if (!empty($filters)) {
+            $filters = explode(',', strtolower($filters));
+        }
+
+        return collect($this->health())->reduce(function ($current, $resource) use($filters) {
+
+            $resourceStatus = $resource->getStatus();
+
+            if (!empty($filters) && !in_array(strtolower($resourceStatus), $filters)) {
+                return $current;
+            }
+
             return
                 $current.
                 ($current ? config('health.string.glue') : '').
                 $this->makeString(
                     $resource->abbreviation,
-                    $resource->isHealthy()
+                    $resourceStatus
                 );
         });
     }
