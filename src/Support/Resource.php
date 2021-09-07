@@ -3,6 +3,7 @@
 namespace PragmaRX\Health\Support;
 
 use Illuminate\Support\Collection;
+use PragmaRX\Health\Commands;
 use Illuminate\Support\Str;
 use JsonSerializable;
 use PragmaRX\Health\Events\RaiseHealthIssue;
@@ -213,6 +214,27 @@ class Resource implements JsonSerializable
         return $this->targets->reduce(function ($carry, $target) {
             return $carry && $target->result->healthy;
         }, true);
+    }
+
+    /**
+     * Check status of the resource (overall)
+     *
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        $exitCode = Commands::EXIT_CODES[result::OK];
+        $this->targets->each(function ($target) use(&$exitCode) {
+            // Handles exit codes based on the result's status.
+            $thisStatus = $target->result->getStatus();
+            $thisExitCode = Commands::EXIT_CODES[$thisStatus];
+            // An exit code with a greater value should be preferred as the output.
+            if ($thisExitCode > $exitCode) {
+                $exitCode = $thisExitCode;
+            }
+        });
+
+        return array_flip(Commands::EXIT_CODES)[$exitCode];
     }
 
     protected function keysToCamel($array)

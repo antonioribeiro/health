@@ -5,6 +5,7 @@ namespace PragmaRX\Health\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 use PragmaRX\Health\Service;
+use Illuminate\Http\Request;
 
 class Health extends Controller
 {
@@ -65,12 +66,14 @@ class Health extends Controller
      * @return mixed
      * @throws \Exception
      */
-    public function string()
+    public function string(Request $request)
     {
+        $filters = $request->get('filters');
+
         $this->healthService->setAction('string');
 
         return response(
-            $this->healthService->string()
+            $this->healthService->string($filters)
         );
     }
 
