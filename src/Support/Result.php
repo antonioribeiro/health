@@ -8,10 +8,10 @@ class Result
      * States the result of the check could be in
      * Further reading: https://nagios-plugins.org/doc/guidelines.html#AEN78
      */
-    const OK = 'ok';
-    const WARNING = 'warning';
-    const CRITICAL = 'critical';
-    const UNKNOWN = 'unknown';
+    const OK = 'OK';
+    const WARNING = 'Warning';
+    const CRITICAL = 'Critical';
+    const UNKNOWN = 'Unknown';
 
     /**
      * Defaults the state of the result to unknown
