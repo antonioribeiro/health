@@ -4,7 +4,7 @@ namespace PragmaRX\Health;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Illuminate\Support\Result;
+use PragmaRX\Health\Support\Result;
 use PragmaRX\Health\Service as HealthService;
 
 class Commands
@@ -93,8 +93,8 @@ class Commands
                 return [
                     "{$target->resource->name} ({$target->display})",
                     $target->result->healthy
-                        ? '<info>healthy</info>'
-                        : '<fg=red>failing</fg=red>',
+                        ? '<info>'.$target->result->getStatus().'</info>'
+                        : '<fg=red>'.$target->result->getStatus().'</fg=red>',
                     $this->normalizeMessage($target->result->errorMessage),
                 ];
             })
