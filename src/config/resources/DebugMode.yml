@@ -1,4 +1,4 @@
-name: Debug Mode
+name: Debug Mode on Production
 abbreviation: debug
 checker: PragmaRX\Health\Checkers\Expression
 notify: true
@@ -6,5 +6,5 @@ column_size: 3
 error_message: "Application is in debug mode"
 targets:
   - default:
-      expression_value: "app('config')->get('app.debug')"
-      should_return: false
+      expression_value: "!app()->environment('production') || !app('config')->get('app.debug')"
+      should_return: true
