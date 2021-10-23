@@ -77,7 +77,7 @@ class Commands
      */
     public function panel(Command $command = null): int
     {
-        $columns = ['Resource', 'State', 'Message'];
+        $columns = ['Resource', 'State', 'Time', 'Message'];
 
         $exitCode = self::EXIT_CODES[result::OK];
 
@@ -96,6 +96,7 @@ class Commands
                     $target->result->healthy
                         ? '<info>'.$target->result->getStatus().'</info>'
                         : '<fg=red>'.$target->result->getStatus().'</fg=red>',
+                    $this->getResourceTotalTime($target->resource).'s',
                     $this->normalizeMessage($target->result->errorMessage),
                 ];
             })
@@ -202,5 +203,19 @@ class Commands
         if ($command) {
             $command->warn($string);
         }
+    }
+
+    /**
+     * Get the resource check total time.
+     *
+     * @return float
+     */
+    protected function getResourceTotalTime($resource)
+    {
+        if (! method_exists($resource->checker, 'getTotalTime')) {
+            dd($resource);
+        }
+
+        return $resource->checker->getTotalTime();
     }
 }

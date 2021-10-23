@@ -263,4 +263,14 @@ class Http extends Base
 
         return $parameters['method'];
     }
+
+    /**
+     * Get the check totaltime.
+     *
+     * @return float
+     */
+    public function getTotalTime()
+    {
+        return $this->totalTime;
+    }
 }
