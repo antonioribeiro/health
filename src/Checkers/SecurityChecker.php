@@ -4,7 +4,6 @@ namespace PragmaRX\Health\Checkers;
 
 use Exception;
 use PragmaRX\Health\Support\Result;
-use SensioLabs\Security\SecurityChecker as SensioLabsSecurityChecker;
 
 class SecurityChecker extends Base
 {
@@ -33,10 +32,10 @@ class SecurityChecker extends Base
 
     public function getCommand()
     {
-        if (!file_exists($executable = $this->target->resource->executable)) {
+        if (! file_exists($executable = $this->target->resource->executable)) {
             throw new Exception("The security checker executable was not found: $executable");
         }
 
-        return $executable. ' -format json ' . base_path('composer.lock');
+        return $executable.' -format json '.base_path('composer.lock');
     }
 }
