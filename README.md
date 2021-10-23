@@ -353,6 +353,10 @@ Artisan::command('database:health', function () {
 })->describe('Check database health');
 ```
 
+## SecurityChecker
+
+As the [SensioLabs Security Checker](https://github.com/sensiolabs/security-checker) package was abandoned, this checker now depends on [local-php-security-checker](https://github.com/fabpot/local-php-security-checker). You need to compile or install it on your server or container in order to use this checker, and update the `config/resources/SecurityChecker.yml` file accordingly. 
+
 ## Lumen
 To use it on Lumen, you'll probably need to do something like this on your `bootstrap/app.php`:
 
