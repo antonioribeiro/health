@@ -3,8 +3,8 @@
 namespace PragmaRX\Health;
 
 use PragmaRX\Health\Support\Cache;
-use PragmaRX\Health\Support\Result;
 use PragmaRX\Health\Support\ResourceChecker;
+use PragmaRX\Health\Support\Result;
 
 class Service
 {
@@ -149,15 +149,14 @@ class Service
     public function string(?string $filters = '')
     {
         // If filters are required, return "" for results that should not be included.
-        if (!empty($filters)) {
+        if (! empty($filters)) {
             $filters = explode(',', strtolower($filters));
         }
 
-        return collect($this->health())->reduce(function ($current, $resource) use($filters) {
-
+        return collect($this->health())->reduce(function ($current, $resource) use ($filters) {
             $resourceStatus = $resource->getStatus();
 
-            if (!empty($filters) && !in_array(strtolower($resourceStatus), $filters)) {
+            if (! empty($filters) && ! in_array(strtolower($resourceStatus), $filters)) {
                 return $current;
             }
 
