@@ -38,7 +38,7 @@ class PortCheck extends Base
     /**
      * Make the result.
      *
-     * @param bool $ipAddress
+     * @param  bool  $ipAddress
      * @return Result
      */
     protected function makeFinalResult($ipAddress)

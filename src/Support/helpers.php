@@ -7,7 +7,7 @@ if (! function_exists('instantiate')) {
      * Instantiate a class.
      *
      * @param $abstract
-     * @param array $parameters
+     * @param  array  $parameters
      * @return object
      */
     function instantiate($abstract, $parameters = [])

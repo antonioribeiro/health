@@ -31,9 +31,10 @@ class NotifyHealthIssue
     /**
      * Handle the event.
      *
-     * @param RaiseHealthIssue $event
-     * @throws ReflectionException
+     * @param  RaiseHealthIssue  $event
      * @return void
+     *
+     * @throws ReflectionException
      */
     public function handle(RaiseHealthIssue $event)
     {
