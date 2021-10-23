@@ -212,7 +212,7 @@ class Commands
      */
     protected function getResourceTotalTime($resource)
     {
-        if (!method_exists($resource->checker, 'getTotalTime')) {
+        if (! method_exists($resource->checker, 'getTotalTime')) {
             dd($resource);
         }
 
