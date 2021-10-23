@@ -77,7 +77,7 @@ class Commands
      */
     public function panel(Command $command = null): int
     {
-        $columns = ['Resource', 'State', 'Message'];
+        $columns = ['Resource', 'State', 'Time', 'Message'];
 
         $exitCode = self::EXIT_CODES[result::OK];
 
@@ -96,6 +96,7 @@ class Commands
                     $target->result->healthy
                         ? '<info>'.$target->result->getStatus().'</info>'
                         : '<fg=red>'.$target->result->getStatus().'</fg=red>',
+                    $target->resource->checker->getTotalTime().'s',
                     $this->normalizeMessage($target->result->errorMessage),
                 ];
             })
