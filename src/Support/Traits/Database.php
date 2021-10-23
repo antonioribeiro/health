@@ -60,7 +60,7 @@ trait Database
             'target_display' => $target->display,
             'healthy' => $result->healthy,
             'error_message' => $result->errorMessage,
-            'runtime' => $result->elapsedTime,
+            'runtime' => $result->elapsedTime ?? 0,
             'value' => $result->value,
             'value_human' => $result->valueHuman,
         ]);
