@@ -79,7 +79,7 @@ class Http extends Base
      *  Check web pages.
      *
      * @param $url
-     * @param bool $ssl
+     * @param  bool  $ssl
      * @return mixed
      */
     private function checkWebPage($url, $ssl = false, $parameters = [])
@@ -105,6 +105,7 @@ class Http extends Base
      * @param $url
      * @param $ssl
      * @return mixed|\Psr\Http\Message\ResponseInterface
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function fetchResponse($url, $ssl, $parameters = [])
@@ -205,6 +206,7 @@ class Http extends Base
      * @param $url
      * @param $ssl
      * @return bool
+     *
      * @internal param $response
      */
     private function requestSuccessful($url, $ssl, $parameters)
