@@ -2,10 +2,10 @@
 
 namespace PragmaRX\Health\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 use PragmaRX\Health\Service;
-use Illuminate\Http\Request;
 use PragmaRX\Health\Support\Result;
 
 class Health extends Controller
@@ -72,7 +72,7 @@ class Health extends Controller
                     $msg = "{$resource->name} is running above the warning threshold";
                     break;
                 case Result::CRITICAL:
-                    if (!empty($resource->errorMessage)) {
+                    if (! empty($resource->errorMessage)) {
                         $msg = "{$resource->errorMessage}";
                     } else {
                         $msg = "{$resource->name} service is failing or has reached the critical threshold";
@@ -86,9 +86,9 @@ class Health extends Controller
                     break;
             }
             $response = \strtoupper($resource->getStatus()).": {$msg} (Checked {$now})\n{$more}";
+
             return response($response)
                 ->header('Content-Type', 'text/plain');
-
         } else {
             return $resource;
         }

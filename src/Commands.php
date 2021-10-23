@@ -4,13 +4,13 @@ namespace PragmaRX\Health;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use PragmaRX\Health\Support\Result;
 use PragmaRX\Health\Service as HealthService;
+use PragmaRX\Health\Support\Result;
 
 class Commands
 {
     /**
-     * List of exit code mappings to the numerical value following the NPRE standard
+     * List of exit code mappings to the numerical value following the NPRE standard.
      *
      * More information: https://nagios-plugins.org/doc/guidelines.html#AEN78
      */
@@ -72,7 +72,7 @@ class Commands
      * Builds and displays the CLI Panel / table, with the check, state and any
      * additional information.
      *
-     * @param  Command|null $command
+     * @param  Command|null  $command
      * @return int $exitCode based on the Result's state
      */
     public function panel(Command $command = null): int
@@ -82,7 +82,7 @@ class Commands
         $exitCode = self::EXIT_CODES[result::OK];
 
         $rows = $this->getTargetsFomResources($this->healthService->health())
-            ->map(function ($target) use(&$exitCode) {
+            ->map(function ($target) use (&$exitCode) {
                 // Handles exit codes based on the result's status.
                 $thisStatus = $target->result->getStatus();
                 $thisExitCode = self::EXIT_CODES[$thisStatus];
@@ -110,7 +110,7 @@ class Commands
      * Performs the health check, printing out a one line summary of application
      * health.
      *
-     * @param  Command|null $command
+     * @param  Command|null  $command
      * @return int $exitCode based on the Result's state
      *
      * @throws \Exception
@@ -123,7 +123,7 @@ class Commands
 
         $errors = $this->getTargetsFomResources($checker()->filter(function ($resource) {
             return ! $resource->isGlobal;
-        }))->reduce(function ($carry, $target) use(&$exitCode) {
+        }))->reduce(function ($carry, $target) use (&$exitCode) {
             // Handles exit codes based on the result's status.
             $thisStatus = $target->result->getStatus();
             $thisExitCode = self::EXIT_CODES[$thisStatus];

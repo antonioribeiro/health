@@ -3,9 +3,9 @@
 namespace PragmaRX\Health\Support;
 
 use Illuminate\Support\Collection;
-use PragmaRX\Health\Commands;
 use Illuminate\Support\Str;
 use JsonSerializable;
+use PragmaRX\Health\Commands;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Support\Traits\ImportProperties;
 use PragmaRX\Health\Support\Traits\ToArray;
@@ -218,14 +218,14 @@ class Resource implements JsonSerializable
     }
 
     /**
-     * Check status of the resource (overall)
+     * Check status of the resource (overall).
      *
      * @return mixed
      */
     public function getStatus()
     {
         $exitCode = Commands::EXIT_CODES[result::OK];
-        $this->targets->each(function ($target) use(&$exitCode) {
+        $this->targets->each(function ($target) use (&$exitCode) {
             // Handles exit codes based on the result's status.
             $thisStatus = $target->result->getStatus();
             $thisExitCode = Commands::EXIT_CODES[$thisStatus];
