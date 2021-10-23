@@ -6,7 +6,7 @@ class Result
 {
     /**
      * States the result of the check could be in
-     * Further reading: https://nagios-plugins.org/doc/guidelines.html#AEN78
+     * Further reading: https://nagios-plugins.org/doc/guidelines.html#AEN78.
      */
     const OK = 'OK';
     const WARNING = 'Warning';
@@ -14,7 +14,7 @@ class Result
     const UNKNOWN = 'Unknown';
 
     /**
-     * Defaults the state of the result to unknown
+     * Defaults the state of the result to unknown.
      */
     protected $state = self::UNKNOWN;
 
@@ -80,12 +80,12 @@ class Result
     }
 
     /**
-     * Get the result's status of the check
+     * Get the result's status of the check.
      *
      * @return string one of the consts e.g. result::OK
      */
-    public function getStatus(): string {
+    public function getStatus(): string
+    {
         return $this->status;
     }
-
 }
