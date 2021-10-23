@@ -7,7 +7,7 @@ trait HandleExceptions
     /**
      * Handle exceptions for a call.
      *
-     * @param \Closure $closure
+     * @param  \Closure  $closure
      * @return mixed
      */
     protected function handleExceptions(\Closure $closure)
