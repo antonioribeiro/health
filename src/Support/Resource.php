@@ -86,6 +86,11 @@ class Resource implements JsonSerializable
     protected $graphEnabled = null;
 
     /**
+     * @var string
+     */
+    public $executable;
+
+    /**
      * Resource factory.
      *
      * @param  Collection  $data
@@ -127,6 +132,8 @@ class Resource implements JsonSerializable
         $instance->isGlobal = $data['is_global'] ?? false;
 
         $instance->checker = $instance->instantiateChecker($data['checker']);
+
+        $instance->executable = isset($data['executable']) ? $data['executable'] : null;
 
         $instance->importProperties($data);
 

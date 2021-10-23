@@ -205,7 +205,7 @@ abstract class Base implements Contract
 
         $result->checks = $this->saveToDatabase($result);
 
-        return dd($result);
+        return $result;
     }
 
     /**
