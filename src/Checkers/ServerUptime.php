@@ -39,6 +39,7 @@ class ServerUptime extends Base
      * Execute command to get an uptime string.
      *
      * @return mixed|string
+     *
      * @throws DomainException
      */
     private function executeUptimeCommand()
@@ -58,6 +59,7 @@ class ServerUptime extends Base
      * Get current uptime.
      *
      * @return array
+     *
      * @throws DomainException
      */
     protected function getCurrentUptime()

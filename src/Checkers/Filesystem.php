@@ -36,7 +36,7 @@ class Filesystem extends Base
     /**
      * @param $name
      * @param $content
-     * @param null $folder
+     * @param  null  $folder
      * @return string
      */
     private function temporaryFile($name, $content, $folder = null)

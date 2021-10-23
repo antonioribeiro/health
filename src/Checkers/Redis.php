@@ -11,6 +11,7 @@ class Redis extends Base
      * Check resource.
      *
      * @return Result
+     *
      * @throws \Exception
      */
     public function check()
