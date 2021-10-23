@@ -26,6 +26,8 @@ class HealthPanelCommand extends Command
      */
     public function handle(Commands $commands): int
     {
+        $this->info('Checking resources and gathering information to build the panel...');
+
         return $commands->panel($this);
     }
 }

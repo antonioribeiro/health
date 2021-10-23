@@ -29,6 +29,8 @@ class HealthCheckCommand extends Command
      */
     public function handle(Commands $commands)
     {
+        $this->info('Checking resources...');
+
         return $commands->check($this);
     }
 }
