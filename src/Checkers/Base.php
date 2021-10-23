@@ -193,12 +193,29 @@ abstract class Base implements Contract
         return $this;
     }
 
+    /**
+     * Check the target.
+     *
+     * @param $target
+     * @return \PragmaRX\Health\Support\Result
+     */
     public function checkTarget()
     {
         $result = $this->checkAndStoreTime();
 
         $result->checks = $this->saveToDatabase($result);
 
-        return $result;
+        return dd($result);
+    }
+
+    /**
+     * Get the total elapsed time for this resource.
+     *
+     * @param $target
+     * @return string
+     */
+    public function getTotalTime()
+    {
+        return rtrim(sprintf('%.6f', $this->target->result->elapsedTime), '0');
     }
 }
