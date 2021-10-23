@@ -263,6 +263,9 @@ return [
     'string' => [
         'glue' => '-',
         'ok' => 'OK',
+        'warning' => 'WARNING',
+        'critical' => 'CRITICAL',
+        'unknown' => 'UNKNOWN',
         'fail' => 'FAIL',
     ],
 
