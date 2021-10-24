@@ -298,6 +298,10 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function registerRoutes()
     {
+        if ($this->app->routesAreCached()) {
+            return;
+        }
+
         collect(($routes = $this->getRoutes()))->each(function ($route) {
             $this->registerRoute($route);
         });
