@@ -18,7 +18,7 @@ class ServiceTest extends TestCase
 
     private function getResources($force = false)
     {
-        if ($force || ! $this->resources) {
+        if ($force || !$this->resources) {
             $this->resources = $this->service->checkResources($force);
         }
 
@@ -59,7 +59,10 @@ class ServiceTest extends TestCase
 
     public function testResourcesTimeIsCorrectlySet()
     {
-        $this->assertGreaterThan(0, $this->getResources()['AppKey']->targets[0]->result->elapsedTime);
+        $this->assertGreaterThan(
+            0,
+            $this->getResources()['AppKey']->targets[0]->result->elapsedTime
+        );
     }
 
     public function testResourcesWhereChecked()
@@ -162,12 +165,21 @@ class ServiceTest extends TestCase
             (new Commands($this->service))->$command();
         }
 
-        $this->assertFalse(! true);
+        $this->assertFalse(!true);
     }
 
     public function testController()
     {
         $controller = new HealthController($this->service);
+
+        $request = new \Illuminate\Http\Request();
+
+        $request = $request->createFromBase(
+            \Symfony\Component\HttpFoundation\Request::create(
+                '/health/panel',
+                'GET'
+            )
+        );
 
         $this->assertEquals(
             collect(
@@ -177,13 +189,16 @@ class ServiceTest extends TestCase
         );
 
         $this->assertTrue(
-            Str::startsWith($controller->panel()->getContent(), '<!DOCTYPE html>')
+            Str::startsWith(
+                $controller->panel()->getContent(),
+                '<!DOCTYPE html>'
+            )
         );
 
         $this->assertTrue(count($controller->config()) > 10);
 
         $this->assertTrue(
-            $controller->getResource('app-key')->name == 'App Key'
+            $controller->getResource('app-key', $request)->name == 'App Key'
         );
 
         $this->assertTrue(
