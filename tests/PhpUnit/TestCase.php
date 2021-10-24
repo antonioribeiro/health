@@ -53,7 +53,7 @@ class TestCase extends OrchestraTestCase
         'ServerLoad',
         'ServerUptime',
         'Sshd',
-        'Supervisor'
+        'Supervisor',
     ];
 
     const RESOURCES_HEALTHY = 18;
@@ -102,7 +102,7 @@ class TestCase extends OrchestraTestCase
         'ServerLoad',
         'ServerUptime',
         'Sshd',
-        'Supervisor'
+        'Supervisor',
     ];
 
     const RESOURCES_STRING = 'appkeyFAIL-brdcFAIL-cshOK-cfgcchFAIL-dbFAIL-debugOK-dirpermOK-dskspcOK-dcsgnFAIL-redisconnFAIL-envexistsFAIL-flstmOK-frmwrkOK-httpFAIL-httpsFAIL-lvsOK-latencyFAIL-lclstrgOK-mlOK-redisconnOK-redisconnOK-debugFAIL-msqlOK-mysqlgrsqlsrvrconnOK-nwrlcdmnFAIL-ngnxsrvrFAIL-debugFAIL-pkgupdtdOK-phpOK-pstgrsqlsrvrconnOK-pstgrsqlsrvrFAIL-queueOK-qwrkrsOK-rbtrqrdOK-rdsOK-redisconnOK-rdssrvrOK-rtcchFAIL-s3FAIL-loadFAIL-uptmOK-sshdFAIL-sprvsrOK';
