@@ -18,7 +18,7 @@ class ServiceTest extends TestCase
 
     private function getResources($force = false)
     {
-        if ($force || !$this->resources) {
+        if ($force || ! $this->resources) {
             $this->resources = $this->service->checkResources($force);
         }
 
@@ -165,7 +165,7 @@ class ServiceTest extends TestCase
             (new Commands($this->service))->$command();
         }
 
-        $this->assertFalse(!true);
+        $this->assertFalse(! true);
     }
 
     public function testController()
