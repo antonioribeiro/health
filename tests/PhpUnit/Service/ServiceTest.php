@@ -2,15 +2,13 @@
 
 namespace PragmaRX\Health\Tests\PhpUnit\Service;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use PragmaRX\Health\Commands;
-use Illuminate\Testing\Assert;
-use PragmaRX\Yaml\Package\Yaml;
-use Illuminate\Support\Collection;
+use PragmaRX\Health\Http\Controllers\Health as HealthController;
 use PragmaRX\Health\Support\ResourceLoader;
 use PragmaRX\Health\Tests\PhpUnit\TestCase;
-use PHPUnit\TextUI\XmlConfiguration\PHPUnit;
-use PragmaRX\Health\Http\Controllers\Health as HealthController;
+use PragmaRX\Yaml\Package\Yaml;
 
 class ServiceTest extends TestCase
 {
@@ -111,12 +109,12 @@ class ServiceTest extends TestCase
         })->keys();
 
         $failing = $resources->filter(function ($resource) {
-            return !$resource->isHealthy();
+            return ! $resource->isHealthy();
         })->keys();
 
         $this->assertGreaterThanOrEqual(self::RESOURCES_HEALTHY_EVERYWHERE, $failing->count());
 
-        $this->assertGreaterThanOrEqual($failing->count(), count(static::ALL_RESOURCES)-self::RESOURCES_HEALTHY_EVERYWHERE);
+        $this->assertGreaterThanOrEqual($failing->count(), count(static::ALL_RESOURCES) - self::RESOURCES_HEALTHY_EVERYWHERE);
 
         $this->assertTrue($this->isSubset($healthy, static::ALL_RESOURCES));
 
@@ -215,7 +213,7 @@ class ServiceTest extends TestCase
         }
 
         foreach ($subset as $value) {
-            if (!$array->contains($value)) {
+            if (! $array->contains($value)) {
                 return false;
             }
         }
