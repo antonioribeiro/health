@@ -51,7 +51,7 @@ return [
             // 'Broadcasting',
             'Cache',
             'Certificate',
-            'CheckoutCom',
+            // 'CheckoutCom',
             'ConfigurationCached',
             'Database',
             'DebugMode',
