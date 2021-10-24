@@ -50,7 +50,7 @@ return [
             // 'Adyen',
             // 'Broadcasting',
             'Cache',
-            'Certificate',
+            // config'Certificate',
             // 'CheckoutCom',
             'ConfigurationCached',
             'Database',
