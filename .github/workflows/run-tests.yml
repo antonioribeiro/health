@@ -1,0 +1,45 @@
+name: Run tests
+
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  php-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: [8.0, 7.4]
+        laravel: [8.*, 7.*]
+        include:
+          - laravel: 8.*
+            testbench: 6.*
+          - laravel: 7.*
+            testbench: 5.*
+
+    name: P${{ matrix.php }} - L${{ matrix.laravel }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          git config --global user.email "acr@antoniocarlosribeiro.com"; git config --global user.name "Antonio Ribeiro"
+
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --prefer-dist --no-interaction --no-suggest
+
+      - name: Execute tests
+        run: vendor/bin/phpunit
+
+#    after_script:
+#      - |
+#        if [[ "$TRAVIS_PHP_VERSION" != 'hhvm' && "$TRAVIS_PHP_VERSION" != '7.0' ]]; then
+#          wget https://scrutinizer-ci.com/ocular.phar
+#          php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+#        fi
+#  --coverage-clover=coverage.clover
