@@ -17,7 +17,7 @@ class Extensions extends Base
 
         $installed = collect(get_loaded_extensions());
 
-        $alerts = $needed->reject(fn($value) => $installed->contains($value));
+        $alerts = $needed->reject(fn ($value) => $installed->contains($value));
 
         if (count($alerts) === 0) {
             return $this->makeHealthyResult();
