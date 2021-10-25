@@ -61,6 +61,7 @@ return [
             // 'DocuSign',
             // 'ElasticsearchConnectable',
             'EnvExists',
+            'Extensions',
             'Filesystem',
             'Framework',
             // 'Horizon',
