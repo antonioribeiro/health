@@ -2,9 +2,9 @@
 
 namespace PragmaRX\Health\Support;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class LocallyProtected
 {
@@ -30,7 +30,7 @@ class LocallyProtected
 
     public function protect($timeout)
     {
-        $cacheKey = Constants::SERVER_VARS_CACHE_KEY_PREFIX . '-' . Str::random();
+        $cacheKey = Constants::SERVER_VARS_CACHE_KEY_PREFIX.'-'.Str::random();
 
         Cache::put($cacheKey, $cacheKey, $timeout ?? 60);
 
