@@ -1,0 +1,34 @@
+name: ServerVars
+abbreviation: server-vars
+checker: PragmaRX\Health\Checkers\ServerVars
+error_message: "These $_SERVER vars doesn't match the expected value: %s"
+notify: true
+column_size: 3
+targets:
+  - default:
+      config:
+        route: pragmarx.health.server-vars
+        cache_timeout: 5
+        query_string: "query=testing-cdn-enabled-query-strings"
+        auth:
+          username: "{{ config('auth.http.user') }}"
+          password:
+            "{{ config('auth.http.password') }}"
+          type: basic
+        vars:
+          server_port:
+            name: SERVER_PORT
+            value: 443
+            operator: equals
+            strict: false
+            mandatory: true
+          server_software:
+            name: SERVER_SOFTWARE
+            value: "nginx/1.19"
+            operator: contains
+            mandatory: true
+          query_string:
+            name: QUERY_STRING
+            value: "query=testing-cdn-enabled-query-strings"
+            operator: contains
+            mandatory: true
