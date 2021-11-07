@@ -2,10 +2,10 @@
 
 namespace PragmaRX\Health\Checkers;
 
-use Illuminate\Support\Str;
 use GuzzleHttp\Client as Guzzle;
-use PragmaRX\Health\Support\Result;
+use Illuminate\Support\Str;
 use PragmaRX\Health\Support\LocallyProtected;
+use PragmaRX\Health\Support\Result;
 
 class ServerVars extends Base
 {
@@ -39,7 +39,7 @@ class ServerVars extends Base
         $guzze = new Guzzle($this->getAuthorization());
 
         $response = $guzze->request('GET', $url, [
-            'headers' => ['API-Token' => $bearer]
+            'headers' => ['API-Token' => $bearer],
         ]);
 
         if (($code = $response->getStatusCode()) !== 200) {
@@ -63,7 +63,7 @@ class ServerVars extends Base
 
         $expected = $var['value'];
 
-        if (!$this->compare($var, $expected, $got)) {
+        if (! $this->compare($var, $expected, $got)) {
             $this->errors[] = "{$var['name']}: expected '{$expected}' but got '{$got}'";
         }
     }
@@ -89,7 +89,7 @@ class ServerVars extends Base
     {
         $url = route($this->target->config['route']);
 
-        if ($queryString =  $this->target->config['query_string']) {
+        if ($queryString = $this->target->config['query_string']) {
             $url .= "?$queryString";
         }
 
