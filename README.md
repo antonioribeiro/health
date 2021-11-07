@@ -77,6 +77,7 @@ Heath has pre-configured resource checkers for the following services:
 - SeeTickets
 - Sendinblue
 - ServerLoad
+- ServerVars
 - ServerUptime
 - Sshd
 - Supervisor
