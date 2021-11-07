@@ -160,4 +160,9 @@ class Health extends Controller
     {
         return config('health');
     }
+
+    public function serverVars()
+    {
+        return $_SERVER;
+    }
 }
