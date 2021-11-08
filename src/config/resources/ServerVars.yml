@@ -12,9 +12,7 @@ targets:
         query_string: "query=testing-cdn-enabled-query-strings"
         auth:
           username: "{{ config('auth.http.user') }}"
-          password:
-            "{{ config('auth.http.password') }}"
-          type: basic
+          password: "{{ config('auth.http.password') }}"
         vars:
           server_port:
             name: SERVER_PORT
@@ -24,7 +22,7 @@ targets:
             mandatory: true
           server_software:
             name: SERVER_SOFTWARE
-            value: "nginx/1.19"
+            value: "nginx/1.20"
             operator: contains
             mandatory: true
           query_string:
@@ -32,3 +30,19 @@ targets:
             value: "query=testing-cdn-enabled-query-strings"
             operator: contains
             mandatory: true
+          http_x_forwarded_proto:
+            name: HTTP_X_FORWARDED_PROTO
+            value: https
+            operator: equals
+            mandatory: false
+          http_cloudfront_forwarded_proto:
+            name: HTTP_CLOUDFRONT_FORWARDED_PROTO
+            value: https
+            operator: equals
+            mandatory: false
+          http_x_forwarded_port:
+            name: HTTP_X_FORWARDED_PORT
+            value: 443
+            operator: equals
+            strict: false
+            mandatory: false
