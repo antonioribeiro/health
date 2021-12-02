@@ -16,33 +16,33 @@ targets:
         vars:
           server_port:
             name: SERVER_PORT
-            value: 443
             operator: equals
+            value: 443
             strict: false
             mandatory: true
           server_software:
             name: SERVER_SOFTWARE
-            value: "nginx/1.20"
             operator: contains
+            value: "nginx/1.20"
             mandatory: true
           query_string:
             name: QUERY_STRING
-            value: "query=testing-cdn-enabled-query-strings"
             operator: contains
+            value: "query=testing-cdn-enabled-query-strings"
             mandatory: true
           http_x_forwarded_proto:
             name: HTTP_X_FORWARDED_PROTO
-            value: https
             operator: equals
+            value: https
             mandatory: false
           http_cloudfront_forwarded_proto:
             name: HTTP_CLOUDFRONT_FORWARDED_PROTO
-            value: https
             operator: equals
+            value: https
             mandatory: false
           http_x_forwarded_port:
             name: HTTP_X_FORWARDED_PORT
-            value: 443
             operator: equals
+            value: 443
             strict: false
             mandatory: false
