@@ -57,6 +57,7 @@ Heath has pre-configured resource checkers for the following services:
 - MailgunConnectable
 - MemcachedConnectable
 - MigrationsUpToDate
+- MixManifest
 - MySql
 - MySqlConnectable
 - NewrelicDeamon
