@@ -142,9 +142,8 @@ class Resource implements JsonSerializable
             $instance->executable = isset($data['executable']) ? $data['executable'] : null;
 
             $instance->importProperties($data);
-        } catch (\Throwable $exception)
-        {
-            $instance->internal_error = "Error instantiating resource: ".$exception->getMessage().". Please check the resource configuration file.";
+        } catch (\Throwable $exception) {
+            $instance->internal_error = 'Error instantiating resource: '.$exception->getMessage().'. Please check the resource configuration file.';
         }
 
         return $instance;
