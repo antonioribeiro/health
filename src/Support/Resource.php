@@ -91,6 +91,11 @@ class Resource implements JsonSerializable
     public $executable;
 
     /**
+     * @var string
+     */
+    public $internal_error;
+
+    /**
      * Resource factory.
      *
      * @param  Collection  $data
@@ -108,34 +113,39 @@ class Resource implements JsonSerializable
 
         $instance->slug = Str::slug($data['name']);
 
-        $instance->graphEnabled = isset($data['graph_enabled'])
-            ? $data['graph_enabled']
-            : null;
+        try {
+            $instance->graphEnabled = isset($data['graph_enabled'])
+                ? $data['graph_enabled']
+                : null;
 
-        $instance->abbreviation = $data['abbreviation'];
+            $instance->abbreviation = $data['abbreviation'];
 
-        $instance->targets = $instance->instantiateTargets(
-            $data['targets'] ?? collect()
-        );
+            $instance->targets = $instance->instantiateTargets(
+                $data['targets'] ?? collect()
+            );
 
-        $instance->notify =
-            $data['notify'] ?? config('health.notifications.enabled');
+            $instance->notify =
+                $data['notify'] ?? config('health.notifications.enabled');
 
-        $instance->style = $instance->keysToCamel(config('health.style'));
+            $instance->style = $instance->keysToCamel(config('health.style'));
 
-        $instance->style['columnSize'] =
-            $data['column_size'] ?? $instance->style['columnSize'];
+            $instance->style['columnSize'] =
+                $data['column_size'] ?? $instance->style['columnSize'];
 
-        $instance->errorMessage =
-            $data['error_message'] ?? config('health.errors.message');
+            $instance->errorMessage =
+                $data['error_message'] ?? config('health.errors.message');
 
-        $instance->isGlobal = $data['is_global'] ?? false;
+            $instance->isGlobal = $data['is_global'] ?? false;
 
-        $instance->checker = $instance->instantiateChecker($data['checker']);
+            $instance->checker = $instance->instantiateChecker($data['checker']);
 
-        $instance->executable = isset($data['executable']) ? $data['executable'] : null;
+            $instance->executable = isset($data['executable']) ? $data['executable'] : null;
 
-        $instance->importProperties($data);
+            $instance->importProperties($data);
+        } catch (\Throwable $exception)
+        {
+            $instance->internal_error = "Error instantiating resource: ".$exception->getMessage().". Please check the resource configuration file.";
+        }
 
         return $instance;
     }
