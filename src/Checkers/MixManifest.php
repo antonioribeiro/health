@@ -17,17 +17,17 @@ class MixManifest extends Base
      */
     public function check()
     {
-         $this->checkFilePresence($file =$this->getManifestFileName());
+        $this->checkFilePresence($file = $this->getManifestFileName());
 
-         $loaded = $this->loadJson($file);
+        $loaded = $this->loadJson($file);
 
-         foreach ($loaded as $item => $asset) {
-             if (!$this->ignored($item)) {
-                 $this->checkFilePresence(base_path($this->target->assetsRoot.$asset));
-             }
-         }
+        foreach ($loaded as $item => $asset) {
+            if (! $this->ignored($item)) {
+                $this->checkFilePresence(base_path($this->target->assetsRoot.$asset));
+            }
+        }
 
-         return $this->makeHealthyResult();
+        return $this->makeHealthyResult();
     }
 
     /**
@@ -53,8 +53,8 @@ class MixManifest extends Base
      */
     public function checkFilePresence($fileName)
     {
-        if (!file_exists($fileName)) {
-            throw new Exception("File doesn't exist: " . $fileName);
+        if (! file_exists($fileName)) {
+            throw new Exception("File doesn't exist: ".$fileName);
         }
     }
 
@@ -68,13 +68,13 @@ class MixManifest extends Base
         $contents = file_get_contents($fileName);
 
         if (blank($fileName)) {
-            throw new Exception("Manifest is empty or permission to read the file was denied: " . $fileName);
+            throw new Exception('Manifest is empty or permission to read the file was denied: '.$fileName);
         }
 
         $contents = json_decode($contents, true);
 
         if (json_last_error() !== \JSON_ERROR_NONE) {
-            throw new Exception("Error parsing manifest: " . $fileName . ' - Error: '. $this->getJSONErrorMessage(json_last_error()));
+            throw new Exception('Error parsing manifest: '.$fileName.' - Error: '.$this->getJSONErrorMessage(json_last_error()));
         }
 
         return $contents;
@@ -110,7 +110,7 @@ class MixManifest extends Base
      */
     public function ignored($item)
     {
-        if (!isset($this->target->ignoreItems)) {
+        if (! isset($this->target->ignoreItems)) {
             return false;
         }
 
