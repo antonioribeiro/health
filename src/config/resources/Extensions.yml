@@ -6,7 +6,7 @@ error_message:
   "The following extensions are not installed or enabled: %s"
 column_size: 3
 targets:
-  default:
+  - default:
     - items:
         - Core
         - phpdbg_webhelper
