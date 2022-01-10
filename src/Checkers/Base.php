@@ -47,8 +47,8 @@ abstract class Base implements Contract
     /**
      * Make a result.
      *
-     * @param bool $healthy
-     * @param null $errorMessage
+     * @param  bool  $healthy
+     * @param  null  $errorMessage
      * @return Result
      */
     public function makeResult($healthy = true, $errorMessage = null)
@@ -193,6 +193,12 @@ abstract class Base implements Contract
         return $this;
     }
 
+    /**
+     * Check the target.
+     *
+     * @param $target
+     * @return \PragmaRX\Health\Support\Result
+     */
     public function checkTarget()
     {
         $result = $this->checkAndStoreTime();
@@ -200,5 +206,16 @@ abstract class Base implements Contract
         $result->checks = $this->saveToDatabase($result);
 
         return $result;
+    }
+
+    /**
+     * Get the total elapsed time for this resource.
+     *
+     * @param $target
+     * @return string
+     */
+    public function getTotalTime()
+    {
+        return rtrim(sprintf('%.6f', $this->target->result->elapsedTime), '0');
     }
 }

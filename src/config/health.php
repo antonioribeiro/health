@@ -60,7 +60,8 @@ return [
             // 'Adyen',
             // 'Broadcasting',
             'Cache',
-            'Certificate',
+            // config'Certificate',
+            // 'CheckoutCom',
             'ConfigurationCached',
             'Database',
             'DebugMode',
@@ -69,6 +70,7 @@ return [
             // 'Dynamics',
             // 'ElasticsearchConnectable',
             'EnvExists',
+            'Extensions',
             'Filesystem',
             'Framework',
             // 'Horizon',
@@ -100,6 +102,7 @@ return [
             // 'SeeTickets',
             // 'Sendinblue',
             'ServerLoad',
+            // 'ServerVars', ----------- You also need to enable the server-vars route
             'ServerUptime',
             // 'Sshd',
             'Supervisor',
@@ -311,6 +314,9 @@ return [
     'string' => [
         'glue' => '-',
         'ok' => 'OK',
+        'warning' => 'WARNING',
+        'critical' => 'CRITICAL',
+        'unknown' => 'UNKNOWN',
         'fail' => 'FAIL',
     ],
 
@@ -386,6 +392,14 @@ return [
                 'action' => "{$namespace}@config",
                 'middleware' => [],
             ],
+
+            /// This is a dangerous route, when enabling, check if it is properly protected
+            //[
+            //    'uri' => "{$route_prefix}/server-vars",
+            //    'name' => 'pragmarx.health.server-vars',
+            //    'action' => "{$namespace}@serverVars",
+            //    'middleware' => [\PragmaRX\Health\Http\Middleware\LocallyProtected::class],
+            //],
         ],
     ],
 

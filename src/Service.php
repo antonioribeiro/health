@@ -6,6 +6,7 @@ use Illuminate\Http\Response;
 use PragmaRX\Health\Support\Cache;
 use PragmaRX\Health\Support\Resource;
 use PragmaRX\Health\Support\ResourceChecker;
+use PragmaRX\Health\Support\Result;
 
 class Service
 {
@@ -22,8 +23,8 @@ class Service
     /**
      * Service constructor.
      *
-     * @param ResourceChecker $resourceChecker
-     * @param Cache $cache
+     * @param  ResourceChecker  $resourceChecker
+     * @param  Cache  $cache
      */
     public function __construct(ResourceChecker $resourceChecker, Cache $cache)
     {
@@ -35,8 +36,9 @@ class Service
     /**
      * Check Resources.
      *
-     * @param bool $force
+     * @param  bool  $force
      * @return \Illuminate\Support\Collection
+     *
      * @throws \Exception
      */
     public function checkResources($force = false)
@@ -49,6 +51,7 @@ class Service
      *
      * @param $slug
      * @return array
+     *
      * @throws \Exception
      */
     public function checkResource($slug)
@@ -60,6 +63,7 @@ class Service
      * Get services health.
      *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function health()
@@ -71,6 +75,7 @@ class Service
      * Get resources.
      *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function getResources()
@@ -94,16 +99,25 @@ class Service
      * Make a string result of all resources.
      *
      * @param $string
-     * @param $checkSystem
+     * @param string Result::status $resultStatus
      * @return string
      */
-    private function makeString($string, $checkSystem)
+    private function makeString($string, $resultStatus)
     {
-        return
-            $string.
-            ($checkSystem
-                ? config('health.string.ok')
-                : config('health.string.fail'));
+        // To preserve current ok/fail behaviour, it will override the result
+        // status string with 'fail', when the status is critical, and if the
+        // fail string was set.
+        if (
+            $resultStatus === Result::CRITICAL
+            && is_null(config('health.string.'.strtolower($resultStatus)))
+            && null !== config('health.string.fail')
+        ) {
+            $resultStatus = 'fail';
+        }
+        $resultStatusOutput = config('health.string.'.strtolower($resultStatus));
+
+        // If not defined, it should use the default string for the status.
+        return $string.($resultStatusOutput ?? $resultStatus);
     }
 
     /**
@@ -111,6 +125,7 @@ class Service
      *
      * @param $name
      * @return mixed
+     *
      * @throws \Exception
      */
     public function resource($slug)
@@ -130,17 +145,29 @@ class Service
 
     /**
      * @return mixed
+     *
      * @throws \Exception
      */
-    public function string()
+    public function string(?string $filters = '')
     {
-        return collect($this->health())->reduce(function ($current, $resource) {
+        // If filters are required, return "" for results that should not be included.
+        if (! empty($filters)) {
+            $filters = explode(',', strtolower($filters));
+        }
+
+        return collect($this->health())->reduce(function ($current, $resource) use ($filters) {
+            $resourceStatus = $resource->getStatus();
+
+            if (! empty($filters) && ! in_array(strtolower($resourceStatus), $filters)) {
+                return $current;
+            }
+
             return
                 $current.
                 ($current ? config('health.string.glue') : '').
                 $this->makeString(
                     $resource->abbreviation,
-                    $resource->isHealthy()
+                    $resourceStatus
                 );
         });
     }

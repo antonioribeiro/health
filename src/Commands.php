@@ -5,9 +5,22 @@ namespace PragmaRX\Health;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use PragmaRX\Health\Service as HealthService;
+use PragmaRX\Health\Support\Result;
 
 class Commands
 {
+    /**
+     * List of exit code mappings to the numerical value following the NPRE standard.
+     *
+     * More information: https://nagios-plugins.org/doc/guidelines.html#AEN78
+     */
+    const EXIT_CODES = [
+        result::OK        => 0, // Healthy.
+        result::WARNING   => 1,
+        result::CRITICAL  => 2, // Not healthy.
+        result::UNKNOWN   => 3,
+    ];
+
     /**
      * @var Service
      */
@@ -16,7 +29,7 @@ class Commands
     /**
      * Commands constructor.
      *
-     * @param Service $healthService
+     * @param  Service  $healthService
      */
     public function __construct(HealthService $healthService)
     {
@@ -26,6 +39,7 @@ class Commands
     /**
      * @param $rows
      * @return \Illuminate\Support\Collection|\IlluminateAgnostic\Arr\Support\Collection|\IlluminateAgnostic\Collection\Support\Collection|\IlluminateAgnostic\Str\Support\Collection|\Tightenco\Collect\Support\Collection|\Vanilla\Support\Collection
+     *
      * @throws \Exception
      */
     protected function getTargetsFomResources($resources)
@@ -54,39 +68,71 @@ class Commands
         return $message;
     }
 
-    public function panel(Command $command = null)
+    /**
+     * Builds and displays the CLI Panel / table, with the check, state and any
+     * additional information.
+     *
+     * @param  Command|null  $command
+     * @return int $exitCode based on the Result's state
+     */
+    public function panel(Command $command = null): int
     {
-        $columns = ['Resource', 'State', 'Message'];
+        $columns = ['Resource', 'State', 'Time', 'Message'];
+
+        $exitCode = self::EXIT_CODES[result::OK];
 
         $rows = $this->getTargetsFomResources($this->healthService->health())
-            ->map(function ($target) {
+            ->map(function ($target) use (&$exitCode) {
+                // Handles exit codes based on the result's status.
+                $thisStatus = $target->result->getStatus();
+                $thisExitCode = self::EXIT_CODES[$thisStatus];
+                // An exit code with a greater value should be preferred as the output.
+                if ($thisExitCode > $exitCode) {
+                    $exitCode = $thisExitCode;
+                }
+
                 return [
                     "{$target->resource->name} ({$target->display})",
                     $target->result->healthy
-                        ? '<info>healthy</info>'
-                        : '<fg=red>failing</fg=red>',
+                        ? '<info>'.$target->result->getStatus().'</info>'
+                        : '<fg=red>'.$target->result->getStatus().'</fg=red>',
+                    $this->getResourceTotalTime($target->resource).'s',
                     $this->normalizeMessage($target->result->errorMessage),
                 ];
             })
             ->toArray();
 
         $this->table($command, $columns, $rows);
+
+        return $exitCode;
     }
 
     /**
-     * @param Command|null $command
+     * Performs the health check, printing out a one line summary of application
+     * health.
      *
-     * @return bool
+     * @param  Command|null  $command
+     * @return int $exitCode based on the Result's state
      *
      * @throws \Exception
      */
-    public function check(Command $command = null): bool
+    public function check(Command $command = null): int
     {
         $checker = $this->healthService->getSilentChecker();
 
+        $exitCode = self::EXIT_CODES[result::OK];
+
         $errors = $this->getTargetsFomResources($checker()->filter(function ($resource) {
             return ! $resource->isGlobal;
-        }))->reduce(function ($carry, $target) {
+        }))->reduce(function ($carry, $target) use (&$exitCode) {
+            // Handles exit codes based on the result's status.
+            $thisStatus = $target->result->getStatus();
+            $thisExitCode = self::EXIT_CODES[$thisStatus];
+            // An exit code with a greater value should be preferred as the output.
+            if ($thisExitCode > $exitCode) {
+                $exitCode = $thisExitCode;
+            }
+
             return $carry + ($target->result->healthy ? 0 : 1);
         }, 0);
 
@@ -103,15 +149,15 @@ class Commands
             $this->info($command, 'Check completed with no errors.');
         }
 
-        return 0 === $errors;
+        return $exitCode;
     }
 
     /**
      * Format input to textual table.
      *
-     * @param Command|null $command
+     * @param  Command|null  $command
      * @param $columns
-     * @param  \Illuminate\Contracts\Support\Arrayable|array $rows
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $rows
      */
     private function table($command, $columns, $rows)
     {
@@ -123,7 +169,7 @@ class Commands
     /**
      * Write a string as information output.
      *
-     * @param Command|null $command
+     * @param  Command|null  $command
      * @param $string
      */
     private function info($command, $string)
@@ -136,7 +182,7 @@ class Commands
     /**
      * Write a string as information output.
      *
-     * @param Command|null $command
+     * @param  Command|null  $command
      * @param $string
      */
     private function error($command, $string)
@@ -149,7 +195,7 @@ class Commands
     /**
      * Write a string as information output.
      *
-     * @param Command|null $command
+     * @param  Command|null  $command
      * @param $string
      */
     private function warn($command, $string)
@@ -157,5 +203,19 @@ class Commands
         if ($command) {
             $command->warn($string);
         }
+    }
+
+    /**
+     * Get the resource check total time.
+     *
+     * @return float
+     */
+    protected function getResourceTotalTime($resource)
+    {
+        if (! method_exists($resource->checker, 'getTotalTime')) {
+            dd($resource);
+        }
+
+        return $resource->checker->getTotalTime();
     }
 }
