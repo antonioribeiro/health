@@ -1,0 +1,48 @@
+name: ServerVars
+abbreviation: server-vars
+checker: PragmaRX\Health\Checkers\ServerVars
+error_message: "These $_SERVER vars doesn't match the expected value: %s"
+notify: true
+column_size: 3
+targets:
+  - default:
+      config:
+        route: pragmarx.health.server-vars
+        cache_timeout: 5
+        query_string: "query=testing-cdn-enabled-query-strings"
+        auth:
+          username: "{{ config('auth.http.user') }}"
+          password: "{{ config('auth.http.password') }}"
+        vars:
+          server_port:
+            name: SERVER_PORT
+            operator: equals
+            value: 443
+            strict: false
+            mandatory: true
+          server_software:
+            name: SERVER_SOFTWARE
+            operator: contains
+            value: "nginx/1.20"
+            mandatory: true
+          query_string:
+            name: QUERY_STRING
+            operator: contains
+            value: "query=testing-cdn-enabled-query-strings"
+            mandatory: true
+          http_x_forwarded_proto:
+            name: HTTP_X_FORWARDED_PROTO
+            operator: equals
+            value: https
+            mandatory: false
+          http_cloudfront_forwarded_proto:
+            name: HTTP_CLOUDFRONT_FORWARDED_PROTO
+            operator: equals
+            value: https
+            mandatory: false
+          http_x_forwarded_port:
+            name: HTTP_X_FORWARDED_PORT
+            operator: equals
+            value: 443
+            strict: false
+            mandatory: false

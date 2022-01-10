@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.1.2 - 2021-11-07
+- Add Server Vars ($_SERVER) checker, to help developers check if configuration is good and CDN requests to the app have the required data.
+
+## 1.1.1 - 2021-11-25
+- Add PHP extensions checker
+
+## 1.1.0 - 2021-10-24
+- Add Support for PHP 8.1
+- Add Checkout.com checker
+- Refactor Securit Checker to use a new tool
+- Add total time to console panel
+
 ## 1.0.1 - 2020-10-15
 - Check certificates using openSSL
 

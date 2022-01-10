@@ -23,7 +23,7 @@ class ResourceLoader
     /**
      * ResourceLoader constructor.
      *
-     * @param Yaml $yaml
+     * @param  Yaml  $yaml
      */
     public function __construct(Yaml $yaml)
     {
@@ -35,6 +35,7 @@ class ResourceLoader
      *
      * @param $resources
      * @return \Illuminate\Support\Collection
+     *
      * @throws \Exception
      */
     private function getEnabledResources($resources)
@@ -88,6 +89,7 @@ class ResourceLoader
      * Resources getter.
      *
      * @return \Illuminate\Support\Collection
+     *
      * @throws \Exception
      */
     public function getResources()
@@ -101,6 +103,7 @@ class ResourceLoader
      * Load all resources.
      *
      * @return \Illuminate\Support\Collection
+     *
      * @throws \Exception
      */
     public function load()
@@ -150,6 +153,7 @@ class ResourceLoader
      * Load Resources.
      *
      * @return \Illuminate\Support\Collection
+     *
      * @throws \Exception
      */
     public function loadResources()

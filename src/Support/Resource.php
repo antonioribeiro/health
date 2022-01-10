@@ -5,6 +5,7 @@ namespace PragmaRX\Health\Support;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use JsonSerializable;
+use PragmaRX\Health\Commands;
 use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Support\Traits\ImportProperties;
 use PragmaRX\Health\Support\Traits\ToArray;
@@ -85,10 +86,21 @@ class Resource implements JsonSerializable
     protected $graphEnabled = null;
 
     /**
+     * @var string
+     */
+    public $executable;
+
+    /**
+     * @var string
+     */
+    public $internal_error;
+
+    /**
      * Resource factory.
      *
-     * @param Collection $data
+     * @param  Collection  $data
      * @return resource
+     *
      * @throws \Exception
      */
     public static function factory(Collection $data)
@@ -101,32 +113,38 @@ class Resource implements JsonSerializable
 
         $instance->slug = Str::slug($data['name']);
 
-        $instance->graphEnabled = isset($data['graph_enabled'])
-            ? $data['graph_enabled']
-            : null;
+        try {
+            $instance->graphEnabled = isset($data['graph_enabled'])
+                ? $data['graph_enabled']
+                : null;
 
-        $instance->abbreviation = $data['abbreviation'];
+            $instance->abbreviation = $data['abbreviation'];
 
-        $instance->targets = $instance->instantiateTargets(
-            $data['targets'] ?? collect()
-        );
+            $instance->targets = $instance->instantiateTargets(
+                $data['targets'] ?? collect()
+            );
 
-        $instance->notify =
-            $data['notify'] ?? config('health.notifications.enabled');
+            $instance->notify =
+                $data['notify'] ?? config('health.notifications.enabled');
 
-        $instance->style = $instance->keysToCamel(config('health.style'));
+            $instance->style = $instance->keysToCamel(config('health.style'));
 
-        $instance->style['columnSize'] =
-            $data['column_size'] ?? $instance->style['columnSize'];
+            $instance->style['columnSize'] =
+                $data['column_size'] ?? $instance->style['columnSize'];
 
-        $instance->errorMessage =
-            $data['error_message'] ?? config('health.errors.message');
+            $instance->errorMessage =
+                $data['error_message'] ?? config('health.errors.message');
 
-        $instance->isGlobal = $data['is_global'] ?? false;
+            $instance->isGlobal = $data['is_global'] ?? false;
 
-        $instance->checker = $instance->instantiateChecker($data['checker']);
+            $instance->checker = $instance->instantiateChecker($data['checker']);
 
-        $instance->importProperties($data);
+            $instance->executable = isset($data['executable']) ? $data['executable'] : null;
+
+            $instance->importProperties($data);
+        } catch (\Throwable $exception) {
+            $instance->internal_error = 'Error instantiating resource: '.$exception->getMessage().'. Please check the resource configuration file.';
+        }
 
         return $instance;
     }
@@ -134,7 +152,7 @@ class Resource implements JsonSerializable
     /**
      * Instantiate all checkers for a resource.
      *
-     * @param Collection $targets
+     * @param  Collection  $targets
      * @return Collection|\IlluminateAgnostic\Arr\Support\Collection|\IlluminateAgnostic\Collection\Support\Collection|\IlluminateAgnostic\Str\Support\Collection|mixed|\Tightenco\Collect\Support\Collection|\Vanilla\Support\Collection
      */
     public function instantiateTargets(Collection $targets)
@@ -165,7 +183,7 @@ class Resource implements JsonSerializable
     /**
      * Instantiate one checker.
      *
-     * @param string $checker
+     * @param  string  $checker
      * @return object
      */
     public function instantiateChecker(string $checker)
@@ -176,7 +194,7 @@ class Resource implements JsonSerializable
     /**
      * Check all targets for a resource.
      *
-     * @param string $action
+     * @param  string  $action
      * @return resource
      */
     public function check($action = 'resource')
@@ -213,6 +231,27 @@ class Resource implements JsonSerializable
         return $this->targets->reduce(function ($carry, $target) {
             return $carry && $target->result->healthy;
         }, true);
+    }
+
+    /**
+     * Check status of the resource (overall).
+     *
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        $exitCode = Commands::EXIT_CODES[result::OK];
+        $this->targets->each(function ($target) use (&$exitCode) {
+            // Handles exit codes based on the result's status.
+            $thisStatus = $target->result->getStatus();
+            $thisExitCode = Commands::EXIT_CODES[$thisStatus];
+            // An exit code with a greater value should be preferred as the output.
+            if ($thisExitCode > $exitCode) {
+                $exitCode = $thisExitCode;
+            }
+        });
+
+        return array_flip(Commands::EXIT_CODES)[$exitCode];
     }
 
     protected function keysToCamel($array)
@@ -279,7 +318,7 @@ class Resource implements JsonSerializable
     /**
      * Set current action.
      *
-     * @param string $currentAction
+     * @param  string  $currentAction
      * @return resource
      */
     public function setCurrentAction(string $currentAction)

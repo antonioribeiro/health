@@ -22,18 +22,15 @@ class HealthCheckCommand extends Command
     protected $description = 'Check resources health and send error notifications.';
 
     /**
-     * @param Commands $commands
-     *
-     * @return int Exit code: 0 = success; 1 = failed
+     * @param  Commands  $commands
+     * @return int Exit code: 0 = success; 2 = failed
      *
      * @throws \Exception
      */
     public function handle(Commands $commands)
     {
-        if (false === $commands->check($this)) {
-            return 1;
-        }
+        $this->info('Checking resources...');
 
-        return 0;
+        return $commands->check($this);
     }
 }

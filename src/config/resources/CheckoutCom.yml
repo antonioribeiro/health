@@ -1,0 +1,16 @@
+name: Checkout.com API
+abbreviation: https
+checker: PragmaRX\Health\Checkers\Https
+notify: true
+column_size: 3
+timeout_message: "[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s seconds."
+connection_timeout: 30
+roundtrip_timeout: 30
+targets:
+  - default:
+      urls:
+        - checkout-com:
+            url: "https://{{ config('services.checkout_com.api.host') }}/event-types"
+            method: GET
+            headers:
+              Authorization: "{{ config('services.checkout_com.api.keys.secret') }}"

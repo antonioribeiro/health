@@ -59,7 +59,10 @@ class ServiceTest extends TestCase
 
     public function testResourcesTimeIsCorrectlySet()
     {
-        $this->assertGreaterThan(0, $this->getResources()['AppKey']->targets[0]->result->elapsedTime);
+        $this->assertGreaterThan(
+            0,
+            $this->getResources()['AppKey']->targets[0]->result->elapsedTime
+        );
     }
 
     public function testResourcesWhereChecked()
@@ -101,23 +104,21 @@ class ServiceTest extends TestCase
 
     public function assertCheckedResources($resources)
     {
-        $healthCount = $resources->reduce(function ($carry, $resource) {
-            return $carry + ($resource->isHealthy() ? 1 : 0);
-        }, 0);
-
-        $this->assertGreaterThanOrEqual(
-            static::RESOURCES_HEALTHY,
-            $healthCount
-        );
+        $healthy = $resources->filter(function ($resource) {
+            return $resource->isHealthy();
+        })->keys();
 
         $failing = $resources->filter(function ($resource) {
-            return $resource->isHealthy();
-        });
+            return ! $resource->isHealthy();
+        })->keys();
 
-        $this->assertGreaterThanOrEqual(
-            static::RESOURCES_HEALTHY_EVERYWHERE,
-            $failing->count()
-        );
+        $this->assertGreaterThanOrEqual(self::RESOURCES_HEALTHY_EVERYWHERE, $failing->count());
+
+        $this->assertGreaterThanOrEqual($failing->count(), count(static::ALL_RESOURCES) - self::RESOURCES_HEALTHY_EVERYWHERE);
+
+        $this->assertTrue($this->isSubset($healthy, static::ALL_RESOURCES));
+
+        $this->assertTrue($this->isSubset($failing, static::ALL_RESOURCES));
     }
 
     public function testInstantiation()
@@ -169,6 +170,15 @@ class ServiceTest extends TestCase
     {
         $controller = new HealthController($this->service);
 
+        $request = new \Illuminate\Http\Request();
+
+        $request = $request->createFromBase(
+            \Symfony\Component\HttpFoundation\Request::create(
+                '/health/panel',
+                'GET'
+            )
+        );
+
         $this->assertEquals(
             collect(
                 json_decode($controller->check()->getContent(), true)
@@ -177,17 +187,37 @@ class ServiceTest extends TestCase
         );
 
         $this->assertTrue(
-            Str::startsWith($controller->panel()->getContent(), '<!DOCTYPE html>')
+            Str::startsWith(
+                $controller->panel()->getContent(),
+                '<!DOCTYPE html>'
+            )
         );
 
         $this->assertTrue(count($controller->config()) > 10);
 
         $this->assertTrue(
-            $controller->getResource('app-key')->name == 'App Key'
+            $controller->getResource('app-key', $request)->name == 'App Key'
         );
 
         $this->assertTrue(
             $controller->allResources()->count() == count(static::ALL_RESOURCES)
         );
+    }
+
+    public function isSubset($subset, $array): bool
+    {
+        $array = collect($array);
+
+        if ($subset->isEmpty() || $array->isEmpty()) {
+            return false;
+        }
+
+        foreach ($subset as $value) {
+            if (! $array->contains($value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

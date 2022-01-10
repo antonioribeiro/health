@@ -7,7 +7,7 @@
     <a href="https://scrutinizer-ci.com/g/antonioribeiro/health/?branch=master"><img alt="Code Quality" src="https://img.shields.io/scrutinizer/g/antonioribeiro/health.svg?style=flat-square"></a>
 </p>
 <p align="center">
-    <a href="https://travis-ci.org/antonioribeiro/health"><img alt="Build" src="https://img.shields.io/travis/antonioribeiro/health.svg?style=flat-square"></a>
+    <a href="https://github.com/antonioribeiro/health/actions"><img alt="Build" src="https://github.com/antonioribeiro/health/actions/workflows/run-tests.yml/badge.svg?style=flat-square"></a>
     <a href="https://packagist.org/packages/pragmarx/health"><img alt="Downloads" src="https://img.shields.io/packagist/dt/pragmarx/health.svg?style=flat-square"></a>
     <a href="https://scrutinizer-ci.com/g/antonioribeiro/health/?branch=master"><img alt="Coverage" src="https://img.shields.io/scrutinizer/coverage/g/antonioribeiro/health.svg?style=flat-square"></a>
     <a href="https://travis-ci.org/antonioribeiro/health"><img alt="PHP" src="https://img.shields.io/badge/PHP-7.1%20--%208.0-brightgreen.svg?style=flat-square"></a>
@@ -17,7 +17,7 @@ This package checks if the application resources are running as they should and 
 
 - Highly extensible and configurable: you can create new checkers and notifiers very easily, and you can virtually change everything on it.
 - Easy configuration: uses YAML as configuration files
-- Resilient resource checker: if the framework is working and at least one notification channel, you should receive notification messages. 
+- Resilient resource checker: if the framework is working and at least one notification channel, you should receive notification messages.
 - Built-in notification system: get notifications via mail, slack, telegram or anything else you need.
 - Routes for: panel, json result, string result and resource.
 - Configurable panel design.
@@ -26,7 +26,7 @@ This package checks if the application resources are running as they should and 
 - View app error messages right in the panel.
 - Http response codes 200 and 500, on error, for services like [Envoyer](https://envoyer.io) to keep track of your app health.
 
-## Built-in Resources 
+## Built-in Resources
 
 Heath has pre-configured resource checkers for the following services:
 
@@ -37,6 +37,7 @@ Heath has pre-configured resource checkers for the following services:
 - Cache
 - ConfigurationCached
 - Certificate
+- Checkout.com
 - Database
 - DebugMode
 - DirectoryPermissions
@@ -55,6 +56,7 @@ Heath has pre-configured resource checkers for the following services:
 - MailgunConnectable
 - MemcachedConnectable
 - MigrationsUpToDate
+- MixManifest
 - MySql
 - MySqlConnectable
 - NewrelicDeamon
@@ -74,13 +76,14 @@ Heath has pre-configured resource checkers for the following services:
 - SeeTickets
 - Sendinblue
 - ServerLoad
+- ServerVars
 - ServerUptime
 - Sshd
 - Supervisor
- 
-But you can add anything else you need, you just have to find the right checker to use or just create a new checker for your resource. 
 
-## Easy Configuration 
+But you can add anything else you need, you just have to find the right checker to use or just create a new checker for your resource.
+
+## Easy Configuration
 
 Creating new resources monitors is easy, just create a new YAML file in app's config/health folder and it's done. Here's some examples:
 
@@ -116,7 +119,7 @@ Creating new resources monitors is easy, just create a new YAML file in app's co
     pid_file_missing_not_locked: 'Process ID file is not being used by any process: %s.'
     column_size: 4
 
-## Screenshots 
+## Screenshots
 
 ### Panel
 
@@ -132,7 +135,7 @@ If you have lots of services to check, you may change the default panel design t
 
 ![default panel](docs/images/error-single-4-columns.png)
 
-### Error Messages 
+### Error Messages
 
 Mouse over a failing resource and get instant access to the error message:
 
@@ -149,6 +152,15 @@ Here's an example of notification sent via Slack:
 ![default panel](docs/images/slack.png)
 
 ## Artisan Console Commands
+
+The health check commands below also return an exit code in a standard format:
+
+| Numeric Value | Service Status | Status Description                                                                                  |
+|---------------|----------------|-----------------------------------------------------------------------------------------------------|
+|       0       |       OK       | Service and appears to be functioning properly                                                      |
+|       1       |     Warning    | Check ran okay, but was above some "warning" threshold                                              |
+|       2       |    Critical    | The check detected service is not running or is above a "critical" threshold                        |
+|       3       |     Unknown    | Settings for the service check may be misconfigured and is preventing the check for being performed |
 
 ### health:panel
 
@@ -212,11 +224,11 @@ Add the Service Provider to your `config/app.php`:
 ## Hit The Health Panel
 
     http://yourdomain.com/health/panel
-    
+
 ## Configure All The Things
 
 Almost everything is easily configurable in this package:
- 
+
 - Panel name
 - Title and messages
 - Resource checkers
@@ -244,7 +256,7 @@ Some of the checkers need you to configure the proper binary path for the checke
 
 ## Allowing Slack Notifications
 
-To receive notifications via Slack, you'll have to setup [Incoming Webhooks](https://api.slack.com/incoming-webhooks) and add this method to your User model with your webhook: 
+To receive notifications via Slack, you'll have to setup [Incoming Webhooks](https://api.slack.com/incoming-webhooks) and add this method to your User model with your webhook:
 
     /**
      * Route notifications for the Slack channel.
@@ -258,13 +270,13 @@ To receive notifications via Slack, you'll have to setup [Incoming Webhooks](htt
 
 ## Cache
 
-When Health result is cached, you can flush the cache to make it process all resources again by adding `?flush=true` to the url: 
+When Health result is cached, you can flush the cache to make it process all resources again by adding `?flush=true` to the url:
 
     http://yourdomain.com/health/panel?flush=true
 
 ## Events
 
-If you prefer to build you own notifications systems, you can disable it and listen for the following event  
+If you prefer to build you own notifications systems, you can disable it and listen for the following event
 
     PragmaRX\Health\Events\RaiseHealthIssue::class
 
@@ -279,17 +291,17 @@ Broadcasting checker is done via ping and pong system. The broadcast checker wil
     var io = require('socket.io')(server);
     var Redis = require('ioredis');
     var redis = new Redis();
-    
+
     redis.subscribe('pragmarx-health-broadcasting-channel');
-    
+
     redis.on('message', function (channel, message) {
         message = JSON.parse(message);
-    
+
         if (message.event == 'PragmaRX\\Health\\Events\\HealthPing') {
             request.get(message.data.callbackUrl + '?data=' + JSON.stringify(message.data));
         }
     });
-    
+
     server.listen(3000);
 
 ### Pusher
@@ -303,19 +315,19 @@ Broadcasting checker is done via ping and pong system. The broadcast checker wil
                 var pusher = new Pusher('YOUR-PUSHER-KEY', {
                     encrypted: true
                 });
-    
+
                 var channel = pusher.subscribe('pragmarx-health-broadcasting-channel');
-    
+
                 channel.bind('PragmaRX\\Health\\Events\\HealthPing', function(data) {
                     var request = (new XMLHttpRequest());
-    
+
                     request.open("GET", data.callbackUrl + '?data=' + JSON.stringify(data));
-    
+
                     request.send();
                 });
             </script>
         </head>
-    
+
         <body>
             Pusher waiting for events...
         </body>
@@ -326,12 +338,12 @@ Broadcasting checker is done via ping and pong system. The broadcast checker wil
 ``` php
 $generalHealthState = app('pragmarx.health')->checkResources();
 
-// or 
+// or
 
 $databaseHealthy = app('pragmarx.health')->checkResource('database')->isHealthy();
 ```
 
-Checking in artisan commands example: 
+Checking in artisan commands example:
 
 ```
 Artisan::command('database:health', function () {
@@ -342,23 +354,27 @@ Artisan::command('database:health', function () {
 })->describe('Check database health');
 ```
 
+## SecurityChecker
+
+As the [SensioLabs Security Checker](https://github.com/sensiolabs/security-checker) package was abandoned, this checker now depends on [local-php-security-checker](https://github.com/fabpot/local-php-security-checker). You need to compile or install it on your server or container in order to use this checker, and update the `config/resources/SecurityChecker.yml` file accordingly. 
+
 ## Lumen
 To use it on Lumen, you'll probably need to do something like this on your `bootstrap/app.php`:
 
     $app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
     $app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');
-    
+
     $app->withFacades();
-    
+
     $app->singleton('Illuminate\Contracts\Routing\ResponseFactory', function ($app) {
         return new \Illuminate\Routing\ResponseFactory(
             $app['Illuminate\Contracts\View\Factory'],
             $app['Illuminate\Routing\Redirector']
         );
     });
-    
+
     $app->register(PragmaRX\Health\ServiceProvider::class);
- 
+
 ## Testing
 
 ``` bash

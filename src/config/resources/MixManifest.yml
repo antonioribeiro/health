@@ -1,0 +1,16 @@
+name: Mix Manifest
+abbreviation: mix-manifest
+checker: PragmaRX\Health\Checkers\MixManifest
+notify: true
+column_size: 3
+targets:
+  - laravel:
+       file: "public/mix-manifest.json"
+       assets_root: "public"
+  - twill:
+       file: "public/assets/admin/twill-manifest.json"
+       assets_root: "public"
+       ignore_items:
+         - icons-files.php
+         - icons-wysiwyg.php
+         - icons.php

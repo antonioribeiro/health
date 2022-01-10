@@ -1,0 +1,76 @@
+name: Extensions are installed
+abbreviation: extensions-installed
+checker: PragmaRX\Health\Checkers\Extensions
+notify: true
+error_message:
+  "The following extensions are not installed or enabled: %s"
+column_size: 3
+targets:
+  default:
+    - items:
+        - Core
+        - phpdbg_webhelper
+        - date
+        - libxml
+        - openssl
+        - pcre
+        - sqlite3
+        - zlib
+        - bcmath
+        - bz2
+        - calendar
+        - ctype
+        - curl
+        - dba
+        - dom
+        - hash
+        - FFI
+        - fileinfo
+        - filter
+        - ftp
+        - gd
+        - gettext
+        - gmp
+        - SPL
+        - iconv
+        - intl
+        - json
+        - ldap
+        - mbstring
+        - session
+        - standard
+        - odbc
+        - pcntl
+        - mysqlnd
+        - PDO
+        - pdo_dblib
+        - pdo_mysql
+        - PDO_ODBC
+        - pdo_pgsql
+        - pdo_sqlite
+        - pgsql
+        - Phar
+        - posix
+        - pspell
+        - readline
+        - Reflection
+        - mysqli
+        - shmop
+        - SimpleXML
+        - soap
+        - sockets
+        - sodium
+        - exif
+        - sysvmsg
+        - sysvsem
+        - sysvshm
+        - tidy
+        - tokenizer
+        - xml
+        - xmlreader
+        - xmlwriter
+        - xsl
+        - zip
+        - redis
+        - Zend OPcache
+        - xdebug
