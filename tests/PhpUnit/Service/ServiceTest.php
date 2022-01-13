@@ -82,17 +82,6 @@ class ServiceTest extends TestCase
         $this->assertCheckedResources($this->getResources(true));
     }
 
-    public function testInvalidEnabledResources()
-    {
-        $this->expectException(\DomainException::class);
-
-        $this->app['config']->set('health.resources.enabled', 'invalid');
-
-        (new ResourceLoader(new Yaml()))->load();
-
-        $this->getResources(true);
-    }
-
     public function testInvalidLoadOneResource()
     {
         $this->app['config']->set('health.resources.enabled', ['Database']);
