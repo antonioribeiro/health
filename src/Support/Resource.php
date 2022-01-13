@@ -10,6 +10,7 @@ use PragmaRX\Health\Events\RaiseHealthIssue;
 use PragmaRX\Health\Support\Traits\ImportProperties;
 use PragmaRX\Health\Support\Traits\ToArray;
 use Ramsey\Uuid\Uuid;
+use ReturnTypeWillChange;
 
 class Resource implements JsonSerializable
 {
@@ -356,6 +357,7 @@ class Resource implements JsonSerializable
      *
      * @return string
      */
+	#[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return json_decode($this->__toString(), true);

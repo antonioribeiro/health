@@ -7,6 +7,7 @@ use JsonSerializable;
 use PragmaRX\Health\Support\Traits\ImportProperties;
 use PragmaRX\Health\Support\Traits\ToArray;
 use Ramsey\Uuid\Uuid;
+use ReturnTypeWillChange;
 
 class Target implements JsonSerializable
 {
@@ -262,9 +263,8 @@ class Target implements JsonSerializable
 
     /**
      * Prepare the resource for JSON serialization.
-     *
-     * @return string
      */
+	#[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return json_decode($this->__toString(), true);
