@@ -1,6 +1,7 @@
 name: Queue
 abbreviation: queue
 checker: PragmaRX\Health\Checkers\Queue
+description: "Test job should be successfully handled."
 error_message: "Queue system is not working properly."
 column_size: 3
 targets:

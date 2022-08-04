@@ -1,6 +1,7 @@
 name: LocalStorage
 abbreviation: lclstrg
 checker: PragmaRX\Health\Checkers\CloudStorage
+description: "File should be saved to local storage."
 notify: true
 error_message: "Cloud storage is not retrieving files correctly."
 column_size: 3

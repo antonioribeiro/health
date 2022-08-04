@@ -1,6 +1,7 @@
 /vendor
 composer.phar
 .DS_Store
+.idea
 tests/_output/*
 coverage
 node_modules/

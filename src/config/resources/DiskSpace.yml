@@ -1,6 +1,7 @@
 name: Disk Space
 abbreviation: dskspc
 checker: PragmaRX\Health\Checkers\DiskSpace
+description: "Disc should have more than 1GB space."
 notify: true
 column_size: 3
 targets:

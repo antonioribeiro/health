@@ -1,6 +1,7 @@
 name: Horizon
 abbreviation: horizon
 checker: PragmaRX\Health\Checkers\Horizon
+description: "Horizon workers are not paused."
 notify: true
 column_size: 3
 error_message: "Laravel Horizon workers are not running"

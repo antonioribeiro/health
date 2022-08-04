@@ -1,6 +1,7 @@
 name: Directory Permissions
 abbreviation: dirperm
 checker: PragmaRX\Health\Checkers\Writable
+description: "'storage/', 'bootstrap/cache/' are writable."
 notify: true
 column_size: 3
 error_message: "%s is not writable"

@@ -1,6 +1,7 @@
 name: Redis Connectable
 abbreviation: redisconn
 checker: PragmaRX\Health\Checkers\PortCheck
+description: "Check if Redis port is connectable."
 notify: true
 column_size: 3
 error_message: "Could not connect to %s on port %s"

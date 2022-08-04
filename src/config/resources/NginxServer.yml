@@ -1,6 +1,7 @@
 name: NginxServer
 abbreviation: ngnxsrvr
 checker: PragmaRX\Health\Checkers\Process
+description: "Active nginx processes count using 'pgrep'."
 column_size: 3
 notify: true
 targets:

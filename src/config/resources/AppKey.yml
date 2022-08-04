@@ -1,6 +1,7 @@
 name: App Key
 abbreviation: appkey
 checker: PragmaRX\Health\Checkers\Expression
+description: "Laravel config app key."
 notify: true
 column_size: 3
 error_message: "There is no app key defined"

@@ -1,6 +1,7 @@
 name: Filesystem
 abbreviation: flstm
 checker: PragmaRX\Health\Checkers\Filesystem
+description: "Temp files creating for system directory 'sys_get_temp_dir()'."
 notify: true
 column_size: 3
 targets:

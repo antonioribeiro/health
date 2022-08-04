@@ -1,6 +1,7 @@
 name: .env Exists
 abbreviation: envexists
 checker: PragmaRX\Health\Checkers\DirectoryAndFilePresence
+description: ".env should exist in application base path."
 notify: true
 error_message: "The .env file does not exists"
 column_size: 3

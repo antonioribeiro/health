@@ -1,6 +1,7 @@
 name: Database
 abbreviation: db
 checker: PragmaRX\Health\Checkers\Database
+description: "Database user entity raw fetching."
 notify: true
 column_size: 3
 targets:

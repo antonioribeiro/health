@@ -1,5 +1,6 @@
 name: Framework
 abbreviation: frmwrk
 checker: PragmaRX\Health\Checkers\Framework
+description: "Success checking result successfully received."
 notify: true
 column_size: 3
