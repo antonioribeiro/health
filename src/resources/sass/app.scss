@@ -32,6 +32,13 @@ body {
   margin-bottom: 1px;
 }
 
+.description {
+  line-height: 10px;
+  font-size: 1em;
+  color: gray;
+  margin-bottom: 1px;
+}
+
 .nav-button {
   margin: 0 !important;
 }
@@ -39,6 +46,11 @@ body {
 .target-card {
   border-color: #bdbdbd !important;
   background-color: white;
+  height: 100%;
+}
+
+.target-item {
+  margin-bottom: 10px;
 }
 
 .shadow {

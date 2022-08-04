@@ -115,6 +115,8 @@ class Resource implements JsonSerializable
         $instance->slug = Str::slug($data['name']);
 
         try {
+            $instance->description = isset($data['description']) ? $data['description'] : null;
+
             $instance->graphEnabled = isset($data['graph_enabled'])
                 ? $data['graph_enabled']
                 : null;

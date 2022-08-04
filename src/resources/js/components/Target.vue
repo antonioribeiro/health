@@ -1,5 +1,5 @@
 <template>
-    <div :class="'col-sm-12 col-md-6 col-lg-4 col-xl-'+resource.columnSize">
+    <div :class="'target-item col-sm-12 col-md-6 col-lg-4 col-xl-'+resource.columnSize">
         <div :class="'btn btn-block target-card shadow '+colorClassBackground+' '+resource.style.buttonLines"
              :title="resource.name"
              :data-name="resource.name"
@@ -42,6 +42,14 @@
                                 </span>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                         <p class="description text-left">
+                            {{ resource.description }}
+                        </p>
                     </div>
                 </div>
 
