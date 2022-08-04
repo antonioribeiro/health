@@ -185,9 +185,6 @@ class Service
         ];
 
         foreach ($this->checkResources(true) as $resource) {
-            /**
-             * @var Resource $resource
-             */
             $isHealthy = $resource->isHealthy();
 
             $result['resources'][$resource->abbreviation] = $isHealthy;

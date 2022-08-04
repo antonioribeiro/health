@@ -56,7 +56,7 @@ class ResourceLoader
             });
         }
 
-        throw new DomainException("Invalid value for config.");
+        throw new DomainException('Invalid value for config.');
     }
 
     /**
@@ -68,9 +68,9 @@ class ResourceLoader
 
         $disabledResources = config("health.resources.disabled_by_type.{$applicationType}", []);
 
-        $disabledByEnv = config('health.resources.disabled_by_environment.' . app()->environment(), []);
+        $disabledByEnv = config('health.resources.disabled_by_environment.'.app()->environment(), []);
 
-        if (!empty($disabledByEnv)) {
+        if (! empty($disabledByEnv)) {
             $disabledResources = array_merge($disabledResources, $disabledByEnv);
         }
 
@@ -81,7 +81,7 @@ class ResourceLoader
         }
 
         $enabledResources = collect($config)->filter(function ($resource) use ($disabledResources) {
-            return !in_array($resource, $disabledResources);
+            return ! in_array($resource, $disabledResources);
         });
 
         return $enabledResources->toArray();
