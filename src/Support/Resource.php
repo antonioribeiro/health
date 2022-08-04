@@ -359,7 +359,7 @@ class Resource implements JsonSerializable
      *
      * @return string
      */
-	#[ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return json_decode($this->__toString(), true);

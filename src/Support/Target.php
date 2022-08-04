@@ -264,7 +264,7 @@ class Target implements JsonSerializable
     /**
      * Prepare the resource for JSON serialization.
      */
-	#[ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return json_decode($this->__toString(), true);

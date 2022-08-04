@@ -125,6 +125,7 @@ class Health extends Controller
 
     /**
      * @return mixed
+     *
      * @throws \Exception
      */
     public function status()

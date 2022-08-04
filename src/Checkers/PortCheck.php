@@ -78,7 +78,7 @@ class PortCheck extends Base
     {
         return ! $this->portCheck(
             $ipAddress,
-			(int) $this->target->port,
+            (int) $this->target->port,
             $this->target->timeout ?? 1
         );
     }

@@ -174,6 +174,7 @@ class Service
 
     /**
      * @return mixed
+     *
      * @throws \Exception
      */
     public function status(): array
@@ -184,12 +185,14 @@ class Service
         ];
 
         foreach ($this->checkResources(true) as $resource) {
-            /** @var Resource $resource */
+            /**
+             * @var Resource $resource
+             */
             $isHealthy = $resource->isHealthy();
 
             $result['resources'][$resource->abbreviation] = $isHealthy;
 
-            if (!$isHealthy) {
+            if (! $isHealthy) {
                 $result['status'] = Response::HTTP_SERVICE_UNAVAILABLE;
             }
         }
