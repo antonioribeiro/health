@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.3 - 2022-11-07
+## 1.1.4 - 2022-11-07
 - Createad a HealthPanel checker to allow people to create a panels of remote panels
 - Added a "link" property that will open a new page when clicked
 
