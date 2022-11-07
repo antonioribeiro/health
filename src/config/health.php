@@ -64,6 +64,7 @@ return [
             'Extensions',
             'Filesystem',
             'Framework',
+            // 'HealthPanel',
             // 'Horizon',
             // 'Http',
             'Https',

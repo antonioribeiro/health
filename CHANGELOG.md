@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3 - 2022-11-07
+- Createad a HealthPanel checker to allow people to create a panels of remote panels
+- Added a "link" property that will open a new page when clicked
+
 ## 1.1.2 - 2021-11-07
 - Add Server Vars ($_SERVER) checker, to help developers check if configuration is good and CDN requests to the app have the required data.
 

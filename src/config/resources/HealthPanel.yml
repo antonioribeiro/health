@@ -1,0 +1,17 @@
+name: Remote Laravel Health Panel
+abbreviation: health-panel
+checker: PragmaRX\Health\Checkers\HealthPanel
+notify: true
+column_size: 3
+timeout_message: "[TIMEOUT] A request to %s took %s seconds. Timeout is set to %s seconds."
+connection_timeout: 5
+roundtrip_timeout: 10
+targets:
+  - default:
+      urls:
+        - "http://your-site.com/health/check":
+            method: GET
+            auth:
+              - "{{ config('services.whatever.api.username') }}"
+              - "{{ config('services.whatever.api.password') }}"
+              - basic
