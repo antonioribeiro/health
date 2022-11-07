@@ -6,8 +6,8 @@
         >
             <div v-if="resource.style.buttonLines === 'multi'">
                 <div class="row">
-                    <div class="col-6">
-                        <p class="title text-left">
+                    <div class="col-6" @click="openLink()">
+                        <p class="title text-left" >
                             {{ resource.name }}
                         </p>
 
@@ -45,7 +45,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" @click="openLink()">
                     <div class="col-12 chart">
                         <target-chart
                             :height="config.database.graphs.height"
@@ -193,6 +193,12 @@ export default {
 
             Swal.fire(name, message, type)
         },
+
+        openLink() {
+            if (this.resource.hasOwnProperty('link')) {
+                window.open(this.resource.link, '_blank').focus();
+            }
+        }
     },
 }
 </script>
