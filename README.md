@@ -47,6 +47,7 @@ Heath has pre-configured resource checkers for the following services:
 - EnvExists
 - Filesystem
 - Framework
+- HealthPanel
 - Horizon
 - Http
 - Https
@@ -84,6 +85,10 @@ Heath has pre-configured resource checkers for the following services:
 - Supervisor
 
 But you can add anything else you need, you just have to find the right checker to use or just create a new checker for your resource.
+
+## Panel of Panels
+
+If you have a lot of websites to check, you can use the HealthPanel checker to create a Health Monitor application to check all your remote monitors and create a dashboard to summarize the state of all your websites.   
 
 ## Easy Configuration
 

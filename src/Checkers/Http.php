@@ -125,7 +125,7 @@ class Http extends Base
      * @param $ssl
      * @return array
      */
-    private function getConnectionOptions($ssl)
+    protected function getConnectionOptions($ssl)
     {
         return [
             'connect_timeout' => $this->getConnectionTimeout(),
