@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.0 - 2022-11-14
+- Bump Laravel version minimum to 8.0 and PHP to 7.3
+
 ## 1.1.6 - 2022-11-14
 - Fix not all parameters being sent to Guzzle for the HealthPanel checker
 
