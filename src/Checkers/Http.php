@@ -22,12 +22,12 @@ class Http extends Base
     /**
      * @var
      */
-    protected $totalTime;
+    private $totalTime;
 
     /**
      * @var
      */
-    protected $url;
+    private $url;
 
     /**
      * HTTP Checker.
@@ -66,7 +66,7 @@ class Http extends Base
      *
      * @return array
      */
-    protected function getResourceUrlArray()
+    private function getResourceUrlArray()
     {
         if (is_a($this->target->urls, Collection::class)) {
             return $this->target->urls->toArray();
@@ -82,7 +82,7 @@ class Http extends Base
      * @param  bool  $ssl
      * @return mixed
      */
-    protected function checkUrl($url, $ssl = false, $parameters = [])
+    private function checkUrl($url, $ssl = false, $parameters = [])
     {
         try {
             $success = $this->requestSuccessful($url, $ssl, $parameters);
@@ -108,7 +108,7 @@ class Http extends Base
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function fetchResponse($url, $ssl, $parameters = [])
+    private function fetchResponse($url, $ssl, $parameters = [])
     {
         $this->url = $url;
 
@@ -140,7 +140,7 @@ class Http extends Base
      *
      * @return string
      */
-    protected function getErrorMessage()
+    private function getErrorMessage()
     {
         $message = $this->target->resource->timeoutMessage;
 
@@ -157,7 +157,7 @@ class Http extends Base
      *
      * @return int
      */
-    protected function getConnectionTimeout()
+    private function getConnectionTimeout()
     {
         return $this->target->resource->connectionTimeout;
     }
@@ -167,7 +167,7 @@ class Http extends Base
      *
      * @return int
      */
-    protected function getRoundtripTimeout()
+    private function getRoundtripTimeout()
     {
         return $this->target->resource->roundtripTimeout;
     }
@@ -179,7 +179,7 @@ class Http extends Base
      * @param $secure
      * @return mixed
      */
-    protected function makeUrlWithScheme($url, $secure)
+    private function makeUrlWithScheme($url, $secure)
     {
         return preg_replace(
             '|^((https?:)?\/\/)?(.*)|',
@@ -193,7 +193,7 @@ class Http extends Base
      *
      * @return \Closure
      */
-    protected function onStatsCallback()
+    private function onStatsCallback()
     {
         return function (TransferStats $stats) {
             $this->totalTime = $stats->getTransferTime();
@@ -209,7 +209,7 @@ class Http extends Base
      *
      * @internal param $response
      */
-    protected function requestSuccessful($url, $ssl, $parameters)
+    private function requestSuccessful($url, $ssl, $parameters)
     {
         $response = $this->fetchResponse($url, $ssl, $parameters);
 
@@ -217,7 +217,19 @@ class Http extends Base
             throw new \Exception((string) $response->getBody());
         }
 
-        return ! $this->requestTimeout();
+        if ($this->requestTimeout()) {
+            return false;
+        }
+
+        if ($parameters['is_json'] ?? false) {
+            json_decode($response->getBody());
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception((string) 'Downloaded file is not a valid JSON. Error: '.json_last_error());
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -225,7 +237,7 @@ class Http extends Base
      *
      * @return bool
      */
-    protected function requestTimeout()
+    private function requestTimeout()
     {
         return $this->totalTime > $this->getRoundtripTimeout();
     }
