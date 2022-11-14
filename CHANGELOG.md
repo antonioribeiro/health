@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.2 - 2022-11-14
+- Http/Https checker: allow setting the URL as a separate object to fix a YAML limitation
+
 ## 2.0.1 - 2022-11-14
 - Queue checker: allow defining the queue name on config 
 
