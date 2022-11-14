@@ -255,9 +255,9 @@ class Http extends Base
 
         $url = array_keys($data)[0];
 
-        $parameters = $data[$url];
+        $parameters = $data[$url] ?? $data;
 
-        $url = isset($parameters['url']) ? $parameters['url'] : $url;
+        $url = $parameters['url'] ?? $url;
 
         return [$url, $parameters];
     }
