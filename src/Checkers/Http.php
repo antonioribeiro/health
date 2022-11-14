@@ -22,12 +22,12 @@ class Http extends Base
     /**
      * @var
      */
-    private $totalTime;
+    protected $totalTime;
 
     /**
      * @var
      */
-    private $url;
+    protected $url;
 
     /**
      * HTTP Checker.
@@ -42,7 +42,7 @@ class Http extends Base
             foreach ($this->getResourceUrlArray() as $url) {
                 [$url, $parameters] = $this->parseConfigUrl($url);
 
-                [$healthy, $message] = $this->checkWebPage(
+                [$healthy, $message] = $this->checkUrl(
                     $this->makeUrlWithScheme($url, $this->secure),
                     $this->secure,
                     $parameters
@@ -66,7 +66,7 @@ class Http extends Base
      *
      * @return array
      */
-    private function getResourceUrlArray()
+    protected function getResourceUrlArray()
     {
         if (is_a($this->target->urls, Collection::class)) {
             return $this->target->urls->toArray();
@@ -82,7 +82,7 @@ class Http extends Base
      * @param  bool  $ssl
      * @return mixed
      */
-    private function checkWebPage($url, $ssl = false, $parameters = [])
+    protected function checkUrl($url, $ssl = false, $parameters = [])
     {
         try {
             $success = $this->requestSuccessful($url, $ssl, $parameters);
@@ -108,7 +108,7 @@ class Http extends Base
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function fetchResponse($url, $ssl, $parameters = [])
+    protected function fetchResponse($url, $ssl, $parameters = [])
     {
         $this->url = $url;
 
@@ -140,7 +140,7 @@ class Http extends Base
      *
      * @return string
      */
-    private function getErrorMessage()
+    protected function getErrorMessage()
     {
         $message = $this->target->resource->timeoutMessage;
 
@@ -157,7 +157,7 @@ class Http extends Base
      *
      * @return int
      */
-    private function getConnectionTimeout()
+    protected function getConnectionTimeout()
     {
         return $this->target->resource->connectionTimeout;
     }
@@ -167,7 +167,7 @@ class Http extends Base
      *
      * @return int
      */
-    private function getRoundtripTimeout()
+    protected function getRoundtripTimeout()
     {
         return $this->target->resource->roundtripTimeout;
     }
@@ -179,7 +179,7 @@ class Http extends Base
      * @param $secure
      * @return mixed
      */
-    private function makeUrlWithScheme($url, $secure)
+    protected function makeUrlWithScheme($url, $secure)
     {
         return preg_replace(
             '|^((https?:)?\/\/)?(.*)|',
@@ -193,7 +193,7 @@ class Http extends Base
      *
      * @return \Closure
      */
-    private function onStatsCallback()
+    protected function onStatsCallback()
     {
         return function (TransferStats $stats) {
             $this->totalTime = $stats->getTransferTime();
@@ -209,7 +209,7 @@ class Http extends Base
      *
      * @internal param $response
      */
-    private function requestSuccessful($url, $ssl, $parameters)
+    protected function requestSuccessful($url, $ssl, $parameters)
     {
         $response = $this->fetchResponse($url, $ssl, $parameters);
 
@@ -225,7 +225,7 @@ class Http extends Base
      *
      * @return bool
      */
-    private function requestTimeout()
+    protected function requestTimeout()
     {
         return $this->totalTime > $this->getRoundtripTimeout();
     }
