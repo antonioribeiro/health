@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.1 - 2022-11-14
+- Queue checker: allow defining the queue name on config 
+
 ## 2.0.0 - 2022-11-14
 - Bump Laravel version minimum to 8.0 and PHP to 7.3
 
