@@ -10,7 +10,7 @@
     <a href="https://github.com/antonioribeiro/health/actions"><img alt="Build" src="https://github.com/antonioribeiro/health/actions/workflows/run-tests.yml/badge.svg?style=flat-square"></a>
     <a href="https://packagist.org/packages/pragmarx/health"><img alt="Downloads" src="https://img.shields.io/packagist/dt/pragmarx/health.svg?style=flat-square"></a>
     <a href="https://scrutinizer-ci.com/g/antonioribeiro/health/?branch=master"><img alt="Coverage" src="https://img.shields.io/scrutinizer/coverage/g/antonioribeiro/health.svg?style=flat-square"></a>
-    <a href="https://travis-ci.org/antonioribeiro/health"><img alt="PHP" src="https://img.shields.io/badge/PHP-7.1%20--%208.0-brightgreen.svg?style=flat-square"></a>
+    <a href="https://travis-ci.org/antonioribeiro/health"><img alt="PHP" src="https://img.shields.io/badge/PHP-7.3%20--%208.1-brightgreen.svg?style=flat-square"></a>
 </p>
 
 This package checks if the application resources are running as they should and creates a service status panel. It has the following main points:
@@ -209,8 +209,8 @@ Returns a json with information about a particular service:
 
 ## Requirements
 
-- PHP 7.1+
-- Laravel 5.6+
+- PHP 7.3+
+- Laravel 8.0+
 
 ## Installing
 
