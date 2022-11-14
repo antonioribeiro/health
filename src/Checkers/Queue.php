@@ -15,20 +15,22 @@ class Queue extends Base
      */
     public function check()
     {
+        $connection = $this->target->connection
+            ?: app('config')['queue.default'];
+
+        $queue = filled($this->target->queue ?? null)
+            ? $this->target->queue
+            : app('config')->get(
+                "queue.connections.{$connection}.queue",
+                'default'
+            );
+
         app('queue')->pushOn(
-            $this->target->name,
+            $queue,
             instantiate($this->target->testJob)
         );
 
         $worker = app('queue.worker');
-
-        $connection = $this->target->connection
-            ?: app('config')['queue.default'];
-
-        $queue = app('config')->get(
-            "queue.connections.{$connection}.queue",
-            'default'
-        );
 
         $worker->setCache(instantiate($this->target->cacheInstance)->driver());
 

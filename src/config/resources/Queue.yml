@@ -9,3 +9,4 @@ targets:
       cache_instance: cache
       notify: true
       connection: ""
+      queue: ""
