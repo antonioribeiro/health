@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.6 - 2022-11-14
+- Fix not all parameters being sent to Guzzle for the HealthPanel checker
+
 ## 1.1.5 - 2022-11-14
 - Allow checking if the API response is a valid JSON
 
