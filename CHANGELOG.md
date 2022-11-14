@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.5 - 2022-11-14
+- Allow checking if the API response is a valid JSON
+
 ## 1.1.4 - 2022-11-07
 - Createad a HealthPanel checker to allow people to create a panels of remote panels
 - Added a "link" property that will open a new page when clicked
