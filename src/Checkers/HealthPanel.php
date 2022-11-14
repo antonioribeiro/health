@@ -142,8 +142,12 @@ class HealthPanel extends Http
         );
     }
 
-    public function getJson($url)
+    public function getJson($parameters)
     {
-        return json_decode((string) $this->fetchJson($url['url'], ['method' => $url['method']])->getBody(), true);
+        $url = $parameters['url'];
+
+        unset($parameters['url']);
+
+        return json_decode((string) $this->fetchJson($url, $parameters)->getBody(), true);
     }
 }
