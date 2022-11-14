@@ -29,12 +29,12 @@
     "require-dev": {
         "phpunit/phpunit": ">=6.5",
         "laravel/laravel": ">=8.0",
-        "orchestra/testbench": ">=6.0",
+        "orchestra/testbench": "5.*|6.*|7.*",
         "guzzlehttp/guzzle": ">=6.0",
         "docusign/esign-client": ">=2.0",
         "predis/predis": ">=1.0",
-        "sensiolabs/security-checker": ">=4.1",
-        "nesbot/carbon": ">=1.34"
+        "nesbot/carbon": ">=1.34",
+        "laravel/framework": "9.*"
     },
     "suggest": {
         "guzzlehttp/guzzle": ">=6.0",
