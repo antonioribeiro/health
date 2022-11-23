@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.3 - 2022-11-23
+- Allow disabling notifications by the caller (web,console)
+
 ## 2.0.2 - 2022-11-14
 - Http/Https checker: allow setting the URL as a separate object to fix a YAML limitation
 
