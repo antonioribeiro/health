@@ -197,6 +197,11 @@ return [
             'resource' => false,
         ],
 
+        'notify_from' => [
+            'web' => false,
+            'console' => true,
+        ],
+
         'subject' => 'Health Status',
 
         'action-title' => 'View App Health',
@@ -218,7 +223,7 @@ return [
         ],
 
         'users' => [
-            'model' => App\User::class,
+            'model' => App\Models\User::class,
 
             'emails' => ['admin@mydomain.com'],
         ],

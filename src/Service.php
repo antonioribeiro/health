@@ -169,4 +169,14 @@ class Service
                 );
         });
     }
+
+    /**
+     * Set the caller.
+     *
+     * @param string $caller
+     */
+    public function setCaller($caller)
+    {
+        $this->resourceChecker->setCurrentCaller($caller);
+    }
 }

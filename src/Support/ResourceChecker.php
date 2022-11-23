@@ -23,6 +23,13 @@ class ResourceChecker
     protected $currentAction = 'check';
 
     /**
+     * The current caller.
+     *
+     * @var string
+     */
+    protected $currentCaller = 'console';
+
+    /**
      * All resources.
      *
      * @var
@@ -56,6 +63,11 @@ class ResourceChecker
      * @var ResourceLoader
      */
     protected $resourceLoader;
+
+    /**
+     * @var boolean
+     */
+    protected $disableNotifications = false;
 
     /**
      * ResourceChecker constructor.
@@ -123,7 +135,7 @@ class ResourceChecker
         $checked = $this->cache->remember($resource->slug, function () use (
             $resource
         ) {
-            return $resource->check($this->getCurrentAction());
+            return $resource->check($this->getCurrentAction(), $this->getCurrentCaller());
         });
 
         $resource->targets = $checked->targets;
@@ -160,6 +172,16 @@ class ResourceChecker
     public function getCurrentAction()
     {
         return $this->currentAction;
+    }
+
+    /**
+     * Get current caller.
+     *
+     * @return string
+     */
+    public function getCurrentCaller()
+    {
+        return $this->currentCaller;
     }
 
     /**
@@ -269,6 +291,16 @@ class ResourceChecker
     public function setCurrentAction($currentAction)
     {
         $this->currentAction = $currentAction;
+    }
+
+    /**
+     * Set the current caller.
+     *
+     * @param string $currentCaller
+     */
+    public function setCurrentCaller($currentCaller)
+    {
+        $this->currentCaller = $currentCaller;
     }
 
     /**
