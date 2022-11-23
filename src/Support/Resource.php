@@ -210,8 +210,8 @@ class Resource implements JsonSerializable
             ->targets->each(function (
             Target $target
         ) {
-            $target->check($target);
-        });
+                $target->check($target);
+            });
 
         $this->notify();
 
