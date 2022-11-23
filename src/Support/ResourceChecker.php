@@ -65,7 +65,7 @@ class ResourceChecker
     protected $resourceLoader;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $disableNotifications = false;
 
@@ -296,7 +296,7 @@ class ResourceChecker
     /**
      * Set the current caller.
      *
-     * @param string $currentCaller
+     * @param  string  $currentCaller
      */
     public function setCurrentCaller($currentCaller)
     {
