@@ -23,6 +23,8 @@ class Health extends Controller
     public function __construct(Service $healthService)
     {
         $this->healthService = $healthService;
+
+        $this->healthService->setCaller('web');
     }
 
     /**

@@ -81,6 +81,11 @@ class Resource implements JsonSerializable
     protected $currentAction;
 
     /**
+     * @var string
+     */
+    protected $currentCaller;
+
+    /**
      * @var bool|null
      */
     protected $graphEnabled = null;
@@ -195,11 +200,14 @@ class Resource implements JsonSerializable
      * Check all targets for a resource.
      *
      * @param  string  $action
+     * @param  string  $caller
      * @return resource
      */
-    public function check($action = 'resource')
+    public function check($action = 'resource', $caller = 'console')
     {
-        $this->setCurrentAction($action)->targets->each(function (
+        $this->setCurrentAction($action)
+             ->setCurrentCaller($caller)
+            ->targets->each(function (
             Target $target
         ) {
             $target->check($target);
@@ -312,7 +320,8 @@ class Resource implements JsonSerializable
         return
             $this->notify &&
             config('health.notifications.enabled') &&
-            config('health.notifications.notify_on.'.$this->currentAction);
+            config('health.notifications.notify_on.'.$this->currentAction) &&
+            config('health.notifications.notify_from.'.$this->currentCaller, true);
     }
 
     /**
@@ -324,6 +333,19 @@ class Resource implements JsonSerializable
     public function setCurrentAction(string $currentAction)
     {
         $this->currentAction = $currentAction;
+
+        return $this;
+    }
+
+    /**
+     * Set current caller.
+     *
+     * @param  string  $currentCaller
+     * @return resource
+     */
+    public function setCurrentCaller(string $currentCaller)
+    {
+        $this->currentCaller = $currentCaller;
 
         return $this;
     }
