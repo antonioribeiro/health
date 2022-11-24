@@ -40,7 +40,7 @@ class Cache extends Base
 
         return IlluminateCache::remember(
             $this->target->key,
-            $this->target->minutes,
+            $this->target->seconds,
             $checker
         );
     }
