@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.4 - 2022-11-24
+- Fix Laravel Cache::remember() to use seconds instead
+
 ## 2.0.3 - 2022-11-23
 - Allow disabling notifications by the caller (web,console)
 

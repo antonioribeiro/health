@@ -18,7 +18,7 @@ class Cache
      */
     protected function cacheIsEnabled()
     {
-        return $this->getMinutes() !== false;
+        return $this->getSeconds() !== false;
     }
 
     /**
@@ -51,13 +51,13 @@ class Cache
     }
 
     /**
-     * Get cache minutes.
+     * Get cache seconds.
      *
      * @return mixed
      */
-    public function getMinutes()
+    public function getSeconds()
     {
-        return config('health.cache.minutes');
+        return config('health.cache.seconds');
     }
 
     /**
@@ -107,7 +107,7 @@ class Cache
             IlluminateCache::put(
                 config('health.cache.key'),
                 $resources,
-                $this->getMinutes()
+                $this->getSeconds()
             );
         }
 
@@ -127,10 +127,10 @@ class Cache
             return $callback();
         }
 
-        $key = config('health.cache.key').$key;
+        $key = config('health.cache.key').'|resource:'.$key;
 
         $this->flush(false, $key);
 
-        return IlluminateCache::remember($key, $this->getMinutes(), $callback);
+        return IlluminateCache::remember($key, $this->getSeconds(), $callback);
     }
 }

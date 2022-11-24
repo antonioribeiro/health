@@ -53,7 +53,7 @@
                                 :target="target"
                                 :resource="resource"
                                 :config="config"
-                                v-on:check-resource="checkResource(resource)"
+                                v-on:check-resource="checkResource(resource, true)"
                                 v-on:show-result="showResult(resource, target)"
                             >
                             </resource-target>
@@ -94,7 +94,9 @@ export default {
         },
 
         refreshAll() {
-            _.map(this.resources, this.checkResource)
+            for (const [key, value] of Object.entries(this.resources)) {
+                this.checkResource(value, false) /// page refreshes will read from cache
+            }
         },
 
         applyFilter: function(targets) {
@@ -129,15 +131,19 @@ export default {
             )
         },
 
-        checkResource(resource) {
+        checkResource(resource, flush = false) {
             if (!resource || resource.loading) {
                 return
             }
 
             this.$set(resource, 'loading', true)
 
+            let flushParam = flush ? '?flush=true' : ''
+
+            console.log('Checking resource: ' + resource.name, flushParam, resource, flush)
+
             axios
-                .get(this.route('pragmarx.health.resources.get', {slug: resource.slug}) + '?flush=1')
+                .get(this.route('pragmarx.health.resources.get', {slug: resource.slug}) + flushParam)
                 .then(function(response) {
                     resource.targets = response.data.targets
 
