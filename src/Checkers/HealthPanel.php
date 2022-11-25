@@ -117,7 +117,7 @@ class HealthPanel extends Http
         }
 
         if (count($messages) > 0) {
-            throw new Exception('The following resources are failing: ' . join(', ', $messages) . '.');
+            throw new Exception('The following resources are failing: '.join(', ', $messages).'.');
         }
 
         return [true, null];
