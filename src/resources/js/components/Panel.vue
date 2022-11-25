@@ -140,8 +140,6 @@ export default {
 
             let flushParam = flush ? '?flush=true' : ''
 
-            console.log('Checking resource: ' + resource.name, flushParam, resource, flush)
-
             axios
                 .get(this.route('pragmarx.health.resources.get', {slug: resource.slug}) + flushParam)
                 .then(function(response) {
