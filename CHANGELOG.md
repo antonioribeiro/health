@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.5 - 2022-11-25
+- Improve failing messages for the HealthPanel checker
+
 ## 2.0.4 - 2022-11-24
 - Fix Laravel Cache::remember() to use seconds instead
 
