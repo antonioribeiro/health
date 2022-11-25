@@ -2,9 +2,9 @@
 
 namespace PragmaRX\Health\Checkers;
 
+use Exception;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Support\Collection;
-use Mockery\Exception;
 use PragmaRX\Health\Support\Result;
 
 class HealthPanel extends Http
@@ -111,13 +111,13 @@ class HealthPanel extends Http
         foreach ($resources as $resource) {
             foreach ($resource['targets'] as $target) {
                 if (! $target['result']['healthy']) {
-                    $messages[] = "{$resource['name']}: failing.";
+                    $messages[] = $resource['name'];
                 }
             }
         }
 
         if (count($messages) > 0) {
-            throw new Exception(join(' ', $messages));
+            throw new Exception('The following resources are failing: ' . join(', ', $messages) . '.');
         }
 
         return [true, null];
