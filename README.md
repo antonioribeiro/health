@@ -28,7 +28,7 @@ This package checks if the application resources are running as they should and 
 
 ## Built-in Resources
 
-Heath has pre-configured resource checkers for the following services:
+Health has pre-configured resource checkers for the following services:
 
 - Adyen
 - AppKey
