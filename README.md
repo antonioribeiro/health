@@ -283,7 +283,7 @@ When Health result is cached, you can flush the cache to make it process all res
 
 ## Events
 
-If you prefer to build you own notifications systems, you can disable it and listen for the following event
+If you prefer to build your own notifications systems, you can disable it and listen for the following event
 
     PragmaRX\Health\Events\RaiseHealthIssue::class
 
