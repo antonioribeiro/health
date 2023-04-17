@@ -208,8 +208,8 @@ class Resource implements JsonSerializable
         $this->setCurrentAction($action)
              ->setCurrentCaller($caller)
             ->targets->each(function (
-            Target $target
-        ) {
+                Target $target
+            ) {
                 $target->check($target);
             });
 
