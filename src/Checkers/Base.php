@@ -47,8 +47,8 @@ abstract class Base implements Contract
     /**
      * Make a result.
      *
-     * @param bool $healthy
-     * @param null $errorMessage
+     * @param  bool  $healthy
+     * @param  null  $errorMessage
      * @return Result
      */
     public function makeResult($healthy = true, $errorMessage = null)

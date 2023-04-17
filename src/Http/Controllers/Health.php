@@ -16,7 +16,7 @@ class Health extends Controller
     /**
      * Health constructor.
      *
-     * @param Service $healthService
+     * @param  Service  $healthService
      */
     public function __construct(Service $healthService)
     {
@@ -27,6 +27,7 @@ class Health extends Controller
      * Check all resources.
      *
      * @return array
+     *
      * @throws \Exception
      */
     public function check()
@@ -41,6 +42,7 @@ class Health extends Controller
      *
      * @param $slug
      * @return mixed
+     *
      * @throws \Exception
      */
     public function getResource($slug)
@@ -54,6 +56,7 @@ class Health extends Controller
      * Get all resources.
      *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function allResources()
@@ -63,6 +66,7 @@ class Health extends Controller
 
     /**
      * @return mixed
+     *
      * @throws \Exception
      */
     public function string()
@@ -76,6 +80,7 @@ class Health extends Controller
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
      * @throws \Exception
      */
     public function panel()

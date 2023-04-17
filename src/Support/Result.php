@@ -39,7 +39,7 @@ class Result
     /**
      * Value setter.
      *
-     * @param mixed $value
+     * @param  mixed  $value
      * @return Result
      */
     public function setValue($value)
@@ -52,7 +52,7 @@ class Result
     /**
      * Value for humans setter.
      *
-     * @param string $valueHuman
+     * @param  string  $valueHuman
      * @return Result
      */
     public function setValueHuman(string $valueHuman)
