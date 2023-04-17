@@ -292,7 +292,7 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function registerRoutes()
     {
-        collect(($routes = $this->getRoutes()))->each(function ($route) {
+        collect($routes = $this->getRoutes())->each(function ($route) {
             $this->registerRoute($route);
         });
 

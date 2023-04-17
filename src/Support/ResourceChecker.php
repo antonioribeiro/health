@@ -60,8 +60,8 @@ class ResourceChecker
     /**
      * ResourceChecker constructor.
      *
-     * @param ResourceLoader $resourceLoader
-     * @param Cache $cache
+     * @param  ResourceLoader  $resourceLoader
+     * @param  Cache  $cache
      */
     public function __construct(ResourceLoader $resourceLoader, Cache $cache)
     {
@@ -73,8 +73,9 @@ class ResourceChecker
     /**
      * Check all resources.
      *
-     * @param bool $force
+     * @param  bool  $force
      * @return \Illuminate\Support\Collection
+     *
      * @throws Exception
      */
     public function checkResources($force = false)
@@ -109,6 +110,7 @@ class ResourceChecker
      *
      * @param $resource
      * @return array
+     *
      * @throws Exception
      */
     public function checkResource($resource)
@@ -132,8 +134,9 @@ class ResourceChecker
     /**
      * Get cached resources.
      *
-     * @param bool $force
+     * @param  bool  $force
      * @return \Illuminate\Support\Collection
+     *
      * @throws Exception
      */
     protected function getCachedResources($force = false)
@@ -163,6 +166,7 @@ class ResourceChecker
      * Get all non global resources.
      *
      * @return bool
+     *
      * @throws Exception
      */
     protected function allResourcesAreGood()
@@ -178,6 +182,7 @@ class ResourceChecker
      * Get all non global resources.
      *
      * @return Collection
+     *
      * @throws Exception
      */
     protected function getNonGlobalResources()
@@ -191,6 +196,7 @@ class ResourceChecker
      * Get all global resources.
      *
      * @return Collection
+     *
      * @throws Exception
      */
     protected function getGlobalResources()
@@ -205,6 +211,7 @@ class ResourceChecker
      *
      * @param $slug
      * @return mixed
+     *
      * @throws Exception
      */
     public function getResourceBySlug($slug)
@@ -246,6 +253,7 @@ class ResourceChecker
      * Get all resources.
      *
      * @return \Illuminate\Support\Collection
+     *
      * @throws Exception
      */
     public function getResources()
@@ -256,7 +264,7 @@ class ResourceChecker
     /**
      * Set the current action.
      *
-     * @param mixed $currentAction
+     * @param  mixed  $currentAction
      */
     public function setCurrentAction($currentAction)
     {
@@ -266,7 +274,7 @@ class ResourceChecker
     /**
      * Resources setter.
      *
-     * @param mixed $resources
+     * @param  mixed  $resources
      */
     public function setResources($resources)
     {
@@ -277,6 +285,7 @@ class ResourceChecker
      * Load all resources.
      *
      * @return \Illuminate\Support\Collection
+     *
      * @throws Exception
      */
     public function loadResources()
@@ -297,8 +306,9 @@ class ResourceChecker
     /**
      * Get one resource.
      *
-     * @param resource|Collection $resource
+     * @param  resource|Collection  $resource
      * @return resource
+     *
      * @throws Exception
      */
     public function makeResource($resource)
