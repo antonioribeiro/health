@@ -302,7 +302,7 @@ class ServiceProvider extends IlluminateServiceProvider
             return;
         }
 
-        collect(($routes = $this->getRoutes()))->each(function ($route) {
+        collect($routes = $this->getRoutes())->each(function ($route) {
             $this->registerRoute($route);
         });
 
