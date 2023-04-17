@@ -6,7 +6,7 @@ trait Routing
 {
     /**
      * @param $route
-     * @param null $name
+     * @param  null  $name
      */
     protected function registerRoute($route, $name = null)
     {
