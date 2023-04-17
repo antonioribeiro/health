@@ -72,7 +72,7 @@ class Ping extends Base
      * any user-submitted data. Be SURE you sanitize your inputs!
      *
      * @return int
-     *   Latency, in ms.
+     *             Latency, in ms.
      */
     private function pingExec()
     {
