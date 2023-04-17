@@ -24,8 +24,8 @@ class Cache
     /**
      * Flush cache.
      *
-     * @param bool $force
-     * @param null $key
+     * @param  bool  $force
+     * @param  null  $key
      */
     public function flush($force = false, $key = null)
     {
@@ -43,7 +43,7 @@ class Cache
     /**
      * Force cache flush.
      *
-     * @param string|null $key
+     * @param  string|null  $key
      */
     protected function forceFlush($key = null)
     {
@@ -98,7 +98,7 @@ class Cache
     /**
      * Cache all resources.
      *
-     * @param Collection $resources
+     * @param  Collection  $resources
      * @return Collection
      */
     public function cacheResources($resources)
@@ -117,8 +117,8 @@ class Cache
     /**
      * Get an item from the cache, or store the default value.
      *
-     * @param  string $key
-     * @param \Closure $callback
+     * @param  string  $key
+     * @param  \Closure  $callback
      * @return mixed
      */
     public function remember($key, \Closure $callback)
