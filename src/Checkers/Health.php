@@ -61,7 +61,7 @@ class Health extends Base
         ) {
             return $this->computeHealth($carry, $item);
         },
-        true);
+            true);
 
         return $healthy;
     }
