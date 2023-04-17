@@ -87,8 +87,9 @@ class Resource implements JsonSerializable
     /**
      * Resource factory.
      *
-     * @param Collection $data
+     * @param  Collection  $data
      * @return resource
+     *
      * @throws \Exception
      */
     public static function factory(Collection $data)
@@ -134,7 +135,7 @@ class Resource implements JsonSerializable
     /**
      * Instantiate all checkers for a resource.
      *
-     * @param Collection $targets
+     * @param  Collection  $targets
      * @return Collection|\IlluminateAgnostic\Arr\Support\Collection|\IlluminateAgnostic\Collection\Support\Collection|\IlluminateAgnostic\Str\Support\Collection|mixed|\Tightenco\Collect\Support\Collection|\Vanilla\Support\Collection
      */
     public function instantiateTargets(Collection $targets)
@@ -165,7 +166,7 @@ class Resource implements JsonSerializable
     /**
      * Instantiate one checker.
      *
-     * @param string $checker
+     * @param  string  $checker
      * @return object
      */
     public function instantiateChecker(string $checker)
@@ -176,7 +177,7 @@ class Resource implements JsonSerializable
     /**
      * Check all targets for a resource.
      *
-     * @param string $action
+     * @param  string  $action
      * @return resource
      */
     public function check($action = 'resource')
@@ -279,7 +280,7 @@ class Resource implements JsonSerializable
     /**
      * Set current action.
      *
-     * @param string $currentAction
+     * @param  string  $currentAction
      * @return resource
      */
     public function setCurrentAction(string $currentAction)
