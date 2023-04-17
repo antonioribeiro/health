@@ -29,7 +29,7 @@ class Composer extends Base
     /**
      * Convert output to array.
      *
-     * @param string $output
+     * @param  string  $output
      * @return \Illuminate\Support\Collection|mixed
      */
     protected function outputToCollection(string $output)

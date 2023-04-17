@@ -219,7 +219,7 @@ class Target implements JsonSerializable
     /**
      * Display setter.
      *
-     * @param string $display
+     * @param  string  $display
      * @return Target
      */
     public function setDisplay(string $display)
@@ -230,7 +230,7 @@ class Target implements JsonSerializable
     }
 
     /**
-     * @param string $name
+     * @param  string  $name
      */
     public function setName(string $name)
     {
@@ -240,7 +240,7 @@ class Target implements JsonSerializable
     /**
      * Result setter.
      *
-     * @param Result $result
+     * @param  Result  $result
      * @return Target
      */
     public function setResult(Result $result)
