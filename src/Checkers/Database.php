@@ -52,7 +52,7 @@ class Database extends Base
         Timer::start();
 
         DB::connection($this->getConnectionName())->select(
-            DB::raw($this->target->query)
+            $this->target->query
         );
 
         $took = round(Timer::stop(), 5);
