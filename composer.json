@@ -34,7 +34,7 @@
         "docusign/esign-client": ">=2.0",
         "predis/predis": ">=1.0",
         "nesbot/carbon": ">=1.34",
-        "laravel/framework": "9.*"
+        "laravel/framework": "11.*"
     },
     "suggest": {
         "guzzlehttp/guzzle": ">=6.0",

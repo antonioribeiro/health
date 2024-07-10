@@ -47,7 +47,7 @@ class Service
     /**
      * Check one resource.
      *
-     * @param $slug
+     * @param  $slug
      * @return array
      *
      * @throws \Exception
@@ -96,7 +96,7 @@ class Service
     /**
      * Make a string result of all resources.
      *
-     * @param $string
+     * @param  $string
      * @param string Result::status $resultStatus
      * @return string
      */
@@ -121,7 +121,7 @@ class Service
     /**
      * Check and get a resource.
      *
-     * @param $name
+     * @param  $name
      * @return mixed
      *
      * @throws \Exception
@@ -134,7 +134,7 @@ class Service
     /**
      * Set the action.
      *
-     * @param $action
+     * @param  $action
      */
     public function setAction($action)
     {

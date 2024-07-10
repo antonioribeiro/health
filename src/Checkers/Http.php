@@ -78,7 +78,7 @@ class Http extends Base
     /**
      *  Check web pages.
      *
-     * @param $url
+     * @param  $url
      * @param  bool  $ssl
      * @return mixed
      */
@@ -102,8 +102,8 @@ class Http extends Base
     /**
      * Send an http request and fetch the response.
      *
-     * @param $url
-     * @param $ssl
+     * @param  $url
+     * @param  $ssl
      * @return mixed|\Psr\Http\Message\ResponseInterface
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -122,7 +122,7 @@ class Http extends Base
     /**
      * Get http connection options.
      *
-     * @param $ssl
+     * @param  $ssl
      * @return array
      */
     protected function getConnectionOptions($ssl)
@@ -175,8 +175,8 @@ class Http extends Base
     /**
      * Make a url with a proper scheme.
      *
-     * @param $url
-     * @param $secure
+     * @param  $url
+     * @param  $secure
      * @return mixed
      */
     private function makeUrlWithScheme($url, $secure)
@@ -203,8 +203,8 @@ class Http extends Base
     /**
      * Send a request and get the result.
      *
-     * @param $url
-     * @param $ssl
+     * @param  $url
+     * @param  $ssl
      * @return bool
      *
      * @internal param $response

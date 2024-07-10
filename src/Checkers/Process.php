@@ -74,7 +74,7 @@ class Process extends Base
     }
 
     /**
-     * @param $file
+     * @param  $file
      * @return bool
      */
     private function checkPidFileExistence($file)
@@ -89,7 +89,7 @@ class Process extends Base
     }
 
     /**
-     * @param $file
+     * @param  $file
      * @return bool
      */
     private function checkPidFileLockState($file)
