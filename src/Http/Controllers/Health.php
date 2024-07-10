@@ -44,7 +44,7 @@ class Health extends Controller
     /**
      * Check and get one resource.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      *
      * @throws \Exception

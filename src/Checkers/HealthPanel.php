@@ -126,7 +126,7 @@ class HealthPanel extends Http
     /**
      * Send an http request and fetch the panel json.
      *
-     * @param $url
+     * @param  $url
      * @return mixed|\Psr\Http\Message\ResponseInterface
      *
      * @throws \GuzzleHttp\Exception\GuzzleException

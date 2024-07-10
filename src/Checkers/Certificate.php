@@ -165,7 +165,7 @@ class Certificate extends Base
     }
 
     /**
-     * @param $host
+     * @param  $host
      * @return string|string[]
      */
     protected function makeCommand($host)

@@ -40,7 +40,7 @@ class Docusign extends Base
     }
 
     /**
-     * @param $config
+     * @param  $config
      * @return ApiClient
      */
     protected function getApiClient($config)
@@ -49,7 +49,7 @@ class Docusign extends Base
     }
 
     /**
-     * @param $config
+     * @param  $config
      * @return AuthenticationApi
      */
     protected function getAuthApi($config)
@@ -77,7 +77,7 @@ class Docusign extends Base
     }
 
     /**
-     * @param $config
+     * @param  $config
      * @return \DocuSign\eSign\Model\LoginInformation
      */
     protected function getLoginInformation($config)

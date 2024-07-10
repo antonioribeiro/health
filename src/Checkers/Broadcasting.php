@@ -80,7 +80,7 @@ class Broadcasting extends Base
     /**
      * Parse date.
      *
-     * @param $date
+     * @param  $date
      * @return Carbon
      */
     protected function parseDate($date)
@@ -91,7 +91,7 @@ class Broadcasting extends Base
     /**
      * Create and persist pong.
      *
-     * @param $secret
+     * @param  $secret
      */
     public function pong($secret)
     {

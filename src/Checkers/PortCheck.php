@@ -27,7 +27,7 @@ class PortCheck extends Base
     /**
      * Get hostname and IP.
      *
-     * @param $hostname
+     * @param  $hostname
      * @return mixed
      */
     protected function hosnameAndIp($hostname, $ipAdress)
@@ -69,7 +69,7 @@ class PortCheck extends Base
     }
 
     /**
-     * @param $ipAddress
+     * @param  $ipAddress
      * @return bool
      */
     protected function portIsNotConnectable($ipAddress)

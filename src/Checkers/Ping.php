@@ -58,7 +58,7 @@ class Ping extends Base
     }
 
     /**
-     * @param $hostname
+     * @param  $hostname
      * @return mixed
      */
     protected function hosnameAndIp($hostname, $ipAdress)
