@@ -15,10 +15,10 @@ class Commands
      * More information: https://nagios-plugins.org/doc/guidelines.html#AEN78
      */
     const EXIT_CODES = [
-        result::OK        => 0, // Healthy.
-        result::WARNING   => 1,
-        result::CRITICAL  => 2, // Not healthy.
-        result::UNKNOWN   => 3,
+        result::OK => 0, // Healthy.
+        result::WARNING => 1,
+        result::CRITICAL => 2, // Not healthy.
+        result::UNKNOWN => 3,
     ];
 
     /**
@@ -37,7 +37,7 @@ class Commands
     }
 
     /**
-     * @param $rows
+     * @param  $rows
      * @return \Illuminate\Support\Collection|\IlluminateAgnostic\Arr\Support\Collection|\IlluminateAgnostic\Collection\Support\Collection|\IlluminateAgnostic\Str\Support\Collection|\Tightenco\Collect\Support\Collection|\Vanilla\Support\Collection
      *
      * @throws \Exception
@@ -156,7 +156,7 @@ class Commands
      * Format input to textual table.
      *
      * @param  Command|null  $command
-     * @param $columns
+     * @param  $columns
      * @param  \Illuminate\Contracts\Support\Arrayable|array  $rows
      */
     private function table($command, $columns, $rows)
@@ -170,7 +170,7 @@ class Commands
      * Write a string as information output.
      *
      * @param  Command|null  $command
-     * @param $string
+     * @param  $string
      */
     private function info($command, $string)
     {
@@ -183,7 +183,7 @@ class Commands
      * Write a string as information output.
      *
      * @param  Command|null  $command
-     * @param $string
+     * @param  $string
      */
     private function error($command, $string)
     {
@@ -196,7 +196,7 @@ class Commands
      * Write a string as information output.
      *
      * @param  Command|null  $command
-     * @param $string
+     * @param  $string
      */
     private function warn($command, $string)
     {

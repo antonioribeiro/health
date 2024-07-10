@@ -65,7 +65,7 @@ class NotInDebugMode extends Base
     /**
      * Normalize uptime matches.
      *
-     * @param $matches
+     * @param  $matches
      * @return \Illuminate\Support\Collection
      */
     protected function normalizeMatches($matches)
@@ -93,7 +93,7 @@ class NotInDebugMode extends Base
     /**
      * Parse the uptime string.
      *
-     * @param $system_string
+     * @param  $system_string
      * @return array
      */
     protected function parseUptimeString($system_string)
@@ -117,7 +117,7 @@ class NotInDebugMode extends Base
     /**
      * Convert uptime to seconds.
      *
-     * @param $date
+     * @param  $date
      * @return int
      */
     protected function uptimeInSeconds($date)
@@ -131,8 +131,8 @@ class NotInDebugMode extends Base
     /**
      * Make uptime message.
      *
-     * @param $current
-     * @param $saved
+     * @param  $current
+     * @param  $saved
      * @return string
      */
     protected function makeMessage($current, $saved = null)
@@ -147,7 +147,7 @@ class NotInDebugMode extends Base
     /**
      * Convert uptime to human readable string.
      *
-     * @param $uptime
+     * @param  $uptime
      * @return string
      */
     public function toUptimeString($uptime)

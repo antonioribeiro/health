@@ -9,7 +9,7 @@ trait ImportProperties
     /**
      * Import all collection items to object properties.
      *
-     * @param $data
+     * @param  $data
      */
     public function importProperties($data)
     {

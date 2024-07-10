@@ -6,7 +6,7 @@ if (! function_exists('instantiate')) {
     /**
      * Instantiate a class.
      *
-     * @param $abstract
+     * @param  $abstract
      * @param  array  $parameters
      * @return object
      */
@@ -57,7 +57,7 @@ if (! function_exists('is_absolute_path')) {
     /**
      * Check if string is absolute path.
      *
-     * @param $path
+     * @param  $path
      * @return string
      */
     function is_absolute_path($path)

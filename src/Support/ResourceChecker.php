@@ -120,7 +120,7 @@ class ResourceChecker
     /**
      * Check a resource.
      *
-     * @param $resource
+     * @param  $resource
      * @return array
      *
      * @throws Exception
@@ -231,7 +231,7 @@ class ResourceChecker
     /**
      * Get a resource by slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      *
      * @throws Exception
@@ -246,8 +246,8 @@ class ResourceChecker
     /**
      * Make the result array.
      *
-     * @param $exception
-     * @param $resourceChecker
+     * @param  $exception
+     * @param  $resourceChecker
      * @return array
      */
     protected function makeResult($exception, $resourceChecker)
@@ -355,7 +355,7 @@ class ResourceChecker
     /**
      * Sort resources.
      *
-     * @param $resources
+     * @param  $resources
      * @return \Illuminate\Support\Collection
      */
     protected function sortResources($resources)
