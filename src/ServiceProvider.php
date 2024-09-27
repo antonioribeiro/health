@@ -180,8 +180,8 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * Get the resource checker closure for instantiation.
      *
-     * @param $resourceLoader
-     * @param $cache
+     * @param  $resourceLoader
+     * @param  $cache
      * @return \Closure
      */
     private function getResourceCheckerClosure($resourceLoader, $cache)
@@ -218,8 +218,8 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * Instantiate the main service.
      *
-     * @param $resourceChecker
-     * @param $cache
+     * @param  $resourceChecker
+     * @param  $cache
      * @return Service
      */
     private function instantiateService($resourceChecker, $cache)

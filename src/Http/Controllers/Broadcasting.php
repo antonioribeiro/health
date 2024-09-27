@@ -17,7 +17,7 @@ class Broadcasting extends Controller
     }
 
     /**
-     * @param $resource
+     * @param  $resource
      * @return mixed
      */
     protected function instantiateChecker($resource)

@@ -33,7 +33,7 @@ class ResourceLoader
     /**
      * Get enabled resources.
      *
-     * @param $resources
+     * @param  $resources
      * @return \Illuminate\Support\Collection
      *
      * @throws \Exception
@@ -157,7 +157,7 @@ class ResourceLoader
     /**
      * Remove extension from file name.
      *
-     * @param $key
+     * @param  $key
      * @return string
      */
     private function removeExtension($key)
@@ -168,7 +168,7 @@ class ResourceLoader
     /**
      * Sanitize resource key.
      *
-     * @param $key
+     * @param  $key
      * @return string
      */
     private function sanitizeKey($key)
@@ -179,7 +179,7 @@ class ResourceLoader
     /**
      * Sanitize resources.
      *
-     * @param $resources
+     * @param  $resources
      * @return \Illuminate\Support\Collection
      */
     private function sanitizeResources($resources)

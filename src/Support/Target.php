@@ -61,8 +61,8 @@ class Target implements JsonSerializable
     /**
      * Target factory.
      *
-     * @param $resource
-     * @param $data
+     * @param  $resource
+     * @param  $data
      * @return Target
      */
     public static function factory($resource, $data, $name = null)
@@ -143,8 +143,8 @@ class Target implements JsonSerializable
     /**
      * Make target name.
      *
-     * @param $data
-     * @param $name
+     * @param  $data
+     * @param  $name
      * @return string
      */
     protected static function makeName($data, $name)
@@ -171,7 +171,7 @@ class Target implements JsonSerializable
     /**
      * Make a result.
      *
-     * @param $result
+     * @param  $result
      * @return Result
      */
     protected function result($result)
