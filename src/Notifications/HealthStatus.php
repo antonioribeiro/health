@@ -25,7 +25,7 @@ class HealthStatus extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param $item
+     * @param  $item
      */
     public function __construct($item, $channel)
     {
@@ -37,7 +37,7 @@ class HealthStatus extends Notification
     /**
      * Get sender instance.
      *
-     * @param $name
+     * @param  $name
      * @return \Illuminate\Foundation\Application|mixed
      */
     private function getSenderInstance($name)
@@ -64,7 +64,7 @@ class HealthStatus extends Notification
     /**
      * Magic getter.
      *
-     * @param $name
+     * @param  $name
      * @return null
      */
     public function __get($name)
@@ -75,8 +75,8 @@ class HealthStatus extends Notification
     }
 
     /**
-     * @param $name
-     * @param $parameters
+     * @param  $name
+     * @param  $parameters
      * @return mixed
      */
     public function __call($name, $parameters)
@@ -92,7 +92,7 @@ class HealthStatus extends Notification
     /**
      * Create Slack message.
      *
-     * @param $notifiable
+     * @param  $notifiable
      * @return SlackMessage
      */
     public function toSlack($notifiable)
@@ -114,7 +114,7 @@ class HealthStatus extends Notification
     /**
      * Create Mail message.
      *
-     * @param $notifiable
+     * @param  $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable)
@@ -133,7 +133,7 @@ class HealthStatus extends Notification
     /**
      * Get the action message.
      *
-     * @param $item
+     * @param  $item
      * @return \Illuminate\Config\Repository|mixed
      */
     private function getActionMessage($item)

@@ -24,8 +24,8 @@ class Health extends Base
     /**
      * Compute health.
      *
-     * @param $previous
-     * @param $resource
+     * @param  $previous
+     * @param  $resource
      * @return bool
      */
     private function computeHealth($previous, $resource)
@@ -38,7 +38,7 @@ class Health extends Base
     /**
      * Compute health for targets.
      *
-     * @param $resource
+     * @param  $resource
      * @return bool
      */
     private function computeHealthForAllTargets($resource)

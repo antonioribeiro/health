@@ -33,7 +33,7 @@ abstract class Base implements Contract
     /**
      * Create base directory for files.
      *
-     * @param $fileName
+     * @param  $fileName
      */
     protected function makeDir($fileName)
     {
@@ -69,7 +69,7 @@ abstract class Base implements Contract
     /**
      * Make a result from an exception.
      *
-     * @param $exception
+     * @param  $exception
      * @return Result
      */
     protected function makeResultFromException($exception)
@@ -78,7 +78,7 @@ abstract class Base implements Contract
     }
 
     /**
-     * @param $resources
+     * @param  $resources
      * @return mixed
      */
     public function healthy($resources)
@@ -87,7 +87,7 @@ abstract class Base implements Contract
     }
 
     /**
-     * @param $resources
+     * @param  $resources
      * @return mixed
      */
     public function message($resources)
@@ -98,7 +98,7 @@ abstract class Base implements Contract
     /**
      * Save result to database.
      *
-     * @param $result
+     * @param  $result
      * @return
      */
     protected function saveToDatabase($result)
@@ -109,7 +109,7 @@ abstract class Base implements Contract
     }
 
     /**
-     * @param $healthy
+     * @param  $healthy
      */
     public function setHealthy($healthy)
     {
@@ -117,7 +117,7 @@ abstract class Base implements Contract
     }
 
     /**
-     * @param $message
+     * @param  $message
      */
     public function setMessage($message)
     {
@@ -153,7 +153,7 @@ abstract class Base implements Contract
     /**
      * Persist to database cache file.
      *
-     * @param $data
+     * @param  $data
      */
     public function persist($data = null)
     {
@@ -183,7 +183,7 @@ abstract class Base implements Contract
     /**
      * Target setter.
      *
-     * @param $target
+     * @param  $target
      * @return $this
      */
     public function setTarget($target)
@@ -196,7 +196,7 @@ abstract class Base implements Contract
     /**
      * Check the target.
      *
-     * @param $target
+     * @param  $target
      * @return \PragmaRX\Health\Support\Result
      */
     public function checkTarget()
@@ -211,7 +211,7 @@ abstract class Base implements Contract
     /**
      * Get the total elapsed time for this resource.
      *
-     * @param $target
+     * @param  $target
      * @return string
      */
     public function getTotalTime()

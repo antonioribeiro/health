@@ -156,7 +156,7 @@ class DirectoryAndFilePresence extends Base
     /**
      * Check if a file exists.
      *
-     * @param $file
+     * @param  $file
      * @return bool|string
      */
     public function fileExists($file)
@@ -171,7 +171,7 @@ class DirectoryAndFilePresence extends Base
     /**
      * Check if a file does not exists.
      *
-     * @param $file
+     * @param  $file
      * @return bool|string
      */
     public function fileDoesNotExists($file)
@@ -186,7 +186,7 @@ class DirectoryAndFilePresence extends Base
     /**
      * Check if a path is a directory.
      *
-     * @param $file
+     * @param  $file
      * @return bool|string
      */
     public function isDirectory($file)

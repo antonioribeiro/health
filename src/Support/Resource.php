@@ -221,7 +221,7 @@ class Resource implements JsonSerializable
     /**
      * Check global resources.
      *
-     * @param $resources
+     * @param  $resources
      * @return resource
      */
     public function checkGlobal($resources)
@@ -353,7 +353,7 @@ class Resource implements JsonSerializable
     /**
      * Resources setter.
      *
-     * @param $resources
+     * @param  $resources
      * @return resource
      */
     protected function setResources($resources)

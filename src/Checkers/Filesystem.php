@@ -34,8 +34,8 @@ class Filesystem extends Base
     }
 
     /**
-     * @param $name
-     * @param $content
+     * @param  $name
+     * @param  $content
      * @param  null  $folder
      * @return string
      */

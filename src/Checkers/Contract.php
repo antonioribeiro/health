@@ -10,13 +10,13 @@ interface Contract
     public function check();
 
     /**
-     * @param $resources
+     * @param  $resources
      * @return mixed
      */
     public function healthy($resources);
 
     /**
-     * @param $resources
+     * @param  $resources
      * @return mixed
      */
     public function message($resources);
