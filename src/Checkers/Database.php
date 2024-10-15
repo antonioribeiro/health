@@ -51,9 +51,7 @@ class Database extends Base
     {
         Timer::start();
 
-        DB::connection($this->getConnectionName())->select(
-            DB::raw($this->target->query)
-        );
+        DB::connection($this->getConnectionName())->select($this->target->query);
 
         $took = round(Timer::stop(), 5);
         $tookHuman = "{$took}s";
